@@ -2,12 +2,11 @@
 ; BOSS INFO
 ;--------------------------------------------------------------------------------
 
-E_BOSS_STATE_DEAD 						= #00
-E_BOSS_STATE_ALIVE 						= #02
-E_BOSS_STATE_BLINK						= #04
-E_BOSS_STATE_DAMAGED_BY_LASER					= #06
-E_BOSS_STATE_KILLED_BY_LASER					= #08
-E_BOSS_STATE_DYING 						= #0A
+E_BOSS_STATE_ALIVE 						= #00
+E_BOSS_STATE_BLINK						= #02
+E_BOSS_STATE_DAMAGED_BY_LASER					= #04
+E_BOSS_STATE_KILLED_BY_LASER					= #06
+E_BOSS_STATE_DYING 						= #08
 
 E_BOSS_SPRITE_BLINK						= #00
 E_BOSS_SPRITE_DAMAGED						= #04
@@ -84,15 +83,14 @@ data_boss_damaged_constants:
 
   DS 12
 data_boss_dying_constants:
-  DB E_BOSS_SPRITE_DYING_0
-  DB 0
-  DB BOSS_DYING_TIMER_INC
-  DB BOSS_DYING_TIMER_MAX
+  DB E_BOSS_SPRITE_DYING_0					; E_BOSS_SPRITE_DYING_0
+  DB 0								; unused
+  DB BOSS_DYING_TIMER_INC					; boss.const BOSS_DYING_TIMER_INC
+  DB BOSS_DYING_TIMER_MAX					; boss.const BOSS_DYING_TIMER_MAX
 
 ;---------------------------------------------------------------------------------
 
 data_boss_update_switch_lookup:
-  JP lbl_do_boss_update_case_dead
   JP lbl_do_boss_update_case_alive
   JP lbl_do_boss_update_case_blink
   JP lbl_do_boss_update_case_damaged_by_laser

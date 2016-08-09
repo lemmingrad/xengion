@@ -2,16 +2,16 @@
 ; PLAYER INFO
 ;---------------------------------------------------------------------------------
 
-E_PLAYER_STATE_DEAD						= #00
-E_PLAYER_STATE_REVIVING						= #02
-E_PLAYER_STATE_ALIVE						= #04
-E_PLAYER_STATE_HIT_WALL						= #06
-E_PLAYER_STATE_HIT_ENEMY					= #08
-E_PLAYER_STATE_HIT_BULLET					= #0A
-E_PLAYER_STATE_DYING						= #0C
-E_PLAYER_STATE_OUTRO						= #0E
-E_PLAYER_STATE_OUTRO_COMPLETE					= #10
-E_PLAYER_STATE_INVULNERABLE					= #12
+E_PLAYER_STATE_REVIVING						= #00
+E_PLAYER_STATE_ALIVE						= #02
+E_PLAYER_STATE_HIT_WALL						= #04
+E_PLAYER_STATE_HIT_ENEMY					= #06
+E_PLAYER_STATE_HIT_BULLET					= #08
+E_PLAYER_STATE_DYING						= #0A
+E_PLAYER_STATE_OUTRO						= #0C
+
+E_PLAYER_STATE_MODE_NEXT					= #F1
+E_PLAYER_STATE_MODE_PREV					= #F2
 
 E_PLAYER_SPRITE_ALIVE_0						= #00
 E_PLAYER_SPRITE_ALIVE_1						= #04
@@ -78,20 +78,24 @@ PLAYER_REVIVING_START_XPOS					= 0
 PLAYER_REVIVING_START_YPOS					= 70
 PLAYER_REVIVING_SPEED_X						= 2
 PLAYER_REVIVING_TIMER_INC					= 1
-PLAYER_REVIVING_TIMER_MAX 					= 50 
+PLAYER_GAMEPLAY_REVIVING_TIMER_MAX 				= 50 
+PLAYER_BOSSPLAY_REVIVING_TIMER_MAX				= 35
 
-PLAYER_ALIVE_XPOS_MIN 						= 0
-PLAYER_ALIVE_XPOS_MAX						= 200
+PLAYER_ALIVE_XPOS_MIN 						= 16
+PLAYER_ALIVE_XPOS_MAX						= 202
 PLAYER_ALIVE_SPEED_X						= 2
 PLAYER_ALIVE_SPEED_Y						= 2
 
-PLAYER_DYING_XPOS_MIN						= 0
-PLAYER_DYING_SPEED_X						= GAMEPLAY_SCROLL_SPEED
+PLAYER_GAMEPLAY_DYING_XPOS_MIN					= 0
+PLAYER_GAMEPLAY_DYING_SPEED_X					= GAMEPLAY_SCROLL_SPEED
 PLAYER_DYING_TIMER_INC						= 1
 PLAYER_DYING_TIMER_MAX						= 50
 
-PLAYER_OUTRO_XPOS_MAX						= 200
-PLAYER_OUTRO_SPEED_X						= 2
+PLAYER_GAMEPLAY_OUTRO_XPOS_MAX					= 200
+PLAYER_GAMEPLAY_OUTRO_SPEED_X					= 2
+PLAYER_BOSSPLAY_OUTRO_TIMER_INC					= 1
+PLAYER_BOSSPLAY_OUTRO_TIMER_MAX					= 255
+
 
 ;---------------------------------------------------------------------------------
 
@@ -126,50 +130,72 @@ data_player_alive_constants:
   DB KEY_UP							; player.const KEY_UP
 
   DS 12
-data_player_reviving_constants:
+data_player_gameplay_reviving_constants:
   DB E_PLAYER_SPRITE_REVIVING_0					; E_PLAYER_SPRITE_REVIVING_0
   DB 0								; unused
   DB PLAYER_REVIVING_SPEED_X					; player.const PLAYER_REVIVING_SPEED_X
   DB PLAYER_REVIVING_TIMER_INC					; player.const PLAYER_REVIVING_TIMER_INC
-  DB PLAYER_REVIVING_TIMER_MAX					; player.const PLAYER_REVIVING_TIMER_MAX
+  DB PLAYER_GAMEPLAY_REVIVING_TIMER_MAX				; player.const PLAYER_GAMEPLAY_REVIVING_TIMER_MAX
+
+  DS 12
+data_player_bossplay_reviving_constants:
+  DB E_PLAYER_SPRITE_REVIVING_0					; E_PLAYER_SPRITE_REVIVING_0
+  DB 0								; unused
+  DB PLAYER_REVIVING_SPEED_X					; player.const PLAYER_REVIVING_SPEED_X
+  DB PLAYER_REVIVING_TIMER_INC					; player.const PLAYER_REVIVING_TIMER_INC
+  DB PLAYER_BOSSPLAY_REVIVING_TIMER_MAX				; player.const PLAYER_BOSSPLAY_REVIVING_TIMER_MAX
 
   DS 12 
-data_player_dying_constants:
+data_player_gameplay_dying_constants:
   DB E_PLAYER_SPRITE_DYING_0					; E_PLAYER_SPRITE_DYING_0
-  DB PLAYER_DYING_XPOS_MIN					; player.const PLAYER_DYING_XPOS_MIN
-  DB PLAYER_DYING_SPEED_X					; player.const PLAYER_DYING_SPEED_X 
+  DB PLAYER_GAMEPLAY_DYING_XPOS_MIN				; player.const PLAYER_GAMEPLAY_DYING_XPOS_MIN
+  DB PLAYER_GAMEPLAY_DYING_SPEED_X				; player.const PLAYER_GAMEPLAY_DYING_SPEED_X 
+  DB PLAYER_DYING_TIMER_INC					; player.const PLAYER_DYING_TIMER_INC
+  DB PLAYER_DYING_TIMER_MAX					; player.const PLAYER_DYING_TIMER_MAX
+
+  DS 12 
+data_player_bossplay_dying_constants:
+  DB E_PLAYER_SPRITE_DYING_0					; E_PLAYER_SPRITE_DYING_0
+  DB 0								; unused
+  DB 0								; unused
   DB PLAYER_DYING_TIMER_INC					; player.const PLAYER_DYING_TIMER_INC
   DB PLAYER_DYING_TIMER_MAX					; player.const PLAYER_DYING_TIMER_MAX
 
   DS 12
-data_player_outro_constants:
+data_player_gameplay_outro_constants:
   DB E_PLAYER_SPRITE_REVIVING_0					; E_PLAYER_SPRITE_REVIVING_0
   DB 0								; unused
   DB 0								; unused
-  DB PLAYER_OUTRO_XPOS_MAX					; player.const PLAYER_OUTRO_XPOS_MAX
-  DB PLAYER_OUTRO_SPEED_X					; player.const PLAYER_OUTRO_SPEED_X
+  DB PLAYER_GAMEPLAY_OUTRO_XPOS_MAX				; player.const PLAYER_GAMEPLAY_OUTRO_XPOS_MAX
+  DB PLAYER_GAMEPLAY_OUTRO_SPEED_X				; player.const PLAYER_GAMEPLAY_OUTRO_SPEED_X
 
   DS 12
-data_player_invulnerable_constants:
+data_player_bossplay_outro_constants:
   DB E_PLAYER_SPRITE_REVIVING_0 				; E_PLAYER_SPRITE_REVIVING_0
   DB 0								; unused
   DB 0								; unused
-  DB 0								; unused
-  DB 0								; unused
+  DB PLAYER_BOSSPLAY_OUTRO_TIMER_INC				; player.const PLAYER_BOSSPLAY_OUTRO_TIMER_INC
+  DB PLAYER_BOSSPLAY_OUTRO_TIMER_MAX				; player.const PLAYER_BOSSPLAY_OUTRO_TIMER_MAX
 
 ;---------------------------------------------------------------------------------
 
-data_player_update_state_switch_lookup:
-  JP lbl_do_update_player_case_dead				; E_PLAYER_STATE_DEAD
-  JP lbl_do_update_player_case_reviving				; E_PLAYER_STATE_REVIVING
-  JP lbl_do_update_player_case_alive				; E_PLAYER_STATE_ALIVE
-  JP lbl_do_update_player_case_hit_wall				; E_PLAYER_STATE_HIT_WALL
-  JP lbl_do_update_player_case_hit_enemy			; E_PLAYER_STATE_HIT_ENEMY
-  JP lbl_do_update_player_case_hit_bullet			; E_PLAYER_STATE_HIT_BULLET
-  JP lbl_do_update_player_case_dying				; E_PLAYER_STATE_DYING
-  JP lbl_do_update_player_case_outro				; E_PLAYER_STATE_OUTRO
-  JP lbl_do_update_player_case_outro_complete			; E_PLAYER_STATE_OUTRO_COMPLETE
-  JP lbl_do_update_player_case_invulnerable			; E_PLAYER_STATE_INVULNERABLE
+data_player_gameplay_update_state_switch_lookup:
+  JP lbl_do_update_player_gameplay_case_reviving		; E_PLAYER_STATE_REVIVING
+  JP lbl_do_update_player_gameplay_case_alive			; E_PLAYER_STATE_ALIVE
+  JP lbl_do_update_player_gameplay_case_hit_wall		; E_PLAYER_STATE_HIT_WALL
+  JP lbl_do_update_player_gameplay_case_hit_enemy		; E_PLAYER_STATE_HIT_ENEMY
+  JP lbl_do_update_player_gameplay_case_hit_bullet		; E_PLAYER_STATE_HIT_BULLET
+  JP lbl_do_update_player_gameplay_case_dying			; E_PLAYER_STATE_DYING
+  JP lbl_do_update_player_gameplay_case_outro			; E_PLAYER_STATE_OUTRO
+
+data_player_bossplay_update_state_switch_lookup:
+  JP lbl_do_update_player_bossplay_case_reviving		; E_PLAYER_STATE_REVIVING
+  JP lbl_do_update_player_bossplay_case_alive			; E_PLAYER_STATE_ALIVE
+  JP lbl_do_update_player_bossplay_case_hit_wall		; E_PLAYER_STATE_HIT_WALL
+  JP lbl_do_update_player_bossplay_case_hit_enemy		; E_PLAYER_STATE_HIT_ENEMY
+  JP lbl_do_update_player_bossplay_case_hit_bullet		; E_PLAYER_STATE_HIT_BULLET
+  JP lbl_do_update_player_bossplay_case_dying			; E_PLAYER_STATE_DYING
+  JP lbl_do_update_player_bossplay_case_outro			; E_PLAYER_STATE_OUTRO
 
 ;---------------------------------------------------------------------------------
 

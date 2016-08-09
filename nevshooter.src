@@ -60,7 +60,7 @@ lbl_main_frame_lives_case_lives_1:
 lbl_main_frame_lives_case_lives_2:
 lbl_main_frame_lives_case_lives_3:
 
-  CALL func_DoBossplay
+  CALL func_DoGameplay
 
   JP lbl_main_frame_lives_switch_end				; break
 
@@ -187,9 +187,6 @@ lbl_game_start_screen_ptr3:
   ; reset everything else
   CALL func_ResetGameplay
 
-  ; load gameplay threats
-  ; CALL func_LoadGameplayThreats					
-
   RET
 ;---------------------------------------------------------------------------------
 
@@ -200,11 +197,52 @@ lbl_game_start_screen_ptr3:
 ;---------------------------------------------------------------------------------
 func_ResetGameplay:
 
-  ; reset bullet slots
-  ; TODO
+  ; reset global.data
+  LD VD, 0
 
-  ; reset enemy slots
-  ; TODO
+  ; reset global.anim
+  LD VE, 0 
+
+  ; load enemy threats
+  LD V0, E_ENEMY_STATE_DEAD
+  LDHI I, data_enemy_slots + E_ENEMY_SLOT_0
+  LD [I], V0
+  LDHI I, data_enemy_slots + E_ENEMY_SLOT_1
+  LD [I], V0
+  LDHI I, data_enemy_slots + E_ENEMY_SLOT_2
+  LD [I], V0
+  LDHI I, data_enemy_slots + E_ENEMY_SLOT_3
+  LD [I], V0
+  LDHI I, data_enemy_slots + E_ENEMY_SLOT_4
+  LD [I], V0
+
+  CALL func_LoadGameplayEnemyThreats
+  
+  ; load bullet threats
+  LD V0, E_BULLET_STATE_DEAD
+  LDHI I, data_bullet_slots + E_BULLET_SLOT_0
+  LD [I], V0
+  LDHI I, data_bullet_slots + E_BULLET_SLOT_1
+  LD [I], V0
+  LDHI I, data_bullet_slots + E_BULLET_SLOT_2
+  LD [I], V0
+  LDHI I, data_bullet_slots + E_BULLET_SLOT_3
+  LD [I], V0
+  LDHI I, data_bullet_slots + E_BULLET_SLOT_4
+  LD [I], V0
+  LDHI I, data_bullet_slots + E_BULLET_SLOT_5
+  LD [I], V0
+  LDHI I, data_bullet_slots + E_BULLET_SLOT_6
+  LD [I], V0
+  LDHI I, data_bullet_slots + E_BULLET_SLOT_7
+  LD [I], V0
+  LDHI I, data_bullet_slots + E_BULLET_SLOT_8
+  LD [I], V0
+  LDHI I, data_bullet_slots + E_BULLET_SLOT_9
+  LD [I], V0
+
+  LDHI I, data_gameplay_bulletthreat_lookup
+  CALL func_LoadBulletThreats
 
   ; reset laser
   LDHI I, data_laser_reset
@@ -217,12 +255,6 @@ func_ResetGameplay:
   LD V3, [I]
   LDHI I, data_player_info
   LD [I], V3
-
-  ; reset global.data
-  LD VD, 0
-
-  ; reset global.anim
-  LD VE, 0 
   
   RET
 ;---------------------------------------------------------------------------------
@@ -234,27 +266,41 @@ func_ResetGameplay:
 ;---------------------------------------------------------------------------------
 func_DoGameplay:
 
-;  CALL func_DoEnemiesVsLaser
-;  CALL func_DrawBackgroundAndParallax
-;  CALL func_DrawCollisionWalls
-;  CALL func_DoLaserVsWalls
-;  CALL func_DoPlayerVsWalls
-;  CALL func_DoEnemiesVsPlayerOrWalls
-;  CALL func_DoPlayerVsEnemies
-;  CALL func_DoUpdateBullets
-;  CALL func_DoPlayerVsBullets
-;  CALL func_DrawRealWalls
-;  CALL func_DoUpdateLaser
-;  CALL func_DoUpdateEnemies
-  CALL func_DoUpdatePlayer
+  CALL func_DrawBackgroundAndParallax
+  CALL func_DrawCollisionWalls
+  CALL func_DoPlayerVsWalls
 
+  ; draw laser collision in purple, test for collision against walls (orange)
+  CALL func_DoLaserVsWalls
+
+  ; draw enemies collision in green, test for collision against walls (orange), player (also orange) or laser (purple)
+  CALL func_DoEnemiesVsMultiCol
+
+  ; draw player collision in orange, test for collision against enemies (green), which will include boss
+  CALL func_DoPlayerVsEnemies
+
+  ; do bullet logic
+; CALL func_DoUpdateBullets
+
+  CALL func_DrawRealWalls
+
+  CALL func_DoPlayerVsBullets
+
+  ; update and draw laser
+  CALL func_DoUpdateLaser
+   
+  ; update and draw enemies
+  CALL func_DoUpdateEnemies
+
+  CALL func_DoUpdatePlayerForGameplay
+  
   ; Do special flow control for gameplay state
-  ; player.state is already loaded in VC from func_DoUpdatePlayer
+  ; player.state is already loaded in V9
 
-lbl_do_gameplay_test_for_player_dead:
+lbl_do_gameplay_test_prev:
 
-  SE V9, E_PLAYER_STATE_DEAD
-  JP lbl_do_gameplay_test_for_outro_complete
+  SE V9, E_PLAYER_STATE_MODE_PREV
+  JP lbl_do_gameplay_test_next
 
   CALL func_ResetGameplay
   
@@ -268,27 +314,33 @@ lbl_do_gameplay_test_for_player_dead:
   ADD V0, GAME_LIVES_DEC 					; game.lives--
   LD [I], V0
 
-  JP lbl_do_gameplay_test_end					; break
+  CALL func_DrawBorder
 
-lbl_do_gameplay_test_for_outro_complete:
+  RET
 
-  SE V9, E_PLAYER_STATE_OUTRO_COMPLETE
+lbl_do_gameplay_test_next:
+
+  SE V9, E_PLAYER_STATE_MODE_NEXT
   JP lbl_do_gameplay_test_end
 
-; CALL func_ResetBossplay
-;
-; ; update lives
-;  LD I, data_game_livesinfo-0				 
-;  LD V2, [I]
-;								; V0 = game.lives
-;								; V1 = game.const GAME_LIVES_GAMEPLAY_MASK
-;								; V2 = game.const GAME_LIVES_BOSS_SHIFT
-;  ADD V0, V2							; game.lives += GAME_LIVES_BOSS_SHIFT
-;  LD [I], V0
+  CALL func_ResetBossplay
+
+  ; update lives
+  LD I, data_game_livesinfo-0				 
+  LD V2, [I]
+								; V0 = game.lives
+								; V1 = game.const GAME_LIVES_GAMEPLAY_MASK
+								; V2 = game.const GAME_LIVES_BOSS_SHIFT
+  ADD V0, V2							; game.lives += GAME_LIVES_BOSS_SHIFT
+  LD [I], V0
+
+  CALL func_DrawBorder
+
+  RET
 
 lbl_do_gameplay_test_end:
   
-  CALL func_DrawBorder
+;  CALL func_DrawBorder
 
   ; increment anim counter
   ADD VE, GAMEPLAY_GLOBALANIM_INC				; global.anim++
@@ -310,8 +362,60 @@ lbl_do_gameplay_test_end:
   ADD VD, GAMEPLAY_GLOBALDATA_INC				; global.data++
 
   ; load any new enemies or bullets
-;  CALL func_LoadGameplayThreats
+  CALL func_LoadGameplayEnemyThreats
 
+  LDHI I, data_gameplay_bulletthreat_lookup
+  CALL func_LoadBulletThreats
+
+  RET
+;---------------------------------------------------------------------------------
+
+
+
+;---------------------------------------------------------------------------------
+; func_LoadGameplayEnemyThreats
+;---------------------------------------------------------------------------------
+func_LoadGameplayEnemyThreats
+
+  LDHI I, data_gameplay_enemythreat_lookup
+  ADD I, VD
+  LD V0, [I]
+
+  ; if no enemy threat
+  ; then early return
+  SNE V0, E_NO_ENEMY_THREAT										
+  RET			
+
+  ; else there is an enemy threat
+ 
+  LDHI I, data_enemy_threats-9
+  ADD I, V0
+  LD VC, [I]
+								; V9 = enemythreat.enemytemplate
+								; VA = enemythreat.slot
+								; VB = enemythreat.ypos
+								; VC = enemythreat.move
+  ; load enemy template
+  LDHI I, data_enemy_templates-2
+  ADD I, V9
+  LD V8, [I]
+  								; V2 = enemy.state
+								; V3 = enemy.health
+								; V4 = enemy.timer
+								; V5 = enemy.xpos
+								; V6 = enemy.ypos
+								; V7 = enemy.type
+								; V8 = enemy.move
+
+  ; overwrite template with values
+  LD V6, VB							; enemy.ypos = enemythreat.ypos
+  LD V8, VC							; enemy.move = enemythreat.move
+
+  ; save enemy
+  LDHI I, data_enemy_slots-2
+  ADD I, VA
+  LD [I], V8
+  
   RET
 ;---------------------------------------------------------------------------------
 
@@ -322,84 +426,77 @@ lbl_do_gameplay_test_end:
 ;---------------------------------------------------------------------------------
 func_ResetBossplay:
 
-
-
+  ; reset global.data
   LD VD, 0
-  LD VE, 0
 
-;  CALL func_LoadBossplayThreats
+  ; reset global.anim
+  LD VE, 0 
 
-  RET
-;---------------------------------------------------------------------------------
+  ; load enemy threats
+  LDHI I, data_enemy_bossturrets + E_ENEMY_SLOT_0
+  LD VC, [I]
+  LDHI I, data_enemy_slots + E_ENEMY_SLOT_0
+  LD [I], VC
+  LDHI I, data_enemy_bossturrets + E_ENEMY_SLOT_1
+  LD VC, [I]
+  LDHI I, data_enemy_slots + E_ENEMY_SLOT_1
+  LD [I], VC
+  LDHI I, data_enemy_bossturrets + E_ENEMY_SLOT_2 
+  LD VC, [I]
+  LDHI I, data_enemy_slots + E_ENEMY_SLOT_2
+  LD [I], VC
+  LDHI I, data_enemy_bossturrets + E_ENEMY_SLOT_3
+  LD VC, [I]
+  LDHI I, data_enemy_slots + E_ENEMY_SLOT_3
+  LD [I], VC
+  LDHI I, data_enemy_bossturrets + E_ENEMY_SLOT_4
+  LD VC, [I]
+  LDHI I, data_enemy_slots + E_ENEMY_SLOT_4
+  LD [I], VC
 
+  ; load bullet threats
+  LD V0, E_BULLET_STATE_DEAD
+  LDHI I, data_bullet_slots + E_BULLET_SLOT_0
+  LD [I], V0
+  LDHI I, data_bullet_slots + E_BULLET_SLOT_1
+  LD [I], V0
+  LDHI I, data_bullet_slots + E_BULLET_SLOT_2
+  LD [I], V0
+  LDHI I, data_bullet_slots + E_BULLET_SLOT_3
+  LD [I], V0
+  LDHI I, data_bullet_slots + E_BULLET_SLOT_4
+  LD [I], V0
+  LDHI I, data_bullet_slots + E_BULLET_SLOT_5
+  LD [I], V0
+  LDHI I, data_bullet_slots + E_BULLET_SLOT_6
+  LD [I], V0
+  LDHI I, data_bullet_slots + E_BULLET_SLOT_7
+  LD [I], V0
+  LDHI I, data_bullet_slots + E_BULLET_SLOT_8
+  LD [I], V0
+  LDHI I, data_bullet_slots + E_BULLET_SLOT_9
+  LD [I], V0
 
+  LDHI I, data_bossplay_bulletthreat_lookup
+  CALL func_LoadBulletThreats
 
-;---------------------------------------------------------------------------------
-; func_LoadBossplayThreats
-;---------------------------------------------------------------------------------
-func_LoadBossplayThreats:
+  ; reset boss
+  LDHI I, data_boss_reset
+  LD V4, [I]
+  LDHI I, data_boss_info
+  LD [I], V4
 
-;  LDHI I, data_bossplay_bullet_threats
-  ADD I, VD							; load threat for global.data position.
-  LD V0, [I]
-
-  ; if no bullet threat
-  ; then early return
-;  SE V0, NO_BULLET_THREAT										
-  RET			
-
-  ; else there is a bullet threat
+  ; reset laser
+  LDHI I, data_laser_reset
+  LD V4, [I]
+  LDHI I, data_laser_info
+  LD [I], V4
  
-;  LDHI I, data_bullet_threat_lookup-6
-  ADD I, V0
-
-  LD VC, [I]
-								; V6 = bullet owner enemy slot
-								; V7 = bullet slot
-								; V8 = bullet.state
-								; V9 = bullet.timer
-								; VA = bullet.xpos
-								; VB = bullet.ypos
-								; VC = bullet.move
-
-  ; VC is the owner of the bullet. Is the owner alive?
-;  LDHI I, data_enemy_slot_lookup
-;  ADD I, V6
-
-;  LD V3, [I]
-;  LD I, lbl_load_bossplay_enemy_threat_ptr
-;  LD [I], V3
-;lbl_load_bossplay_enemy_threat_ptr:
-;  LDHI I, lbl_load_bossplay_enemy_threat_ptr
-;  LD V5, [I]  
- 								; V0 = enemy.state
-								; Vx = enemy.xpos
-								; Vy = enemy.ypos
-  ; if enemy != alive
-  ; then early return
-  SE V0, E_ENEMY_STATE_ALIVE
-  RET
-
-  ; else bullet owner enemy is alive
-
-  ; set bullet position
-;  ADD V9, Vx
-;  ADD VA, Vy  
-
-  ; copy bullet to bullet slot
-
-;  LD I, lbl_load_bossplay_bullet_threat_ptr
+  ; reset player
+  LDHI I, data_player_reset
+  LD V3, [I]
+  LDHI I, data_player_info
   LD [I], V3
-
-;lbl_load_bossplay_bullet_threat_ptr:
-;  LDHI I, lbl_load_bossplay_bullet_threat_ptr
-  ; copy threat into registers
-  LD VC, [I]
-  
-  ; copy registers into bullet slot, not including slot value
-  LD [I], VB
-
-  ; bullet slot has been updated!
 
   RET
 ;---------------------------------------------------------------------------------
@@ -411,7 +508,7 @@ func_LoadBossplayThreats:
 ;---------------------------------------------------------------------------------
 func_DoBossplay:
 
-  ; draw collision walls in orange
+  ; draw background and collision walls in orange
   LDHI I, data_sprite_boss_background_col
   SPRW BOSS_BACKGROUND_WIDTH
   SPRH BOSS_BACKGROUND_HEIGHT
@@ -433,24 +530,37 @@ func_DoBossplay:
   ; draw player collision in orange, test for collision against enemies (green), which will include boss
   CALL func_DoPlayerVsEnemies
 
-  ; draw walls, background, etc
+  ; do bullet logic
+  CALL func_DoUpdateBullets
+
+  ; draw walls
   LDHI I, data_sprite_boss_background
   SPRW BOSS_BACKGROUND_WIDTH
   SPRH BOSS_BACKGROUND_HEIGHT
   LD V0, 0
   DRW V0, V0, 1
  
-  CALL func_DoUpdateBullets
 ;  CALL func_DoPlayerVsBullets
+  
+  ; update and draw laser
   CALL func_DoUpdateLaser
+  
+  ; update and draw boss
   CALL func_DoUpdateBoss
+  
+  ; update and draw enemies
   CALL func_DoUpdateEnemies
-  CALL func_DoUpdatePlayer
+  
+  ; update and draw player
+  CALL func_DoUpdatePlayerForBossplay
 
-lbl_do_bossplay_test_for_player_dead:
+  ; Do special flow control for bossplay state
+  ; player.state is already loaded in V9
 
-  SE V9, E_PLAYER_STATE_DEAD
-  JP lbl_do_gameplay_test_end
+lbl_do_bossplay_test_prev:
+
+  SE V9, E_PLAYER_STATE_MODE_PREV
+  JP lbl_do_bossplay_test_next
 
   CALL func_ResetGameplay
   
@@ -464,24 +574,38 @@ lbl_do_bossplay_test_for_player_dead:
   ADD V0, GAME_LIVES_DEC 					; game.lives--
   LD [I], V0
 
-  JP lbl_do_bossplay_test_end					; break
+  CALL func_DrawBorder
+
+  RET
+
+lbl_do_bossplay_test_next:
+
+  SE V9, E_PLAYER_STATE_MODE_NEXT
+  JP lbl_do_bossplay_test_end
+
+  ; update lives
+  LD I, data_game_livesinfo-0
+  LD V3, [I]
+ 								; V0 = game.lives
+								; V1 = game.const GAME_LIVES_GAMEPLAY_MASK
+								; V2 = game.const GAME_LIVES_BOSS_SHIFT
+								; V3 = game.const GAME_LIVES_WIN_SHIFT
+
+  ADD V0, V3							; game.lives += GAME_LIVES_WIN_SHIFT
+
+  ; save updated game lives info	
+  LD [I], V3  
+
+  LD VD, 0
+  LD VE, 0
+
+  CALL func_DrawBorder
+
+  RET
 
 lbl_do_bossplay_test_end:
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  ; draw score and border overlay
   CALL func_DrawBorder
 
   ; increment anim counter
@@ -494,15 +618,82 @@ lbl_do_bossplay_test_end:
  
   LD VE, 0							; global.anim = 0
   
-;  ; global.data controls the boss bullets and missiles
-;  ADD VD, GAMEBOSS_GLOBALDATA_INC				; global.data++
-;
-;  SE VD, GAMEBOSS_GLOBALDATA_MAX
-;  RET
-;
-;
-;  ; load any new enemies or bullets
-;  CALL func_LoadBossThreats
+  ; global.data controls the boss bullets
+  ADD VD, GAMEPLAY_GLOBALDATA_INC				; global.data++
+
+  ; load any new boss bullet threats
+  LDHI I, data_bossplay_bulletthreat_lookup
+  CALL func_LoadBulletThreats
+
+  RET
+;---------------------------------------------------------------------------------
+
+
+
+;---------------------------------------------------------------------------------
+; func_LoadBulletThreats
+;---------------------------------------------------------------------------------
+func_LoadBulletThreats:
+
+  ADD I, VD							; load threat for global.data position.
+  LD V0, [I]
+
+  ; if no bullet threat
+  ; then early return
+  SNE V0, E_NO_BULLET_THREAT										
+  RET			
+
+  ; else there is a bullet threat
+ 
+  LDHI I, data_bullet_threats-11
+  ADD I, V0
+  LD VC, [I]
+								; VB = bulletthreat.enemyslot
+								; VC = bulletthreat.move
+
+  ; VB is the owner of the bullet. Is the owner alive?
+  LDHI I, data_enemy_slots-5
+  ADD I, VB
+  LD V9, [I]
+								; V5 = enemy.state
+								; V6 = enemy.health
+								; V7 = enemy.timer
+								; V8 = enemy.xpos
+								; V9 = enemy.ypos
+ 
+  ; if enemy != alive
+  ; then early return
+  SE V5, E_ENEMY_STATE_ALIVE
+  RET
+
+  ; else bullet owner enemy is alive
+
+  LDHI I, data_bullet_template-3
+  LD V7, [I]
+								; V3 = template bullet.state
+								; V4 = template bullet.timer
+								; V5 = template bullet.xpos
+								; V6 = template bullet.ypos
+								; V7 = template bullet.move
+
+  ADD V5, V8							; bullet.xpos += enemy.xpos
+  ADD V6, V9							; bullet.ypos += enemy.ypos
+  LD V7, VC							; bullet.move = bulletthreat.move
+ 
+  LD VA, VB							; bullet slot = enemy slot * 2
+  SHL VA
+  LDHI I, data_bullet_slots
+  ADD I, VA
+  LD V0, [I]
+  SE V0, E_BULLET_STATE_DEAD					; if bullet slot in use, go to the next one
+  ADD VA, SIZEOF_BULLET
+
+  ; save new bullet info
+  LDHI I, data_bullet_slots-3
+  ADD I, VA
+  LD [I], V7
+
+  ; bullet slot has been updated!
 
   RET
 ;---------------------------------------------------------------------------------
@@ -667,7 +858,7 @@ lbl_gameover_lives_case_lives_2_win:
   LDHI I, data_sprite_number_2
   DRW V8, V7, 1
   
-  ADD VE, GAMEOVER_BOSSLIVES_1_TOTALSCORE_INC
+  ADD VE, GAMEOVER_BOSSLIVES_2_TOTALSCORE_INC
 
   JP lbl_gameover_lives_switch_end				; break
 
@@ -676,7 +867,7 @@ lbl_gameover_lives_case_lives_3_win:
   LDHI I, data_sprite_number_1
   DRW VA, V9, 1
 
-  ADD VE, GAMEOVER_BOSSLIVES_2_TOTALSCORE_INC
+  ADD VE, GAMEOVER_BOSSLIVES_0_TOTALSCORE_INC
 
   ; if game.gameovertimer < GAMEOVER_TIMER_LIVES
   ; then skip to drawing current totalscore
@@ -1136,23 +1327,6 @@ lbl_boss_vs_laser_end:
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ;---------------------------------------------------------------------------------
 ; func_DoEnemiesVsMultiCol
 ;---------------------------------------------------------------------------------
@@ -1172,17 +1346,8 @@ func_DoEnemiesVsMultiCol:
 lbl_enemies_vs_multicol_loop_start:
 
   ; load enemy info
-  LDHI I, data_enemy_slot_lookup
+  LDHI I, data_enemy_slots-5
   ADD I, VC
-  LD V3, [I]
-  LD I, lbl_enemies_vs_multicol_ptr1
-  LD [I], V3
-  LD I, lbl_enemies_vs_multicol_ptr2
-  LD [I], V3
-
-lbl_enemies_vs_multicol_ptr1:
-  LDHI I, lbl_enemies_vs_multicol_ptr1
-
   LD VB, [I]
 								; V5 = enemy.state
 								; V6 = enemy.health
@@ -1232,6 +1397,11 @@ lbl_enemies_vs_multicol_hit_orange:
 
   LD V5, E_ENEMY_STATE_HIT_PLAYER_OR_WALL
 
+  ; save enemy
+  LDHI I, data_enemy_slots-5
+  ADD I, VC
+  LD [I], VB
+
   JP lbl_enemies_vs_multicol_loop_next
     
 lbl_enemies_vs_multicol_hit_purple:
@@ -1239,7 +1409,8 @@ lbl_enemies_vs_multicol_hit_purple:
   ; load laser info
   LDHI I, data_laser_info-3
   LD V4, [I]
-
+								; V3 = laser.state						
+								; V4 = laser.charge
   ; if laser is not alive
   ; the goto next enemy
   SE V3, E_LASER_STATE_ALIVE
@@ -1284,7 +1455,7 @@ lbl_enemies_vs_multicol_laser_greater:
 
 lbl_enemies_vs_multicol_laser_equal:
 
-  LD VB, E_LASER_STATE_HIT_ENEMY				; laser.state = E_LASER_STATE_HIT_ENEMY
+  LD V3, E_LASER_STATE_HIT_ENEMY				; laser.state = E_LASER_STATE_HIT_ENEMY
   LD V5, E_ENEMY_STATE_KILLED_BY_LASER 				; enemy.state = E_ENEMY_STATE_KILLED_BY_LASER
   
   ; fall through  
@@ -1294,19 +1465,18 @@ lbl_enemies_vs_multicol_laser_end:
   ; save laser info
   LD [I], V4
 
+  ; save enemy
+  LDHI I, data_enemy_slots-5
+  ADD I, VC
+  LD [I], VB
+
   ; fall through
 
 lbl_enemies_vs_multicol_loop_next:
 
-lbl_enemies_vs_multicol_ptr2:
-  LDHI I, lbl_enemies_vs_multicol_ptr2
-
-  ; save enemy
-  LD [I], VB
-
   ; if (loop != ENEMY_SLOT_MAX)
   ; then goto start of loop
-  ADD VC, ENEMY_SLOT_INC
+  ADD VC, SIZEOF_ENEMY
   SE VC, E_ENEMY_SLOT_MAX
   JP lbl_enemies_vs_multicol_loop_start
 
@@ -1331,31 +1501,69 @@ func_DoUpdateBullets:
 lbl_do_update_bullets_loop_start:
 
   ; load bullet info
-  LDHI I, data_bullet_slot_lookup
+  LDHI I, data_bullet_slots-7
   ADD I, VC
-  LD V3, [I]
-  LD I, lbl_do_update_bullets_ptr1
-  LD [I], V3
-  LD I, lbl_do_update_bullets_ptr2
-  LD [I], V3
-
-lbl_do_update_bullets_ptr1:
-  LDHI I, lbl_do_update_bullets_ptr1
-
   LD VB, [I]
-								; V6 = bullet.state
-  								; V7 = bullet.owner
+								; V7 = bullet.state
   								; V8 = bullet.timer
 								; V9 = bullet.xpos
 								; VA = bullet.ypos
 								; VB = bullet.move
 
-  ; if (bullet.state != alive)
-  ; then do next bullet
-  SE V6, E_BULLET_STATE_ALIVE
+  LDHI I, data_bullet_update_state_switch_lookup
+  ADD I, V7
+  LD V1, [I]
+  LD I, lbl_do_update_bullets_switch_start
+  LD [I], V1
+
+lbl_do_update_bullets_switch_start:
+  JP lbl_do_update_bullets_switch_start
+
+lbl_do_update_bullets_case_dead:
   JP lbl_do_update_bullets_loop_next
 
-  ; else bullet is alive
+lbl_do_update_bullets_case_hit_something:
+
+  LD V8, 0
+  LD V7, E_BULLET_STATE_DYING
+
+  ; fall through
+
+lbl_do_update_bullets_case_dying:
+ 
+  LDHI I, data_bullet_dying_constants-4
+  LD V6, [I]
+								; V4 = E_BULLET_SPRITE_DYING_0
+								; V5 = bullet.const BULLET_DYING_TIMER_INC
+								; V6 = bullet.const BULLET_DYING_TIMER_MAX
+    
+  ADD V4, V8							; V4 += bullet.timer
+  CALL func_DrawBullet
+
+  ADD V8, V5							; bullet.timer += bullet.const BULLET_DYING_TIMER_INC
+
+  ; if (bullet.timer == bullet.const BULLET_DYING_TIMER_MAX)
+  ; then bullet died
+  SNE V8, V6				
+  JP lbl_do_update_bullets_now_dead
+
+  ; else bullet is still dying
+  
+  JP lbl_do_update_bullets_switch_end				; break  
+
+lbl_do_update_bullets_now_dead:
+
+  LD V7, E_BULLET_STATE_DEAD					; bullet.state = E_BULLET_STATE_DEAD
+
+  JP lbl_do_update_bullets_switch_end				; break  
+
+lbl_do_update_bullets_case_alive:
+
+  LDHI I, data_bullet_alive_constants-4
+  LD V6, [I]
+								; V4 = E_BULLET_SPRITE_ALIVE_0
+								; V5 = bullet.const BULLET_ALIVE_X_TO_Y_HALFST
+								; V6 = bullet.const BULLET_ALIVE_XPOS_MIN
 
   LDHI I, data_bullet_x_movement_lookup
   ADD I, VB
@@ -1368,38 +1576,59 @@ lbl_do_update_bullets_ptr_x:
   ADD I, V8
   LD V0, [I]
   ADD V9, V0
- 
-  LDHI I, data_bullet_y_movement_lookup
-  ADD I, VB
-  LD V3, [I]
-  LD I, lbl_do_update_bullets_ptr_y
-  LD [I], V3
 
-lbl_do_update_bullets_ptr_y:
-  LDHI I, lbl_do_update_bullets_ptr_y
-  ADD I, V8
+; Old slow method for getting bullet y delta
+;  LDHI I, data_bullet_y_movement_lookup
+;  ADD I, VB
+;  LD V3, [I]
+;  LD I, lbl_do_update_bullets_ptr_y
+;  LD [I], V3
+;
+;lbl_do_update_bullets_ptr_y:
+;  LDHI I, lbl_do_update_bullets_ptr_y
+;  ADD I, V8
+;  LD V0, [I]
+;  ADD VA, V0
+
+; Faster way to get bullet y delta with re-arranged data. But not as fast as it should be! Stupid limited instructions.
+  ADD I, V5
+  ADD I, V5
   LD V0, [I]
   ADD VA, V0
 
-
-  LD V4, E_BULLET_SPRITE_ALIVE_0
+  CCOL COL_ORANGE
   ADD V4, VE
   CALL func_DrawBullet  
 
-  ADD V8, 1
-  
-  
-lbl_do_update_bullets_loop_next:
+  ; if (bullet hit something orange)
+  ; then goto hit something
+  SNE VF, 1				
+  JP lbl_do_update_bullets_case_hit_something
 
-lbl_do_update_bullets_ptr2:
-  LDHI I, lbl_do_update_bullets_ptr2
+  ; else if bullet.xpos <= min
+  ; then bullet is dead
+  SUB V6, V9			
+  SNE VF, 1							; VF = 0 if bullet.xpos > bullet.const BULLET_DYING_XPOS_MIN
+  JP lbl_do_update_bullets_now_dead				
+
+  ; else bullet is still alive
+  
+  ADD V8, 1							; bullet.timer++
+  
+  JP lbl_do_update_bullets_switch_end
+
+lbl_do_update_bullets_switch_end:
 
   ; save bullet
+  LDHI I, data_bullet_slots-7
+  ADD I, VC
   LD [I], VB
+
+lbl_do_update_bullets_loop_next:
 
   ; if (loop != BULLET_SLOT_MAX)
   ; then goto start of loop
-  ADD VC, BULLET_SLOT_INC
+  ADD VC, SIZEOF_BULLET
   SE VC, E_BULLET_SLOT_MAX
   JP lbl_do_update_bullets_loop_start
 
@@ -1470,30 +1699,6 @@ lbl_do_update_laser_case_dead:
   
   JP lbl_do_update_laser_switch_end				; break
     
-lbl_do_update_laser_case_alive:
-  
-  LDHI I, data_laser_alive_constants-4
-  LD V7, [I]
-								; V4 = E_LASER_SPRITE_ALIVE_0
-								; V5 = empty
-								; V6 = laser.const LASER_ALIVE_XPOS_MAX
-								; V7 = laser.const LASER_ALIVE_SPEED_X
-
-  ADD V4, VE							; V4 += global.anim
-  CALL func_DrawLaser
-
-  ADD VB, V7							; laser.xpos += laser.const LASER_ALIVE_SPEED_X
-
-  ; if (laser.xpos > laser.const LASER_ALIVE_XPOS_MAX)
-  ; then skip to laser died
-  SUB V6, VB
-  SE VF, 1							; VF = 1 if laser.xpos <= laser.const LASER_ALIVE_XPOS_MAX
-  JP lbl_do_update_laser_now_dead
-
-  ; else laser is still alive
-  
-  JP lbl_do_update_laser_switch_end				; break
-
 lbl_do_update_laser_case_hit_enemy:
 lbl_do_update_laser_case_hit_wall:
 
@@ -1531,6 +1736,30 @@ lbl_do_update_laser_now_dead:
 
   JP lbl_do_update_laser_switch_end				; break  
 
+lbl_do_update_laser_case_alive:
+  
+  LDHI I, data_laser_alive_constants-4
+  LD V7, [I]
+								; V4 = E_LASER_SPRITE_ALIVE_0
+								; V5 = empty
+								; V6 = laser.const LASER_ALIVE_XPOS_MAX
+								; V7 = laser.const LASER_ALIVE_SPEED_X
+
+  ADD V4, VE							; V4 += global.anim
+  CALL func_DrawLaser
+
+  ADD VB, V7							; laser.xpos += laser.const LASER_ALIVE_SPEED_X
+
+  ; if (laser.xpos > laser.const LASER_ALIVE_XPOS_MAX)
+  ; then skip to laser died
+  SUB V6, VB
+  SE VF, 1							; VF = 1 if laser.xpos <= laser.const LASER_ALIVE_XPOS_MAX
+  JP lbl_do_update_laser_now_dead
+
+  ; else laser is still alive
+  
+  JP lbl_do_update_laser_switch_end				; break
+
 lbl_do_update_laser_switch_end:
 
   ; save all laser info
@@ -1543,9 +1772,9 @@ lbl_do_update_laser_switch_end:
 
 
 ;---------------------------------------------------------------------------------
-; func_DoUpdatePlayer
+; func_DoUpdatePlayerForGameplay
 ;---------------------------------------------------------------------------------
-func_DoUpdatePlayer:
+func_DoUpdatePlayerForGameplay:
 
   ; load player info
   LDHI I, data_player_info-9
@@ -1556,24 +1785,24 @@ func_DoUpdatePlayer:
 								; VC = player.ypos
 
   ; set up switch
-  LDHI I, data_player_update_state_switch_lookup
+  LDHI I, data_player_gameplay_update_state_switch_lookup
   ADD I, V9
   LD V1, [I]
-  LD I, lbl_do_update_player_switch_start
+  LD I, lbl_do_update_player_gameplay_switch_start
   LD [I], V1
 
-lbl_do_update_player_switch_start:
-  JP lbl_do_update_player_switch_start
+lbl_do_update_player_gameplay_switch_start:
+  JP lbl_do_update_player_gameplay_switch_start
 
-lbl_do_update_player_case_reviving:
+lbl_do_update_player_gameplay_case_reviving:
 
-  LDHI I, data_player_reviving_constants-4
+  LDHI I, data_player_gameplay_reviving_constants-4
   LD V8, [I]
 								; V4 = E_PLAYER_SPRITE_REVIVING_0
 								; V5 = unused
    								; V6 = player.const PLAYER_REVIVING_SPEED_X
 								; V7 = player.const PLAYER_REVIVING_TIMER_INC
-								; V8 = player.const PLAYER_REVIVING_TIMER_MAX
+								; V8 = player.const PLAYER_GAMEPLAY_REVIVING_TIMER_MAX
 
   ; player reviving uses global.anim counter for animation
   ADD V4, VE							; V4 += global.anim
@@ -1581,32 +1810,32 @@ lbl_do_update_player_case_reviving:
 
   ADD VA, V7							; player.timer += player.const PLAYER_REVIVNG_TIMER_INC
 
-  ; if (player.timer == player.const PLAYER_REVIVING_TIMER_MAX)
+  ; if (player.timer == player.const PLAYER_GAMEPLAY_REVIVING_TIMER_MAX)
   ; then player is now alive
   SNE VA, V8
-  JP lbl_do_update_player_now_alive
+  JP lbl_do_update_player_gameplay_now_alive
 
   ; else player is still reviving
   ADD VB, V6							; player.xpos += player.const PLAYER_REVIVING_SPEED_X
 
-  JP lbl_do_update_player_switch_end				; break
+  JP lbl_do_update_player_gameplay_switch_end			; break
   
-lbl_do_update_player_case_hit_wall:
-lbl_do_update_player_case_hit_enemy:
-lbl_do_update_player_case_hit_bullet:
+lbl_do_update_player_gameplay_case_hit_wall:
+lbl_do_update_player_gameplay_case_hit_enemy:
+lbl_do_update_player_gameplay_case_hit_bullet:
 
   LD VA, 0							; player.timer = 0
   LD V9, E_PLAYER_STATE_DYING					; player.state = E_PLAYER_STATE_DYING
 
   ; fall through to case_dying
 
-lbl_do_update_player_case_dying:
+lbl_do_update_player_gameplay_case_dying:
 
-  LDHI I, data_player_dying_constants-4
+  LDHI I, data_player_gameplay_dying_constants-4
   LD V8, [I]
 								; V4 = E_PLAYER_SPRITE_DYING_0
-								; V5 = player.const PLAYER_DYING_XPOS_MIN
-								; V6 = player.const PLAYER_DYING_SPEED_X
+								; V5 = player.const PLAYER_GAMEPLAY_DYING_XPOS_MIN
+								; V6 = player.const PLAYER_GAMEPLAY_DYING_SPEED_X
 								; V7 = player.const PLAYER_DYING_TIMER_INC
 								; V8 = player.const PLAYER_DYING_TIMER_MAX
  
@@ -1618,89 +1847,72 @@ lbl_do_update_player_case_dying:
   ; if (player.timer == player.const PLAYER_DYING_TIMER_MAX)
   ; then skip to player has died
   SNE VA, V8
-  JP lbl_do_update_player_now_dead			
+  JP lbl_do_update_player_gameplay_now_dead			
 
-  SUB VB, V6							; player.xpos -= player.const PLAYER_DYING_SPEED_X
+  SUB VB, V6							; player.xpos -= player.const PLAYER_GAMEPLAY_DYING_SPEED_X
 
-  ; if (player.xpos <= player.const PLAYER_DYING_XPOS_MIN)
-  ; then skip player has died
+  ; if (player.xpos <= player.const PLAYER_GAMEPLAY_DYING_XPOS_MIN)
+  ; then skip to player has died
   SUB V5, VB			
-  SNE VF, 1							; VF = 0 if player.xpos > player.const PLAYER_DYING_XPOS_MIN
-  JP lbl_do_update_player_now_dead				
+  SNE VF, 1							; VF = 0 if player.xpos > player.const PLAYER_GAMEPLAY_DYING_XPOS_MIN
+  JP lbl_do_update_player_gameplay_now_dead				
 
   ; else player is still dying
 
-  JP lbl_do_update_player_switch_end 				; break
+  JP lbl_do_update_player_gameplay_switch_end 			; break
 
-lbl_do_update_player_case_outro:
+lbl_do_update_player_gameplay_case_outro:
 
-  LDHI I, data_player_outro_constants-4
+  LDHI I, data_player_gameplay_outro_constants-4
   LD V8, [I]
 								; V4 = E_PLAYER_SPRITE_REVIVING_0
   								; V5 = unused
 								; V6 = unused
-								; V7 = player.const PLAYER_OUTRO_XPOS_MAX
-								; V8 = player.const PLAYER_OUTRO_SPEED_X
+								; V7 = player.const PLAYER_GAMEPLAY_OUTRO_XPOS_MAX
+								; V8 = player.const PLAYER_GAMEPLAY_OUTRO_SPEED_X
  
   ADD V4, VE							; V4 += global.anim
   CALL func_DrawPlayer
   
-  ADD VA, V7							; player.xpos += player.const PLAYER_OUTRO_SPEED_X
+  ADD VB, V8							; player.xpos += player.const PLAYER_GAMEPLAY_OUTRO_SPEED_X
 
-  ; if (player.xpos > player.const PLAYER_DYING_XPOS_MIN)
-  ; then skip to player has succeeded
+  ; if (player.xpos > player.const PLAYER_GAMEPLAY_OUTRO_XPOS_MAX)
+  ; then skip to player outro complete
   SUB V7, VB			
-  SNE VF, 0							; VF = 0 if player.xpos > player.const PLAYER_OUTRO_XPOS_MAX
-  JP lbl_do_update_player_now_outro_complete			
+  SNE VF, 0							; VF = 0 if player.xpos > player.const PLAYER_GAMEPLAY_OUTRO_XPOS_MAX
+  JP lbl_do_update_player_gameplay_now_outro_complete			
 
   ; else player is still outro-ing
 
-  JP lbl_do_update_player_switch_end				; break
+  JP lbl_do_update_player_gameplay_switch_end			; break
 
-lbl_do_update_player_case_invulnerable:
-
-  LDHI I, data_player_invulnerable_constants-4
-  LD V8, [I]
-								; V4 = E_PLAYER_SPRITE_REVIVING_0
-  								; V5 = unused
-								; V6 = unused
-  								; V7 = unused
-								; V8 = unused
-
-  ; player is invulnerable
-  ADD V4, VE							; V4 += global.anim
-  CALL func_DrawPlayer
-
-  JP lbl_do_update_player_switch_end				; break 
-
-lbl_do_update_player_now_outro_complete:
+lbl_do_update_player_gameplay_now_outro_complete:
 
   ; player has finished outro
-  LD VC, E_PLAYER_STATE_OUTRO_COMPLETE				; player.state = E_PLAYER_STATE_OUTRO_COMPLETE	
-  
-  JP lbl_do_update_player_switch_end				; break
+  LD V9, E_PLAYER_STATE_MODE_NEXT				; player.state = E_PLAYER_STATE_MODE_NEXT	
+   
+  JP lbl_do_update_player_gameplay_switch_end			; break
 
-lbl_do_update_player_now_dead:
+lbl_do_update_player_gameplay_now_dead:
   
   ; player has died
-  LD V9, E_PLAYER_STATE_DEAD					; player.state = E_PLAYER_STATE_DEAD  
+  LD V9, E_PLAYER_STATE_MODE_PREV				; player.state = E_PLAYER_STATE_MODE_PREV 
 
-  JP lbl_do_update_player_switch_end				; break
+  JP lbl_do_update_player_gameplay_switch_end			; break
 
-lbl_do_update_player_case_outro_complete:
-lbl_do_update_player_case_dead:
+lbl_do_update_player_gameplay_case_dead:
 
   ; empty - do nothing
 
-  JP lbl_do_update_player_switch_end				; break
+  JP lbl_do_update_player_gameplay_switch_end			; break
 
-lbl_do_update_player_now_alive:
+lbl_do_update_player_gameplay_now_alive:
 
   LD V9, E_PLAYER_STATE_ALIVE					; player.state = E_PLAYER_STATE_ALIVE
 
-  JP lbl_do_update_player_switch_end				; break
+  JP lbl_do_update_player_gameplay_switch_end			; break
 
-lbl_do_update_player_case_alive:
+lbl_do_update_player_gameplay_case_alive:
 
   ; player alive uses global.anim counter for animation
   LD V4, E_PLAYER_SPRITE_ALIVE_0
@@ -1722,54 +1934,262 @@ lbl_do_update_player_case_alive:
   ; if (KEY_RIGHT != pressed)
   ; then jump to key_left test
   SKP V5							; test KEY_RIGHT pressed
-  JP lbl_do_update_player_left_key_test
+  JP lbl_do_update_player_gameplay_left_key_test
 
   ; if (player.xpos > player.const PLAYER_ALIVE_XPOS_MAX)
   ; then jump to key_left test
   SUB V1, VB
   SE VF, 1							; VF = 0 if player.xpos > player.const PLAYER_ALIVE_XPOS_MAX
-  JP lbl_do_update_player_left_key_test
+  JP lbl_do_update_player_gameplay_left_key_test
 
   ADD VB, V2							; player.xpos += player.const PLAYER_ALIVE_SPEED_X 
 
-lbl_do_update_player_left_key_test:
+lbl_do_update_player_gameplay_left_key_test:
   ; if (KEY_LEFT != pressed)
   ; then jump to key_down test
   SKP V6							; test KEY_LEFT pressed
-  JP lbl_do_update_player_down_key_test
+  JP lbl_do_update_player_gameplay_down_key_test
 
   ; if (player.xpos <= player.const PLAYER_ALIVE_XPOS_MIN)
   ; then jump to key_down test
   SUB V0, VB						
   SNE VF, 1							; VF = 1 if player.xpos <= player.const PLAYER_ALIVE_XPOS_MIN
-  JP lbl_do_update_player_down_key_test
+  JP lbl_do_update_player_gameplay_down_key_test
   
   SUB VB, V2							; player.xpos -= player.const PLAYER_ALIVE_SPEED_X
 
-lbl_do_update_player_down_key_test:
+lbl_do_update_player_gameplay_down_key_test:
   ; if (KEY_DOWN != pressed)
   ; then jump to key_up test
   SKP V7
-  JP lbl_do_update_player_up_key_test
-
-;  ; player moving down uses fixed frame E_PLAYER_SPRITE_MOVE_DOWN
-;  LD V4, E_PLAYER_SPRITE_MOVE_DOWN				; V4 = E_PLAYER_SPRITE_MOVE_DOWN
+  JP lbl_do_update_player_gameplay_up_key_test
  
   ADD VC, V3							; player.ypos += player.const PLAYER_SPEED_Y
 
-lbl_do_update_player_up_key_test:
+lbl_do_update_player_gameplay_up_key_test:
   ; if (KEY_UP != pressed)
   ; then jump to switch end
   SKP V8
-  JP lbl_do_update_player_key_test_end		
+  JP lbl_do_update_player_gameplay_key_test_end		
 
   SUB VC, V3							; player.ypos -= player.const PLAYER_SPEED_Y
  
-lbl_do_update_player_key_test_end:
+lbl_do_update_player_gameplay_key_test_end:
 
-  JP lbl_do_update_player_switch_end				; break
+  SNE VD, GAMEPLAY_GLOBALDATA_MAX
+  LD V9, E_PLAYER_STATE_OUTRO
 
-lbl_do_update_player_switch_end:
+  JP lbl_do_update_player_gameplay_switch_end			; break
+
+lbl_do_update_player_gameplay_switch_end:
+
+  ; save all player info
+  LDHI I, data_player_info-9
+  LD [I], VC
+
+  RET
+;---------------------------------------------------------------------------------
+
+
+;---------------------------------------------------------------------------------
+; func_DoUpdatePlayerForBossplay
+;---------------------------------------------------------------------------------
+func_DoUpdatePlayerForBossplay:
+
+  ; load player info
+  LDHI I, data_player_info-9
+  LD VC, [I]
+								; V9 = player.state
+ 		  						; VA = player.timer
+  								; VB = player.xpos
+								; VC = player.ypos
+
+  ; set up switch
+  LDHI I, data_player_bossplay_update_state_switch_lookup
+  ADD I, V9
+  LD V1, [I]
+  LD I, lbl_do_update_player_bossplay_switch_start
+  LD [I], V1
+
+lbl_do_update_player_bossplay_switch_start:
+  JP lbl_do_update_player_bossplay_switch_start
+
+lbl_do_update_player_bossplay_case_reviving:
+
+  LDHI I, data_player_bossplay_reviving_constants-4
+  LD V8, [I]
+								; V4 = E_PLAYER_SPRITE_REVIVING_0
+								; V5 = unused
+   								; V6 = player.const PLAYER_REVIVING_SPEED_X
+								; V7 = player.const PLAYER_REVIVING_TIMER_INC
+								; V8 = player.const PLAYER_BOSSPLAY_REVIVING_TIMER_MAX
+
+  ; player reviving uses global.anim counter for animation
+  ADD V4, VE							; V4 += global.anim
+  CALL func_DrawPlayer
+
+  ADD VA, V7							; player.timer += player.const PLAYER_REVIVNG_TIMER_INC
+
+  ; if (player.timer == player.const PLAYER_BOSSPLAY_REVIVING_TIMER_MAX)
+  ; then player is now alive
+  SNE VA, V8
+  JP lbl_do_update_player_bossplay_now_alive
+
+  ; else player is still reviving
+  ADD VB, V6							; player.xpos += player.const PLAYER_REVIVING_SPEED_X
+
+  JP lbl_do_update_player_bossplay_switch_end			; break
+  
+lbl_do_update_player_bossplay_case_hit_wall:
+lbl_do_update_player_bossplay_case_hit_enemy:
+lbl_do_update_player_bossplay_case_hit_bullet:
+
+  LD VA, 0							; player.timer = 0
+  LD V9, E_PLAYER_STATE_DYING					; player.state = E_PLAYER_STATE_DYING
+
+  ; fall through to case_dying
+
+lbl_do_update_player_bossplay_case_dying:
+
+  LDHI I, data_player_bossplay_dying_constants-4
+  LD V8, [I]
+								; V4 = E_PLAYER_SPRITE_DYING_0
+								; V5 = unused
+								; V6 = unused
+								; V7 = player.const PLAYER_DYING_TIMER_INC
+								; V8 = player.const PLAYER_DYING_TIMER_MAX
+ 
+  ADD V4, VE							; V4 += global.anim
+  CALL func_DrawPlayer
+
+  ADD VA, V7							; player.timer += player.const PLAYER_DYING_TIMER_INC
+
+  ; if (player.timer == player.const PLAYER_DYING_TIMER_MAX)
+  ; then skip to player has died
+  SNE VA, V8
+  JP lbl_do_update_player_bossplay_now_dead			
+
+  ; else player is still dying
+
+  JP lbl_do_update_player_bossplay_switch_end 			; break
+
+lbl_do_update_player_bossplay_case_outro:
+
+  LDHI I, data_player_bossplay_outro_constants-4
+  LD V8, [I]
+								; V4 = E_PLAYER_SPRITE_REVIVING_0
+  								; V5 = unused
+								; V6 = unused
+								; V7 = player.const PLAYER_BOSSPLAY_OUTRO_TIMER_INC
+								; V8 = player.const PLAYER_BOSSPLAY_OUTRO_TIMER_MAX
+ 
+  ADD V4, VE							; V4 += global.anim
+  CALL func_DrawPlayer
+  
+  ADD VA, V7							; player.timer += player.const PLAYER_BOSSPLAY_OUTRO_TIMER_INC
+
+  ; if (player.timer == player.const PLAYER_BOSSPLAY_OUTRO_TIMER_MAX)
+  ; then skip to player has died
+  SNE VA, V8
+  JP lbl_do_update_player_bossplay_now_outro_complete		
+
+  ; else player is still outro-ing
+
+  JP lbl_do_update_player_bossplay_switch_end			; break
+
+lbl_do_update_player_bossplay_now_outro_complete:
+
+  ; player has finished outro
+  LD V9, E_PLAYER_STATE_MODE_NEXT				; player.state = E_PLAYER_STATE_MODE_NEXT
+  
+  JP lbl_do_update_player_bossplay_switch_end			; break
+
+lbl_do_update_player_bossplay_now_dead:
+  
+  ; player has died
+  LD V9, E_PLAYER_STATE_MODE_PREV				; player.state = E_PLAYER_STATE_MODE_PREV
+
+  JP lbl_do_update_player_bossplay_switch_end			; break
+
+lbl_do_update_player_bossplay_case_disabled:
+
+  ; empty - do nothing
+
+  JP lbl_do_update_player_bossplay_switch_end			; break
+
+lbl_do_update_player_bossplay_now_alive:
+
+  LD V9, E_PLAYER_STATE_ALIVE					; player.state = E_PLAYER_STATE_ALIVE
+
+  JP lbl_do_update_player_bossplay_switch_end			; break
+
+lbl_do_update_player_bossplay_case_alive:
+
+  ; player alive uses global.anim counter for animation
+  LD V4, E_PLAYER_SPRITE_ALIVE_0
+  ADD V4, VE							; V4 += global.anim
+  CALL func_DrawPlayer
+
+  LDHI I, data_player_alive_constants-0
+  LD V8, [I]
+								; V0 = player.const PLAYER_ALIVE_XPOS_MIN
+								; V1 = player.const PLAYER_ALIVE_XPOS_MAX
+								; V2 = player.const PLAYER_ALIVE_SPEED_X
+								; V3 = player.const PLAYER_ALIVE_SPEED_Y
+								; V4 = E_PLAYER_SPRITE_ALIVE_0
+								; V5 = player.const KEY_RIGHT 
+								; V6 = player.const KEY_LEFT
+								; V7 = player.const KEY_DOWN
+								; V8 = player.const KEY_UP
+
+  ; if (KEY_RIGHT != pressed)
+  ; then jump to key_left test
+  SKP V5							; test KEY_RIGHT pressed
+  JP lbl_do_update_player_bossplay_left_key_test
+
+  ; if (player.xpos > player.const PLAYER_ALIVE_XPOS_MAX)
+  ; then jump to key_left test
+  SUB V1, VB
+  SE VF, 1							; VF = 0 if player.xpos > player.const PLAYER_ALIVE_XPOS_MAX
+  JP lbl_do_update_player_bossplay_left_key_test
+
+  ADD VB, V2							; player.xpos += player.const PLAYER_ALIVE_SPEED_X 
+
+lbl_do_update_player_bossplay_left_key_test:
+  ; if (KEY_LEFT != pressed)
+  ; then jump to key_down test
+  SKP V6							; test KEY_LEFT pressed
+  JP lbl_do_update_player_bossplay_down_key_test
+
+  ; if (player.xpos <= player.const PLAYER_ALIVE_XPOS_MIN)
+  ; then jump to key_down test
+  SUB V0, VB						
+  SNE VF, 1							; VF = 1 if player.xpos <= player.const PLAYER_ALIVE_XPOS_MIN
+  JP lbl_do_update_player_bossplay_down_key_test
+  
+  SUB VB, V2							; player.xpos -= player.const PLAYER_ALIVE_SPEED_X
+
+lbl_do_update_player_bossplay_down_key_test:
+  ; if (KEY_DOWN != pressed)
+  ; then jump to key_up test
+  SKP V7
+  JP lbl_do_update_player_bossplay_up_key_test
+ 
+  ADD VC, V3							; player.ypos += player.const PLAYER_SPEED_Y
+
+lbl_do_update_player_bossplay_up_key_test:
+  ; if (KEY_UP != pressed)
+  ; then jump to switch end
+  SKP V8
+  JP lbl_do_update_player_bossplay_key_test_end		
+
+  SUB VC, V3							; player.ypos -= player.const PLAYER_SPEED_Y
+ 
+lbl_do_update_player_bossplay_key_test_end:
+
+  JP lbl_do_update_player_bossplay_switch_end			; break
+
+lbl_do_update_player_bossplay_switch_end:
 
   ; save all player info
   LDHI I, data_player_info-9
@@ -1794,17 +2214,8 @@ func_DoUpdateEnemies:
 lbl_do_update_enemies_loop_start:
 
   ; load enemy info
-  LDHI I, data_enemy_slot_lookup
+  LDHI I, data_enemy_slots-5
   ADD I, VC
-  LD V3, [I]
-  LD I, lbl_do_update_enemies_ptr1
-  LD [I], V3
-  LD I, lbl_do_update_enemies_ptr2
-  LD [I], V3
-
-lbl_do_update_enemies_ptr1:
-  LDHI I, lbl_do_update_enemies_ptr1
-
   LD VB, [I]
 								; V5 = enemy.state
 								; V6 = enemy.health
@@ -1823,76 +2234,6 @@ lbl_do_update_enemies_ptr1:
 
 lbl_do_update_enemies_switch_start:
   JP lbl_do_update_enemies_switch_start
-
-lbl_do_update_enemies_case_damaged_by_laser:
- 
-  ; mark the enemy as damaged shield
-  LD V5, E_ENEMY_STATE_DAMAGED_SHIELD_1				; enemy.state = E_ENEMY_STATE_DAMAGED_SHIELD_1
-  
-  LD V4, E_ENEMY_SPRITE_DAMAGED_0
-  JP lbl_do_update_enemies_draw_alive
-
-lbl_do_update_enemies_case_damaged_shield_1:
-lbl_do_update_enemies_case_damaged_shield_2:
-lbl_do_update_enemies_case_damaged_shield_3:
-
-  ; mark the enemy as damaged shield
-  ADD V5, #02							; enemy.state = E_ENEMY_STATE_DAMAGED_SHIELD++
-  
-  LD V4, E_ENEMY_SPRITE_DAMAGED_0
-  JP lbl_do_update_enemies_draw_alive
-
-lbl_do_update_enemies_case_damaged_shield_last:
-
-  ; mark the enemy as alive again
-  LD V5, E_ENEMY_STATE_ALIVE					; enemy.state = E_ENEMY_STATE_ALIVE
-
-  ; fall through to alive
-  
-lbl_do_update_enemies_case_alive:
-  
-  LD V4, E_ENEMY_SPRITE_ALIVE_0
-  
-  ; fall through to draw alive
-
-lbl_do_update_enemies_draw_alive:
-								; V4 is either E_ENEMY_SPRITE_DAMAGED_0 + global.anim
-  ADD V4, VE							; or E_ENEMY_SPRITE_ALIVE_0 + global.anim
-  CALL func_DrawEnemy
-
-  LDHI I, data_enemy_alive_constants-0
-  LD V3, [I]
-								; V0 = enemy.const ENEMY_ALIVE_X_MOVE_MASK
-								; V1 = enemy.const ENEMY_ALIVE_Y_MOVE_MASK
-								; V2 = enemy.const ENEMY_ALIVE_XPOS_MIN
-								; V3 = enemy.const ENEMY_ALIVE_TIMER_MOVE_INC
-
-  AND V0, VB
-  SUB V8, V0							; enemy.xpos -= (enemy.move & enemy.const ENEMY_ALIVE_X_MASK)
-
-  ; if (enemy.xpos <= enemy.const ENEMY_ALIVE_XPOS_MIN)
-  ; then skip to dying_alive
-  SUB V2, V8			
-  SNE VF, 1							; VF = 1 if enemy.xpos <= enemy.const ENEMY_ALIVE_XPOS_MIN
-  JP lbl_do_update_enemies_now_dead				
-
-  ; else enemy is still alive
-
-  ADD V7, V3							; enemy.timer += enemy.const ENEMY_ALIVE_TIMER_MOVE_INC
-
-  AND V1, VB							
-  LDHI I, data_enemy_y_movement_lookup
-  ADD I, V1
-  LD V3, [I]  
-  LD I, lbl_do_update_enemies_ptr3
-  LD [I], V3
-lbl_do_update_enemies_ptr3:
-  LDHI I, lbl_do_update_enemies_ptr3
-  ADD I, V7
-  LD V0, [I]
-  ADD V9, V0							; enemy.ypos += delta[movement[enemy.move & enemy.const ENEMY_ALIVE_Y_MASK]]
-  
-  JP lbl_do_update_enemies_switch_end				; break
 
 lbl_do_update_enemies_case_killed_by_laser:
  
@@ -1975,18 +2316,88 @@ lbl_do_update_enemies_case_dead:
 
   JP lbl_do_update_enemies_switch_end				; break
 
+lbl_do_update_enemies_case_damaged_by_laser:
+ 
+  ; mark the enemy as damaged shield
+  LD V5, E_ENEMY_STATE_DAMAGED_SHIELD_1				; enemy.state = E_ENEMY_STATE_DAMAGED_SHIELD_1
+  
+  LD V4, E_ENEMY_SPRITE_DAMAGED_0
+  JP lbl_do_update_enemies_draw_alive
+
+lbl_do_update_enemies_case_damaged_shield_1:
+lbl_do_update_enemies_case_damaged_shield_2:
+lbl_do_update_enemies_case_damaged_shield_3:
+
+  ; mark the enemy as damaged shield
+  ADD V5, #02							; enemy.state = E_ENEMY_STATE_DAMAGED_SHIELD++
+  
+  LD V4, E_ENEMY_SPRITE_DAMAGED_0
+  JP lbl_do_update_enemies_draw_alive
+
+lbl_do_update_enemies_case_damaged_shield_last:
+
+  ; mark the enemy as alive again
+  LD V5, E_ENEMY_STATE_ALIVE					; enemy.state = E_ENEMY_STATE_ALIVE
+
+  ; fall through to alive
+  
+lbl_do_update_enemies_case_alive:
+  
+  LD V4, E_ENEMY_SPRITE_ALIVE_0
+  
+  ; fall through to draw alive
+
+lbl_do_update_enemies_draw_alive:
+								; V4 is either E_ENEMY_SPRITE_DAMAGED_0 + global.anim
+  ADD V4, VE							; or E_ENEMY_SPRITE_ALIVE_0 + global.anim
+  CALL func_DrawEnemy
+
+  LDHI I, data_enemy_alive_constants-0
+  LD V3, [I]
+								; V0 = enemy.const ENEMY_ALIVE_X_MOVE_MASK
+								; V1 = enemy.const ENEMY_ALIVE_Y_MOVE_MASK
+								; V2 = enemy.const ENEMY_ALIVE_XPOS_MIN
+								; V3 = enemy.const ENEMY_ALIVE_TIMER_MOVE_INC
+
+  AND V0, VB							; V0 = enemy X speed
+  SUB V8, V0							; enemy.xpos -= (enemy.move & enemy.const ENEMY_ALIVE_X_MASK)
+
+  ; if (enemy.xpos <= enemy.const ENEMY_ALIVE_XPOS_MIN)
+  ; then skip to dying_alive
+  SUB V2, V8			
+  SNE VF, 1							; VF = 1 if enemy.xpos <= enemy.const ENEMY_ALIVE_XPOS_MIN
+  JP lbl_do_update_enemies_now_dead				
+
+  ; else enemy is still alive
+
+  ADD V7, V3							; enemy.timer += enemy.const ENEMY_ALIVE_TIMER_MOVE_INC
+
+  AND V1, VB							
+  LDHI I, data_enemy_y_movement_lookup
+  ADD I, V1
+  LD V3, [I]  
+  LD I, lbl_do_update_enemies_movement_ptr
+  LD [I], V3
+lbl_do_update_enemies_movement_ptr:
+  LDHI I, lbl_do_update_enemies_movement_ptr
+  ADD I, V7
+  LD V0, [I]
+  ADD V9, V0							; enemy.ypos += movement[enemy.move & enemy.const ENEMY_ALIVE_Y_MASK][enemy.timer]
+  
+  JP lbl_do_update_enemies_switch_end				; break
+
 lbl_do_update_enemies_switch_end:
 
-lbl_do_update_enemies_ptr2:
-  LDHI I, lbl_do_update_enemies_ptr2
   ; save enemy
+  LDHI I, data_enemy_slots-5
+  ADD I, VC
   LD [I], VB
 
 lbl_do_update_enemies_loop_next:  
   
   ; if (loop == ENEMY_SLOT_MAX)
   ; then end test nicely
-  ADD VC, ENEMY_SLOT_INC
+  ADD VC, SIZEOF_ENEMY
   SE VC, E_ENEMY_SLOT_MAX
   JP lbl_do_update_enemies_loop_start
 
@@ -2073,10 +2484,11 @@ lbl_do_boss_update_case_killed_by_laser:
   LD VA, 0							; boss.timer = 0
   LD V8, E_BOSS_STATE_DYING					; boss.state = E_BOSS_STATE_DYING
  
-  ; player is now invulnerable
+  ; player is now outro-ing
   LDHI I, data_player_info-0
-  LD V0, E_PLAYER_STATE_INVULNERABLE
-  LD [I], V0
+  LD V0, E_PLAYER_STATE_OUTRO					; player.state = E_PLAYER_STATE_OUTRO
+  LD V1, 0							; player.timer = 0
+  LD [I], V1
    
   ; fall through to dying
 
@@ -2091,34 +2503,6 @@ lbl_do_boss_update_case_dying:
 
   ADD V4, VE							; V4 += boss.globalanim
   CALL func_DrawBossEye
-
-  ADD VA, V6							; boss.timer += BOSS_DYING_TIMER_INC
-
-  ; if (boss.timer == boss.const BOSS_DYING_TIMER_MAX)
-  ; then boss has died
-  SNE VA, V7
-  JP lbl_do_boss_update_now_dead				
- 
-  ; else boss is still dying
-
-  JP lbl_do_boss_update_switch_end				; break
-
-lbl_do_boss_update_now_dead:
-
-  LD V8, E_BOSS_STATE_DEAD					; boss.state = E_BOSS_STATE_DEAD
- 
-  ; load game lives info
-  LD I, data_game_livesinfo-0
-  LD V3, [I]
-								; V0 = game.lives
-								; V1 = game.const GAME_LIVES_GAMEPLAY_MASK
-								; V2 = game.const GAME_LIVES_BOSS_SHIFT
-								; V3 = game.const GAME_LIVES_WIN_SHIFT
-
-  ADD V0, V3							; game.lives += GAME_LIVES_WIN_SHIFT
-
-  ; save updated game lives info	
-  LD [I], V3  
 
   JP lbl_do_boss_update_switch_end				; break
 
@@ -2420,7 +2804,7 @@ func_DrawEnemy:
   								; V9 = enemy y-position
   								; VA = enemy type
 
-  ; use enemy.type V9 to set the correct sprite lookup table
+  ; use enemy.type VA to set the correct sprite lookup table
   LDHI I, data_enemy_type_lookup
   ADD I, VA
   LD V3, [I]
@@ -2485,9 +2869,7 @@ func_DrawCollisionWalls:
   SPRW WALL_STRIP_WIDTH
   SPRH WALL_STRIP_HEIGHT
   
-;  LD V4, VD							; V4 = global.data
-  LD V4, 0
-  
+  LD V4, VD							; V4 = global.data
   LD V5, V4							; V5 = V4 + 15. 
   ADD V5, 15				
   
@@ -2540,9 +2922,7 @@ func_DrawRealWalls:
   SPRW WALL_STRIP_WIDTH
   SPRH WALL_STRIP_HEIGHT
   
-;  LD V4, VD							; V4 = global.data
-  LD V4, 0
-  
+  LD V4, VD							; V4 = global.data
   LD V5, V4							; V5 = V4 + 15
   ADD V5, 15				
   
@@ -2591,7 +2971,7 @@ lbl_draw_real_walls_ptr:
 ;---------------------------------------------------------------------------------
 lbl_end_code:
   LD I, lbl_end_code
-  DA 'Code, art and other assets copyright Michael Neve 2012. /)*(\'
+  DA 'All design, code, art and other assets copyright Michael Neve 2012-2013. Secret Brohoof. /)'
 
 ;---------------------------------------------------------------------------------
 ; GAME INFO
@@ -2611,14 +2991,14 @@ INCLUDE 'laserinfo.src'
 ;---------------------------------------------------------------------------------
 ; ENEMY INFO
 ;---------------------------------------------------------------------------------
-;INCLUDE 'enemyinfo.src'
+INCLUDE 'enemyinfo.src'
 INCLUDE 'enemy_movement.src'
 INCLUDE 'boss.src'
 
 ;---------------------------------------------------------------------------------
 ; BULLET INFO
 ;---------------------------------------------------------------------------------
-;INCLUDE 'bulletinfo.src'
+INCLUDE 'bulletinfo.src'
 INCLUDE 'bullet_movement.src' 
 
 ;---------------------------------------------------------------------------------

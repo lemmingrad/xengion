@@ -4,38 +4,76 @@
 
 E_BULLET_STATE_DEAD						= #00
 E_BULLET_STATE_ALIVE						= #02
-E_BULLET_STATE_DYING						= #04
+E_BULLET_STATE_HIT_SOMETHING					= #04
+E_BULLET_STATE_DYING						= #06
 
 SIZEOF_BULLET							= 12
-E_BULLET_SLOT_0							= (SIZEOF_BULLET * 0)
-E_BULLET_SLOT_1							= (SIZEOF_BULLET * 1)
-E_BULLET_SLOT_2							= (SIZEOF_BULLET * 2)
-E_BULLET_SLOT_3							= (SIZEOF_BULLET * 3)
-E_BULLET_SLOT_4							= (SIZEOF_BULLET * 4)
-E_BULLET_SLOT_5							= (SIZEOF_BULLET * 5)
-E_BULLET_SLOT_6							= (SIZEOF_BULLET * 6)
-E_BULLET_SLOT_7							= (SIZEOF_BULLET * 7)
-E_BULLET_SLOT_8							= (SIZEOF_BULLET * 8)
-E_BULLET_SLOT_9							= (SIZEOF_BULLET * 9)
-E_BULLET_SLOT_MAX 						= (SIZEOF_BULLET * 10)
+E_BULLET_SLOT_0							= SIZEOF_BULLET * 0
+E_BULLET_SLOT_1							= SIZEOF_BULLET * 1
+E_BULLET_SLOT_2							= SIZEOF_BULLET * 2
+E_BULLET_SLOT_3							= SIZEOF_BULLET * 3
+E_BULLET_SLOT_4							= SIZEOF_BULLET * 4
+E_BULLET_SLOT_5							= SIZEOF_BULLET * 5
+E_BULLET_SLOT_6							= SIZEOF_BULLET * 6
+E_BULLET_SLOT_7							= SIZEOF_BULLET * 7
+E_BULLET_SLOT_8							= SIZEOF_BULLET * 8
+E_BULLET_SLOT_9							= SIZEOF_BULLET * 9
+E_BULLET_SLOT_MAX 						= SIZEOF_BULLET * 10
 
-SIZEOF_BULLET_THREAT						= 12
-E_BULLET_THREAT_NONE						= (SIZEOF_BULLET_THREAT * 0)
-E_BULLET_THREAT_SHIP_W						= (SIZEOF_BULLET_THREAT * 1)
-E_BULLET_THREAT_TURRET_NE					= (SIZEOF_BULLET_THREAT * 2)
-E_BULLET_THREAT_TURRET_NNE					= (SIZEOF_BULLET_THREAT * 3)
-E_BULLET_THREAT_TURRET_N					= (SIZEOF_BULLET_THREAT * 4)
-E_BULLET_THREAT_TURRET_NNW					= (SIZEOF_BULLET_THREAT * 5)
-E_BULLET_THREAT_TURRET_NW					= (SIZEOF_BULLET_THREAT * 6)
-E_BULLET_THREAT_TURRET_WNW					= (SIZEOF_BULLET_THREAT * 7)
-E_BULLET_THREAT_TURRET_W					= (SIZEOF_BULLET_THREAT * 8)
-E_BULLET_THREAT_TURRET_WSW					= (SIZEOF_BULLET_THREAT * 9)
-E_BULLET_THREAT_TURRET_SW					= (SIZEOF_BULLET_THREAT * 10)
-E_BULLET_THREAT_TURRET_SSW					= (SIZEOF_BULLET_THREAT * 11)
-E_BULLET_THREAT_TURRET_S					= (SIZEOF_BULLET_THREAT * 12)
-E_BULLET_THREAT_TURRET_SSE					= (SIZEOF_BULLET_THREAT * 13)
-E_BULLET_THREAT_TURRET_SE					= (SIZEOF_BULLET_THREAT * 14)
-E_BULLET_THREAT_MAX						= (SIZEOF_BULLET_THREAT * 15)
+SIZEOF_BULLET_THREAT 						= 2
+E_NO_BULLET_THREAT 						= 255
+; bslot0 and bslot1 reserved for eslot0, which is always a ship, first in a sequence
+E_BULLET_THREAT_ESLOT0_NW					= SIZEOF_BULLET_THREAT * 0
+E_BULLET_THREAT_ESLOT0_W					= SIZEOF_BULLET_THREAT * 1
+E_BULLET_THREAT_ESLOT0_SW					= SIZEOF_BULLET_THREAT * 2
+; bslot2 and bslot3 reserved for eslot1, which is always an 11-way roofturret, or second ship in a sequence
+E_BULLET_THREAT_ESLOT1_NNE					= SIZEOF_BULLET_THREAT * 3
+E_BULLET_THREAT_ESLOT1_N					= SIZEOF_BULLET_THREAT * 4
+E_BULLET_THREAT_ESLOT1_NNW					= SIZEOF_BULLET_THREAT * 5
+E_BULLET_THREAT_ESLOT1_NW					= SIZEOF_BULLET_THREAT * 6
+E_BULLET_THREAT_ESLOT1_WNW					= SIZEOF_BULLET_THREAT * 7
+E_BULLET_THREAT_ESLOT1_W					= SIZEOF_BULLET_THREAT * 8
+E_BULLET_THREAT_ESLOT1_WSW					= SIZEOF_BULLET_THREAT * 9
+E_BULLET_THREAT_ESLOT1_SW					= SIZEOF_BULLET_THREAT * 10
+E_BULLET_THREAT_ESLOT1_SSW					= SIZEOF_BULLET_THREAT * 11
+E_BULLET_THREAT_ESLOT1_S					= SIZEOF_BULLET_THREAT * 12
+E_BULLET_THREAT_ESLOT1_SSE					= SIZEOF_BULLET_THREAT * 13
+; bslot4 and bslot5 reserved for eslot2, which is always an 11-way floorturret, or third ship in a sequence
+E_BULLET_THREAT_ESLOT2_NNE					= SIZEOF_BULLET_THREAT * 14
+E_BULLET_THREAT_ESLOT2_N					= SIZEOF_BULLET_THREAT * 15
+E_BULLET_THREAT_ESLOT2_NNW					= SIZEOF_BULLET_THREAT * 16
+E_BULLET_THREAT_ESLOT2_NW					= SIZEOF_BULLET_THREAT * 17
+E_BULLET_THREAT_ESLOT2_WNW					= SIZEOF_BULLET_THREAT * 18
+E_BULLET_THREAT_ESLOT2_W					= SIZEOF_BULLET_THREAT * 19
+E_BULLET_THREAT_ESLOT2_WSW					= SIZEOF_BULLET_THREAT * 20
+E_BULLET_THREAT_ESLOT2_SW					= SIZEOF_BULLET_THREAT * 21
+E_BULLET_THREAT_ESLOT2_SSW					= SIZEOF_BULLET_THREAT * 22
+E_BULLET_THREAT_ESLOT2_S					= SIZEOF_BULLET_THREAT * 23
+E_BULLET_THREAT_ESLOT2_SSE					= SIZEOF_BULLET_THREAT * 24
+; bslot6 and bslot7 reserved for eslot3, which is always an 11-way roofturret
+E_BULLET_THREAT_ESLOT3_NNE					= SIZEOF_BULLET_THREAT * 25
+E_BULLET_THREAT_ESLOT3_N					= SIZEOF_BULLET_THREAT * 26
+E_BULLET_THREAT_ESLOT3_NNW					= SIZEOF_BULLET_THREAT * 27
+E_BULLET_THREAT_ESLOT3_NW					= SIZEOF_BULLET_THREAT * 28
+E_BULLET_THREAT_ESLOT3_WNW					= SIZEOF_BULLET_THREAT * 29
+E_BULLET_THREAT_ESLOT3_W					= SIZEOF_BULLET_THREAT * 30
+E_BULLET_THREAT_ESLOT3_WSW					= SIZEOF_BULLET_THREAT * 31
+E_BULLET_THREAT_ESLOT3_SW					= SIZEOF_BULLET_THREAT * 32
+E_BULLET_THREAT_ESLOT3_SSW					= SIZEOF_BULLET_THREAT * 33
+E_BULLET_THREAT_ESLOT3_S					= SIZEOF_BULLET_THREAT * 34
+E_BULLET_THREAT_ESLOT3_SSE					= SIZEOF_BULLET_THREAT * 35
+; bslot8 and bslot9 reserved for eslot4, which is always an 11-way floorturret
+E_BULLET_THREAT_ESLOT4_NNE					= SIZEOF_BULLET_THREAT * 36
+E_BULLET_THREAT_ESLOT4_N					= SIZEOF_BULLET_THREAT * 37
+E_BULLET_THREAT_ESLOT4_NNW					= SIZEOF_BULLET_THREAT * 38
+E_BULLET_THREAT_ESLOT4_NW					= SIZEOF_BULLET_THREAT * 39
+E_BULLET_THREAT_ESLOT4_WNW					= SIZEOF_BULLET_THREAT * 40
+E_BULLET_THREAT_ESLOT4_W					= SIZEOF_BULLET_THREAT * 41
+E_BULLET_THREAT_ESLOT4_WSW					= SIZEOF_BULLET_THREAT * 42
+E_BULLET_THREAT_ESLOT4_SW					= SIZEOF_BULLET_THREAT * 43
+E_BULLET_THREAT_ESLOT4_SSW					= SIZEOF_BULLET_THREAT * 44
+E_BULLET_THREAT_ESLOT4_S					= SIZEOF_BULLET_THREAT * 45
+E_BULLET_THREAT_ESLOT4_SSE					= SIZEOF_BULLET_THREAT * 46
 
 E_BULLET_SPRITE_ALIVE_0						= #00
 E_BULLET_SPRITE_ALIVE_1						= #04
@@ -63,43 +101,213 @@ E_BULLET_SPRITE_DYING_6						= #58
 E_BULLET_SPRITE_DYING_7						= #5C
 
 BULLET_ALIVE_XPOS_MIN						= 0
+BULLET_ALIVE_X_TO_Y_HALFSTEP					= 128
 
-BULLET_DYING_XPOS_MIN						= 0
-BULLET_DYING_SPEED_X						= 1
 BULLET_DYING_TIMER_INC						= #04
 BULLET_DYING_TIMER_MAX						= #20
-
 
 ;---------------------------------------------------------------------------------
 
   DS 12
 data_bullet_slots:
-  DS E_BULLET_SLOT_MAX
+data_bullet_slot0:
+  DS SIZEOF_BULLET
+data_bullet_slot1:
+  DS SIZEOF_BULLET
+data_bullet_slot2:
+  DS SIZEOF_BULLET
+data_bullet_slot3:
+  DS SIZEOF_BULLET
+data_bullet_slot4:
+  DS SIZEOF_BULLET
+data_bullet_slot5:
+  DS SIZEOF_BULLET
+data_bullet_slot6:
+  DS SIZEOF_BULLET
+data_bullet_slot7:
+  DS SIZEOF_BULLET
+data_bullet_slot8:
+  DS SIZEOF_BULLET
+data_bullet_slot9:
+  DS SIZEOF_BULLET
 
 ;---------------------------------------------------------------------------------
 
   DS 12
 data_bullet_threats:
-  DB								; E_BULLET_THREAT_SLOT1
+data_bullet_threat_eslot0_nw:
+  DB E_ENEMY_SLOT_0
+  DB E_BULLET_MOVE_NW
+data_bullet_threat_eslot0_w:
+  DB E_ENEMY_SLOT_0
+  DB E_BULLET_MOVE_W
+data_bullet_threat_eslot0_sw:
+  DB E_ENEMY_SLOT_0
+  DB E_BULLET_MOVE_SW
+data_bullet_threat_eslot1_nne:
+  DB E_ENEMY_SLOT_1
+  DB E_BULLET_MOVE_NNE
+data_bullet_threat_eslot1_n:
+  DB E_ENEMY_SLOT_1
+  DB E_BULLET_MOVE_N
+data_bullet_threat_eslot1_nnw:
+  DB E_ENEMY_SLOT_1
+  DB E_BULLET_MOVE_NNW
+data_bullet_threat_eslot1_nw:
+  DB E_ENEMY_SLOT_1
+  DB E_BULLET_MOVE_NW
+data_bullet_threat_eslot1_wnw:
+  DB E_ENEMY_SLOT_1
+  DB E_BULLET_MOVE_WNW
+data_bullet_threat_eslot1_w:
+  DB E_ENEMY_SLOT_1
+  DB E_BULLET_MOVE_W
+data_bullet_threat_eslot1_wsw:
+  DB E_ENEMY_SLOT_1
+  DB E_BULLET_MOVE_WSW
+data_bullet_threat_eslot1_sw:
+  DB E_ENEMY_SLOT_1
+  DB E_BULLET_MOVE_SW
+data_bullet_threat_eslot1_ssw:
+  DB E_ENEMY_SLOT_1
+  DB E_BULLET_MOVE_SSW
+data_bullet_threat_eslot1_s:
+  DB E_ENEMY_SLOT_1
+  DB E_BULLET_MOVE_S
+data_bullet_threat_eslot1_sse:
+  DB E_ENEMY_SLOT_1
+  DB E_BULLET_MOVE_SSE
+data_bullet_threat_eslot2_nne:
+  DB E_ENEMY_SLOT_2
+  DB E_BULLET_MOVE_NNE
+data_bullet_threat_eslot2_n:
+  DB E_ENEMY_SLOT_2
+  DB E_BULLET_MOVE_N
+data_bullet_threat_eslot2_nnw:
+  DB E_ENEMY_SLOT_2
+  DB E_BULLET_MOVE_NNW
+data_bullet_threat_eslot2_nw:
+  DB E_ENEMY_SLOT_2
+  DB E_BULLET_MOVE_NW
+data_bullet_threat_eslot2_wnw:
+  DB E_ENEMY_SLOT_2
+  DB E_BULLET_MOVE_WNW
+data_bullet_threat_eslot2_w:
+  DB E_ENEMY_SLOT_2
+  DB E_BULLET_MOVE_W
+data_bullet_threat_eslot2_wsw:
+  DB E_ENEMY_SLOT_2
+  DB E_BULLET_MOVE_WSW
+data_bullet_threat_eslot2_sw:
+  DB E_ENEMY_SLOT_2
+  DB E_BULLET_MOVE_SW
+data_bullet_threat_eslot2_ssw:
+  DB E_ENEMY_SLOT_2
+  DB E_BULLET_MOVE_SSW
+data_bullet_threat_eslot2_s:
+  DB E_ENEMY_SLOT_2
+  DB E_BULLET_MOVE_S
+data_bullet_threat_eslot2_sse:
+  DB E_ENEMY_SLOT_2
+  DB E_BULLET_MOVE_SSE
+data_bullet_threat_eslot3_nne:
+  DB E_ENEMY_SLOT_3
+  DB E_BULLET_MOVE_NNE
+data_bullet_threat_eslot3_n:
+  DB E_ENEMY_SLOT_3
+  DB E_BULLET_MOVE_N
+data_bullet_threat_eslot3_nnw:
+  DB E_ENEMY_SLOT_3
+  DB E_BULLET_MOVE_NNW
+data_bullet_threat_eslot3_nw:
+  DB E_ENEMY_SLOT_3
+  DB E_BULLET_MOVE_NW
+data_bullet_threat_eslot3_wnw:
+  DB E_ENEMY_SLOT_3
+  DB E_BULLET_MOVE_WNW
+data_bullet_threat_eslot3_w:
+  DB E_ENEMY_SLOT_3
+  DB E_BULLET_MOVE_W
+data_bullet_threat_eslot3_wsw:
+  DB E_ENEMY_SLOT_3
+  DB E_BULLET_MOVE_WSW
+data_bullet_threat_eslot3_sw:
+  DB E_ENEMY_SLOT_3
+  DB E_BULLET_MOVE_SW
+data_bullet_threat_eslot3_ssw:
+  DB E_ENEMY_SLOT_3
+  DB E_BULLET_MOVE_SSW
+data_bullet_threat_eslot3_s:
+  DB E_ENEMY_SLOT_3
+  DB E_BULLET_MOVE_S
+data_bullet_threat_eslot3_sse:
+  DB E_ENEMY_SLOT_3
+  DB E_BULLET_MOVE_SSE
+data_bullet_threat_eslot4_nne:
+  DB E_ENEMY_SLOT_4
+  DB E_BULLET_MOVE_NNE
+data_bullet_threat_eslot4_n:
+  DB E_ENEMY_SLOT_4
+  DB E_BULLET_MOVE_N
+data_bullet_threat_eslot4_nnw:
+  DB E_ENEMY_SLOT_4
+  DB E_BULLET_MOVE_NNW
+data_bullet_threat_eslot4_nw:
+  DB E_ENEMY_SLOT_4
+  DB E_BULLET_MOVE_NW
+data_bullet_threat_eslot4_wnw:
+  DB E_ENEMY_SLOT_4
+  DB E_BULLET_MOVE_WNW
+data_bullet_threat_eslot4_w:
+  DB E_ENEMY_SLOT_4
+  DB E_BULLET_MOVE_W
+data_bullet_threat_eslot4_wsw:
+  DB E_ENEMY_SLOT_4
+  DB E_BULLET_MOVE_WSW
+data_bullet_threat_eslot4_sw:
+  DB E_ENEMY_SLOT_4
+  DB E_BULLET_MOVE_SW
+data_bullet_threat_eslot4_ssw:
+  DB E_ENEMY_SLOT_4
+  DB E_BULLET_MOVE_SSW
+data_bullet_threat_eslot4_s:
+  DB E_ENEMY_SLOT_4
+  DB E_BULLET_MOVE_S
+data_bullet_threat_eslot4_sse:
+  DB E_ENEMY_SLOT_4
+  DB E_BULLET_MOVE_SSE
+
+;---------------------------------------------------------------------------------
+
+  DS 12
+data_bullet_template:
+  DB E_BULLET_STATE_ALIVE					; bullet.state
+  DB 0								; bullet.timer
+  DB 0								; bullet.xpos
+  DB 8								; bullet.ypos
+  DB 0								; bullet.move
 
 ;---------------------------------------------------------------------------------
 
   DS 12
 data_bullet_alive_constants:
+  DB E_BULLET_SPRITE_ALIVE_0					; bullet sprite
+  DB BULLET_ALIVE_X_TO_Y_HALFSTEP				; bullet.const BULLET_ALIVE_X_TO_Y_HALFSTEP
   DB BULLET_ALIVE_XPOS_MIN					; bullet.const BULLET_ALIVE_XPOS_MIN
 
   DS 12
 data_bullet_dying_constants:
-  DB BULLET_DYING_XPOS_MIN					; bullet.const BULLET_DYING_XPOS_MIN
-  DB BULLET_DYING_SPEED_X					; bullet.const BULLET_DYING_SPEED_X
+  DB E_BULLET_SPRITE_DYING_0					; bullet sprite
+  DB BULLET_DYING_TIMER_INC					; bullet.const BULLET_DYING_TIMER_INC
   DB BULLET_DYING_TIMER_MAX					; bullet.const BULLET_DYING_TIMER_MAX
 
 ;---------------------------------------------------------------------------------
 
-;data_bullet_update_state_switch_lookup:
-;  JP lbl_do_update_bullets_case_dead				; E_BULLET_STATE_DEAD
-;  JP lbl_do_update_bullets_case_alive				; E_BULLET_STATE_ALIVE
-;  JP lbl_do_update_bullets_case_dying				; E_BULLET_STATE_DYING
+data_bullet_update_state_switch_lookup:
+  JP lbl_do_update_bullets_case_dead				; E_BULLET_STATE_DEAD
+  JP lbl_do_update_bullets_case_alive				; E_BULLET_STATE_ALIVE
+  JP lbl_do_update_bullets_case_hit_something			; E_BULLET_STATE_HIT_SOMETHING
+  JP lbl_do_update_bullets_case_dying				; E_BULLET_STATE_DYING
 
 ;---------------------------------------------------------------------------------
 
