@@ -1,16 +1,3 @@
-;TODO: shuffle data
-
-;VC = sprite
-;VB = ypos
-;VA = xpos
-;V9 = state
-;V8 = timer
-;
-;V7 = hiscore
-;v6 = score
-;v5 = lives
-
-
 ;---------------------------------------------------------------------------------
 ; NevShooter copyright Michael Neve 2012
 ; No, it has nothing to do with shooting me.
@@ -160,8 +147,8 @@ fDoUpdatePlayer:
   ; load player info
   LDHI I, dPlayerInfo
   LD VC, [I]
-		  							; V8 = player.timer
-  									; V9 = player.nextsprite
+  									; V8 = player.nextsprite
+		  							; V9 = player.timer
   									; VA = player.xpos
 									; VB = player.ypos
 									; VC = player.state
@@ -173,6 +160,7 @@ fDoUpdatePlayer:
   LD [I], V1
 
   ; draw player
+  LD V0, V8								; use player.nextsprite for drawing player
   CALL fDrawPlayer
 
 lPlayerUpdateSwitchStart:
@@ -181,13 +169,15 @@ lPlayerUpdateSwitchStart:
 lPlayerUpdateCaseReviving:
   LDHI I, dPlayerRevivingConstants
   LD V7, [I]
-									; V6 = player.const PLAYER_REVIVING_SPEED_X
+									; V5 = player.const PLAYER_REVIVING_SPEED_X
+									; V6 = player.const PLAYER_REVIVING_TIMER_INC
 									; V7 = player.const PLAYER_REVIVING_TIMER_MAX
-  LD V9, VE
-  ADD V9, E_PLAYER_SPRITE_REVIVING_0	; player.nextsprite = E_PLAYER_SPRITE_REVIVING + scrollback									 
-  ADD VA, V6						; player.xpos += player.const PLAYER_REVIVING_SPEED_X
-  ADD V8, 1							; player.timer++
-  SNE V8, V7						; test player.timer == player.const PLAYER_REVIVING_TIMER_MAX
+  LD V8, VE
+  ADD V8, E_PLAYER_SPRITE_REVIVING_0								; player.nextsprite = E_PLAYER_SPRITE_REVIVING_0 + scrollback									 
+  ADD VA, V5						; player.xpos += player.const PLAYER_REVIVING_SPEED_X
+  ADD V9, V6							; player.timer += player.const PLAYER_REVIVING_TIMER_INC
+  SUB V7, V9	 						; test if player.timer <= player.const PLAYER_REVIVING_TIMER_MAX
+  SNE VF, 0							; if no, set player.state = alive
   LD VC, E_PLAYER_STATE_ALIVE		; player.state = E_PLAYER_STATE_ALIVE
   JP lPlayerUpdateSwitchEnd
 
@@ -196,7 +186,7 @@ lPlayerUpdateCaseAlive:
   JP lPlayerUpdateCaseHitBullet
   
   LDHI I, dPlayerAliveConstants
-  LD V9, VE							; player.nextsprite = scrollback counter
+  LD V8, VE							; player.nextsprite = scrollback counter
   LD V7, [I]
   									; V0 = player.const PLAYER_ALIVE_XPOS_MIN
   									; V1 = player.const PLAYER_ALIVE_XPOS_MAX
@@ -208,56 +198,58 @@ lPlayerUpdateCaseAlive:
   									; V7 = player.const KEY_UP
   SKP V4							; test KEY_RIGHT pressed
   JP lPlayerUpdateCaseAliveTestKeyLeft
-  SUB V1, VA						; test player.xpos >= player.const PLAYER_ALIVE_XPOS_MAX
-  SE VF, 1
+  SUB V1, VA						; test player.xpos <= player.const PLAYER_ALIVE_XPOS_MAX
+  SNE VF, 1						; if no, skip to KEY_LEFT test
   JP lPlayerUpdateCaseAliveTestKeyLeft
-  RND V9, 3
-  ADD V9, E_PLAYER_SPRITE_MOVE_RIGHT_0 		; player.nextsprite = rnd(0-3) + E_PLAYER_SPRITE_MOVE_RIGHT  
+  RND V8, 3
+  ADD V8, E_PLAYER_SPRITE_MOVE_RIGHT_0 		; player.nextsprite = E_PLAYER_SPRITE_MOVE_RIGHT + rnd(0-3) 
   ADD VA, V2						; player.xpos += PLAYER_ALIVE_SPEED_X 
 lPlayerUpdateCaseAliveTestKeyLeft:
   SKP V5							; test KEY_LEFT pressed
   JP lPlayerUpdateCaseAliveTestKeyDown
-  SUB V0, VA						; test player.xpos >= player.const PLAYER_ALIVE_XPOS_MIN
-  SE VF, 0
+  SUB V0, VA						; test player.xpos <= player.const PLAYER_ALIVE_XPOS_MIN
+  SE VF, 1						; if yes, skip to KEY_DOWN test
   JP lPlayerUpdateCaseAliveTestKeyDown
-  RND V9, 3
-  ADD V9, E_PLAYER_SPRITE_MOVE_LEFT_0		; player.nextsprite = rnd(0-3) + E_PLAYER_SPRITE_MOVE_LEFT	
+  RND V8, 3
+  ADD V8, E_PLAYER_SPRITE_MOVE_LEFT_0		; player.nextsprite = E_PLAYER_SPRITE_MOVE_LEFT	+ rnd(0-3)
   SUB VA, V2						; player.xpos -= PLAYER_SPEED_X
 lPlayerUpdateCaseAliveTestKeyDown:
   SKP V6
   JP lPlayerUpdateCaseAliveTestKeyUp
-  LD V9, E_PLAYER_SPRITE_MOVE_DOWN		; player.nextsprite = E_PLAYER_SPRITE_MOVE_DOWN
+  LD V8, E_PLAYER_SPRITE_MOVE_DOWN		; player.nextsprite = E_PLAYER_SPRITE_MOVE_DOWN
   ADD VB, V3						; player.ypos += PLAYER_SPEED_Y
 lPlayerUpdateCaseAliveTestKeyUp:
   SKP V7
   JP lPlayerUpdateSwitchEnd		
-  LD V9, E_PLAYER_SPRITE_MOVE_UP	; player.nextsprite = E_PLAYER_SPRITE_MOVE_UP
+  LD V8, E_PLAYER_SPRITE_MOVE_UP	; player.nextsprite = E_PLAYER_SPRITE_MOVE_UP
   SUB VB, V3						; player.ypos -= PLAYER_SPEED_Y
   JP lPlayerUpdateSwitchEnd
   
 lPlayerUpdateCaseHitWall:
 lPlayerUpdateCaseHitEnemy:
 lPlayerUpdateCaseHitBullet:
-  LD V8, 0							; player.timer = 0
+  LD V9, 0							; player.timer = 0
   LD VC, E_PLAYER_STATE_DYING		; player.state = E_PLAYER_STATE_DYING
   ; fall through
 
 lPlayerUpdateCaseDying:
   LDHI I, dPlayerDyingConstants
   LD V7, [I]
-									; V5 = player.const PLAYER_DYING_XPOS_MIN
-									; V6 = player.const PLAYER_DYING_SPEED_X
-  									; V7 = player.const PLAYER_DYING_TIMER_MAX
+									; V4 = player.const PLAYER_DYING_XPOS_MIN
+									; V5 = player.const PLAYER_DYING_SPEED_X
+  									; V6 = player.const PLAYER_DYING_TIMER_INC
+									; V7 = player.const PLAYER_DYING_TIMER_MAX
 
-  ADD V8, 1							; player.timer++
-  SNE V8, V7						; test player.timer == player.const PLAYER_DYING_TIMER_MAX
+  ADD V9, V6							; player.timer += player.const PLAYER_DYING_TIMER_INC
+  SUB V7, V9						; test player.timer <= player.const PLAYER_DYING_TIMER_MAX
+  SE VF, 1						; if no, skip to dying reset 
   JP lPlayerUpdateCaseDyingReset
-  SUB V5, VA						; test player.xpos >= player.const PLAYER_DYING_XPOS_MIN
-  SE VF, 0
+  SUB V4, VA						; test player.xpos <= player.const PLAYER_DYING_XPOS_MIN
+  SNE VF, 1						; if yes, skip to dying reset
   JP lPlayerUpdateCaseDyingReset
   SUB VA, V6						; player.xpos -= player.const PLAYER_DYING_XPOS_MIN
-  LD V9, VE	
-  ADD V9, E_PLAYER_SPRITE_DYING_0	; player.nextsprite = E_PLAYER_SPRITE_DYING + scrollback
+  LD V8, VE	
+  ADD V8, E_PLAYER_SPRITE_DYING_0	; player.nextsprite = E_PLAYER_SPRITE_DYING + scrollback
   JP lPlayerUpdateSwitchEnd  
 lPlayerUpdateCaseDyingReset:
   CALL fResetAll
@@ -322,17 +314,34 @@ lLaserUpdateCaseAlive:
   LD V8, [I]
 									; V7 = laser.const LASER_ALIVE_XPOS_MAX
 									; V8 = laser.const LASER_ALIVE_SPEED
-
-  ADD VA, 1
-
-  LD V9, VE
+  LD V9, VE						; laser.timer = scrollback
   CALL fDrawLaser
-  
+
+  SUB V7, VA						; test laser.xpos >= laser.const LASER_ALIVE_XPOS_MAX
+  SE VF, 1
+  JP lLaserUpdateCaseAliveOffscreen
+  ADD VA, V8
+  JP lLaserUpdateSwitchEnd
+lLaserUpdateCaseAliveOffscreen:
+  LD VC, E_LASER_STATE_DEAD				; laser.state = E_LASER_STATE_DEAD
   JP lLaserUpdateSwitchEnd
 
 lLaserUpdateCaseHitWall:
 lLaserUpdateCaseHitEnemy:
+  LD V9, 0							; laser.timer = 0
+  LD VC, E_PLAYER_STATE_DYING		; laser.state = E_LASER_STATE_DYING
+  ; fall through
+
 lLaserUpdateCaseDying:
+  LDHI I, dLaserDyingConstants
+  LD V8, [I]
+						; V8 = laser.const LASER_DYING_TIMER_MAX
+  ADD V9, 1							; laser.timer++
+  CALL fDrawLaser
+  SNE V9, V8						; test laser.timer == laser.const LASER_DYING_TIMER_MAX
+  JP lLaserUpdateSwitchEnd
+  LD VC, E_LASER_STATE_DEAD			; laser.state = E_LASER_STATE_DEAD
+
 lLaserUpdateSwitchEnd:
 
   ; save all laser info
@@ -343,16 +352,15 @@ lLaserUpdateSwitchEnd:
 
 ;---------------------------------------------------------------------------------
 ; fDrawPlayer
-; Draws player sprite index V9 at position [VA, VB]
+; Draws player sprite index V0 at position [VA, VB]
 ;---------------------------------------------------------------------------------
 fDrawPlayer:
   
   ; player info must be loaded before fDrawPlayer is called!
-  									; V9 = player sprite
+  									; V0 = player sprite
   									; VA = player x-position
   									; VB = player y-position
-  ; convert V9 into a sprite address
-  LD V0, V9							; V0 = V9
+  ; convert V0 into a sprite address
   SHL V0
   SHL V0							; V0 *= 4 
   LDHI I, dPlayerSpriteLookup
@@ -372,16 +380,15 @@ lDrawPlayerOverwrite:
 
 ;---------------------------------------------------------------------------------
 ; fDrawLaser
-; Draws laser sprite index V9 at position [VA, VB]
+; Draws laser sprite index V0 at position [VA, VB]
 ;---------------------------------------------------------------------------------
 fDrawLaser:
   
   ; laser info must be loaded before fDrawLaser is called!
-  									; V9 = laser sprite
+  									; V0 = laser sprite
   									; VA = laser x-position
   									; VB = laser y-position
   ; convert V9 into a sprite address
-  LD V0, V9							; V0 = V9
   SHL V0
   SHL V0							; V0 *= 4 
   LDHI I, dLaserSpriteLookup
@@ -392,9 +399,9 @@ fDrawLaser:
 lDrawLaserOverwrite:
   LDHI I, lDrawLaserOverwrite  
 
-  ; draw player.sprite
-  SPRW 32
-  SPRH 16
+  ; draw laser.sprite
+  SPRW LASER_WIDTH
+  SPRH LASER_HEIGHT
   DRW VA, VB, 1		
 
   RET

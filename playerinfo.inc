@@ -78,6 +78,7 @@ KEY_UP								= 5
 
 PLAYER_WIDTH						= 32
 PLAYER_HEIGHT						= 16
+PLAYER_REVIVING_TIMER_INC			= 1
 PLAYER_REVIVING_TIMER_MAX 			= 50 
 PLAYER_REVIVING_START_XPOS			= 0
 PLAYER_REVIVING_START_YPOS			= 70
@@ -88,6 +89,7 @@ PLAYER_ALIVE_SPEED_X				= 2
 PLAYER_ALIVE_SPEED_Y				= 2
 PLAYER_DYING_XPOS_MIN				= 0
 PLAYER_DYING_SPEED_X				= GAME_SCROLL_SPEED
+PLAYER_DYING_TIMER_INC				= 1
 PLAYER_DYING_TIMER_MAX				= 50
 
 dPlayerInfo:
@@ -99,8 +101,8 @@ dPlayerInfo:
   DB 0 								; V5
   DB 0 								; V6
   DB 0 								; V7  
-  DB 0								; V8 player.timer
-  DB 0								; V9 player.nextsprite
+  DB 0								; V8 player.nextsprite
+  DB 0								; V9 player.timer
   DB 0								; VA player.xpos
   DB 0								; VB player.ypos
   DB 0								; VC player.state
@@ -121,8 +123,8 @@ dPlayerRevivingConstants:
   DB 0								; V2
   DB 0								; V3
   DB 0								; V4
-  DB 0								; V5
-  DB PLAYER_REVIVING_SPEED_X		; V6 player.const PLAYER_REVIVING_SPEED_X
+  DB PLAYER_REVIVING_SPEED_X		; V5 player.const PLAYER_REVIVING_SPEED_X
+  DB PLAYER_REVIVING_TIMER_INC		; V6 player.const PLAYER_REVIVING_TIMER_INC
   DB PLAYER_REVIVING_TIMER_MAX		; V7 player.const PLAYER_REVIVING_TIMER_MAX
 
 dPlayerDyingConstants:
@@ -130,9 +132,9 @@ dPlayerDyingConstants:
   DB 0								; V1
   DB 0								; V2
   DB 0								; V3
-  DB 0								; V4
-  DB PLAYER_DYING_XPOS_MIN			; V5 player.const PLAYER_DYING_XPOS_MIN
-  DB PLAYER_DYING_SPEED_X			; V6 player.const PLAYER_DYING_SPEED_X  
+  DB PLAYER_DYING_XPOS_MIN			; V4 player.const PLAYER_DYING_XPOS_MIN
+  DB PLAYER_DYING_SPEED_X			; V5 player.const PLAYER_DYING_SPEED_X 
+  Db PLAYER_DYING_TIMER_INC			; V6 player.const PLAYER_DYING_TIMER_INC 
   DB PLAYER_DYING_TIMER_MAX			; V7 player.const PLAYER_DYING_TIMER_MAX
 
 dPlayerInfoReset:
@@ -144,8 +146,8 @@ dPlayerInfoReset:
   DB 0 								; V5
   DB 0 								; V6
   DB 0 								; V7  
-  DB 0								; V8 player.timer = 0
-  DB E_PLAYER_SPRITE_REVIVING_0		; V9 player.sprite = E_PLAYER_SPRITE_REVIVING_0
+  DB E_PLAYER_SPRITE_REVIVING_0		; V8 player.sprite = E_PLAYER_SPRITE_REVIVING_0
+  DB 0								; V9 player.timer = 0
   DB PLAYER_REVIVING_START_XPOS		; VA player.xpos = PLAYER_REVIVING_START_XPOS
   DB PLAYER_REVIVING_START_YPOS		; VB player.ypos = PLAYER_REVIVING_START_YPOS
   DB E_PLAYER_STATE_REVIVING		; VC player.state = E_PLAYER_STATE_REVIVING

@@ -75,7 +75,6 @@ dLaserAliveConstants:
   DB 0								; V3
   DB 0								; V4
   DB 0								; V5
-  DB 0								; V5
   DB 0								; V6
   DB LASER_ALIVE_XPOS_MAX			; V7 laser.const LASER_ALIVE_XPOS_MAX
   DB LASER_ALIVE_SPEED_X			; V8 laser.const LASER_ALIVE_SPEED_X
