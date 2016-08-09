@@ -140,9 +140,11 @@ func_DoTitleScreen:
 ;---------------------------------------------------------------------------------
 func_DoGameplay:
 
+;  CALL func_DoEnemyVsLaser
+
   CALL func_DrawCollisionWalls
 
-  CALL func_DoEnemyVsLaser
+  CALL func_DoUpdateEnemies
   CALL func_DoUpdatePlayer
   CALL func_DoUpdateLaser
   
@@ -177,7 +179,7 @@ lbl_enemy_vs_laser_loop_start:
   ; if (loop == ENEMY_SLOT_MAX)
   ; then end test nicely
   ADD VA, 4
-  SNE VA, ENEMY_SLOT_MAX
+  SNE VA, E_ENEMY_SLOT_MAX
   JP lbl_enemy_vs_laser_end
 
   ; load enemy info
@@ -556,6 +558,43 @@ lbl_laser_update_switch_end:
   LD [I], VC
 
   RET
+  
+;---------------------------------------------------------------------------------
+; func_DoUpdateEnemies
+;---------------------------------------------------------------------------------
+func_DoUpdateEnemies:
+
+
+LDHI I, data_enemy_slot_0
+LD VB, [I]
+
+LD V4, E_ENEMY_SPRITE_ALIVE_0
+CALL func_DrawEnemy
+
+LD V0, #03
+AND V0, VA
+SUB V7, V0
+
+LD V0, #FC
+AND V0, VA
+LDHI I, data_enemy_y_movement_lookup
+ADD I, V0
+LD V3, [I]
+LD I, lbl_enemy_move_overwrite
+LD [I], V3
+lbl_enemy_move_overwrite:
+LDHI I, lbl_enemy_move_overwrite
+ADD I, VB
+LD V0, [I]
+ADD V8, V0
+
+ADD VB, 1
+
+
+LDHI I, data_enemy_slot_0
+LD [I], VB
+
+RET 
 
 ;---------------------------------------------------------------------------------
 ; func_DrawPlayer
@@ -621,8 +660,8 @@ func_DrawEnemy:
   
   ; enemy info must be loaded before func_DrawEnemy is called!
   									; V4 = enemy sprite
-  									; V6 = enemy x-position
-  									; V7 = enemy y-position
+  									; V7 = enemy x-position
+  									; V8 = enemy y-position
   									; V9 = enemy type
 
   ; use enemy.type to set the correct sprite lookup table
@@ -647,7 +686,7 @@ lbl_draw_enemy_sprite_overwrite:
   ; draw laser.sprite
   SPRW ENEMY_WIDTH
   SPRH ENEMY_HEIGHT
-  DRW V6, V7, 1		
+  DRW V7, V8, 1		
 
   RET
 
@@ -714,6 +753,7 @@ INCLUDE 'laserinfo.inc'
 ; ENEMY INFO
 ;---------------------------------------------------------------------------------
 INCLUDE 'enemyinfo.inc'
+INCLUDE 'enemy_movement.inc'
 
 ;---------------------------------------------------------------------------------
 ;---------------------------------------------------------------------------------
