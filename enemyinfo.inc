@@ -15,6 +15,13 @@ E_ENEMY_TYPE_SHIP_2					= 4
 E_ENEMY_TYPE_MISSILE				= 8
 E_ENEMY_TYPE_TURRET					= 12
 
+E_ENEMY_SLOT_0 	 		= 0
+E_ENEMY_SLOT_1			= 4
+E_ENEMY_SLOT_2			= 8
+E_ENEMY_SLOT_3			= 12
+E_ENEMY_SLOT_4			= 16
+E_ENEMY_SLOT_MAX			= ENEMY_SLOT_2
+
 E_ENEMY_SPRITE_ALIVE_0				= 0 
 ; x16
 E_ENEMY_SPRITE_DYING_0				= 1
@@ -25,20 +32,20 @@ E_ENEMY_SPRITE_CLEAR_COLLISION		= 3
 E_ENEMY_SPRITE_COLLISION			= 4
 E_ENEMY_SPRITE_MAXCOUNT				= 5
 
-
-ENEMY_ACTIVE_COUNT_MAX				= 5
 ENEMY_WIDTH							= 32
 ENEMY_HEIGHT						= 16
 
 
-data_enemy_slot_1:
+data_enemy_slot_lookup:
+  LDHI I, data_enemy_slot_0
+  LDHI I, data_enemy_slot_1
+
+data_enemy_slot_0:
   DB 0
   DB 0
   DB 0
   DB 0
   DB 0
-  DB 0
-  DB 0								; enemy.timer
   DB 3								; enemy.health
   DB 220							; enemy.xpos
   DB 150							; enemy.ypos
@@ -46,10 +53,23 @@ data_enemy_slot_1:
   DB E_ENEMY_TYPE_SHIP_1		 	; enemy.type
   DB 0								; enemy.dx
   DB 0								; enemy.dy
+  DB 0								; enemy.timer
+
+data_enemy_slot_1:
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 3								; enemy.health
+  DB 200							; enemy.xpos
+  DB 100							; enemy.ypos
+  DB E_ENEMY_STATE_ALIVE			; enemy.state
+  DB E_ENEMY_TYPE_SHIP_1		 	; enemy.type
+  DB 0								; enemy.dx
+  DB 0								; enemy.dy
+  DB 0								; enemy.timer
  
-
-
-
 data_enemy_type_lookup:
   LDHI I, data_enemy_ship_1_sprite_lookup
   LDHI I, data_enemy_ship_2_sprite_lookup

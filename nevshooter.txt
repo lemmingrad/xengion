@@ -156,7 +156,6 @@ func_DoEnemyVsLaser
   ; load laser
   LDHI I, data_laser_info
   LD VC, [I]
-									; V8 = laser.timer
 									; V9 = laser.xpos
 									; VA = laser.ypos
 									; VB = laser.state
@@ -167,82 +166,100 @@ func_DoEnemyVsLaser
   SE VB, E_LASER_STATE_ALIVE
   RET
 
-  ; draw laser
+  ; draw collision laser
   LD V4, E_LASER_SPRITE_COLLISION
   CALL func_DrawLaser
 
+  ; VA is now our enemy loop counter/indexer
+  LD VA, 252						; 252 so the first +4 takes it to 0, which is data_enemy_slot_0
+
+lbl_enemy_vs_laser_loop_start:
+  ; if (loop == ENEMY_SLOT_MAX)
+  ; then end test nicely
+  ADD VA, 4
+  SNE VA, ENEMY_SLOT_MAX
+  JP lbl_enemy_vs_laser_end
+
   ; load enemy info
-  LDHI I, data_enemy_slot_1
-  LD VA, [I]
-									; V6 enemy.health
-  									; V7 enemy.xpos
-  									; V8 enemy.ypos
-									; V9 enemy.state
-							 		; VA enemy.type
+  LDHI I, data_enemy_slot_lookup
+  ADD I, VA
+  LD V3, [I]
+  LD I, lbl_enemy_vs_laser_slot_draw_overwrite
+  LD [I], V3
+  LD I, lbl_enemy_vs_laser_slot_damage_overwrite
+  LD [I], V3
+lbl_enemy_vs_laser_slot_draw_overwrite:
+  LDHI I, lbl_enemy_vs_laser_slot_draw_overwrite
+  LD V9, [I]
+									; V5 enemy.health
+  									; V6 enemy.xpos
+  									; V7 enemy.ypos
+									; V8 enemy.state
+							 		; V9 enemy.type
 
   ; if (enemy.state != alive)
   ; then do next enemy
-  SE V9, E_ENEMY_STATE_ALIVE
-  RET
+  SE V8, E_ENEMY_STATE_ALIVE
+  JP lbl_enemy_vs_laser_loop_start
   
   ; draw enemy
-  LD V4, E_ENEMY_SPRITE_COLLISION
+  LD V4, E_ENEMY_SPRITE_ALIVE_0
   CALL func_DrawEnemy
   
   SE VF, 1
-  RET		; no collision - go to next enemy
+  JP lbl_enemy_vs_laser_loop_start				; no collision - go to next enemy
   
+lbl_enemy_vs_laser_slot_damage_overwrite:
+  LDHI I, lbl_enemy_vs_laser_slot_damage_overwrite
+
   ; if (laser.charge == enemy.charge)
   ; then laser=dying, enemy=dying
   ; else if (laser.charge < enemy.health)
   ; then enemy.health -= laser.charge. laser=dying
   ; else laser.charge -= enemy.charge, enemy=dying
 
-  SE V6, VC
+  SE V5, VC
   JP lbl_enemy_vs_laser_less_than
 
   LD VB, E_LASER_STATE_HIT_ENEMY	; laser.state = E_LASER_STATE_HIT_ENEMY
   LD VC, 0							; laser.charge = 0
-  LD V9, E_ENEMY_STATE_KILLED_BY_LASER ; enemy.state = E_ENEMY_STATE_KILLED_BY_LASER
-  LD V6, 0							; enemy.health = 0
+  LD V8, E_ENEMY_STATE_KILLED_BY_LASER ; enemy.state = E_ENEMY_STATE_KILLED_BY_LASER
+  LD V5, 0							; enemy.health = 0
   
   ; save enemy
-  LDHI I, data_enemy_slot_1
-  LD [I], VA
+  LD [I], V9
   
   ; laser has no more charge, end test
   JP lbl_enemy_vs_laser_end
    
 lbl_enemy_vs_laser_less_than:
-  LD V0, V6
+  LD V0, V5
   SUB V0, VC
   SE VF, 1
   JP lbl_enemy_vs_laser_greater_than
   
-  LD V9, E_ENEMY_STATE_DAMAGED_BY_LASER ; enemy.state = E_ENEMY_STATE_DAMAGED_BY_LASER
-  SUB V6, VC							; enemy.health -= laser.charge
+  LD V8, E_ENEMY_STATE_DAMAGED_BY_LASER ; enemy.state = E_ENEMY_STATE_DAMAGED_BY_LASER
+  SUB V5, VC							; enemy.health -= laser.charge
   LD VB, E_LASER_STATE_HIT_ENEMY	; laser.state = E_LASER_STATE_HIT_ENEMY
   LD VC, 0							; laser.charge = 0
   
   ; save enemy
-  LDHI I, data_enemy_slot_1
-  LD [I], VA
+  LD [I], V9
   
   ; laser has no more charge, end test
   JP lbl_enemy_vs_laser_end
   
 lbl_enemy_vs_laser_greater_than:
 
-  SUB VC, V6						; laser.charge -= enemy.health
-  LD V9, E_ENEMY_STATE_KILLED_BY_LASER ; enemy.state = E_ENEMY_STATE_KILLED_BY_LASER
-  LD V6, 0							; enemy.health = 0
+  SUB VC, V5						; laser.charge -= enemy.health
+  LD V8, E_ENEMY_STATE_KILLED_BY_LASER ; enemy.state = E_ENEMY_STATE_KILLED_BY_LASER
+  LD V5, 0							; enemy.health = 0
   
   ; save enemy
-  LDHI I, data_enemy_slot_1
-  LD [I], VA
+  LD [I], V9
   
   ; laser still has some charge, go to next enemy
-  ; JP 
+  JP lbl_enemy_vs_laser_loop_start
 
 lbl_enemy_vs_laser_end:
 
@@ -598,19 +615,19 @@ lbl_draw_laser_overwrite:
 
 ;---------------------------------------------------------------------------------
 ; func_DrawEnemy
-; Draws enemy sprite index V4 at position [V7, V8]
+; Draws enemy sprite index V4 at position [V6, V7]
 ;---------------------------------------------------------------------------------
 func_DrawEnemy:
   
   ; enemy info must be loaded before func_DrawEnemy is called!
   									; V4 = enemy sprite
-  									; V7 = enemy x-position
-  									; V8 = enemy y-position
-  									; VA = enemy type
+  									; V6 = enemy x-position
+  									; V7 = enemy y-position
+  									; V9 = enemy type
 
   ; use enemy.type to set the correct sprite lookup table
   LDHI I, data_enemy_type_lookup
-  ADD I, VA
+  ADD I, V9
   LD V3, [I]
   LD I, lbl_draw_enemy_lookup_overwrite				
   LD [I], V3
@@ -630,7 +647,7 @@ lbl_draw_enemy_sprite_overwrite:
   ; draw laser.sprite
   SPRW ENEMY_WIDTH
   SPRH ENEMY_HEIGHT
-  DRW V7, V8, 1		
+  DRW V6, V7, 1		
 
   RET
 
