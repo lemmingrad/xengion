@@ -1,0 +1,1063 @@
+;-------------------------------------------------------------------------------
+; INTERLEAVED ALIGNED
+;-------------------------------------------------------------------------------
+
+SPRITE_NUMBER_0					= #00
+SPRITE_NUMBER_1					= #01
+SPRITE_NUMBER_2					= #02
+SPRITE_NUMBER_3					= #03
+SPRITE_NUMBER_4					= #04
+SPRITE_NUMBER_5					= #05
+SPRITE_NUMBER_6					= #06
+SPRITE_NUMBER_7					= #07
+SPRITE_NUMBER_8					= #08
+SPRITE_NUMBER_9					= #09
+PALETTE						= #0A
+;"
+;"
+;"
+E_BULLET_MOVE_N					= #0E
+;"	
+E_ENEMY_Y_MOVE_ZERO				= #10
+E_BULLET_SPRITE_ALIVE_0				= #11
+E_BULLET_MOVE_NNE				= #12
+;"	
+E_ENEMY_Y_MOVE_SMALL_FAST_EARLY			= #14
+E_BULLET_SPRITE_ALIVE_1				= #15
+E_BULLET_MOVE_NE				= #16
+;"	
+E_ENEMY_Y_MOVE_SMALL_FAST_LATE			= #18
+E_BULLET_SPRITE_ALIVE_2				= #19
+E_BULLET_MOVE_ENE				= #1A
+;"	
+E_ENEMY_Y_MOVE_SMALL_MED_EARLY			= #1C
+E_BULLET_SPRITE_ALIVE_3				= #1D
+E_BULLET_MOVE_E					= #1E
+;"	
+E_ENEMY_Y_MOVE_SMALL_MED_LATE			= #20
+E_BULLET_SPRITE_ALIVE_4				= #21
+E_BULLET_MOVE_ESE				= #22
+;"	
+E_ENEMY_Y_MOVE_SMALL_SLOW_EARLY			= #24
+E_BULLET_SPRITE_ALIVE_5				= #25
+E_BULLET_MOVE_SE				= #26
+;"	
+E_ENEMY_Y_MOVE_SMALL_SLOW_LATE			= #28
+E_BULLET_SPRITE_ALIVE_6				= #29
+E_BULLET_MOVE_SSE				= #2A
+;"	
+E_ENEMY_Y_MOVE_SMALL_LONG			= #2C
+E_BULLET_SPRITE_ALIVE_7				= #2D
+E_BULLET_MOVE_S					= #2E
+;"	
+E_ENEMY_Y_MOVE_SMALL_FAST_SINE			= #30
+E_BULLET_SPRITE_ALIVE_8				= #31
+E_BULLET_MOVE_SSW				= #32
+;"	
+E_ENEMY_Y_MOVE_SMALL_SLOW_SINE			= #34
+E_BULLET_SPRITE_ALIVE_9				= #35
+E_BULLET_MOVE_SW				= #36
+;"
+E_ENEMY_Y_MOVE_BIG_FAST_EARLY			= #38
+E_BULLET_SPRITE_ALIVE_10			= #39
+E_BULLET_MOVE_WSW				= #3A
+;"
+E_ENEMY_Y_MOVE_BIG_FAST_LATE			= #3C
+E_BULLET_SPRITE_ALIVE_11			= #3D
+E_BULLET_MOVE_W					= #3E
+;"
+E_ENEMY_Y_MOVE_BIG_MED_EARLY			= #40
+E_BULLET_SPRITE_ALIVE_12			= #41
+E_BULLET_MOVE_WNW				= #42
+;"
+E_ENEMY_Y_MOVE_BIG_MED_LATE			= #44
+E_BULLET_SPRITE_ALIVE_13			= #45
+E_BULLET_MOVE_NW				= #46
+;"	
+E_ENEMY_Y_MOVE_BIG_SLOW_EARLY			= #48
+E_BULLET_SPRITE_ALIVE_14			= #49
+E_BULLET_MOVE_NNW				= #4A
+;"
+E_ENEMY_Y_MOVE_BIG_SLOW_LATE			= #4C
+E_BULLET_SPRITE_ALIVE_15			= #4D
+E_LASER_SPRITE_ALIVE_0				= #4E
+;"
+E_ENEMY_Y_MOVE_BIG_LONG				= #50
+E_BULLET_SPRITE_DYING_0				= #51
+E_LASER_SPRITE_ALIVE_1				= #52
+;"
+E_ENEMY_Y_MOVE_BIG_FAST_SINE			= #54
+E_BULLET_SPRITE_DYING_1				= #55
+E_LASER_SPRITE_ALIVE_2				= #56
+;"
+E_ENEMY_Y_MOVE_BIG_SLOW_SINE			= #58
+E_BULLET_SPRITE_DYING_2				= #59
+E_LASER_SPRITE_ALIVE_3				= #5A
+;"
+E_ENEMY_Y_MOVE_BIG_VSLOW_SINE			= #5C
+E_BULLET_SPRITE_DYING_3				= #5D
+E_LASER_SPRITE_ALIVE_4				= #5E
+;"
+E_ENEMY_Y_MOVE_NEGSMALL_FAST_EARLY		= #60
+E_BULLET_SPRITE_DYING_4				= #61
+E_LASER_SPRITE_ALIVE_5				= #62
+;"
+E_ENEMY_Y_MOVE_NEGSMALL_FAST_LATE		= #64
+E_BULLET_SPRITE_DYING_5				= #65
+E_LASER_SPRITE_ALIVE_6				= #66
+;"
+E_ENEMY_Y_MOVE_NEGSMALL_MED_EARLY		= #68
+E_BULLET_SPRITE_DYING_6				= #69
+E_LASER_SPRITE_ALIVE_7				= #6A
+;"
+E_ENEMY_Y_MOVE_NEGSMALL_MED_LATE		= #6C
+E_BULLET_SPRITE_DYING_7				= #6D
+E_LASER_SPRITE_ALIVE_8				= #6E
+;"
+E_ENEMY_Y_MOVE_NEGSMALL_SLOW_EARLY		= #70
+
+E_LASER_SPRITE_ALIVE_9				= #72
+;"
+E_ENEMY_Y_MOVE_NEGSMALL_SLOW_LATE		= #74
+
+E_LASER_SPRITE_ALIVE_10				= #76
+;"
+E_ENEMY_Y_MOVE_NEGSMALL_LONG			= #78
+
+E_LASER_SPRITE_ALIVE_11				= #7A
+;"
+E_ENEMY_Y_MOVE_NEGSMALL_FAST_SINE		= #7C
+
+E_LASER_SPRITE_ALIVE_12				= #7E
+;"
+E_ENEMY_Y_MOVE_NEGSMALL_SLOW_SINE		= #80
+
+E_LASER_SPRITE_ALIVE_13				= #82
+;"
+E_ENEMY_Y_MOVE_NEGBIG_FAST_EARLY		= #84
+
+E_LASER_SPRITE_ALIVE_14				= #86
+;"
+E_ENEMY_Y_MOVE_NEGBIG_FAST_LATE			= #88
+
+E_LASER_SPRITE_ALIVE_15				= #8A
+;"
+E_ENEMY_Y_MOVE_NEGBIG_MED_EARLY			= #8C
+
+E_LASER_SPRITE_DYING_0				= #8E
+;"
+E_ENEMY_Y_MOVE_NEGBIG_MED_LATE			= #90
+
+E_LASER_SPRITE_DYING_1				= #92
+;"
+E_ENEMY_Y_MOVE_NEGBIG_SLOW_EARLY		= #94
+
+E_LASER_SPRITE_DYING_2				= #96
+;"
+E_ENEMY_Y_MOVE_NEGBIG_SLOW_LATE			= #98
+
+E_LASER_SPRITE_DYING_3				= #9A
+;"
+E_ENEMY_Y_MOVE_NEGBIG_LONG			= #9C
+
+E_LASER_SPRITE_DYING_4				= #9E
+;"
+E_ENEMY_Y_MOVE_NEGBIG_FAST_SINE			= #A0
+
+E_LASER_SPRITE_DYING_5				= #A2
+;"
+E_ENEMY_Y_MOVE_NEGBIG_SLOW_SINE			= #A4
+
+E_LASER_SPRITE_DYING_6				= #A6
+;"
+E_ENEMY_Y_MOVE_NEGBIG_VSLOW_SINE		= #A8
+
+E_LASER_SPRITE_DYING_7				= #AA
+;"
+E_LASER_SPRITE_COL_PURPLE			= #AC
+;"
+
+;-------------------------------------------------------------------------------
+
+data_interleaved_aligner:
+  DS 65536 - (data_interleaved_aligner % 65536)
+data_interleaved_aligned:
+
+; define all the table headers here
+
+data_number_sprite_aligned:
+data_laser_sprite_aligned:
+data_enemy_movement_aligned:
+data_bullet_sprite_aligned:
+data_bullets_movement_aligned:
+
+
+;-- 00-0F ----------------------------------------------------------------------
+
+data_sprite_number_0_start:
+data_sprite_number_0:
+  INCBIN 'assets/number_0.bin'
+data_sprite_number_0_end:
+
+data_number_align0_aligner:
+  DS 256 - (NUMBER_WIDTH * NUMBER_HEIGHT)
+data_number_align0_aligned:
+
+data_sprite_number_1_start:
+data_sprite_number_1:
+  INCBIN 'assets/number_1.bin'
+data_sprite_number_1_end:
+
+data_number_align1_aligner:
+  DS 256 - (NUMBER_WIDTH * NUMBER_HEIGHT)
+data_number_align1_aligned:
+
+data_sprite_number_2_start:
+data_sprite_number_2:
+  INCBIN 'assets/number_2.bin'
+data_sprite_number_2_end:
+
+data_number_align2_aligner:
+  DS 256 - (NUMBER_WIDTH * NUMBER_HEIGHT)
+data_number_align2_aligned:
+
+data_sprite_number_3_start:
+data_sprite_number_3:
+  INCBIN 'assets/number_3.bin'
+data_sprite_number_3_end:
+
+data_number_align3_aligner:
+  DS 256 - (NUMBER_WIDTH * NUMBER_HEIGHT)
+data_number_align3_aligned:
+
+data_sprite_number_4_start:
+data_sprite_number_4:
+  INCBIN 'assets/number_4.bin'
+data_sprite_number_4_end:
+
+data_number_align4_aligner:
+  DS 256 - (NUMBER_WIDTH * NUMBER_HEIGHT)
+data_number_align4_aligned:
+
+data_sprite_number_5_start:
+data_sprite_number_5:
+  INCBIN 'assets/number_5.bin'
+data_sprite_number_5_end:
+
+data_number_align5_aligner:
+  DS 256 - (NUMBER_WIDTH * NUMBER_HEIGHT)
+data_number_align5_aligned:
+
+data_sprite_number_6_start:
+data_sprite_number_6:
+  INCBIN 'assets/number_6.bin'
+data_sprite_number_6_end:
+
+data_number_align6_aligner:
+  DS 256 - (NUMBER_WIDTH * NUMBER_HEIGHT)
+data_number_align6_aligned:
+
+data_sprite_number_7_start:
+data_sprite_number_7:
+  INCBIN 'assets/number_7.bin'
+data_sprite_number_7_end:
+
+data_number_align7_aligner:
+  DS 256 - (NUMBER_WIDTH * NUMBER_HEIGHT)
+data_number_align7_aligned:
+
+data_sprite_number_8_start:
+data_sprite_number_8:
+  INCBIN 'assets/number_8.bin'
+data_sprite_number_8_end:
+
+data_number_align8_aligner:
+  DS 256 - (NUMBER_WIDTH * NUMBER_HEIGHT)
+data_number_align8_aligned:
+
+data_sprite_number_9_start:
+data_sprite_number_9:
+  INCBIN 'assets/number_9.bin'
+data_sprite_number_9_end:
+
+data_number_align9_aligner:
+  DS 256 - (NUMBER_WIDTH * NUMBER_HEIGHT)
+data_number_align9_aligned:
+
+data_palette_start:
+data_palette:
+  DB #FF, #FF, #32, #FF
+  DB #FF, #00, #FF, #0A
+  DB #FF, #FF, #9C, #00
+  DB #FF, #00, #00, #00
+  DB #FF, #10, #08, #10
+  DB #FF, #0F, #10, #0E
+  DB #FF, #49, #47, #46
+  DB #FF, #1F, #1C, #18
+  DB #FF, #38, #34, #2C
+  DB #FF, #5B, #56, #50
+  DB #FF, #CF, #CB, #CB
+  DB #FF, #9A, #92, #86
+  DB #FF, #34, #30, #2B
+  DB #FF, #FF, #FF, #FF
+  DB #FF, #59, #51, #49
+  DB #FF, #CF, #C7, #BE
+  DB #FF, #9B, #69, #69
+  DB #FF, #59, #18, #18
+  DB #FF, #30, #00, #00
+  DB #FF, #79, #34, #34
+  DB #FF, #69, #24, #24
+  DB #FF, #30, #2C, #30
+  DB #FF, #3C, #38, #32
+  DB #FF, #CF, #CB, #C7
+  DB #FF, #00, #01, #0D
+  DB #FF, #00, #09, #13
+  DB #FF, #00, #0C, #1A
+  DB #FF, #00, #13, #26
+  DB #FF, #00, #14, #1E
+  DB #FF, #0A, #1D, #28
+  DB #FF, #01, #18, #22
+  DB #FF, #12, #26, #33
+  DB #FF, #01, #1B, #28
+  DB #FF, #01, #20, #2F
+  DB #FF, #12, #1F, #2D
+  DB #FF, #18, #2B, #3F
+  DB #FF, #0B, #15, #27
+  DB #FF, #01, #10, #18
+  DB #FF, #0A, #13, #1B
+  DB #FF, #12, #16, #18
+  DB #FF, #1B, #22, #26
+  DB #FF, #01, #08, #0B
+  DB #FF, #0A, #18, #20
+  DB #FF, #24, #30, #32
+  DB #FF, #08, #0B, #0D
+  DB #FF, #02, #04, #05
+  DB #FF, #22, #2A, #2F
+  DB #FF, #63, #67, #68
+  DB #FF, #2B, #27, #24
+  DB #FF, #0B, #08, #03
+  DB #FF, #24, #20, #1C
+  DB #FF, #00, #1C, #2E
+  DB #FF, #28, #32, #38
+  DB #FF, #14, #1B, #21
+  DB #FF, #30, #2C, #28
+  DB #FF, #84, #85, #83
+  DB #FF, #3A, #50, #5D
+  DB #FF, #64, #5D, #55
+  DB #FF, #01, #25, #35
+  DB #FF, #28, #3F, #4F
+  DB #FF, #79, #79, #79
+  DB #FF, #9C, #9D, #9F
+  DB #FF, #EF, #EF, #F0
+  DB #FF, #AB, #AD, #B0
+  DB #FF, #33, #3C, #42
+  DB #FF, #BA, #C2, #C6
+  DB #FF, #CF, #CF, #D0
+  DB #FF, #42, #4C, #52
+  DB #FF, #DF, #DF, #E0
+  DB #FF, #98, #A1, #A5
+  DB #FF, #43, #51, #52
+  DB #FF, #4E, #4D, #4F
+  DB #FF, #B9, #BB, #BA
+  DB #FF, #3F, #3C, #45
+  DB #FF, #41, #3B, #36
+  DB #FF, #1D, #2F, #3B
+  DB #FF, #67, #6F, #6E
+  DB #FF, #F2, #F3, #F3
+  DB #FF, #47, #53, #5A
+  DB #FF, #55, #5B, #62
+  DB #FF, #31, #37, #3A
+  DB #FF, #8B, #90, #91
+  DB #FF, #8B, #8A, #8C
+  DB #FF, #AB, #AA, #A9
+  DB #FF, #0C, #2E, #3E
+  DB #FF, #1B, #2A, #2E
+  DB #FF, #81, #8C, #92
+  DB #FF, #50, #5B, #5C
+  DB #FF, #71, #00, #71
+  DB #FF, #FF, #A1, #FF
+  DB #FF, #9E, #9B, #98
+  DB #FF, #36, #43, #49
+  DB #FF, #25, #42, #59
+  DB #FF, #66, #74, #7A
+  DB #FF, #71, #86, #91
+  DB #FF, #B2, #B1, #B2
+  DB #FF, #92, #92, #92
+  DB #FF, #AE, #00, #AE
+  DB #FF, #1A, #32, #47
+  DB #FF, #01, #2A, #3F
+  DB #FF, #37, #48, #52
+  DB #FF, #55, #63, #68
+  DB #FF, #5F, #60, #61
+  DB #FF, #1C, #3A, #50
+  DB #FF, #39, #54, #6A
+  DB #FF, #28, #38, #45
+  DB #FF, #02, #39, #51
+  DB #FF, #2D, #54, #75
+  DB #FF, #01, #32, #48
+  DB #FF, #2D, #4F, #6A
+  DB #FF, #15, #4A, #63
+  DB #FF, #2C, #4E, #5C
+  DB #FF, #4C, #5F, #6C
+  DB #FF, #5F, #6B, #71
+  DB #FF, #03, #42, #5A
+  DB #FF, #38, #62, #86
+  DB #FF, #52, #4C, #46
+  DB #FF, #14, #3F, #60
+  DB #FF, #35, #58, #77
+  DB #FF, #44, #42, #3E
+  DB #FF, #71, #70, #71
+  DB #FF, #A2, #A2, #A2
+  DB #FF, #27, #4C, #6E
+  DB #FF, #3A, #5E, #79
+  DB #FF, #FF, #00, #F4
+  DB #FF, #46, #59, #66
+  DB #FF, #67, #7B, #8A
+  DB #FF, #5C, #74, #87
+  DB #FF, #DA, #DA, #DA
+  DB #FF, #B2, #DE, #FE
+  DB #FF, #A6, #D0, #EC
+  DB #FF, #8F, #A7, #B6
+  DB #FF, #EB, #EB, #EB
+  DB #FF, #FB, #FB, #FB
+  DB #FF, #8C, #B3, #D1
+  DB #FF, #9B, #C2, #DF
+  DB #FF, #54, #67, #73
+  DB #FF, #77, #A1, #BF
+  DB #FF, #F6, #F7, #F7
+  DB #FF, #C6, #C6, #C6
+  DB #FF, #7E, #93, #9F
+  DB #FF, #87, #9B, #A8
+  DB #FF, #69, #93, #B0
+  DB #FF, #5A, #6F, #7B
+  DB #FF, #5E, #82, #9B
+  DB #FF, #BD, #E6, #FE
+  DB #FF, #D0, #F1, #FE
+  DB #FF, #E2, #F9, #FE
+  DB #FF, #F1, #FF, #FF
+  DB #FF, #DA, #ED, #F0
+  DB #FF, #BB, #D0, #D6
+  DB #FF, #A7, #B3, #BB
+  DB #FF, #C0, #C7, #CA
+  DB #FF, #D1, #D4, #D5
+  DB #FF, #A7, #B3, #AF
+  DB #FF, #E3, #E3, #E3
+  DB #FF, #E7, #E7, #E6
+  DB #FF, #CB, #C7, #CB
+  DB #FF, #70, #6D, #6B
+  DB #FF, #15, #0F, #01
+  DB #FF, #27, #1B, #01
+  DB #FF, #41, #2E, #00
+  DB #FF, #5C, #40, #02
+  DB #FF, #72, #51, #06
+  DB #FF, #BB, #AC, #8C
+  DB #FF, #ED, #D6, #CD
+  DB #FF, #B2, #91, #4E
+  DB #FF, #F9, #F0, #ED
+  DB #FF, #85, #5F, #02
+  DB #FF, #B2, #A2, #55
+  DB #FF, #99, #6C, #02
+  DB #FF, #3B, #30, #16
+  DB #FF, #F3, #EC, #DE
+  DB #FF, #CA, #B9, #99
+  DB #FF, #C5, #AE, #6F
+  DB #FF, #B3, #79, #02
+  DB #FF, #CA, #C6, #C0
+  DB #FF, #C9, #9B, #3A
+  DB #FF, #A3, #79, #21
+  DB #FF, #FA, #EB, #CD
+  DB #FF, #DA, #A6, #39
+  DB #FF, #CC, #87, #02
+  DB #FF, #F5, #DD, #AA
+  DB #FF, #DC, #97, #05
+  DB #FF, #E1, #A2, #18
+  DB #FF, #FF, #FD, #F3
+  DB #FF, #F2, #D1, #8B
+  DB #FF, #EB, #B8, #4E
+  DB #FF, #E6, #AC, #31
+  DB #FF, #EC, #C5, #71
+  DB #FF, #B6, #87, #22
+  DB #FF, #77, #5A, #1B
+  DB #FF, #8E, #6D, #28
+  DB #FF, #84, #80, #77
+  DB #FF, #7B, #64, #31
+  DB #FF, #D7, #D2, #88
+  DB #FF, #FD, #F9, #E3
+  DB #FF, #61, #55, #3A
+  DB #FF, #90, #82, #56
+  DB #FF, #7E, #6E, #4D
+  DB #FF, #A6, #99, #65
+  DB #FF, #81, #77, #64
+  DB #FF, #46, #63, #79
+  DB #FF, #FF, #CF, #00
+  DB #FF, #49, #5B, #7E
+  DB #FF, #BA, #51, #14
+  DB #FF, #29, #47, #62
+  DB #FF, #32, #4B, #64
+  DB #FF, #52, #6B, #83
+  DB #FF, #43, #B0, #FD
+  DB #FF, #5B, #89, #AB
+  DB #FF, #44, #67, #85
+  DB #FF, #09, #93, #FD
+  DB #FF, #2A, #3C, #66
+  DB #FF, #34, #50, #70
+  DB #FF, #72, #C8, #FE
+  DB #FF, #FC, #03, #03
+  DB #FF, #56, #79, #94
+  DB #FF, #82, #00, #2C
+  DB #FF, #4B, #70, #8D
+  DB #FF, #82, #FD, #FF
+  DB #FF, #4E, #6E, #7E
+  DB #FF, #17, #5D, #FD
+  DB #FF, #04, #2D, #FC
+  DB #FF, #E3, #E3, #EF
+  DB #FF, #15, #2E, #BA
+  DB #FF, #48, #74, #98
+  DB #FF, #40, #6C, #8E
+  DB #FF, #71, #2C, #45
+  DB #FF, #4F, #7D, #A0
+  DB #FF, #61, #51, #59
+  DB #FF, #EA, #E9, #8C
+  DB #FF, #FF, #FF, #B1
+  DB #FF, #25, #FA, #FF
+  DB #FF, #06, #FF, #FF
+  DB #FF, #FF, #FF, #92
+  DB #FF, #D3, #F1, #AE
+  DB #FF, #C9, #D6, #A7
+  DB #FF, #CB, #DB, #C7
+  DB #FF, #A0, #B0, #6F
+  DB #FF, #D3, #E9, #C9
+  DB #FF, #B2, #14, #43
+  DB #FF, #7A, #08, #45
+  DB #FF, #D5, #8F, #9E
+  DB #FF, #BC, #32, #53
+  DB #FF, #F7, #E7, #EB
+  DB #FF, #D9, #71, #85
+  DB #FF, #FA, #F3, #F7
+  DB #FF, #FF, #6D, #FF
+  DB #FF, #FF, #C7, #FF
+  DB #FF, #59, #64, #8F
+  DB #FF, #63, #6D, #9B
+  DB #FF, #FF, #45, #45
+  DB #FF, #82, #02, #03
+  DB #FF, #6F, #8E, #5F
+data_palette_end:
+
+data_palette_aligner:
+  DS 1024 - (PALETTE_SIZE * 4)
+data_palette_aligned:
+
+data_bullet_movement_n_start:
+  INCBIN 'assets/bullet_move_n_sx5.bin'
+  DS 2
+data_bullet_movement_n_end:
+
+;-- 10-1F ----------------------------------------------------------------------
+
+data_enemy_movement_zero_start:
+  DS 256
+data_enemy_movement_zero_end:
+
+data_sprite_bullet_alive0_start:
+  INCBIN 'assets/bullet_alive0.bin'
+data_sprite_bullet_alive0_end:
+
+data_bullet_movement_nne_start:
+  INCBIN 'assets/bullet_move_nne_sx5.bin'
+  DS 2
+data_bullet_movement_nne_end:
+
+data_enemy_movement_small_fast_early_start:
+  INCBIN 'assets/enemy_move_a32_x64_s16.bin'
+data_enemy_movement_small_fast_early_end:
+
+data_sprite_bullet_alive1_start:
+  INCBIN 'assets/bullet_alive0.bin'
+data_sprite_bullet_alive1_end:
+
+data_bullet_movement_ne_start:
+  INCBIN 'assets/bullet_move_ne_sx5.bin'
+  DS 2
+data_bullet_movement_ne_end:
+
+data_enemy_movement_small_fast_late_start:
+  INCBIN 'assets/enemy_move_a32_x64_s112.bin'
+data_enemy_movement_small_fast_late_end:
+
+data_sprite_bullet_alive2_start:
+  INCBIN 'assets/bullet_alive1.bin'
+data_sprite_bullet_alive2_end:
+
+data_bullet_movement_ene_start:
+  INCBIN 'assets/bullet_move_ene_sx5.bin'
+  DS 2
+data_bullet_movement_ene_end:
+
+data_enemy_movement_small_med_early_start:
+  INCBIN 'assets/enemy_move_a32_x112_s16.bin'
+data_enemy_movement_small_med_early_end:
+
+data_sprite_bullet_alive3_start:
+  INCBIN 'assets/bullet_alive1.bin'
+data_sprite_bullet_alive3_end:
+
+data_bullet_movement_e_start:
+  INCBIN 'assets/bullet_move_e_sx5.bin'
+  DS 2
+data_bullet_movement_e_end:
+
+;-- 20-2F ----------------------------------------------------------------------
+
+data_enemy_movement_small_med_late_start:
+  INCBIN 'assets/enemy_move_a32_x112_s112.bin'
+data_enemy_movement_small_med_late_end:
+
+data_sprite_bullet_alive4_start:
+  INCBIN 'assets/bullet_alive2.bin'
+data_sprite_bullet_alive4_end:
+
+data_bullet_movement_ese_start:
+  INCBIN 'assets/bullet_move_ese_sx5.bin'
+  DS 2
+data_bullet_movement_ese_end:
+
+data_enemy_movement_small_slow_early_start:
+  INCBIN 'assets/enemy_move_a32_x160_s16.bin'
+data_enemy_movement_small_slow_early_end:
+
+data_sprite_bullet_alive5_start:
+  INCBIN 'assets/bullet_alive2.bin'
+data_sprite_bullet_alive5_end:
+
+data_bullet_movement_se_start:
+  INCBIN 'assets/bullet_move_se_sx5.bin'
+  DS 2
+data_bullet_movement_se_end:
+
+data_enemy_movement_small_slow_late_start:
+  INCBIn 'assets/enemy_move_a32_x160_s112.bin'
+data_enemy_movement_small_slow_late_end:
+
+data_sprite_bullet_alive6_start:
+  INCBIN 'assets/bullet_alive3.bin'
+data_sprite_bullet_alive6_end:
+
+data_bullet_movement_sse_start:
+  INCBIN 'assets/bullet_move_sse_sx5.bin'
+  DS 2
+data_bullet_movement_sse_end:
+
+data_enemy_movement_small_long_start:
+  INCBIN 'assets/enemy_move_a32_x224_s16.bin'
+data_enemy_movement_small_long_end:
+
+data_sprite_bullet_alive7_start:
+  INCBIN 'assets/bullet_alive3.bin'
+data_sprite_bullet_alive7_end:
+
+data_bullet_movement_s_start:
+  INCBIN 'assets/bullet_move_s_sx5.bin'
+  DS 2
+data_bullet_movement_s_end:
+
+;-- 30-3F ----------------------------------------------------------------------
+
+data_enemy_movement_small_fast_sine_start:
+  INCBIN 'assets/enemy_move_sine_a32_x16.bin'
+data_enemy_movement_small_fast_sine_end:
+
+data_sprite_bullet_alive8_start:
+  INCBIN 'assets/bullet_alive4.bin'
+data_sprite_bullet_alive8_end:
+
+data_bullet_movement_ssw_start:
+  INCBIN 'assets/bullet_move_ssw_sx5.bin'
+  DS 2
+data_bullet_movement_ssw_end:
+
+data_enemy_movement_small_slow_sine_start:
+  INCBIN 'assets/enemy_move_sine_a32_x32.bin'
+data_enemy_movement_small_slow_sine_end:
+
+data_sprite_bullet_alive9_start:
+  INCBIN 'assets/bullet_alive4.bin'
+data_sprite_bullet_alive9_end:
+
+data_bullet_movement_sw_start:
+  INCBIN 'assets/bullet_move_sw_sx5.bin'
+  DS 2
+data_bullet_movement_sw_end:
+
+data_enemy_movement_big_fast_early_start:
+  INCBIN 'assets/enemy_move_a64_x64_s16.bin'
+data_enemy_movement_big_fast_early_end:
+
+data_sprite_bullet_alive10_start:
+  INCBIN 'assets/bullet_alive5.bin'
+data_sprite_bullet_alive10_end:
+
+data_bullet_movement_wsw_start:
+  INCBIN 'assets/bullet_move_wsw_sx5.bin'
+  DS 2
+data_bullet_movement_wsw_end:
+
+data_enemy_movement_big_fast_late_start:
+  INCBIN 'assets/enemy_move_a64_x64_s112.bin'
+data_enemy_movement_big_fast_late_end:
+
+data_sprite_bullet_alive11_start:
+  INCBIN 'assets/bullet_alive5.bin'
+data_sprite_bullet_alive11_end:
+
+data_bullet_movement_w_start:
+  INCBIN 'assets/bullet_move_w_sx5.bin'
+  DS 2
+data_bullet_movement_w_end:
+
+;-- 40-4F ----------------------------------------------------------------------
+
+data_enemy_movement_big_med_early_start:
+  INCBIN 'assets/enemy_move_a64_x112_s16.bin'
+data_enemy_movement_big_med_early_end:
+
+data_sprite_bullet_alive12_start:
+  INCBIN 'assets/bullet_alive6.bin'
+data_sprite_bullet_alive12_end:
+
+data_bullet_movement_wnw_start:
+  INCBIN 'assets/bullet_move_wnw_sx5.bin'
+  DS 2
+data_bullet_movement_wnw_end:
+
+data_enemy_movement_big_med_late_start:
+  INCBIN 'assets/enemy_move_a64_x112_s112.bin'
+data_enemy_movement_big_med_late_end:
+
+data_sprite_bullet_alive13_start:
+  INCBIN 'assets/bullet_alive6.bin'
+data_sprite_bullet_alive13_end:
+
+data_bullet_movement_nw_start:
+  INCBIN 'assets/bullet_move_nw_sx5.bin'
+  DS 2
+data_bullet_movement_nw_end:
+
+data_enemy_movement_big_slow_early_start:
+  INCBIN 'assets/enemy_move_a64_x160_s16.bin'
+data_enemy_movement_big_slow_early_end:
+
+data_sprite_bullet_alive14_start:
+  INCBIN 'assets/bullet_alive7.bin'
+data_sprite_bullet_alive14_end:
+
+data_bullet_movement_nnw_start:
+  INCBIN 'assets/bullet_move_nnw_sx5.bin'
+  DS 2
+data_bullet_movement_nnw_end:
+
+data_enemy_movement_big_slow_late_start:
+  INCBIN 'assets/enemy_move_a64_x160_s112.bin'
+data_enemy_movement_big_slow_late_end:
+
+data_sprite_bullet_alive15_start:
+  INCBIN 'assets/bullet_alive7.bin'
+data_sprite_bullet_alive15_end:
+
+data_sprite_laser_alive0_start:
+  INCBIN 'assets/laser_alive0.bin'
+data_sprite_laser_alive0_end:
+
+;-- 50-5F ----------------------------------------------------------------------
+
+data_enemy_movement_big_long_start:
+  INCBIN 'assets/enemy_move_a64_x224_s16.bin'
+data_enemy_movement_big_long_end:
+
+data_sprite_bullet_dying0_start:
+  INCBIN 'assets/bullet_dying0.bin'
+data_sprite_bullet_dying0_end:
+
+data_sprite_laser_alive1_start:
+  INCBIN 'assets/laser_alive0.bin'
+data_sprite_laser_alive1_end:
+
+data_enemy_movement_big_fast_sine_start:
+  INCBIN 'assets/enemy_move_sine_a64_x32.bin'
+data_enemy_movement_big_fast_sine_end:
+
+data_sprite_bullet_dying1_start:
+  INCBIN 'assets/bullet_dying1.bin'
+data_sprite_bullet_dying1_end:
+
+data_sprite_laser_alive2_start:
+  INCBIN 'assets/laser_alive0.bin'
+data_sprite_laser_alive2_end:
+
+data_enemy_movement_big_slow_sine_start:
+  INCBIN 'assets/enemy_move_sine_a64_x64.bin'
+data_enemy_movement_big_slow_sine_end:
+
+data_sprite_bullet_dying2_start:
+  INCBIN 'assets/bullet_dying2.bin'
+data_sprite_bullet_dying2_end:
+
+data_sprite_laser_alive3_start:
+  INCBIN 'assets/laser_alive0.bin'
+data_sprite_laser_alive3_end:
+
+data_enemy_movement_big_vslow_sine_start:
+  INCBIN 'assets/enemy_move_sine_a64_x128.bin'
+data_enemy_movement_big_vslow_sine_end:
+
+data_sprite_bullet_dying3_start:
+  INCBIN 'assets/bullet_dying3.bin'
+data_sprite_bullet_dying3_end:
+
+data_sprite_laser_alive4_start:
+  INCBIN 'assets/laser_alive1.bin'
+data_sprite_laser_alive4_end:
+
+;-- 60-6F ----------------------------------------------------------------------
+
+data_enemy_movement_negsmall_fast_early_start:
+  INCBIN 'assets/enemy_move_a-32_x64_s16.bin'
+data_enemy_movement_negsmall_fast_early_end:
+
+data_sprite_bullet_dying4_start:
+  INCBIN 'assets/bullet_dying4.bin'
+data_sprite_bullet_dying4_end:
+
+data_sprite_laser_alive5_start:
+  INCBIN 'assets/laser_alive1.bin'
+data_sprite_laser_alive5_end:
+
+data_enemy_movement_negsmall_fast_late_start:
+  INCBIN 'assets/enemy_move_a-32_x64_s112.bin'
+data_enemy_movement_negsmall_fast_late_end:
+
+data_sprite_bullet_dying5_start:
+  INCBIN 'assets/bullet_dying5.bin'
+data_sprite_bullet_dying5_end:
+
+data_sprite_laser_alive6_start:
+  INCBIN 'assets/laser_alive1.bin'
+data_sprite_laser_alive6_end:
+
+data_enemy_movement_negsmall_med_early_start:
+  INCBIN 'assets/enemy_move_a-32_x112_s16.bin'
+data_enemy_movement_negsmall_med_early_end:
+
+data_sprite_bullet_dying6_start:
+  INCBIN 'assets/bullet_dying6.bin'
+data_sprite_bullet_dying6_end:
+
+data_sprite_laser_alive7_start:
+  INCBIN 'assets/laser_alive1.bin'
+data_sprite_laser_alive7_end:
+
+data_enemy_movement_negsmall_med_late_start:
+  INCBIN 'assets/enemy_move_a-32_x112_s112.bin'
+data_enemy_movement_negsmall_med_late_end:
+
+data_sprite_bullet_dying7_start:
+  INCBIN 'assets/bullet_dying7.bin'
+data_sprite_bullet_dying7_end:
+
+data_sprite_laser_alive8_start:
+  INCBIN 'assets/laser_alive2.bin'
+data_sprite_laser_alive8_end:
+
+;-- 70-7F ----------------------------------------------------------------------
+
+data_enemy_movement_negsmall_slow_early_start:
+  INCBIN 'assets/enemy_move_a-32_x160_s16.bin'
+data_enemy_movement_negsmall_slow_early_end:
+
+data_interleaved_skip1_aligner:
+  DS 256
+data_interleaved_skip1_aligned:
+
+data_sprite_laser_alive9_start:
+  INCBIN 'assets/laser_alive2.bin'
+data_sprite_laser_alive9_end:
+
+data_enemy_movement_negsmall_slow_late_start:
+  INCBIN 'assets/enemy_move_a-32_x160_s112.bin'
+data_enemy_movement_negsmall_slow_late_end:
+
+data_interleaved_skip2_aligner:
+  DS 256
+data_interleaved_skip2_aligned:
+
+data_sprite_laser_alive10_start:
+  INCBIN 'assets/laser_alive2.bin'
+data_sprite_laser_alive10_end:
+
+data_enemy_movement_negsmall_long_start:
+  INCBIN 'assets/enemy_move_a-32_x224_s16.bin'
+data_enemy_movement_negsmall_long_end:
+
+data_interleaved_skip3_aligner:
+  DS 256
+data_interleaved_skip3_aligned:
+
+data_sprite_laser_alive11_start:
+  INCBIN 'assets/laser_alive2.bin'
+data_sprite_laser_alive11_end:
+
+data_enemy_movement_negsmall_fast_sine_start:
+  INCBIN 'assets/enemy_move_sine_a-32_x16.bin'
+data_enemy_movement_negsmall_fast_sine_end:
+
+data_interleaved_skip4_aligner:
+  DS 256
+data_interleaved_skip4_aligned:
+
+data_sprite_laser_alive12_start:
+  INCBIN 'assets/laser_alive2.bin'
+data_sprite_laser_alive12_end:
+
+;-- 80-8F ----------------------------------------------------------------------
+
+data_enemy_movement_negsmall_slow_sine_start:
+  INCBIN 'assets/enemy_move_sine_a-32_x32.bin'
+data_enemy_movement_negsmall_slow_sine_end:
+
+data_interleaved_skip5_aligner:
+  DS 256
+data_interleaved_skip5_aligned:
+
+data_sprite_laser_alive13_start:
+  INCBIN 'assets/laser_alive3.bin'
+data_sprite_laser_alive13_end:
+
+data_enemy_movement_negbig_fast_early_start:
+  INCBIN 'assets/enemy_move_a-64_x64_s16.bin'
+data_enemy_movement_negbig_fast_early_end:
+
+data_interleaved_skip6_aligner:
+  DS 256
+data_interleaved_skip6_aligned:
+
+data_sprite_laser_alive14_start:
+  INCBIN 'assets/laser_alive3.bin'
+data_sprite_laser_alive14_end:
+
+data_enemy_movement_negbig_fast_late_start:
+  INCBIN 'assets/enemy_move_a-64_x64_s112.bin'
+data_enemy_movement_negbig_fast_late_end:
+
+data_interleaved_skip7_aligner:
+  DS 256
+data_interleaved_skip7_aligned:
+
+data_sprite_laser_alive15_start:
+  INCBIN 'assets/laser_alive3.bin'
+data_sprite_laser_alive15_end:
+
+data_enemy_movement_negbig_med_early_start:
+  INCBIN 'assets/enemy_move_a-64_x112_s16.bin'
+data_enemy_movement_negbig_med_early_end:
+
+data_interleaved_skip8_aligner:
+  DS 256
+data_interleaved_skip8_aligned:
+
+data_sprite_laser_dying0_start:
+  INCBIN 'assets/laser_dying0.bin'
+data_sprite_laser_dying0_end:
+
+;-- 90-9F ----------------------------------------------------------------------
+
+data_enemy_movement_negbig_med_late_start:
+  INCBIN 'assets/enemy_move_a-64_x112_s112.bin'
+data_enemy_movement_negbig_med_late_end:
+
+data_interleaved_skip9_aligner:
+  DS 256
+data_interleaved_skip9_aligned:
+
+data_sprite_laser_dying1_start:
+  INCBIN 'assets/laser_dying0.bin'
+data_sprite_laser_dying1_end:
+
+data_enemy_movement_negbig_slow_early_start:
+  INCBIN 'assets/enemy_move_a-64_x160_s16.bin'
+data_enemy_movement_negbig_slow_early_end:
+
+data_interleaved_skip10_aligner:
+  DS 256
+data_interleaved_skip10_aligned:
+
+data_sprite_laser_dying2_start:
+  INCBIN 'assets/laser_dying1.bin'
+data_sprite_laser_dying2_end:
+
+data_enemy_movement_negbig_slow_late_start:
+  INCBIN 'assets/enemy_move_a-64_x160_s112.bin'
+data_enemy_movement_negbig_slow_late_end:
+
+data_interleaved_skip11_aligner:
+  DS 256
+data_interleaved_skip11_aligned:
+
+data_sprite_laser_dying3_start:
+  INCBIN 'assets/laser_dying1.bin'
+data_sprite_laser_dying3_end:
+
+data_enemy_movement_negbig_long_start:
+  INCBIN 'assets/enemy_move_a-64_x224_s16.bin'
+data_enemy_movement_negbig_long_end:
+
+data_interleaved_skip12_aligner:
+  DS 256
+data_interleaved_skip12_aligned:
+
+data_sprite_laser_dying4_start:
+  INCBIN 'assets/laser_dying2.bin'
+data_sprite_laser_dying4_end:
+
+;-- A0-AF ----------------------------------------------------------------------
+
+data_enemy_movement_negbig_fast_sine_start:
+  INCBIN 'assets/enemy_move_sine_a-64_x32.bin'
+data_enemy_movement_negbig_fast_sine_end:
+
+data_interleaved_skip13_aligner:
+  DS 256
+data_interleaved_skip13_aligned:
+
+data_sprite_laser_dying5_start:
+  INCBIN 'assets/laser_dying2.bin'
+data_sprite_laser_dying5_end:
+
+data_enemy_movement_negbig_slow_sine_start:
+  INCBIN 'assets/enemy_move_sine_a-64_x64.bin'
+data_enemy_movement_negbig_slow_sine_end:
+
+data_interleaved_skip14_aligner:
+  DS 256
+data_interleaved_skip14_aligned:
+
+data_sprite_laser_dying6_start:
+  INCBIN 'assets/laser_dying3.bin'
+data_sprite_laser_dying6_end:
+
+data_enemy_movement_negbig_vslow_sine_start:
+  INCBIN 'assets/enemy_move_sine_a-64_x128.bin'
+data_enemy_movement_negbig_vslow_sine_end:
+
+data_interleaved_skip15_aligner:
+  DS 256
+data_interleaved_skip15_aligned:
+
+data_sprite_laser_dying7_start:
+  INCBIN 'assets/laser_dying3.bin'
+data_sprite_laser_dying7_end:
+
+data_sprite_laser_col_purple_start:
+  INCBIN 'assets/laser_col_purple.bin'
+data_sprite_laser_col_purple_end:
+
+;-- COMPLETED INTERLEAVED @ AE ----------------------------------------------------------------------
+

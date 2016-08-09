@@ -71,23 +71,28 @@ GAMEOVER_BOSSLIVES_1_TOTALSCORE_INC				= 50
 GAMEOVER_BOSSLIVES_2_TOTALSCORE_INC				= 100
 GAMEOVER_BOSSLIVES_3_TOTALSCORE_INC				= 150
 
+GAME_SFX_LASER_LENGTH						= 90
+GAME_SFX_BOOM_LENGTH						= 90
+GAME_SFX_DEATH_LENGTH						= 240
+GAME_SFX_BOSSDEATH_LENGTH					= 240
+
 ;---------------------------------------------------------------------------------
 
 data_gameinfo_generic_start:
 
 data_game_main_frame_lives_switch_lookup:
-  JP lbl_main_frame_lives_case_game_over			; E_GAME_LIVES_GAME_OVER
-  JP lbl_main_frame_lives_case_lives_1				; E_GAME_LIVES_1
-  JP lbl_main_frame_lives_case_lives_2				; E_GAME_LIVES_2
-  JP lbl_main_frame_lives_case_lives_3				; E_GAME_LIVES_3
-  JP lbl_main_frame_lives_case_start_screen			; E_GAME_LIVES_START_SCREEN
-  JP lbl_main_frame_lives_case_lives_1_boss			; E_GAME_LIVES_1_BOSS
-  JP lbl_main_frame_lives_case_lives_2_boss			; E_GAME_LIVES_2_BOSS
-  JP lbl_main_frame_lives_case_lives_3_boss			; E_GAME_LIVES_3_BOSS
-  JP lbl_main_frame_lives_case_null				; E_GAME_LIVES_NULL
-  JP lbl_main_frame_lives_case_lives_1_win			; E_GAME_LIVES_1_WIN
-  JP lbl_main_frame_lives_case_lives_2_win			; E_GAME_LIVES_2_WIN
-  JP lbl_main_frame_lives_case_lives_3_win			; E_GAME_LIVES_3_WIN
+  CALL func_DoGameOverScreen					; E_GAME_LIVES_GAME_OVER
+  CALL func_DoGameplay						; E_GAME_LIVES_1
+  CALL func_DoGameplay						; E_GAME_LIVES_2
+  CALL func_DoGameplay						; E_GAME_LIVES_3
+  CALL func_DoTitleScreen					; E_GAME_LIVES_START_SCREEN
+  CALL func_DoBossplay						; E_GAME_LIVES_1_BOSS
+  CALL func_DoBossplay						; E_GAME_LIVES_2_BOSS
+  CALL func_DoBossplay						; E_GAME_LIVES_3_BOSS
+  EXIT								; E_GAME_LIVES_NULL
+  CALL func_DoGameOverScreen					; E_GAME_LIVES_1_WIN
+  CALL func_DoGameOverScreen					; E_GAME_LIVES_2_WIN
+  CALL func_DoGameOverScreen					; E_GAME_LIVES_3_WIN
   
 ;---------------------------------------------------------------------------------
 
@@ -235,7 +240,6 @@ data_gameplay_enemythreat_lookup:
   DB E_NO_ENEMY_THREAT
   DB E_NO_ENEMY_THREAT
   DB E_NO_ENEMY_THREAT						
-
   DB E_ENEMY_THREAT_SHIP2_HORIZONTAL_MIDDLE_S0			; 16
   DB E_ENEMY_THREAT_SHIP2_SMALL_EARLY_DROP_S1
   DB E_ENEMY_THREAT_SHIP2_SMALL_EARLY_RISE_S2
@@ -252,7 +256,6 @@ data_gameplay_enemythreat_lookup:
   DB E_NO_ENEMY_THREAT
   DB E_NO_ENEMY_THREAT
   DB E_NO_ENEMY_THREAT						
-
   DB E_ENEMY_THREAT_SHIP2_HORIZONTAL_MIDDLE_S0			; 32
   DB E_NO_ENEMY_THREAT
   DB E_ENEMY_THREAT_SHIP2_SPLIT_EARLY_RISE_S1
@@ -269,7 +272,6 @@ data_gameplay_enemythreat_lookup:
   DB E_NO_ENEMY_THREAT
   DB E_NO_ENEMY_THREAT
   DB E_NO_ENEMY_THREAT					
-
   DB E_ENEMY_THREAT_SHIP1_BIG_SINE_S0				; 48
   DB E_NO_ENEMY_THREAT
   DB E_NO_ENEMY_THREAT
@@ -286,7 +288,6 @@ data_gameplay_enemythreat_lookup:
   DB E_NO_ENEMY_THREAT
   DB E_ENEMY_THREAT_SHIP2_SMALL_EARLY_DROP_S3
   DB E_NO_ENEMY_THREAT
-
   DB E_ENEMY_THREAT_SHIP2_BIG_EARLY_DROP_S0			; 64
   DB E_NO_ENEMY_THREAT
   DB E_NO_ENEMY_THREAT
@@ -303,7 +304,6 @@ data_gameplay_enemythreat_lookup:
   DB E_NO_ENEMY_THREAT
   DB E_ENEMY_THREAT_SHIP2_SMALL_EARLY_RISE_S2
   DB E_NO_ENEMY_THREAT						
-
   DB E_ENEMY_THREAT_SHIP2_SMALL_EARLY_DROP_S0			; 80
   DB E_NO_ENEMY_THREAT
   DB E_ENEMY_THREAT_SHIP2_BIG_EARLY_RISE_S4
@@ -320,7 +320,6 @@ data_gameplay_enemythreat_lookup:
   DB E_NO_ENEMY_THREAT
   DB E_ENEMY_THREAT_MISSILE_Y1_S3
   DB E_ENEMY_THREAT_MISSILE_Y2_S1						
-
   DB E_ENEMY_THREAT_MISSILE_Y3_S0				; 96
   DB E_ENEMY_THREAT_MISSILE_Y4_S2
   DB E_ENEMY_THREAT_MISSILE_Y5_S4
@@ -337,7 +336,6 @@ data_gameplay_enemythreat_lookup:
   DB E_NO_ENEMY_THREAT
   DB E_ENEMY_THREAT_ROOFTURRET_Y2_S3
   DB E_ENEMY_THREAT_FLOORTURRET_Y1_S4					
-
   DB E_ENEMY_THREAT_SHIP1_SMALL_SINE_S0				; 112
   DB E_ENEMY_THREAT_MISSILE_Y2_S1
   DB E_ENEMY_THREAT_MISSILE_Y4_S2
@@ -354,7 +352,6 @@ data_gameplay_enemythreat_lookup:
   DB E_NO_ENEMY_THREAT
   DB E_NO_ENEMY_THREAT					
   DB E_NO_ENEMY_THREAT
-
   DB E_ENEMY_THREAT_SHIP2_BIG_EARLY_DROP_S0			; 128
   DB E_NO_ENEMY_THREAT
   DB E_NO_ENEMY_THREAT
@@ -371,7 +368,6 @@ data_gameplay_enemythreat_lookup:
   DB E_NO_ENEMY_THREAT
   DB E_ENEMY_THREAT_SHIP2_SMALL_EARLY_RISE_S4
   DB E_NO_ENEMY_THREAT
-
   DB E_ENEMY_THREAT_SHIP2_HORIZONTAL_LOWER_S0			; 144
   DB E_NO_ENEMY_THREAT
   DB E_NO_ENEMY_THREAT
@@ -383,12 +379,11 @@ data_gameplay_enemythreat_lookup:
   DB E_NO_ENEMY_THREAT
   DB E_NO_ENEMY_THREAT
   DB E_NO_ENEMY_THREAT
-  DB E_ENEMY_THREAT_SHIP2_HORIZONTAL_MIDDLE_S1
   DB E_NO_ENEMY_THREAT
-  DB E_ENEMY_THREAT_SHIP2_HORIZONTAL_MIDDLE_S2
+  DB E_NO_ENEMY_THREAT
+  DB E_NO_ENEMY_THREAT
   DB E_ENEMY_THREAT_FLOORTURRET_Y1_S4
   DB E_NO_ENEMY_THREAT
-  
   DB E_ENEMY_THREAT_SHIP1_SMALL_SINE_S0				; 160
   DB E_NO_ENEMY_THREAT
   DB E_NO_ENEMY_THREAT
@@ -405,7 +400,6 @@ data_gameplay_enemythreat_lookup:
   DB E_ENEMY_THREAT_FLOORTURRET_Y2_S2
   DB E_ENEMY_THREAT_ROOFTURRET_Y2_S3
   DB E_ENEMY_THREAT_FLOORTURRET_Y1_S4
-  
   DB E_ENEMY_THREAT_SHIP1_BIG_SINE_S0				; 176
   DB E_NO_ENEMY_THREAT
   DB E_NO_ENEMY_THREAT
@@ -422,7 +416,6 @@ data_gameplay_enemythreat_lookup:
   DB E_ENEMY_THREAT_ROOFTURRET_Y2_S3
   DB E_NO_ENEMY_THREAT
   DB E_NO_ENEMY_THREAT
-  
   DB E_ENEMY_THREAT_SHIP1_SMALL_SINE_S0				; 192
   DB E_ENEMY_THREAT_MISSILE_Y4_S2
   DB E_ENEMY_THREAT_MISSILE_Y2_S1
@@ -439,7 +432,6 @@ data_gameplay_enemythreat_lookup:
   DB E_NO_ENEMY_THREAT
   DB E_ENEMY_THREAT_ROOFTURRET_Y1_S3
   DB E_NO_ENEMY_THREAT
-
   DB E_ENEMY_THREAT_SHIP1_SMALL_SINE_S0				; 208 - enemy spawns should stop around here
   DB E_ENEMY_THREAT_MISSILE_Y4_S2
   DB E_ENEMY_THREAT_MISSILE_Y2_S1
@@ -456,7 +448,6 @@ data_gameplay_enemythreat_lookup:
   DB E_NO_ENEMY_THREAT
   DB E_NO_ENEMY_THREAT
   DB E_NO_ENEMY_THREAT
-
   DB E_NO_ENEMY_THREAT						; 224
   DB E_NO_ENEMY_THREAT
   DB E_NO_ENEMY_THREAT
@@ -473,7 +464,6 @@ data_gameplay_enemythreat_lookup:
   DB E_NO_ENEMY_THREAT
   DB E_NO_ENEMY_THREAT
   DB E_NO_ENEMY_THREAT
-
   DB E_NO_ENEMY_THREAT						; 240
   DB E_NO_ENEMY_THREAT
   DB E_NO_ENEMY_THREAT
@@ -498,7 +488,7 @@ data_gameplay_bulletthreat_lookup:
   DB E_NO_BULLET_THREAT
   DB E_NO_BULLET_THREAT
   DB E_NO_BULLET_THREAT
-  DB E_BULLET_THREAT_ESLOT2_SW
+  DB E_NO_BULLET_THREAT
   DB E_NO_BULLET_THREAT
   DB E_NO_BULLET_THREAT
   DB E_NO_BULLET_THREAT
@@ -514,12 +504,12 @@ data_gameplay_bulletthreat_lookup:
   DB E_NO_BULLET_THREAT
   DB E_NO_BULLET_THREAT
   DB E_NO_BULLET_THREAT
-  DB E_NO_BULLET_THREAT
+  DB E_BULLET_THREAT_ESLOT1_W
   DB E_NO_BULLET_THREAT
   DB E_NO_BULLET_THREAT
   DB E_NO_BULLET_THREAT
   DB E_NO_BULLET_THREAT						; 24
-  DB E_NO_BULLET_THREAT
+  DB E_BULLET_THREAT_ESLOT2_W
   DB E_NO_BULLET_THREAT
   DB E_NO_BULLET_THREAT
   DB E_NO_BULLET_THREAT
@@ -536,8 +526,8 @@ data_gameplay_bulletthreat_lookup:
   DB E_NO_BULLET_THREAT
   DB E_NO_BULLET_THREAT						; 40
   DB E_NO_BULLET_THREAT
-  DB E_NO_BULLET_THREAT
-  DB E_NO_BULLET_THREAT
+  DB E_BULLET_THREAT_ESLOT1_WNW
+  DB E_BULLET_THREAT_ESLOT2_WSW
   DB E_NO_BULLET_THREAT
   DB E_NO_BULLET_THREAT
   DB E_NO_BULLET_THREAT
@@ -555,17 +545,17 @@ data_gameplay_bulletthreat_lookup:
   DB E_NO_BULLET_THREAT
   DB E_NO_BULLET_THREAT
   DB E_NO_BULLET_THREAT
-  DB E_NO_BULLET_THREAT
+  DB E_BULLET_THREAT_ESLOT1_W
   DB E_NO_BULLET_THREAT
   DB E_NO_BULLET_THREAT	
   DB E_NO_BULLET_THREAT						; 64
   DB E_NO_BULLET_THREAT
   DB E_NO_BULLET_THREAT
   DB E_NO_BULLET_THREAT
+  DB E_BULLET_THREAT_ESLOT3_W
   DB E_NO_BULLET_THREAT
   DB E_NO_BULLET_THREAT
-  DB E_NO_BULLET_THREAT
-  DB E_NO_BULLET_THREAT
+  DB E_BULLET_THREAT_ESLOT0_W
   DB E_NO_BULLET_THREAT						; 72
   DB E_NO_BULLET_THREAT
   DB E_NO_BULLET_THREAT
@@ -579,7 +569,7 @@ data_gameplay_bulletthreat_lookup:
   DB E_NO_BULLET_THREAT
   DB E_NO_BULLET_THREAT
   DB E_NO_BULLET_THREAT
-  DB E_NO_BULLET_THREAT
+  DB E_BULLET_THREAT_ESLOT4_WSW
   DB E_NO_BULLET_THREAT
   DB E_NO_BULLET_THREAT
   DB E_NO_BULLET_THREAT						; 88
@@ -604,11 +594,11 @@ data_gameplay_bulletthreat_lookup:
   DB E_NO_BULLET_THREAT
   DB E_NO_BULLET_THREAT
   DB E_NO_BULLET_THREAT
-  DB E_NO_BULLET_THREAT
+  DB E_BULLET_THREAT_ESLOT3_WSW
   DB E_NO_BULLET_THREAT
   DB E_NO_BULLET_THREAT						; 112
   DB E_NO_BULLET_THREAT
-  DB E_NO_BULLET_THREAT
+  DB E_BULLET_THREAT_ESLOT4_WNW
   DB E_NO_BULLET_THREAT
   DB E_NO_BULLET_THREAT
   DB E_NO_BULLET_THREAT
@@ -632,51 +622,51 @@ data_gameplay_bulletthreat_lookup:
   DB E_NO_BULLET_THREAT
   DB E_NO_BULLET_THREAT						; 136
   DB E_NO_BULLET_THREAT
+  DB E_BULLET_THREAT_ESLOT1_SW
   DB E_NO_BULLET_THREAT
-  DB E_NO_BULLET_THREAT
-  DB E_NO_BULLET_THREAT
+  DB E_BULLET_THREAT_ESLOT2_W
   DB E_NO_BULLET_THREAT
   DB E_NO_BULLET_THREAT
   DB E_NO_BULLET_THREAT
   DB E_NO_BULLET_THREAT						; 144 
   DB E_NO_BULLET_THREAT
+  DB E_BULLET_THREAT_ESLOT4_W
   DB E_NO_BULLET_THREAT
   DB E_NO_BULLET_THREAT
   DB E_NO_BULLET_THREAT
-  DB E_NO_BULLET_THREAT
-  DB E_NO_BULLET_THREAT
+  DB E_BULLET_THREAT_ESLOT3_WSW
   DB E_NO_BULLET_THREAT
   DB E_NO_BULLET_THREAT						; 152
   DB E_NO_BULLET_THREAT
-  DB E_NO_BULLET_THREAT
+  DB E_BULLET_THREAT_ESLOT0_NW
   DB E_NO_BULLET_THREAT
   DB E_NO_BULLET_THREAT
   DB E_NO_BULLET_THREAT
   DB E_NO_BULLET_THREAT
   DB E_NO_BULLET_THREAT
   DB E_NO_BULLET_THREAT						; 160
+  DB E_BULLET_THREAT_ESLOT0_W
   DB E_NO_BULLET_THREAT
   DB E_NO_BULLET_THREAT
   DB E_NO_BULLET_THREAT
   DB E_NO_BULLET_THREAT
-  DB E_NO_BULLET_THREAT
-  DB E_NO_BULLET_THREAT
+  DB E_BULLET_THREAT_ESLOT4_NW
   DB E_NO_BULLET_THREAT
   DB E_NO_BULLET_THREAT						; 168
   DB E_NO_BULLET_THREAT
   DB E_NO_BULLET_THREAT
   DB E_NO_BULLET_THREAT
+  DB E_BULLET_THREAT_ESLOT1_WSW
   DB E_NO_BULLET_THREAT
-  DB E_NO_BULLET_THREAT
-  DB E_NO_BULLET_THREAT
+  DB E_BULLET_THREAT_ESLOT2_WNW
   DB E_NO_BULLET_THREAT
   DB E_NO_BULLET_THREAT						; 176
   DB E_NO_BULLET_THREAT
   DB E_NO_BULLET_THREAT
   DB E_NO_BULLET_THREAT
+  DB E_BULLET_THREAT_ESLOT3_SW					
   DB E_NO_BULLET_THREAT
-  DB E_NO_BULLET_THREAT
-  DB E_NO_BULLET_THREAT
+  DB E_BULLET_THREAT_ESLOT4_NW
   DB E_NO_BULLET_THREAT
   DB E_NO_BULLET_THREAT						; 184
   DB E_NO_BULLET_THREAT
@@ -684,7 +674,7 @@ data_gameplay_bulletthreat_lookup:
   DB E_NO_BULLET_THREAT
   DB E_NO_BULLET_THREAT
   DB E_NO_BULLET_THREAT
-  DB E_NO_BULLET_THREAT
+  DB E_BULLET_THREAT_ESLOT3_WSW
   DB E_NO_BULLET_THREAT
   DB E_NO_BULLET_THREAT						; 192
   DB E_NO_BULLET_THREAT
@@ -692,23 +682,23 @@ data_gameplay_bulletthreat_lookup:
   DB E_NO_BULLET_THREAT
   DB E_NO_BULLET_THREAT
   DB E_NO_BULLET_THREAT
-  DB E_NO_BULLET_THREAT
-  DB E_NO_BULLET_THREAT
+  DB E_BULLET_THREAT_ESLOT4_WNW
+  DB E_BULLET_THREAT_ESLOT3_SSW
   DB E_NO_BULLET_THREAT						; 200
   DB E_NO_BULLET_THREAT
   DB E_NO_BULLET_THREAT
   DB E_NO_BULLET_THREAT
   DB E_NO_BULLET_THREAT
   DB E_NO_BULLET_THREAT
-  DB E_NO_BULLET_THREAT
-  DB E_NO_BULLET_THREAT
+  DB E_BULLET_THREAT_ESLOT3_WSW
+  DB E_BULLET_THREAT_ESLOT4_NNW
   DB E_NO_BULLET_THREAT						; 208
   DB E_NO_BULLET_THREAT
   DB E_NO_BULLET_THREAT
   DB E_NO_BULLET_THREAT
   DB E_NO_BULLET_THREAT
   DB E_NO_BULLET_THREAT
-  DB E_NO_BULLET_THREAT
+  DB E_BULLET_THREAT_ESLOT0_W
   DB E_NO_BULLET_THREAT
   DB E_NO_BULLET_THREAT						; 216
   DB E_NO_BULLET_THREAT
@@ -1025,416 +1015,33 @@ COL_PURPLE = PALETTE_RESERVED_FF32FF
 COL_GREEN = PALETTE_RESERVED_00FF0A
 COL_ORANGE = PALETTE_RESERVED_FF9C00
 
-data_palette_start:
-data_palette:
-  DB #FF, #FF, #32, #FF
-  DB #FF, #00, #FF, #0A
-  DB #FF, #FF, #9C, #00
-  DB #FF, #00, #00, #00
-  DB #FF, #10, #08, #10
-  DB #FF, #0F, #10, #0E
-  DB #FF, #49, #47, #46
-  DB #FF, #1F, #1C, #18
-  DB #FF, #38, #34, #2C
-  DB #FF, #5B, #57, #51
-  DB #FF, #CF, #CB, #CB
-  DB #FF, #9A, #92, #86
-  DB #FF, #34, #30, #2B
-  DB #FF, #FF, #FF, #FF
-  DB #FF, #59, #51, #49
-  DB #FF, #CF, #C7, #BE
-  DB #FF, #9C, #68, #69
-  DB #FF, #59, #18, #18
-  DB #FF, #30, #00, #00
-  DB #FF, #79, #34, #34
-  DB #FF, #69, #24, #24
-  DB #FF, #30, #2C, #30
-  DB #FF, #40, #3A, #36
-  DB #FF, #CF, #CB, #C7
-  DB #FF, #04, #04, #04
-  DB #FF, #00, #02, #09
-  DB #FF, #00, #0A, #14
-  DB #FF, #01, #0B, #1C
-  DB #FF, #00, #14, #26
-  DB #FF, #00, #13, #1E
-  DB #FF, #09, #1D, #27
-  DB #FF, #01, #18, #22
-  DB #FF, #13, #26, #34
-  DB #FF, #01, #1A, #28
-  DB #FF, #02, #20, #2E
-  DB #FF, #18, #2B, #3F
-  DB #FF, #0A, #18, #20
-  DB #FF, #13, #1E, #2F
-  DB #FF, #13, #1A, #21
-  DB #FF, #0B, #13, #1D
-  DB #FF, #01, #08, #0B
-  DB #FF, #01, #10, #18
-  DB #FF, #18, #22, #27
-  DB #FF, #21, #30, #30
-  DB #FF, #22, #2A, #2F
-  DB #FF, #64, #67, #68
-  DB #FF, #09, #0A, #0C
-  DB #FF, #2A, #27, #24
-  DB #FF, #14, #17, #19
-  DB #FF, #0B, #08, #03
-  DB #FF, #27, #21, #18
-  DB #FF, #44, #42, #3D
-  DB #FF, #00, #1C, #2E
-  DB #FF, #28, #32, #38
-  DB #FF, #30, #2C, #28
-  DB #FF, #85, #85, #83
-  DB #FF, #0A, #14, #29
-  DB #FF, #3A, #51, #5C
-  DB #FF, #64, #5D, #55
-  DB #FF, #01, #25, #35
-  DB #FF, #28, #40, #4D
-  DB #FF, #7D, #7E, #7E
-  DB #FF, #9D, #9D, #A0
-  DB #FF, #EF, #EF, #F0
-  DB #FF, #AB, #AD, #AF
-  DB #FF, #34, #3D, #40
-  DB #FF, #BA, #C4, #C8
-  DB #FF, #CF, #CF, #D0
-  DB #FF, #42, #4C, #53
-  DB #FF, #DB, #DF, #E7
-  DB #FF, #9A, #A1, #A1
-  DB #FF, #E2, #E3, #E3
-  DB #FF, #4F, #4D, #4F
-  DB #FF, #B9, #BA, #BA
-  DB #FF, #3E, #3B, #44
-  DB #FF, #1B, #2F, #3A
-  DB #FF, #67, #70, #6E
-  DB #FF, #47, #53, #5A
-  DB #FF, #55, #62, #68
-  DB #FF, #32, #37, #39
-  DB #FF, #8B, #90, #90
-  DB #FF, #79, #79, #79
-  DB #FF, #DB, #DA, #DA
-  DB #FF, #8C, #8B, #8B
-  DB #FF, #0A, #2E, #3E
-  DB #FF, #85, #8C, #92
-  DB #FF, #59, #5C, #62
-  DB #FF, #71, #00, #71
-  DB #FF, #FF, #A1, #FF
-  DB #FF, #9E, #9B, #98
-  DB #FF, #37, #43, #49
-  DB #FF, #26, #42, #59
-  DB #FF, #66, #73, #79
-  DB #FF, #36, #48, #53
-  DB #FF, #1A, #2C, #2D
-  DB #FF, #B2, #B1, #B2
-  DB #FF, #92, #92, #92
-  DB #FF, #AE, #00, #AE
-  DB #FF, #19, #32, #46
-  DB #FF, #01, #2A, #3F
-  DB #FF, #51, #5F, #5A
-  DB #FF, #5E, #60, #5F
-  DB #FF, #1C, #3A, #51
-  DB #FF, #35, #58, #76
-  DB #FF, #29, #39, #46
-  DB #FF, #02, #39, #51
-  DB #FF, #37, #53, #6A
-  DB #FF, #01, #32, #48
-  DB #FF, #2C, #50, #6A
-  DB #FF, #14, #4B, #65
-  DB #FF, #28, #48, #63
-  DB #FF, #4D, #5F, #6B
-  DB #FF, #61, #6B, #71
-  DB #FF, #06, #42, #59
-  DB #FF, #38, #62, #86
-  DB #FF, #52, #4D, #47
-  DB #FF, #2C, #50, #5D
-  DB #FF, #3C, #38, #30
-  DB #FF, #C6, #C6, #C6
-  DB #FF, #70, #6C, #72
-  DB #FF, #A2, #A2, #A2
-  DB #FF, #12, #3E, #66
-  DB #FF, #3A, #5F, #79
-  DB #FF, #47, #5A, #67
-  DB #FF, #FF, #00, #F4
-  DB #FF, #5D, #82, #9B
-  DB #FF, #5A, #74, #87
-  DB #FF, #B1, #DE, #FD
-  DB #FF, #A0, #CC, #EB
-  DB #FF, #8E, #B3, #D0
-  DB #FF, #EB, #EB, #EB
-  DB #FF, #FB, #FB, #FB
-  DB #FF, #9C, #C2, #DE
-  DB #FF, #55, #68, #75
-  DB #FF, #71, #86, #91
-  DB #FF, #78, #A1, #BF
-  DB #FF, #F7, #F7, #F7
-  DB #FF, #91, #A6, #B3
-  DB #FF, #65, #79, #89
-  DB #FF, #6A, #93, #AF
-  DB #FF, #5B, #6F, #7B
-  DB #FF, #F4, #FE, #FF
-  DB #FF, #88, #9B, #A7
-  DB #FF, #BD, #E6, #FF
-  DB #FF, #D0, #F1, #FE
-  DB #FF, #E5, #FA, #FE
-  DB #FF, #F3, #F3, #F3
-  DB #FF, #FB, #FF, #FF
-  DB #FF, #FB, #FB, #FF
-  DB #FF, #E0, #ED, #EE
-  DB #FF, #82, #94, #9D
-  DB #FF, #A9, #B3, #BA
-  DB #FF, #D0, #D4, #D5
-  DB #FF, #C6, #C8, #CF
-  DB #FF, #A9, #B3, #AF
-  DB #FF, #E7, #E7, #E7
-  DB #FF, #AF, #AB, #A7
-  DB #FF, #70, #6C, #6B
-  DB #FF, #15, #0E, #00
-  DB #FF, #25, #19, #01
-  DB #FF, #45, #30, #00
-  DB #FF, #5C, #40, #02
-  DB #FF, #72, #51, #06
-  DB #FF, #BB, #AC, #8D
-  DB #FF, #DC, #D8, #CF
-  DB #FF, #93, #85, #56
-  DB #FF, #84, #5E, #02
-  DB #FF, #A7, #9A, #66
-  DB #FF, #98, #6B, #03
-  DB #FF, #3C, #31, #18
-  DB #FF, #F6, #EE, #E0
-  DB #FF, #C1, #B8, #A1
-  DB #FF, #BF, #AD, #71
-  DB #FF, #B2, #78, #02
-  DB #FF, #B2, #A2, #55
-  DB #FF, #C9, #9A, #37
-  DB #FF, #A3, #79, #22
-  DB #FF, #FA, #EB, #CE
-  DB #FF, #DB, #A6, #35
-  DB #FF, #CB, #85, #01
-  DB #FF, #F4, #DD, #AB
-  DB #FF, #DB, #97, #05
-  DB #FF, #E1, #A1, #18
-  DB #FF, #FF, #FD, #F2
-  DB #FF, #F2, #D1, #8B
-  DB #FF, #E8, #B7, #50
-  DB #FF, #EC, #C6, #72
-  DB #FF, #B6, #87, #22
-  DB #FF, #FF, #FB, #FB
-  DB #FF, #E7, #AC, #30
-  DB #FF, #FF, #FF, #FA
-  DB #FF, #77, #5A, #1B
-  DB #FF, #D7, #D1, #88
-  DB #FF, #8C, #6D, #2C
-  DB #FF, #FD, #F9, #E4
-  DB #FF, #84, #81, #77
-  DB #FF, #7B, #64, #31
-  DB #FF, #B3, #92, #4D
-  DB #FF, #62, #58, #42
-  DB #FF, #7E, #6E, #4D
-  DB #FF, #7B, #75, #69
-  DB #FF, #F4, #D6, #CB
-  DB #FF, #EE, #EB, #E4
-  DB #FF, #47, #62, #79
-  DB #FF, #FF, #CF, #00
-  DB #FF, #BA, #51, #14
-  DB #FF, #32, #4B, #64
-  DB #FF, #52, #6B, #83
-  DB #FF, #49, #5B, #81
-  DB #FF, #6E, #C8, #FE
-  DB #FF, #4F, #B2, #FA
-  DB #FF, #5B, #89, #AA
-  DB #FF, #0B, #94, #FD
-  DB #FF, #44, #68, #86
-  DB #FF, #2A, #3C, #68
-  DB #FF, #00, #FF, #0C
-  DB #FF, #34, #4F, #70
-  DB #FF, #56, #79, #95
-  DB #FF, #82, #00, #2C
-  DB #FF, #4A, #70, #8C
-  DB #FF, #83, #FD, #FF
-  DB #FF, #4F, #6F, #7D
-  DB #FF, #41, #53, #4E
-  DB #FF, #16, #5E, #FD
-  DB #FF, #04, #2D, #FC
-  DB #FF, #E3, #E3, #EF
-  DB #FF, #15, #2E, #BA
-  DB #FF, #48, #74, #98
-  DB #FF, #41, #6C, #90
-  DB #FF, #2C, #53, #74
-  DB #FF, #28, #4D, #6F
-  DB #FF, #71, #2C, #45
-  DB #FF, #4F, #7C, #9F
-  DB #FF, #61, #51, #59
-  DB #FF, #E8, #E8, #8C
-  DB #FF, #FE, #FF, #B2
-  DB #FF, #13, #FD, #FF
-  DB #FF, #FF, #FF, #92
-  DB #FF, #D3, #F1, #AE
-  DB #FF, #C6, #D6, #A5
-  DB #FF, #CB, #DB, #C7
-  DB #FF, #9A, #B3, #72
-  DB #FF, #D3, #E9, #C9
-  DB #FF, #FC, #03, #03
-  DB #FF, #B6, #21, #4A
-  DB #FF, #79, #08, #45
-  DB #FF, #D3, #8E, #9E
-  DB #FF, #FF, #6D, #FF
-  DB #FF, #FF, #C7, #FF
-  DB #FF, #5A, #65, #92
-  DB #FF, #65, #6F, #9D
-  DB #FF, #FF, #45, #45
-  DB #FF, #79, #03, #03
-  DB #FF, #FF, #87, #89
-  DB #FF, #6F, #8E, #5F
-data_palette_end:
-
 ;---------------------------------------------------------------------------------
 
 TITLE_SCREEN_WIDTH = 0						; 0 means width = 256
 TITLE_SCREEN_HEIGHT = 192
-
-data_sprite_title_screen_start:
-data_sprite_title_screen:
-  INCBIN 'assets/title_screen.bin'
-data_sprite_title_screen_end:
 
 ;---------------------------------------------------------------------------------
 
 GAME_OVER_SCREEN_WIDTH = 0  					; 0 means width = 256
 GAME_OVER_SCREEN_HEIGHT = 192
 
-data_sprite_game_over_screen_start:
-data_sprite_game_over_screen:
-  INCBIN 'assets/game_over_screen.bin'
-data_sprite_game_over_screen_end:
-
 ;---------------------------------------------------------------------------------
 
 BACKGROUND_WIDTH = 224
 BACKGROUND_HEIGHT = 192
 
-data_sprite_background_start:
-data_sprite_background:
-  INCBIN 'assets/background.bin'
-data_sprite_background_end:
-
 PARALLAX_WIDTH = 240
 PARALLAX_HEIGHT = 176
-
-data_sprite_parallax_A_start:
-data_sprite_parallax_A:
-  INCBIN 'assets/parallax_A.bin'
-data_sprite_parallax_A_end:
-
-data_sprite_parallax_B_start:
-data_sprite_parallax_B:
-  INCBIN 'assets/parallax_B.bin'
-data_sprite_parallax_B_end:
 
 ;---------------------------------------------------------------------------------
 
 BORDER_WIDTH = 0
 BORDER_HEIGHT = 192
 
-data_sprite_border_start:
-data_sprite_border:
-  INCBIN 'assets/border.bin'
-data_sprite_border_end:
-
 ;---------------------------------------------------------------------------------
 
 NUMBER_WIDTH = 8
 NUMBER_HEIGHT = 16
-
-data_number_sprite_aligner:
-  DS 65536 - (data_number_sprite_aligner % 65536)
-data_number_sprite_aligned:
-
-data_sprite_number_0_start:
-data_sprite_number_0:
-  INCBIN 'assets/number_0.bin'
-data_sprite_number_0_end:
-
-data_number_align0_aligner:
-  DS 128
-data_number_align0_aligned:
-
-data_sprite_number_1_start:
-data_sprite_number_1:
-  INCBIN 'assets/number_1.bin'
-data_sprite_number_1_end:
-
-data_number_align1_aligner:
-  DS 128
-data_number_align1_aligned:
-
-data_sprite_number_2_start:
-data_sprite_number_2:
-  INCBIN 'assets/number_2.bin'
-data_sprite_number_2_end:
-
-data_number_align2_aligner:
-  DS 128
-data_number_align2_aligned:
-
-data_sprite_number_3_start:
-data_sprite_number_3:
-  INCBIN 'assets/number_3.bin'
-data_sprite_number_3_end:
-
-data_number_align3_aligner:
-  DS 128
-data_number_align3_aligned:
-
-data_sprite_number_4_start:
-data_sprite_number_4:
-  INCBIN 'assets/number_4.bin'
-data_sprite_number_4_end:
-
-data_number_align4_aligner:
-  DS 128
-data_number_align4_aligned:
-
-data_sprite_number_5_start:
-data_sprite_number_5:
-  INCBIN 'assets/number_5.bin'
-data_sprite_number_5_end:
-
-data_number_align5_aligner:
-  DS 128
-data_number_align5_aligned:
-
-data_sprite_number_6_start:
-data_sprite_number_6:
-  INCBIN 'assets/number_6.bin'
-data_sprite_number_6_end:
-
-data_number_align6_aligner:
-  DS 128
-data_number_align6_aligned:
-
-data_sprite_number_7_start:
-data_sprite_number_7:
-  INCBIN 'assets/number_7.bin'
-data_sprite_number_7_end:
-
-data_number_align7_aligner:
-  DS 128
-data_number_align7_aligned:
-
-data_sprite_number_8_start:
-data_sprite_number_8:
-  INCBIN 'assets/number_8.bin'
-data_sprite_number_8_end:
-
-data_number_align8_aligner:
-  DS 128
-data_number_align8_aligned:
-
-data_sprite_number_9_start:
-data_sprite_number_9:
-  INCBIN 'assets/number_9.bin'
-data_sprite_number_9_end:
-
-data_number_align9_aligner:
-  DS 128
-data_number_align9_aligned:
 
 ;---------------------------------------------------------------------------------
 

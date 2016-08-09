@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Bitmap name="D:\Chip8SDK\Examples\Nevtest\v35\assets\nevshooter_tiles.png">
+<Bitmap name="D:\Chip8SDK\Examples\Nevtest\v35b\assets\nevshooter_tiles.png">
   <Sprite name="wall_col_00">
     <Rectangle x="8" y="11" width="16" height="192" />
     <PaletteMode value="0" />
@@ -897,7 +897,7 @@
     <Transposed value="False" />
   </Sprite>
   <Sprite name="background">
-    <Rectangle x="730" y="605" width="224" height="192" />
+    <Rectangle x="730" y="621" width="224" height="176" />
     <PaletteMode value="0" />
     <Transparency color="FF321E32" />
     <Collision on="True" color="FFFF32FF" />
@@ -1135,21 +1135,21 @@
     <Transposed value="False" />
   </Sprite>
   <Sprite name="laser_alive1">
-    <Rectangle x="591" y="735" width="16" height="32" />
+    <Rectangle x="631" y="735" width="16" height="32" />
     <PaletteMode value="0" />
     <Transparency color="FF321E32" />
     <Collision on="True" color="FFFF32FF" />
     <Transposed value="False" />
   </Sprite>
   <Sprite name="laser_alive2">
-    <Rectangle x="591" y="702" width="16" height="32" />
+    <Rectangle x="649" y="735" width="16" height="32" />
     <PaletteMode value="0" />
     <Transparency color="FF321E32" />
     <Collision on="True" color="FFFF32FF" />
     <Transposed value="False" />
   </Sprite>
   <Sprite name="laser_alive3">
-    <Rectangle x="573" y="735" width="16" height="32" />
+    <Rectangle x="667" y="735" width="16" height="32" />
     <PaletteMode value="0" />
     <Transparency color="FF321E32" />
     <Collision on="True" color="FFFF32FF" />
@@ -1185,13 +1185,6 @@
   </Sprite>
   <Sprite name="laser_col_purple">
     <Rectangle x="573" y="768" width="16" height="32" />
-    <PaletteMode value="0" />
-    <Transparency color="FF321E32" />
-    <Collision on="True" color="FFFF32FF" />
-    <Transposed value="False" />
-  </Sprite>
-  <Sprite name="laser_col_orange">
-    <Rectangle x="609" y="768" width="16" height="32" />
     <PaletteMode value="0" />
     <Transparency color="FF321E32" />
     <Collision on="True" color="FFFF32FF" />
@@ -1856,14 +1849,14 @@
     <Transposed value="False" />
   </Sprite>
   <Sprite name="boss_col">
-    <Rectangle x="7" y="795" width="256" height="192" />
+    <Rectangle x="23" y="795" width="224" height="192" />
     <PaletteMode value="0" />
     <Transparency color="FF321E32" />
     <Collision on="True" color="FFFF32FF" />
     <Transposed value="False" />
   </Sprite>
   <Sprite name="boss_background">
-    <Rectangle x="838" y="803" width="256" height="192" />
+    <Rectangle x="854" y="803" width="224" height="192" />
     <PaletteMode value="0" />
     <Transparency color="FF321E32" />
     <Collision on="True" color="FFFF32FF" />

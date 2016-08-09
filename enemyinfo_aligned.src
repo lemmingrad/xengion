@@ -1,0 +1,1495 @@
+;---------------------------------------------------------------------------------
+; ENEMY INFO
+;---------------------------------------------------------------------------------
+
+E_ENEMY_STATE_DEAD						= #00
+E_ENEMY_STATE_ALIVE						= #02
+E_ENEMY_STATE_HIT_PLAYER_OR_WALL				= #04
+E_ENEMY_STATE_HIT_PLAYER					= #06
+E_ENEMY_STATE_DAMAGED_BY_LASER					= #08
+E_ENEMY_STATE_KILLED_BY_LASER					= #0A
+E_ENEMY_STATE_DYING						= #0C
+E_ENEMY_STATE_DAMAGED_SHIELD_1					= #0E			
+E_ENEMY_STATE_DAMAGED_SHIELD_2					= #10			
+E_ENEMY_STATE_DAMAGED_SHIELD_3					= #12			
+E_ENEMY_STATE_DAMAGED_SHIELD_LAST				= #14			
+
+E_ENEMY_TYPE_SHIP1						= #00
+E_ENEMY_TYPE_SHIP2						= #04
+E_ENEMY_TYPE_MISSILE						= #08
+E_ENEMY_TYPE_ROOFTURRET						= #0C
+E_ENEMY_TYPE_FLOORTURRET					= #10
+
+SIZEOF_ENEMY							= 12
+E_ENEMY_SLOT_0 	 						= SIZEOF_ENEMY * 0
+E_ENEMY_SLOT_1							= SIZEOF_ENEMY * 1
+E_ENEMY_SLOT_2							= SIZEOF_ENEMY * 2
+E_ENEMY_SLOT_3							= SIZEOF_ENEMY * 3
+E_ENEMY_SLOT_4							= SIZEOF_ENEMY * 4
+E_ENEMY_SLOT_MAX						= E_ENEMY_SLOT_4
+
+SIZEOF_ENEMY_THREAT						= 4
+E_NO_ENEMY_THREAT						= 255
+E_ENEMY_THREAT_SHIP2_HORIZONTAL_UPPER_S0			= SIZEOF_ENEMY_THREAT * 0
+E_ENEMY_THREAT_SHIP2_HORIZONTAL_UPPER_S1			= SIZEOF_ENEMY_THREAT * 1
+E_ENEMY_THREAT_SHIP2_HORIZONTAL_UPPER_S3			= SIZEOF_ENEMY_THREAT * 2
+E_ENEMY_THREAT_SHIP2_HORIZONTAL_MIDDLE_S0			= SIZEOF_ENEMY_THREAT * 3
+E_ENEMY_THREAT_SHIP2_HORIZONTAL_MIDDLE_S1			= SIZEOF_ENEMY_THREAT * 4
+E_ENEMY_THREAT_SHIP2_HORIZONTAL_MIDDLE_S2			= SIZEOF_ENEMY_THREAT * 5
+E_ENEMY_THREAT_SHIP2_HORIZONTAL_LOWER_S0			= SIZEOF_ENEMY_THREAT * 6
+E_ENEMY_THREAT_SHIP2_HORIZONTAL_LOWER_S2			= SIZEOF_ENEMY_THREAT * 7
+E_ENEMY_THREAT_SHIP2_HORIZONTAL_LOWER_S4			= SIZEOF_ENEMY_THREAT * 8
+E_ENEMY_THREAT_SHIP2_SMALL_EARLY_DROP_S0			= SIZEOF_ENEMY_THREAT * 9
+E_ENEMY_THREAT_SHIP2_SMALL_EARLY_DROP_S1			= SIZEOF_ENEMY_THREAT * 10
+E_ENEMY_THREAT_SHIP2_SMALL_EARLY_DROP_S3			= SIZEOF_ENEMY_THREAT * 11
+E_ENEMY_THREAT_SHIP2_BIG_EARLY_DROP_S0				= SIZEOF_ENEMY_THREAT * 12
+E_ENEMY_THREAT_SHIP2_BIG_EARLY_DROP_S1				= SIZEOF_ENEMY_THREAT * 13
+E_ENEMY_THREAT_SHIP2_BIG_EARLY_DROP_S3				= SIZEOF_ENEMY_THREAT * 14
+E_ENEMY_THREAT_SHIP2_SMALL_LATE_DROP_S0				= SIZEOF_ENEMY_THREAT * 15
+E_ENEMY_THREAT_SHIP2_SMALL_LATE_DROP_S1				= SIZEOF_ENEMY_THREAT * 16
+E_ENEMY_THREAT_SHIP2_SMALL_LATE_DROP_S3				= SIZEOF_ENEMY_THREAT * 17
+E_ENEMY_THREAT_SHIP2_BIG_LATE_DROP_S0				= SIZEOF_ENEMY_THREAT * 18
+E_ENEMY_THREAT_SHIP2_BIG_LATE_DROP_S1				= SIZEOF_ENEMY_THREAT * 19
+E_ENEMY_THREAT_SHIP2_BIG_LATE_DROP_S3				= SIZEOF_ENEMY_THREAT * 20
+E_ENEMY_THREAT_SHIP2_SMALL_EARLY_RISE_S0			= SIZEOF_ENEMY_THREAT * 21
+E_ENEMY_THREAT_SHIP2_SMALL_EARLY_RISE_S2			= SIZEOF_ENEMY_THREAT * 22
+E_ENEMY_THREAT_SHIP2_SMALL_EARLY_RISE_S4			= SIZEOF_ENEMY_THREAT * 23
+E_ENEMY_THREAT_SHIP2_BIG_EARLY_RISE_S0				= SIZEOF_ENEMY_THREAT * 24
+E_ENEMY_THREAT_SHIP2_BIG_EARLY_RISE_S2				= SIZEOF_ENEMY_THREAT * 25
+E_ENEMY_THREAT_SHIP2_BIG_EARLY_RISE_S4				= SIZEOF_ENEMY_THREAT * 26
+E_ENEMY_THREAT_SHIP2_SMALL_LATE_RISE_S0				= SIZEOF_ENEMY_THREAT * 27
+E_ENEMY_THREAT_SHIP2_SMALL_LATE_RISE_S2				= SIZEOF_ENEMY_THREAT * 28
+E_ENEMY_THREAT_SHIP2_SMALL_LATE_RISE_S4				= SIZEOF_ENEMY_THREAT * 29
+E_ENEMY_THREAT_SHIP2_BIG_LATE_RISE_S0				= SIZEOF_ENEMY_THREAT * 30
+E_ENEMY_THREAT_SHIP2_BIG_LATE_RISE_S2				= SIZEOF_ENEMY_THREAT * 31
+E_ENEMY_THREAT_SHIP2_BIG_LATE_RISE_S4				= SIZEOF_ENEMY_THREAT * 32
+E_ENEMY_THREAT_SHIP2_SPLIT_EARLY_RISE_S1			= SIZEOF_ENEMY_THREAT * 33
+E_ENEMY_THREAT_SHIP2_SPLIT_LATE_RISE_S1				= SIZEOF_ENEMY_THREAT * 34
+E_ENEMY_THREAT_SHIP2_SPLIT_EARLY_DROP_S2			= SIZEOF_ENEMY_THREAT * 35
+E_ENEMY_THREAT_SHIP2_SPLIT_LATE_DROP_S2				= SIZEOF_ENEMY_THREAT * 36
+E_ENEMY_THREAT_SHIP2_SINE_S0					= SIZEOF_ENEMY_THREAT * 37
+E_ENEMY_THREAT_SHIP2_SINE_S1					= SIZEOF_ENEMY_THREAT * 38
+E_ENEMY_THREAT_SHIP2_SINE_S2					= SIZEOF_ENEMY_THREAT * 39
+E_ENEMY_THREAT_SHIP2_INVSINE_S0					= SIZEOF_ENEMY_THREAT * 40
+E_ENEMY_THREAT_SHIP2_INVSINE_S1					= SIZEOF_ENEMY_THREAT * 41
+E_ENEMY_THREAT_SHIP2_INVSINE_S2					= SIZEOF_ENEMY_THREAT * 42
+E_ENEMY_THREAT_SHIP1_SMALL_SINE_S0				= SIZEOF_ENEMY_THREAT * 43
+E_ENEMY_THREAT_SHIP1_BIG_SINE_S0				= SIZEOF_ENEMY_THREAT * 44
+E_ENEMY_THREAT_MISSILE_Y1_S3					= SIZEOF_ENEMY_THREAT * 45
+E_ENEMY_THREAT_MISSILE_Y2_S1					= SIZEOF_ENEMY_THREAT * 46
+E_ENEMY_THREAT_MISSILE_Y3_S0					= SIZEOF_ENEMY_THREAT * 47
+E_ENEMY_THREAT_MISSILE_Y4_S2					= SIZEOF_ENEMY_THREAT * 48
+E_ENEMY_THREAT_MISSILE_Y5_S4					= SIZEOF_ENEMY_THREAT * 49
+E_ENEMY_THREAT_ROOFTURRET_Y1_S1					= SIZEOF_ENEMY_THREAT * 50
+E_ENEMY_THREAT_ROOFTURRET_Y1_S3					= SIZEOF_ENEMY_THREAT * 51
+E_ENEMY_THREAT_ROOFTURRET_Y2_S1					= SIZEOF_ENEMY_THREAT * 52
+E_ENEMY_THREAT_ROOFTURRET_Y2_S3					= SIZEOF_ENEMY_THREAT * 53
+E_ENEMY_THREAT_FLOORTURRET_Y1_S2				= SIZEOF_ENEMY_THREAT * 54
+E_ENEMY_THREAT_FLOORTURRET_Y1_S4				= SIZEOF_ENEMY_THREAT * 55
+E_ENEMY_THREAT_FLOORTURRET_Y2_S2				= SIZEOF_ENEMY_THREAT * 56
+E_ENEMY_THREAT_FLOORTURRET_Y2_S4				= SIZEOF_ENEMY_THREAT * 57
+E_ENEMY_THREAT_FLOORTURRET_Y3_S2				= SIZEOF_ENEMY_THREAT * 58
+E_ENEMY_THREAT_FLOORTURRET_Y3_S4				= SIZEOF_ENEMY_THREAT * 59
+
+E_ENEMY_TEMPLATE_SHIP1						= SIZEOF_ENEMY * 0
+E_ENEMY_TEMPLATE_SHIP2						= SIZEOF_ENEMY * 1
+E_ENEMY_TEMPLATE_MISSILE					= SIZEOF_ENEMY * 2
+E_ENEMY_TEMPLATE_ROOFTURRET					= SIZEOF_ENEMY * 3
+E_ENEMY_TEMPLATE_FLOORTURRET					= SIZEOF_ENEMY * 4
+
+E_ENEMY_SPRITE_ALIVE_0						= #00 
+E_ENEMY_SPRITE_ALIVE_1						= #04
+E_ENEMY_SPRITE_ALIVE_2						= #08 
+E_ENEMY_SPRITE_ALIVE_3						= #0C 
+E_ENEMY_SPRITE_ALIVE_4						= #10 
+E_ENEMY_SPRITE_ALIVE_5						= #14 
+E_ENEMY_SPRITE_ALIVE_6						= #18 
+E_ENEMY_SPRITE_ALIVE_7						= #1C 
+E_ENEMY_SPRITE_ALIVE_8						= #20 
+E_ENEMY_SPRITE_ALIVE_9						= #24 
+E_ENEMY_SPRITE_ALIVE_10						= #28 
+E_ENEMY_SPRITE_ALIVE_11						= #2C 
+E_ENEMY_SPRITE_ALIVE_12						= #30 
+E_ENEMY_SPRITE_ALIVE_13						= #34 
+E_ENEMY_SPRITE_ALIVE_14						= #38 
+E_ENEMY_SPRITE_ALIVE_15						= #3C 
+E_ENEMY_SPRITE_DAMAGED_0					= #40
+E_ENEMY_SPRITE_DAMAGED_1					= #44
+E_ENEMY_SPRITE_DAMAGED_2					= #48
+E_ENEMY_SPRITE_DAMAGED_3					= #4C
+E_ENEMY_SPRITE_DAMAGED_4					= #50
+E_ENEMY_SPRITE_DAMAGED_5					= #54
+E_ENEMY_SPRITE_DAMAGED_6					= #58
+E_ENEMY_SPRITE_DAMAGED_7					= #5C
+E_ENEMY_SPRITE_DAMAGED_8					= #60
+E_ENEMY_SPRITE_DAMAGED_9					= #64
+E_ENEMY_SPRITE_DAMAGED_10					= #68
+E_ENEMY_SPRITE_DAMAGED_11					= #6C
+E_ENEMY_SPRITE_DAMAGED_12					= #70
+E_ENEMY_SPRITE_DAMAGED_13					= #74
+E_ENEMY_SPRITE_DAMAGED_14					= #78
+E_ENEMY_SPRITE_DAMAGED_15					= #7C
+E_ENEMY_SPRITE_DYING_0						= #80
+E_ENEMY_SPRITE_DYING_1						= #84
+E_ENEMY_SPRITE_DYING_2						= #88
+E_ENEMY_SPRITE_DYING_3						= #8C
+E_ENEMY_SPRITE_DYING_4						= #90
+E_ENEMY_SPRITE_DYING_5						= #94
+E_ENEMY_SPRITE_DYING_6						= #98
+E_ENEMY_SPRITE_DYING_7						= #9C
+E_ENEMY_SPRITE_COL_GREEN_A					= #A0
+E_ENEMY_SPRITE_COL_GREEN_B					= #A4
+
+ENEMY_ALIVE_XPOS_MIN						= 0
+ENEMY_ALIVE_X_MOVE_MASK						= #03
+ENEMY_ALIVE_Y_MOVE_MASK						= #FC
+ENEMY_ALIVE_TIMER_MOVE_INC					= 1
+
+ENEMY_DYING_XPOS_MIN						= 0
+ENEMY_DYING_SPEED_X						= 1
+ENEMY_DYING_TIMER_INC						= #04
+ENEMY_DYING_TIMER_MAX						= #20
+
+ENEMY_MOVEMENT_LOOKUP_INC					= 1
+
+;---------------------------------------------------------------------------------
+
+data_enemy_slots_start:
+  DS 12
+data_enemy_slots:
+data_enemy_slot0:
+  DS SIZEOF_ENEMY
+data_enemy_slot1:
+  DS SIZEOF_ENEMY
+data_enemy_slot2:
+  DS SIZEOF_ENEMY
+data_enemy_slot3:
+  DS SIZEOF_ENEMY
+data_enemy_slot4:
+  DS SIZEOF_ENEMY
+data_enemy_slots_end:
+
+;---------------------------------------------------------------------------------
+
+data_enemy_threats_start:
+  DS 12
+data_enemy_threats:
+data_enemy_threat_ship2_horizontal_upper_s0:
+  DB E_ENEMY_TEMPLATE_SHIP2
+  DB E_ENEMY_SLOT_0
+  DB 28
+  DB 1 + E_ENEMY_Y_MOVE_ZERO
+data_enemy_threat_ship2_horizontal_upper_s1:
+  DB E_ENEMY_TEMPLATE_SHIP2
+  DB E_ENEMY_SLOT_1
+  DB 23
+  DB 1 + E_ENEMY_Y_MOVE_ZERO
+data_enemy_threat_ship2_horizontal_upper_s3:
+  DB E_ENEMY_TEMPLATE_SHIP2
+  DB E_ENEMY_SLOT_3
+  DB 18
+  DB 1 + E_ENEMY_Y_MOVE_ZERO
+data_enemy_threat_ship2_horizontal_middle_s0:
+  DB E_ENEMY_TEMPLATE_SHIP2
+  DB E_ENEMY_SLOT_0
+  DB 88
+  DB 1 + E_ENEMY_Y_MOVE_ZERO
+data_enemy_threat_ship2_horizontal_middle_s1:
+  DB E_ENEMY_TEMPLATE_SHIP2
+  DB E_ENEMY_SLOT_1
+  DB 88
+  DB 1 + E_ENEMY_Y_MOVE_ZERO
+data_enemy_threat_ship2_horizontal_middle_s2:
+  DB E_ENEMY_TEMPLATE_SHIP2
+  DB E_ENEMY_SLOT_2
+  DB 88
+  DB 1 + E_ENEMY_Y_MOVE_ZERO
+data_enemy_threat_ship2_horizontal_lower_s0:
+  DB E_ENEMY_TEMPLATE_SHIP2
+  DB E_ENEMY_SLOT_0
+  DB 148
+  DB 1 + E_ENEMY_Y_MOVE_ZERO
+data_enemy_threat_ship2_horizontal_lower_s2:
+  DB E_ENEMY_TEMPLATE_SHIP2
+  DB E_ENEMY_SLOT_2
+  DB 153
+  DB 1 + E_ENEMY_Y_MOVE_ZERO
+data_enemy_threat_ship2_horizontal_lower_s4:
+  DB E_ENEMY_TEMPLATE_SHIP2
+  DB E_ENEMY_SLOT_4
+  DB 158
+  DB 1 + E_ENEMY_Y_MOVE_ZERO
+data_enemy_threat_ship2_small_early_drop_s0:
+  DB E_ENEMY_TEMPLATE_SHIP2
+  DB E_ENEMY_SLOT_0
+  DB 28
+  DB 1 + E_ENEMY_Y_MOVE_SMALL_MED_EARLY
+data_enemy_threat_ship2_small_early_drop_s1:
+  DB E_ENEMY_TEMPLATE_SHIP2
+  DB E_ENEMY_SLOT_1
+  DB 23
+  DB 1 + E_ENEMY_Y_MOVE_SMALL_MED_EARLY
+data_enemy_threat_ship2_small_early_drop_s3:
+  DB E_ENEMY_TEMPLATE_SHIP2
+  DB E_ENEMY_SLOT_3
+  DB 18
+  DB 1 + E_ENEMY_Y_MOVE_SMALL_MED_EARLY
+data_enemy_threat_ship2_big_early_drop_s0:
+  DB E_ENEMY_TEMPLATE_SHIP2
+  DB E_ENEMY_SLOT_0
+  DB 28
+  DB 1 + E_ENEMY_Y_MOVE_BIG_FAST_EARLY
+data_enemy_threat_ship2_big_early_drop_s1:
+  DB E_ENEMY_TEMPLATE_SHIP2
+  DB E_ENEMY_SLOT_1
+  DB 23
+  DB 1 + E_ENEMY_Y_MOVE_BIG_FAST_EARLY
+data_enemy_threat_ship2_big_early_drop_s3:
+  DB E_ENEMY_TEMPLATE_SHIP2
+  DB E_ENEMY_SLOT_3
+  DB 18
+  DB 1 + E_ENEMY_Y_MOVE_BIG_FAST_EARLY
+data_enemy_threat_ship2_small_late_drop_s0:
+  DB E_ENEMY_TEMPLATE_SHIP2
+  DB E_ENEMY_SLOT_0
+  DB 28
+  DB 1 + E_ENEMY_Y_MOVE_SMALL_MED_LATE
+data_enemy_threat_ship2_small_late_drop_s1:
+  DB E_ENEMY_TEMPLATE_SHIP2
+  DB E_ENEMY_SLOT_1
+  DB 23
+  DB 1 + E_ENEMY_Y_MOVE_SMALL_MED_LATE
+data_enemy_threat_ship2_small_late_drop_s3:
+  DB E_ENEMY_TEMPLATE_SHIP2
+  DB E_ENEMY_SLOT_3
+  DB 18
+  DB 1 + E_ENEMY_Y_MOVE_SMALL_MED_LATE
+data_enemy_threat_ship2_big_late_drop_s0:
+  DB E_ENEMY_TEMPLATE_SHIP2
+  DB E_ENEMY_SLOT_0
+  DB 28
+  DB 1 + E_ENEMY_Y_MOVE_BIG_FAST_LATE
+data_enemy_threat_ship2_big_late_drop_s1:
+  DB E_ENEMY_TEMPLATE_SHIP2
+  DB E_ENEMY_SLOT_1
+  DB 23
+  DB 1 + E_ENEMY_Y_MOVE_BIG_FAST_LATE
+data_enemy_threat_ship2_big_late_drop_s3:
+  DB E_ENEMY_TEMPLATE_SHIP2
+  DB E_ENEMY_SLOT_3
+  DB 18
+  DB 1 + E_ENEMY_Y_MOVE_BIG_MED_LATE
+data_enemy_threat_ship2_small_early_rise_s0:
+  DB E_ENEMY_TEMPLATE_SHIP2
+  DB E_ENEMY_SLOT_0
+  DB 148
+  DB 1 + E_ENEMY_Y_MOVE_NEGSMALL_MED_EARLY
+data_enemy_threat_ship2_small_early_rise_s2:
+  DB E_ENEMY_TEMPLATE_SHIP2
+  DB E_ENEMY_SLOT_2
+  DB 153
+  DB 1 + E_ENEMY_Y_MOVE_NEGSMALL_MED_EARLY
+data_enemy_threat_ship2_small_early_rise_s4:
+  DB E_ENEMY_TEMPLATE_SHIP2
+  DB E_ENEMY_SLOT_4
+  DB 158
+  DB 1 + E_ENEMY_Y_MOVE_NEGSMALL_MED_EARLY
+data_enemy_threat_ship2_big_early_rise_s0:
+  DB E_ENEMY_TEMPLATE_SHIP2
+  DB E_ENEMY_SLOT_0
+  DB 148
+  DB 1 + E_ENEMY_Y_MOVE_NEGBIG_FAST_EARLY
+data_enemy_threat_ship2_big_early_rise_s2:
+  DB E_ENEMY_TEMPLATE_SHIP2
+  DB E_ENEMY_SLOT_2
+  DB 153
+  DB 1 + E_ENEMY_Y_MOVE_NEGBIG_FAST_EARLY
+data_enemy_threat_ship2_big_early_rise_s4:
+  DB E_ENEMY_TEMPLATE_SHIP2
+  DB E_ENEMY_SLOT_4
+  DB 158
+  DB 1 + E_ENEMY_Y_MOVE_NEGBIG_FAST_EARLY
+data_enemy_threat_ship2_small_late_rise_s0:
+  DB E_ENEMY_TEMPLATE_SHIP2
+  DB E_ENEMY_SLOT_0
+  DB 148
+  DB 1 + E_ENEMY_Y_MOVE_NEGSMALL_MED_LATE
+data_enemy_threat_ship2_small_late_rise_s2:
+  DB E_ENEMY_TEMPLATE_SHIP2
+  DB E_ENEMY_SLOT_2
+  DB 153
+  DB 1 + E_ENEMY_Y_MOVE_NEGSMALL_MED_LATE
+data_enemy_threat_ship2_small_late_rise_s4:
+  DB E_ENEMY_TEMPLATE_SHIP2
+  DB E_ENEMY_SLOT_4
+  DB 158
+  DB 1 + E_ENEMY_Y_MOVE_NEGSMALL_MED_LATE
+data_enemy_threat_ship2_big_late_rise_s0:
+  DB E_ENEMY_TEMPLATE_SHIP2
+  DB E_ENEMY_SLOT_0
+  DB 148
+  DB 1 + E_ENEMY_Y_MOVE_NEGBIG_FAST_LATE
+data_enemy_threat_ship2_big_late_rise_s2:
+  DB E_ENEMY_TEMPLATE_SHIP2
+  DB E_ENEMY_SLOT_2
+  DB 153
+  DB 1 + E_ENEMY_Y_MOVE_NEGBIG_FAST_LATE
+data_enemy_threat_ship2_big_late_rise_s4:
+  DB E_ENEMY_TEMPLATE_SHIP2
+  DB E_ENEMY_SLOT_4
+  DB 158
+  DB 1 + E_ENEMY_Y_MOVE_NEGBIG_FAST_LATE
+data_enemy_threat_ship2_split_early_rise_s1:
+  DB E_ENEMY_TEMPLATE_SHIP2
+  DB E_ENEMY_SLOT_1
+  DB 83
+  DB 1 + E_ENEMY_Y_MOVE_NEGSMALL_MED_EARLY
+data_enemy_threat_ship2_split_late_rise_s1:
+  DB E_ENEMY_TEMPLATE_SHIP2
+  DB E_ENEMY_SLOT_1
+  DB 83
+  DB 1 + E_ENEMY_Y_MOVE_NEGSMALL_MED_LATE
+data_enemy_threat_ship2_split_early_drop_s2:
+  DB E_ENEMY_TEMPLATE_SHIP2
+  DB E_ENEMY_SLOT_2
+  DB 93
+  DB 1 + E_ENEMY_Y_MOVE_SMALL_FAST_EARLY
+data_enemy_threat_ship2_split_late_drop_s2:
+  DB E_ENEMY_TEMPLATE_SHIP2
+  DB E_ENEMY_SLOT_2
+  DB 93
+  DB 1 + E_ENEMY_Y_MOVE_SMALL_FAST_LATE
+data_enemy_threat_ship2_sine_s0:
+  DB E_ENEMY_TEMPLATE_SHIP2
+  DB E_ENEMY_SLOT_0
+  DB 88
+  DB 1 + E_ENEMY_Y_MOVE_SMALL_SLOW_SINE
+data_enemy_threat_ship2_sine_s1:
+  DB E_ENEMY_TEMPLATE_SHIP2
+  DB E_ENEMY_SLOT_1
+  DB 83
+  DB 1 + E_ENEMY_Y_MOVE_SMALL_SLOW_SINE
+data_enemy_threat_ship2_sine_s2:
+  DB E_ENEMY_TEMPLATE_SHIP2
+  DB E_ENEMY_SLOT_2
+  DB 93
+  DB 1 + E_ENEMY_Y_MOVE_SMALL_SLOW_SINE
+data_enemy_threat_ship2_invsine_s0:
+  DB E_ENEMY_TEMPLATE_SHIP2
+  DB E_ENEMY_SLOT_0
+  DB 88
+  DB 1 + E_ENEMY_Y_MOVE_NEGSMALL_SLOW_SINE
+data_enemy_threat_ship2_invsine_s1:
+  DB E_ENEMY_TEMPLATE_SHIP2
+  DB E_ENEMY_SLOT_1
+  DB 83
+  DB 1 + E_ENEMY_Y_MOVE_NEGSMALL_SLOW_SINE
+data_enemy_threat_ship2_invsine_s2:
+  DB E_ENEMY_TEMPLATE_SHIP2
+  DB E_ENEMY_SLOT_2
+  DB 93
+  DB 1 + E_ENEMY_Y_MOVE_NEGSMALL_SLOW_SINE
+data_enemy_threat_ship1_small_sine_s0:
+  DB E_ENEMY_TEMPLATE_SHIP1
+  DB E_ENEMY_SLOT_0
+  DB 88
+  DB 1 + E_ENEMY_Y_MOVE_SMALL_SLOW_SINE
+data_enemy_threat_ship1_big_sine_s0:
+  DB E_ENEMY_TEMPLATE_SHIP1
+  DB E_ENEMY_SLOT_0
+  DB 80
+  DB 1 + E_ENEMY_Y_MOVE_BIG_VSLOW_SINE
+data_enemy_threat_missile_y1_s3:
+  DB E_ENEMY_TEMPLATE_MISSILE
+  DB E_ENEMY_SLOT_3
+  DB 38
+  DB 2 + E_ENEMY_Y_MOVE_ZERO
+data_enemy_threat_missile_y2_s1:
+  DB E_ENEMY_TEMPLATE_MISSILE
+  DB E_ENEMY_SLOT_1
+  DB 63
+  DB 2 + E_ENEMY_Y_MOVE_ZERO
+data_enemy_threat_missile_y3_s0:
+  DB E_ENEMY_TEMPLATE_MISSILE
+  DB E_ENEMY_SLOT_0
+  DB 88
+  DB 2 + E_ENEMY_Y_MOVE_ZERO
+data_enemy_threat_missile_y4_s2:
+  DB E_ENEMY_TEMPLATE_MISSILE
+  DB E_ENEMY_SLOT_2
+  DB 113
+  DB 2 + E_ENEMY_Y_MOVE_ZERO
+data_enemy_threat_missile_y5_s4:
+  DB E_ENEMY_TEMPLATE_MISSILE
+  DB E_ENEMY_SLOT_4
+  DB 138
+  DB 2 + E_ENEMY_Y_MOVE_ZERO
+data_enemy_threat_roofturret_y1_s1:
+  DB E_ENEMY_TEMPLATE_ROOFTURRET
+  DB E_ENEMY_SLOT_1
+  DB 8
+  DB GAMEPLAY_SCROLL_SPEED + E_ENEMY_Y_MOVE_ZERO
+data_enemy_threat_roofturret_y1_s3:
+  DB E_ENEMY_TEMPLATE_ROOFTURRET
+  DB E_ENEMY_SLOT_3
+  DB 8
+  DB GAMEPLAY_SCROLL_SPEED + E_ENEMY_Y_MOVE_ZERO
+data_enemy_threat_roofturret_y2_s1:
+  DB E_ENEMY_TEMPLATE_ROOFTURRET
+  DB E_ENEMY_SLOT_1
+  DB 24
+  DB GAMEPLAY_SCROLL_SPEED + E_ENEMY_Y_MOVE_ZERO
+data_enemy_threat_roofturret_y2_s3:
+  DB E_ENEMY_TEMPLATE_ROOFTURRET
+  DB E_ENEMY_SLOT_3
+  DB 24
+  DB GAMEPLAY_SCROLL_SPEED + E_ENEMY_Y_MOVE_ZERO
+data_enemy_threat_floorturret_y1_s2:
+  DB E_ENEMY_TEMPLATE_FLOORTURRET
+  DB E_ENEMY_SLOT_2
+  DB 135
+  DB GAMEPLAY_SCROLL_SPEED + E_ENEMY_Y_MOVE_ZERO
+data_enemy_threat_floorturret_y1_s4:
+  DB E_ENEMY_TEMPLATE_FLOORTURRET
+  DB E_ENEMY_SLOT_4
+  DB 135
+  DB GAMEPLAY_SCROLL_SPEED + E_ENEMY_Y_MOVE_ZERO
+data_enemy_threat_floorturret_y2_s2:
+  DB E_ENEMY_TEMPLATE_FLOORTURRET
+  DB E_ENEMY_SLOT_2
+  DB 151
+  DB GAMEPLAY_SCROLL_SPEED + E_ENEMY_Y_MOVE_ZERO
+data_enemy_threat_floorturret_y2_s4:
+  DB E_ENEMY_TEMPLATE_FLOORTURRET
+  DB E_ENEMY_SLOT_4
+  DB 151
+  DB GAMEPLAY_SCROLL_SPEED + E_ENEMY_Y_MOVE_ZERO
+data_enemy_threat_floorturret_y3_s2:
+  DB E_ENEMY_TEMPLATE_FLOORTURRET
+  DB E_ENEMY_SLOT_2
+  DB 167
+  DB GAMEPLAY_SCROLL_SPEED + E_ENEMY_Y_MOVE_ZERO
+data_enemy_threat_floorturret_y3_s4:
+  DB E_ENEMY_TEMPLATE_FLOORTURRET
+  DB E_ENEMY_SLOT_4
+  DB 167
+  DB GAMEPLAY_SCROLL_SPEED + E_ENEMY_Y_MOVE_ZERO
+data_enemy_threats_end:
+
+data_enemy_templates_start:
+  DS 12
+data_enemy_templates:
+data_enemy_template_ship1:
+  DB E_ENEMY_STATE_ALIVE
+  DB 2
+  DB 0
+  DB 0
+  DB 0
+  DB E_ENEMY_TYPE_SHIP1
+  DB 0
+  DS 5
+data_enemy_template_ship2:
+  DB E_ENEMY_STATE_ALIVE
+  DB 1
+  DB 0
+  DB 0
+  DB 0
+  DB E_ENEMY_TYPE_SHIP2
+  DB 0
+  DS 5
+data_enemy_template_missile:
+  DB E_ENEMY_STATE_ALIVE
+  DB 1
+  DB 0
+  DB 0
+  DB 0
+  DB E_ENEMY_TYPE_MISSILE
+  DB 0
+  DS 5
+data_enemy_template_roofturret:
+  DB E_ENEMY_STATE_ALIVE
+  DB 1
+  DB 0
+  DB 0
+  DB 0
+  DB E_ENEMY_TYPE_ROOFTURRET
+  DB 0
+  DS 5
+data_enemy_template_floorturret:
+  DB E_ENEMY_STATE_ALIVE
+  DB 1
+  DB 0
+  DB 0
+  DB 0
+  DB E_ENEMY_TYPE_FLOORTURRET
+  DB 0
+  DS 5
+data_enemy_templates_end:
+
+data_enemy_bossturrets_start:
+  DS 12
+data_enemy_bossturrets:
+data_enemy_bossturret0:
+  DB E_ENEMY_STATE_DEAD
+  DS 11
+data_enemy_bossturret1:
+  DB E_ENEMY_STATE_ALIVE					; enemy.state
+  DB 5								; enemy.health
+  DB 0								; enemy.timer
+  DB 176							; enemy.xpos
+  DB 56								; enemy.ypos
+  DB E_ENEMY_TYPE_ROOFTURRET		 			; enemy.type
+  DB E_ENEMY_Y_MOVE_ZERO					; enemy.move
+  DS 5								; unused
+data_enemy_bossturret2:
+  DB E_ENEMY_STATE_ALIVE					; enemy.state
+  DB 5								; enemy.health
+  DB 0								; enemy.timer
+  DB 176							; enemy.xpos
+  DB 120							; enemy.ypos
+  DB E_ENEMY_TYPE_FLOORTURRET		 			; enemy.type
+  DB E_ENEMY_Y_MOVE_ZERO					; enemy.move
+  DS 5								; unused
+data_enemy_bossturret3:
+  DB E_ENEMY_STATE_ALIVE					; enemy.state
+  DB 5								; enemy.health
+  DB 0								; enemy.timer
+  DB 160							; enemy.xpos
+  DB 24								; enemy.ypos
+  DB E_ENEMY_TYPE_ROOFTURRET		 			; enemy.type
+  DB E_ENEMY_Y_MOVE_ZERO					; enemy.move
+  DS 5								; unused
+data_enemy_bossturret4:
+  DB E_ENEMY_STATE_ALIVE					; enemy.state
+  DB 5								; enemy.health
+  DB 0								; enemy.timer
+  DB 160							; enemy.xpos
+  DB 151							; enemy.ypos
+  DB E_ENEMY_TYPE_FLOORTURRET		 			; enemy.type
+  DB E_ENEMY_Y_MOVE_ZERO					; enemy.move
+  DS 5								; unused
+data_enemy_bossturrets_end:
+
+
+data_enemyinfo_generic_start:
+;---------------------------------------------------------------------------------
+
+  DS 12
+data_enemy_alive_constants:
+  DB ENEMY_ALIVE_Y_MOVE_MASK					; enemy.const ENEMY_ALIVE_Y_MOVE_MASK
+  DB ENEMY_ALIVE_X_MOVE_MASK					; enemy.const ENEMY_ALIVE_X_MOVE_MASK
+  DB ENEMY_ALIVE_XPOS_MIN					; enemy.const ENEMY_ALIVE_XPOS_MIN
+  DB ENEMY_ALIVE_TIMER_MOVE_INC					; enemy.const ENEMY_ALIVE_TIMER_MOVE_INC
+
+  DS 12
+data_enemy_dying_constants:
+  DB ENEMY_DYING_XPOS_MIN					; enemy.const ENEMY_DYING_XPOS_MIN
+  DB ENEMY_DYING_SPEED_X					; enemy.const ENEMY_DYING_SPEED_X 
+  DB ENEMY_DYING_TIMER_INC					; enemy.const ENEMY_DYING_TIMER_INC
+  DB ENEMY_DYING_TIMER_MAX					; enemy.const ENEMY_DYING_TIMER_MAX
+
+;---------------------------------------------------------------------------------
+
+data_enemy_update_state_switch_lookup:
+  JP lbl_do_update_enemies_case_dead				; E_ENEMY_STATE_DEAD
+  JP lbl_do_update_enemies_case_alive				; E_ENEMY_STATE_ALIVE
+  JP lbl_do_update_enemies_case_hit_something			; E_ENEMY_STATE_HIT_WALL
+  JP lbl_do_update_enemies_case_hit_something			; E_ENEMY_STATE_HIT_PLAYER
+  JP lbl_do_update_enemies_case_damaged_by_laser		; E_ENEMY_STATE_DAMAGED_BY_LASER
+  JP lbl_do_update_enemies_case_killed_by_laser			; E_ENEMY_STATE_KILLED_BY_LASER
+  JP lbl_do_update_enemies_case_dying				; E_ENEMY_STATE_DYING
+  JP lbl_do_update_enemies_case_damaged_shield_1		; E_ENEMY_STATE_DAMAGED_SHIELD_1
+  JP lbl_do_update_enemies_case_damaged_shield_2		; E_ENEMY_STATE_DAMAGED_SHIELD_2
+  JP lbl_do_update_enemies_case_damaged_shield_3		; E_ENEMY_STATE_DAMAGED_SHIELD_3
+  JP lbl_do_update_enemies_case_damaged_shield_last		; E_ENEMY_STATE_DAMAGED_SHIELD_LAST
+
+;---------------------------------------------------------------------------------
+
+data_enemy_type_lookup:
+  LDHI I, data_enemy_ship1_sprite_aligned			; E_ENEMY_TYPE_SHIP_1
+  LDHI I, data_enemy_ship2_sprite_aligned			; E_ENEMY_TYPE_SHIP_2
+  LDHI I, data_enemy_missile_sprite_aligned			; E_ENEMY_TYPE_MISSILE
+  LDHI I, data_enemy_roofturret_sprite_aligned			; E_ENEMY_TYPE_ROOFTURRET
+  LDHI I, data_enemy_floorturret_sprite_aligned			; E_ENEMY_TYPE_FLOORTURRET 
+
+;---------------------------------------------------------------------------------
+data_enemyinfo_generic_end:
+
+
+ENEMY_WIDTH = 32
+ENEMY_HEIGHT = 32
+
+data_enemy_ship1_sprite_aligner:
+  DS 65536 - (data_enemy_ship1_sprite_aligner % 65536)
+data_enemy_ship1_sprite_aligned:
+  
+data_sprite_ship1_alive0_start:
+  INCBIN 'assets/ship1_alive0.bin'
+data_sprite_ship1_alive0_end:
+
+data_sprite_ship1_alive1_start:
+  INCBIN 'assets/ship1_alive0.bin'
+data_sprite_ship1_alive1_end:
+
+data_sprite_ship1_alive2_start:
+  INCBIN 'assets/ship1_alive0.bin'
+data_sprite_ship1_alive2_end:
+
+data_sprite_ship1_alive3_start:
+  INCBIN 'assets/ship1_alive0.bin'
+data_sprite_ship1_alive3_end:
+
+data_sprite_ship1_alive4_start:
+  INCBIN 'assets/ship1_alive1.bin'
+data_sprite_ship1_alive4_end:
+
+data_sprite_ship1_alive5_start:
+  INCBIN 'assets/ship1_alive1.bin'
+data_sprite_ship1_alive5_end:
+
+data_sprite_ship1_alive6_start:
+  INCBIN 'assets/ship1_alive1.bin'
+data_sprite_ship1_alive6_end:
+
+data_sprite_ship1_alive7_start:
+  INCBIN 'assets/ship1_alive1.bin'
+data_sprite_ship1_alive7_end:
+
+data_sprite_ship1_alive8_start:
+  INCBIN 'assets/ship1_alive2.bin'
+data_sprite_ship1_alive8_end:
+
+data_sprite_ship1_alive9_start:
+  INCBIN 'assets/ship1_alive2.bin'
+data_sprite_ship1_alive9_end:
+
+data_sprite_ship1_alive10_start:
+  INCBIN 'assets/ship1_alive2.bin'
+data_sprite_ship1_alive10_end:
+
+data_sprite_ship1_alive11_start:
+  INCBIN 'assets/ship1_alive2.bin'
+data_sprite_ship1_alive11_end:
+
+data_sprite_ship1_alive12_start:
+  INCBIN 'assets/ship1_alive3.bin'
+data_sprite_ship1_alive12_end:
+
+data_sprite_ship1_alive13_start:
+  INCBIN 'assets/ship1_alive3.bin'
+data_sprite_ship1_alive13_end:
+
+data_sprite_ship1_alive14_start:
+  INCBIN 'assets/ship1_alive3.bin'
+data_sprite_ship1_alive14_end:
+
+data_sprite_ship1_alive15_start:
+  INCBIN 'assets/ship1_alive3.bin'
+data_sprite_ship1_alive15_end:
+
+data_sprite_ship1_damaged0_start:
+  INCBIN 'assets/ship1_damaged0.bin'
+data_sprite_ship1_damaged0_end:
+
+data_sprite_ship1_damaged1_start:
+  INCBIN 'assets/ship1_damaged0.bin'
+data_sprite_ship1_damaged1_end:
+
+data_sprite_ship1_damaged2_start:
+  INCBIN 'assets/ship1_damaged0.bin'
+data_sprite_ship1_damaged2_end:
+
+data_sprite_ship1_damaged3_start:
+  INCBIN 'assets/ship1_damaged0.bin'
+data_sprite_ship1_damaged3_end:
+
+data_sprite_ship1_damaged4_start:
+  INCBIN 'assets/ship1_damaged1.bin'
+data_sprite_ship1_damaged4_end:
+
+data_sprite_ship1_damaged5_start:
+  INCBIN 'assets/ship1_damaged1.bin'
+data_sprite_ship1_damaged5_end:
+
+data_sprite_ship1_damaged6_start:
+  INCBIN 'assets/ship1_damaged1.bin'
+data_sprite_ship1_damaged6_end:
+
+data_sprite_ship1_damaged7_start:
+  INCBIN 'assets/ship1_damaged1.bin'
+data_sprite_ship1_damaged7_end:
+
+data_sprite_ship1_damaged8_start:
+  INCBIN 'assets/ship1_damaged2.bin'
+data_sprite_ship1_damaged8_end:
+
+data_sprite_ship1_damaged9_start:
+  INCBIN 'assets/ship1_damaged2.bin'
+data_sprite_ship1_damaged9_end:
+
+data_sprite_ship1_damaged10_start:
+  INCBIN 'assets/ship1_damaged2.bin'
+data_sprite_ship1_damaged10_end:
+
+data_sprite_ship1_damaged11_start:
+  INCBIN 'assets/ship1_damaged2.bin'
+data_sprite_ship1_damaged11_end:
+
+data_sprite_ship1_damaged12_start:
+  INCBIN 'assets/ship1_damaged3.bin'
+data_sprite_ship1_damaged12_end:
+
+data_sprite_ship1_damaged13_start:
+  INCBIN 'assets/ship1_damaged3.bin'
+data_sprite_ship1_damaged13_end:
+
+data_sprite_ship1_damaged14_start:
+  INCBIN 'assets/ship1_damaged3.bin'
+data_sprite_ship1_damaged14_end:
+
+data_sprite_ship1_damaged15_start:
+  INCBIN 'assets/ship1_damaged3.bin'
+data_sprite_ship1_damaged15_end:
+
+data_sprite_ship1_dying0_start:
+  INCBIN 'assets/ship1_dying0.bin'
+data_sprite_ship1_dying0_end:
+
+data_sprite_ship1_dying1_start:
+  INCBIN 'assets/ship1_dying1.bin'
+data_sprite_ship1_dying1_end:
+
+data_sprite_ship1_dying2_start:
+  INCBIN 'assets/ship1_dying2.bin'
+data_sprite_ship1_dying2_end:
+
+data_sprite_ship1_dying3_start:
+  INCBIN 'assets/ship1_dying3.bin'
+data_sprite_ship1_dying3_end:
+
+data_sprite_ship1_dying4_start:
+  INCBIN 'assets/ship1_dying4.bin'
+data_sprite_ship1_dying4_end:
+
+data_sprite_ship1_dying5_start:
+  INCBIN 'assets/ship1_dying5.bin'
+data_sprite_ship1_dying5_end:
+
+data_sprite_ship1_dying6_start:
+  INCBIN 'assets/ship1_dying6.bin'
+data_sprite_ship1_dying6_end:
+
+data_sprite_ship1_dying7_start:
+  INCBIN 'assets/ship1_dying7.bin'
+data_sprite_ship1_dying7_end:
+
+data_sprite_ship1_col_greenA_start:
+  INCBIN 'assets/ship1_col_greenA.bin'
+data_sprite_ship1_col_greenA_end:
+
+data_sprite_ship1_col_greenB_start:
+  INCBIN 'assets/ship1_col_greenB.bin'
+data_sprite_ship1_col_greenB_end:
+
+
+
+
+data_enemy_ship2_sprite_aligner:
+  DS 65536 - (data_enemy_ship2_sprite_aligner % 65536)
+data_enemy_ship2_sprite_aligned:
+
+data_sprite_ship2_alive0_start:
+  INCBIN 'assets/ship2_alive0.bin'
+data_sprite_ship2_alive0_end:
+
+data_sprite_ship2_alive1_start:
+  INCBIN 'assets/ship2_alive0.bin'
+data_sprite_ship2_alive1_end:
+
+data_sprite_ship2_alive2_start:
+  INCBIN 'assets/ship2_alive1.bin'
+data_sprite_ship2_alive2_end:
+
+data_sprite_ship2_alive3_start:
+  INCBIN 'assets/ship2_alive1.bin'
+data_sprite_ship2_alive3_end:
+
+data_sprite_ship2_alive4_start:
+  INCBIN 'assets/ship2_alive0.bin'
+data_sprite_ship2_alive4_end:
+
+data_sprite_ship2_alive5_start:
+  INCBIN 'assets/ship2_alive0.bin'
+data_sprite_ship2_alive5_end:
+
+data_sprite_ship2_alive6_start:
+  INCBIN 'assets/ship2_alive1.bin'
+data_sprite_ship2_alive6_end:
+
+data_sprite_ship2_alive7_start:
+  INCBIN 'assets/ship2_alive1.bin'
+data_sprite_ship2_alive7_end:
+
+data_sprite_ship2_alive8_start:
+  INCBIN 'assets/ship2_alive0.bin'
+data_sprite_ship2_alive8_end:
+
+data_sprite_ship2_alive9_start:
+  INCBIN 'assets/ship2_alive0.bin'
+data_sprite_ship2_alive9_end:
+
+data_sprite_ship2_alive10_start:
+  INCBIN 'assets/ship2_alive1.bin'
+data_sprite_ship2_alive10_end:
+
+data_sprite_ship2_alive11_start:
+  INCBIN 'assets/ship2_alive1.bin'
+data_sprite_ship2_alive11_end:
+
+data_sprite_ship2_alive12_start:
+  INCBIN 'assets/ship2_alive0.bin'
+data_sprite_ship2_alive12_end:
+
+data_sprite_ship2_alive13_start:
+  INCBIN 'assets/ship2_alive0.bin'
+data_sprite_ship2_alive13_end:
+
+data_sprite_ship2_alive14_start:
+  INCBIN 'assets/ship2_alive1.bin'
+data_sprite_ship2_alive14_end:
+
+data_sprite_ship2_alive15_start:
+  INCBIN 'assets/ship2_alive1.bin'
+data_sprite_ship2_alive15_end:
+
+data_sprite_ship2_damaged0_start:
+  INCBIN 'assets/ship2_alive0.bin'
+data_sprite_ship2_damaged0_end:
+
+data_sprite_ship2_damaged1_start:
+  INCBIN 'assets/ship2_alive0.bin'
+data_sprite_ship2_damaged1_end:
+
+data_sprite_ship2_damaged2_start:
+  INCBIN 'assets/ship2_alive1.bin'
+data_sprite_ship2_damaged2_end:
+
+data_sprite_ship2_damaged3_start:
+  INCBIN 'assets/ship2_alive1.bin'
+data_sprite_ship2_damaged3_end:
+
+data_sprite_ship2_damaged4_start:
+  INCBIN 'assets/ship2_alive0.bin'
+data_sprite_ship2_damaged4_end:
+
+data_sprite_ship2_damaged5_start:
+  INCBIN 'assets/ship2_alive0.bin'
+data_sprite_ship2_damaged5_end:
+
+data_sprite_ship2_damaged6_start:
+  INCBIN 'assets/ship2_alive1.bin'
+data_sprite_ship2_damaged6_end:
+
+data_sprite_ship2_damaged7_start:
+  INCBIN 'assets/ship2_alive1.bin'
+data_sprite_ship2_damaged7_end:
+
+data_sprite_ship2_damaged8_start:
+  INCBIN 'assets/ship2_alive0.bin'
+data_sprite_ship2_damaged8_end:
+
+data_sprite_ship2_damaged9_start:
+  INCBIN 'assets/ship2_alive0.bin'
+data_sprite_ship2_damaged9_end:
+
+data_sprite_ship2_damaged10_start:
+  INCBIN 'assets/ship2_alive1.bin'
+data_sprite_ship2_damaged10_end:
+
+data_sprite_ship2_damaged11_start:
+  INCBIN 'assets/ship2_alive1.bin'
+data_sprite_ship2_damaged11_end:
+
+data_sprite_ship2_damaged12_start:
+  INCBIN 'assets/ship2_alive0.bin'
+data_sprite_ship2_damaged12_end:
+
+data_sprite_ship2_damaged13_start:
+  INCBIN 'assets/ship2_alive0.bin'
+data_sprite_ship2_damaged13_end:
+
+data_sprite_ship2_damaged14_start:
+  INCBIN 'assets/ship2_alive1.bin'
+data_sprite_ship2_damaged14_end:
+
+data_sprite_ship2_damaged15_start:
+  INCBIN 'assets/ship2_alive1.bin'
+data_sprite_ship2_damaged15_end:
+
+data_sprite_ship2_dying0_start:
+  INCBIN 'assets/ship2_dying0.bin'
+data_sprite_ship2_dying0_end:
+
+data_sprite_ship2_dying1_start:
+  INCBIN 'assets/ship2_dying1.bin'
+data_sprite_ship2_dying1_end:
+
+data_sprite_ship2_dying2_start:
+  INCBIN 'assets/ship2_dying2.bin'
+data_sprite_ship2_dying2_end:
+
+data_sprite_ship2_dying3_start:
+  INCBIN 'assets/ship2_dying3.bin'
+data_sprite_ship2_dying3_end:
+
+data_sprite_ship2_dying4_start:
+  INCBIN 'assets/ship2_dying4.bin'
+data_sprite_ship2_dying4_end:
+
+data_sprite_ship2_dying5_start:
+  INCBIN 'assets/ship2_dying5.bin'
+data_sprite_ship2_dying5_end:
+
+data_sprite_ship2_dying6_start:
+  INCBIN 'assets/ship2_dying6.bin'
+data_sprite_ship2_dying6_end:
+
+data_sprite_ship2_dying7_start:
+  INCBIN 'assets/ship2_dying7.bin'
+data_sprite_ship2_dying7_end:
+
+data_sprite_ship2_col_greenA_start:
+  INCBIN 'assets/ship2_col_greenA.bin'
+data_sprite_ship2_col_greenA_end:
+
+data_sprite_ship2_col_greenB_start:
+  INCBIN 'assets/ship2_col_greenB.bin'
+data_sprite_ship2_col_greenB_end:
+
+
+
+
+data_enemy_missile_sprite_aligner:
+  DS 65536 - (data_enemy_missile_sprite_aligner % 65536)
+data_enemy_missile_sprite_aligned:
+
+data_sprite_missile_alive0_start:
+  INCBIN 'assets/missile_alive0.bin'
+data_sprite_missile_alive0_end:
+
+data_sprite_missile_alive1_start:
+  INCBIN 'assets/missile_alive0.bin'
+data_sprite_missile_alive1_end:
+
+data_sprite_missile_alive2_start:
+  INCBIN 'assets/missile_alive1.bin'
+data_sprite_missile_alive2_end:
+
+data_sprite_missile_alive3_start:
+  INCBIN 'assets/missile_alive1.bin'
+data_sprite_missile_alive3_end:
+
+data_sprite_missile_alive4_start:
+  INCBIN 'assets/missile_alive0.bin'
+data_sprite_missile_alive4_end:
+
+data_sprite_missile_alive5_start:
+  INCBIN 'assets/missile_alive0.bin'
+data_sprite_missile_alive5_end:
+
+data_sprite_missile_alive6_start:
+  INCBIN 'assets/missile_alive1.bin'
+data_sprite_missile_alive6_end:
+
+data_sprite_missile_alive7_start:
+  INCBIN 'assets/missile_alive1.bin'
+data_sprite_missile_alive7_end:
+
+data_sprite_missile_alive8_start:
+  INCBIN 'assets/missile_alive0.bin'
+data_sprite_missile_alive8_end:
+
+data_sprite_missile_alive9_start:
+  INCBIN 'assets/missile_alive0.bin'
+data_sprite_missile_alive9_end:
+
+data_sprite_missile_alive10_start:
+  INCBIN 'assets/missile_alive1.bin'
+data_sprite_missile_alive10_end:
+
+data_sprite_missile_alive11_start:
+  INCBIN 'assets/missile_alive1.bin'
+data_sprite_missile_alive11_end:
+
+data_sprite_missile_alive12_start:
+  INCBIN 'assets/missile_alive0.bin'
+data_sprite_missile_alive12_end:
+
+data_sprite_missile_alive13_start:
+  INCBIN 'assets/missile_alive0.bin'
+data_sprite_missile_alive13_end:
+
+data_sprite_missile_alive14_start:
+  INCBIN 'assets/missile_alive1.bin'
+data_sprite_missile_alive14_end:
+
+data_sprite_missile_alive15_start:
+  INCBIN 'assets/missile_alive1.bin'
+data_sprite_missile_alive15_end:
+
+data_sprite_missile_damaged0_start:
+  INCBIN 'assets/missile_alive0.bin'
+data_sprite_missile_damaged0_end:
+
+data_sprite_missile_damaged1_start:
+  INCBIN 'assets/missile_alive0.bin'
+data_sprite_missile_damaged1_end:
+
+data_sprite_missile_damaged2_start:
+  INCBIN 'assets/missile_alive1.bin'
+data_sprite_missile_damaged2_end:
+
+data_sprite_missile_damaged3_start:
+  INCBIN 'assets/missile_alive1.bin'
+data_sprite_missile_damaged3_end:
+
+data_sprite_missile_damaged4_start:
+  INCBIN 'assets/missile_alive0.bin'
+data_sprite_missile_damaged4_end:
+
+data_sprite_missile_damaged5_start:
+  INCBIN 'assets/missile_alive0.bin'
+data_sprite_missile_damaged5_end:
+
+data_sprite_missile_damaged6_start:
+  INCBIN 'assets/missile_alive1.bin'
+data_sprite_missile_damaged6_end:
+
+data_sprite_missile_damaged7_start:
+  INCBIN 'assets/missile_alive1.bin'
+data_sprite_missile_damaged7_end:
+
+data_sprite_missile_damaged8_start:
+  INCBIN 'assets/missile_alive0.bin'
+data_sprite_missile_damaged8_end:
+
+data_sprite_missile_damaged9_start:
+  INCBIN 'assets/missile_alive0.bin'
+data_sprite_missile_damaged9_end:
+
+data_sprite_missile_damaged10_start:
+  INCBIN 'assets/missile_alive1.bin'
+data_sprite_missile_damaged10_end:
+
+data_sprite_missile_damaged11_start:
+  INCBIN 'assets/missile_alive1.bin'
+data_sprite_missile_damaged11_end:
+
+data_sprite_missile_damaged12_start:
+  INCBIN 'assets/missile_alive0.bin'
+data_sprite_missile_damaged12_end:
+
+data_sprite_missile_damaged13_start:
+  INCBIN 'assets/missile_alive0.bin'
+data_sprite_missile_damaged13_end:
+
+data_sprite_missile_damaged14_start:
+  INCBIN 'assets/missile_alive1.bin'
+data_sprite_missile_damaged14_end:
+
+data_sprite_missile_damaged15_start:
+  INCBIN 'assets/missile_alive1.bin'
+data_sprite_missile_damaged15_end:
+
+data_sprite_missile_dying0_start:
+  INCBIN 'assets/missile_dying0.bin'
+data_sprite_missile_dying0_end:
+
+data_sprite_missile_dying1_start:
+  INCBIN 'assets/missile_dying1.bin'
+data_sprite_missile_dying1_end:
+
+data_sprite_missile_dying2_start:
+  INCBIN 'assets/missile_dying2.bin'
+data_sprite_missile_dying2_end:
+
+data_sprite_missile_dying3_start:
+  INCBIN 'assets/missile_dying3.bin'
+data_sprite_missile_dying3_end:
+
+data_sprite_missile_dying4_start:
+  INCBIN 'assets/missile_dying4.bin'
+data_sprite_missile_dying4_end:
+
+data_sprite_missile_dying5_start:
+  INCBIN 'assets/missile_dying5.bin'
+data_sprite_missile_dying5_end:
+
+data_sprite_missile_dying6_start:
+  INCBIN 'assets/missile_dying6.bin'
+data_sprite_missile_dying6_end:
+
+data_sprite_missile_dying7_start:
+  INCBIN 'assets/missile_dying7.bin'
+data_sprite_missile_dying7_end:
+
+data_sprite_missile_col_greenA_start:
+  INCBIN 'assets/missile_col_greenA.bin'
+data_sprite_missile_col_greenA_end:
+
+data_sprite_missile_col_greenB_start:
+  INCBIN 'assets/missile_col_greenB.bin'
+data_sprite_missile_col_greenB_end:
+
+
+
+
+data_enemy_roofturret_sprite_aligner:
+  DS 65536 - (data_enemy_roofturret_sprite_aligner % 65536)
+data_enemy_roofturret_sprite_aligned:
+
+data_sprite_roofturret_alive0_start:
+  INCBIN 'assets/roofturret_alive0.bin'
+data_sprite_roofturret_alive0_end:
+
+data_sprite_roofturret_alive1_start:
+  INCBIN 'assets/roofturret_alive0.bin'
+data_sprite_roofturret_alive1_end:
+
+data_sprite_roofturret_alive2_start:
+  INCBIN 'assets/roofturret_alive1.bin'
+data_sprite_roofturret_alive2_end:
+
+data_sprite_roofturret_alive3_start:
+  INCBIN 'assets/roofturret_alive1.bin'
+data_sprite_roofturret_alive3_end:
+
+data_sprite_roofturret_alive4_start:
+  INCBIN 'assets/roofturret_alive2.bin'
+data_sprite_roofturret_alive4_end:
+
+data_sprite_roofturret_alive5_start:
+  INCBIN 'assets/roofturret_alive2.bin'
+data_sprite_roofturret_alive5_end:
+
+data_sprite_roofturret_alive6_start:
+  INCBIN 'assets/roofturret_alive3.bin'
+data_sprite_roofturret_alive6_end:
+
+data_sprite_roofturret_alive7_start:
+  INCBIN 'assets/roofturret_alive3.bin'
+data_sprite_roofturret_alive7_end:
+
+data_sprite_roofturret_alive8_start:
+  INCBIN 'assets/roofturret_alive4.bin'
+data_sprite_roofturret_alive8_end:
+
+data_sprite_roofturret_alive9_start:
+  INCBIN 'assets/roofturret_alive4.bin'
+data_sprite_roofturret_alive9_end:
+
+data_sprite_roofturret_alive10_start:
+  INCBIN 'assets/roofturret_alive5.bin'
+data_sprite_roofturret_alive10_end:
+
+data_sprite_roofturret_alive11_start:
+  INCBIN 'assets/roofturret_alive5.bin'
+data_sprite_roofturret_alive11_end:
+
+data_sprite_roofturret_alive12_start:
+  INCBIN 'assets/roofturret_alive6.bin'
+data_sprite_roofturret_alive12_end:
+
+data_sprite_roofturret_alive13_start:
+  INCBIN 'assets/roofturret_alive6.bin'
+data_sprite_roofturret_alive13_end:
+
+data_sprite_roofturret_alive14_start:
+  INCBIN 'assets/roofturret_alive7.bin'
+data_sprite_roofturret_alive14_end:
+
+data_sprite_roofturret_alive15_start:
+  INCBIN 'assets/roofturret_alive7.bin'
+data_sprite_roofturret_alive15_end:
+
+data_sprite_roofturret_damaged0_start:
+  INCBIN 'assets/roofturret_damaged0.bin'
+data_sprite_roofturret_damaged0_end:
+
+data_sprite_roofturret_damaged1_start:
+  INCBIN 'assets/roofturret_damaged0.bin'
+data_sprite_roofturret_damaged1_end:
+
+data_sprite_roofturret_damaged2_start:
+  INCBIN 'assets/roofturret_damaged1.bin'
+data_sprite_roofturret_damaged2_end:
+
+data_sprite_roofturret_damaged3_start:
+  INCBIN 'assets/roofturret_damaged1.bin'
+data_sprite_roofturret_damaged3_end:
+
+data_sprite_roofturret_damaged4_start:
+  INCBIN 'assets/roofturret_damaged2.bin'
+data_sprite_roofturret_damaged4_end:
+
+data_sprite_roofturret_damaged5_start:
+  INCBIN 'assets/roofturret_damaged2.bin'
+data_sprite_roofturret_damaged5_end:
+
+data_sprite_roofturret_damaged6_start:
+  INCBIN 'assets/roofturret_damaged3.bin'
+data_sprite_roofturret_damaged6_end:
+
+data_sprite_roofturret_damaged7_start:
+  INCBIN 'assets/roofturret_damaged3.bin'
+data_sprite_roofturret_damaged7_end:
+
+data_sprite_roofturret_damaged8_start:
+  INCBIN 'assets/roofturret_damaged4.bin'
+data_sprite_roofturret_damaged8_end:
+
+data_sprite_roofturret_damaged9_start:
+  INCBIN 'assets/roofturret_damaged4.bin'
+data_sprite_roofturret_damaged9_end:
+
+data_sprite_roofturret_damaged10_start:
+  INCBIN 'assets/roofturret_damaged5.bin'
+data_sprite_roofturret_damaged10_end:
+
+data_sprite_roofturret_damaged11_start:
+  INCBIN 'assets/roofturret_damaged5.bin'
+data_sprite_roofturret_damaged11_end:
+
+data_sprite_roofturret_damaged12_start:
+  INCBIN 'assets/roofturret_damaged6.bin'
+data_sprite_roofturret_damaged12_end:
+
+data_sprite_roofturret_damaged13_start:
+  INCBIN 'assets/roofturret_damaged6.bin'
+data_sprite_roofturret_damaged13_end:
+
+data_sprite_roofturret_damaged14_start:
+  INCBIN 'assets/roofturret_damaged7.bin'
+data_sprite_roofturret_damaged14_end:
+
+data_sprite_roofturret_damaged15_start:
+  INCBIN 'assets/roofturret_damaged7.bin'
+data_sprite_roofturret_damaged15_end:
+
+data_sprite_roofturret_dying0_start:
+  INCBIN 'assets/roofturret_dying0.bin'
+data_sprite_roofturret_dying0_end:
+
+data_sprite_roofturret_dying1_start:
+  INCBIN 'assets/roofturret_dying1.bin'
+data_sprite_roofturret_dying1_end:
+
+data_sprite_roofturret_dying2_start:
+  INCBIN 'assets/roofturret_dying2.bin'
+data_sprite_roofturret_dying2_end:
+
+data_sprite_roofturret_dying3_start:
+  INCBIN 'assets/roofturret_dying3.bin'
+data_sprite_roofturret_dying3_end:
+
+data_sprite_roofturret_dying4_start:
+  INCBIN 'assets/roofturret_dying4.bin'
+data_sprite_roofturret_dying4_end:
+
+data_sprite_roofturret_dying5_start:
+  INCBIN 'assets/roofturret_dying5.bin'
+data_sprite_roofturret_dying5_end:
+
+data_sprite_roofturret_dying6_start:
+  INCBIN 'assets/roofturret_dying6.bin'
+data_sprite_roofturret_dying6_end:
+
+data_sprite_roofturret_dying7_start:
+  INCBIN 'assets/roofturret_dying7.bin'
+data_sprite_roofturret_dying7_end:
+
+data_sprite_roofturret_col_greenA_start:
+  INCBIN 'assets/roofturret_col_greenA.bin'
+data_sprite_roofturret_col_greenA_end:
+
+data_sprite_roofturret_col_greenB_start:
+  INCBIN 'assets/roofturret_col_greenB.bin'
+data_sprite_roofturret_col_greenB_end:
+
+
+
+
+data_enemy_floorturret_sprite_aligner:
+  DS 65536 - (data_enemy_floorturret_sprite_aligner % 65536)
+data_enemy_floorturret_sprite_aligned:
+
+data_sprite_floorturret_alive0_start:
+  INCBIN 'assets/floorturret_alive0.bin'
+data_sprite_floorturret_alive0_end:
+
+data_sprite_floorturret_alive1_start:
+  INCBIN 'assets/floorturret_alive0.bin'
+data_sprite_floorturret_alive1_end:
+
+data_sprite_floorturret_alive2_start:
+  INCBIN 'assets/floorturret_alive1.bin'
+data_sprite_floorturret_alive2_end:
+
+data_sprite_floorturret_alive3_start:
+  INCBIN 'assets/floorturret_alive1.bin'
+data_sprite_floorturret_alive3_end:
+
+data_sprite_floorturret_alive4_start:
+  INCBIN 'assets/floorturret_alive2.bin'
+data_sprite_floorturret_alive4_end:
+
+data_sprite_floorturret_alive5_start:
+  INCBIN 'assets/floorturret_alive2.bin'
+data_sprite_floorturret_alive5_end:
+
+data_sprite_floorturret_alive6_start:
+  INCBIN 'assets/floorturret_alive3.bin'
+data_sprite_floorturret_alive6_end:
+
+data_sprite_floorturret_alive7_start:
+  INCBIN 'assets/floorturret_alive3.bin'
+data_sprite_floorturret_alive7_end:
+
+data_sprite_floorturret_alive8_start:
+  INCBIN 'assets/floorturret_alive4.bin'
+data_sprite_floorturret_alive8_end:
+
+data_sprite_floorturret_alive9_start:
+  INCBIN 'assets/floorturret_alive4.bin'
+data_sprite_floorturret_alive9_end:
+
+data_sprite_floorturret_alive10_start:
+  INCBIN 'assets/floorturret_alive5.bin'
+data_sprite_floorturret_alive10_end:
+
+data_sprite_floorturret_alive11_start:
+  INCBIN 'assets/floorturret_alive5.bin'
+data_sprite_floorturret_alive11_end:
+
+data_sprite_floorturret_alive12_start:
+  INCBIN 'assets/floorturret_alive6.bin'
+data_sprite_floorturret_alive12_end:
+
+data_sprite_floorturret_alive13_start:
+  INCBIN 'assets/floorturret_alive6.bin'
+data_sprite_floorturret_alive13_end:
+
+data_sprite_floorturret_alive14_start:
+  INCBIN 'assets/floorturret_alive7.bin'
+data_sprite_floorturret_alive14_end:
+
+data_sprite_floorturret_alive15_start:
+  INCBIN 'assets/floorturret_alive7.bin'
+data_sprite_floorturret_alive15_end:
+
+data_sprite_floorturret_damaged0_start:
+  INCBIN 'assets/floorturret_damaged0.bin'
+data_sprite_floorturret_damaged0_end:
+
+data_sprite_floorturret_damaged1_start:
+  INCBIN 'assets/floorturret_damaged0.bin'
+data_sprite_floorturret_damaged1_end:
+
+data_sprite_floorturret_damaged2_start:
+  INCBIN 'assets/floorturret_damaged1.bin'
+data_sprite_floorturret_damaged2_end:
+
+data_sprite_floorturret_damaged3_start:
+  INCBIN 'assets/floorturret_damaged1.bin'
+data_sprite_floorturret_damaged3_end:
+
+data_sprite_floorturret_damaged4_start:
+  INCBIN 'assets/floorturret_damaged2.bin'
+data_sprite_floorturret_damaged4_end:
+
+data_sprite_floorturret_damaged5_start:
+  INCBIN 'assets/floorturret_damaged2.bin'
+data_sprite_floorturret_damaged5_end:
+
+data_sprite_floorturret_damaged6_start:
+  INCBIN 'assets/floorturret_damaged3.bin'
+data_sprite_floorturret_damaged6_end:
+
+data_sprite_floorturret_damaged7_start:
+  INCBIN 'assets/floorturret_damaged3.bin'
+data_sprite_floorturret_damaged7_end:
+
+data_sprite_floorturret_damaged8_start:
+  INCBIN 'assets/floorturret_damaged4.bin'
+data_sprite_floorturret_damaged8_end:
+
+data_sprite_floorturret_damaged9_start:
+  INCBIN 'assets/floorturret_damaged4.bin'
+data_sprite_floorturret_damaged9_end:
+
+data_sprite_floorturret_damaged10_start:
+  INCBIN 'assets/floorturret_damaged5.bin'
+data_sprite_floorturret_damaged10_end:
+
+data_sprite_floorturret_damaged11_start:
+  INCBIN 'assets/floorturret_damaged5.bin'
+data_sprite_floorturret_damaged11_end:
+
+data_sprite_floorturret_damaged12_start:
+  INCBIN 'assets/floorturret_damaged6.bin'
+data_sprite_floorturret_damaged12_end:
+
+data_sprite_floorturret_damaged13_start:
+  INCBIN 'assets/floorturret_damaged6.bin'
+data_sprite_floorturret_damaged13_end:
+
+data_sprite_floorturret_damaged14_start:
+  INCBIN 'assets/floorturret_damaged7.bin'
+data_sprite_floorturret_damaged14_end:
+
+data_sprite_floorturret_damaged15_start:
+  INCBIN 'assets/floorturret_damaged7.bin'
+data_sprite_floorturret_damaged15_end:
+
+data_sprite_floorturret_dying0_start:
+  INCBIN 'assets/floorturret_dying0.bin'
+data_sprite_floorturret_dying0_end:
+
+data_sprite_floorturret_dying1_start:
+  INCBIN 'assets/floorturret_dying1.bin'
+data_sprite_floorturret_dying1_end:
+
+data_sprite_floorturret_dying2_start:
+  INCBIN 'assets/floorturret_dying2.bin'
+data_sprite_floorturret_dying2_end:
+
+data_sprite_floorturret_dying3_start:
+  INCBIN 'assets/floorturret_dying3.bin'
+data_sprite_floorturret_dying3_end:
+
+data_sprite_floorturret_dying4_start:
+  INCBIN 'assets/floorturret_dying4.bin'
+data_sprite_floorturret_dying4_end:
+
+data_sprite_floorturret_dying5_start:
+  INCBIN 'assets/floorturret_dying5.bin'
+data_sprite_floorturret_dying5_end:
+
+data_sprite_floorturret_dying6_start:
+  INCBIN 'assets/floorturret_dying6.bin'
+data_sprite_floorturret_dying6_end:
+
+data_sprite_floorturret_dying7_start:
+  INCBIN 'assets/floorturret_dying7.bin'
+data_sprite_floorturret_dying7_end:
+
+data_sprite_floorturret_col_greenA_start:
+  INCBIN 'assets/floorturret_col_greenA.bin'
+data_sprite_floorturret_col_greenA_end:
+
+data_sprite_floorturret_col_greenB_start:
+  INCBIN 'assets/floorturret_col_greenB.bin'
+data_sprite_floorturret_col_greenB_end:
+
+;---------------------------------------------------------------------------------
+

@@ -100,7 +100,7 @@ data_boss_update_switch_lookup:
 data_bossinfo_generic_end:
 
 
-BOSS_BACKGROUND_WIDTH = 0
+BOSS_BACKGROUND_WIDTH = 224
 BOSS_BACKGROUND_HEIGHT = 192
 
 data_sprite_boss_background_col_start:

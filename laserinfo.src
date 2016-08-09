@@ -8,44 +8,11 @@ E_LASER_STATE_HIT_WALL						= #04
 E_LASER_STATE_HIT_ENEMY						= #06
 E_LASER_STATE_DYING						= #08
 
-E_LASER_SPRITE_ALIVE_0						= #00
-E_LASER_SPRITE_ALIVE_1						= #04
-E_LASER_SPRITE_ALIVE_2						= #08
-E_LASER_SPRITE_ALIVE_3						= #0C
-E_LASER_SPRITE_ALIVE_4						= #10
-E_LASER_SPRITE_ALIVE_5						= #14
-E_LASER_SPRITE_ALIVE_6						= #18
-E_LASER_SPRITE_ALIVE_7						= #1C
-E_LASER_SPRITE_ALIVE_8						= #20
-E_LASER_SPRITE_ALIVE_9						= #24
-E_LASER_SPRITE_ALIVE_10						= #28
-E_LASER_SPRITE_ALIVE_11						= #2C
-E_LASER_SPRITE_ALIVE_12						= #30
-E_LASER_SPRITE_ALIVE_13						= #34
-E_LASER_SPRITE_ALIVE_14						= #38
-E_LASER_SPRITE_ALIVE_15						= #3C
-E_LASER_SPRITE_DYING_0						= #40
-E_LASER_SPRITE_DYING_1						= #44
-E_LASER_SPRITE_DYING_2						= #48
-E_LASER_SPRITE_DYING_3						= #4C
-E_LASER_SPRITE_DYING_4						= #50
-E_LASER_SPRITE_DYING_5						= #54
-E_LASER_SPRITE_DYING_6						= #58
-E_LASER_SPRITE_DYING_7						= #5C
-E_LASER_SPRITE_DYING_8						= #60
-E_LASER_SPRITE_DYING_9						= #64
-E_LASER_SPRITE_DYING_10						= #68
-E_LASER_SPRITE_DYING_11						= #6C
-E_LASER_SPRITE_DYING_12						= #70
-E_LASER_SPRITE_DYING_13						= #74
-E_LASER_SPRITE_DYING_14						= #78
-E_LASER_SPRITE_DYING_15						= #7C
-E_LASER_SPRITE_COL_PURPLE					= #80
-
-KEY_FIRE 							= 1
+KEY_FIRE 							= #01
+KEY_FIRE_ALT							= #0C
 
 LASER_DEAD_OFFSET_X						= PLAYER_WIDTH
-LASER_DEAD_OFFSET_Y						= 16
+LASER_DEAD_OFFSET_Y						= 14
 LASER_DEAD_CHARGE						= 1
 
 LASER_ALIVE_XPOS_MAX						= 250
@@ -78,17 +45,26 @@ data_laser_reset:
 data_laser_alive_constants:
   DB E_LASER_SPRITE_ALIVE_0					; E_LASER_SPRITE_ALIVE_0
   DB 0								; empty
+  DB 0								; empty
+  DB 0								; empty
+  DB 0								; empty
+  DB 0								; empty
   DB LASER_ALIVE_XPOS_MAX					; laser.const LASER_ALIVE_XPOS_MAX
   DB LASER_ALIVE_SPEED_X					; laser.const LASER_ALIVE_SPEED_X
 
 data_laser_dead_constants:
+  DB KEY_FIRE_ALT						; laser.const KEY_FIRE_ALT 
+  DB KEY_FIRE							; laser.const KEY_FIRE 
   DB LASER_DEAD_CHARGE						; laser.const LASER_DEAD_CHARGE
   DB LASER_DEAD_OFFSET_X					; laser.const LASER_DEAD_OFFSET_X
   DB LASER_DEAD_OFFSET_Y 					; laser.const LASER_DEAD_OFFSET_Y
-  DB KEY_FIRE							; laser.const KEY_FIRE 
 
 data_laser_dying_constants:
   DB E_LASER_SPRITE_DYING_0					; E_LASER_SPRITE_DYING_0
+  DB 0								; empty
+  DB 0								; empty
+  DB 0								; empty
+  DB 0								; empty
   DB 0								; empty
   DB LASER_DYING_TIMER_INC					; laser.const LASER_DYING_TIMER_INC
   DB LASER_DYING_TIMER_MAX					; laser.const LASER_DYING_TIMER_MAX
@@ -107,88 +83,6 @@ data_laserinfo_generic_end:
 
 LASER_WIDTH							= 16
 LASER_HEIGHT							= 32
-
-data_laser_sprite_lookup_start:
-data_laser_sprite_lookup:
-  LDHI I, data_sprite_laser_alive0				; E_LASER_SPRITE_ALIVE_0
-  LDHI I, data_sprite_laser_alive0				; E_LASER_SPRITE_ALIVE_1
-  LDHI I, data_sprite_laser_alive0				; E_LASER_SPRITE_ALIVE_2
-  LDHI I, data_sprite_laser_alive0				; E_LASER_SPRITE_ALIVE_3
-  LDHI I, data_sprite_laser_alive1				; E_LASER_SPRITE_ALIVE_4
-  LDHI I, data_sprite_laser_alive1				; E_LASER_SPRITE_ALIVE_5
-  LDHI I, data_sprite_laser_alive1				; E_LASER_SPRITE_ALIVE_6
-  LDHI I, data_sprite_laser_alive1				; E_LASER_SPRITE_ALIVE_7
-  LDHI I, data_sprite_laser_alive2				; E_LASER_SPRITE_ALIVE_8
-  LDHI I, data_sprite_laser_alive2				; E_LASER_SPRITE_ALIVE_9
-  LDHI I, data_sprite_laser_alive2				; E_LASER_SPRITE_ALIVE_10
-  LDHI I, data_sprite_laser_alive2				; E_LASER_SPRITE_ALIVE_11
-  LDHI I, data_sprite_laser_alive3				; E_LASER_SPRITE_ALIVE_12
-  LDHI I, data_sprite_laser_alive3				; E_LASER_SPRITE_ALIVE_13
-  LDHI I, data_sprite_laser_alive3				; E_LASER_SPRITE_ALIVE_14
-  LDHI I, data_sprite_laser_alive3				; E_LASER_SPRITE_ALIVE_15
-  LDHI I, data_sprite_laser_dying0				; E_LASER_SPRITE_DYING_0
-  LDHI I, data_sprite_laser_dying0				; E_LASER_SPRITE_DYING_1
-  LDHI I, data_sprite_laser_dying1				; E_LASER_SPRITE_DYING_2
-  LDHI I, data_sprite_laser_dying1				; E_LASER_SPRITE_DYING_3
-  LDHI I, data_sprite_laser_dying2				; E_LASER_SPRITE_DYING_4
-  LDHI I, data_sprite_laser_dying2				; E_LASER_SPRITE_DYING_5
-  LDHI I, data_sprite_laser_dying3				; E_LASER_SPRITE_DYING_6
-  LDHI I, data_sprite_laser_dying3				; E_LASER_SPRITE_DYING_7
-  LDHI I, data_sprite_laser_dying0				; E_LASER_SPRITE_DYING_8
-  LDHI I, data_sprite_laser_dying0				; E_LASER_SPRITE_DYING_9
-  LDHI I, data_sprite_laser_dying1				; E_LASER_SPRITE_DYING_10
-  LDHI I, data_sprite_laser_dying1				; E_LASER_SPRITE_DYING_11
-  LDHI I, data_sprite_laser_dying2				; E_LASER_SPRITE_DYING_12
-  LDHI I, data_sprite_laser_dying2				; E_LASER_SPRITE_DYING_13
-  LDHI I, data_sprite_laser_dying3				; E_LASER_SPRITE_DYING_14
-  LDHI I, data_sprite_laser_dying3				; E_LASER_SPRITE_DYING_15
-  LDHI I, data_sprite_laser_col_purple				; E_LASER_SPRITE_COL_PURPLE
-data_laser_sprite_lookup_end:
-
-data_sprite_laser_alive0_start:
-data_sprite_laser_alive0:
-  INCBIN 'assets/laser_alive0.bin'
-data_sprite_laser_alive0_end:
-
-data_sprite_laser_alive1_start:
-data_sprite_laser_alive1:
-  INCBIN 'assets/laser_alive1.bin'
-data_sprite_laser_alive1_end:
-
-data_sprite_laser_alive2_start:
-data_sprite_laser_alive2:
-  INCBIN 'assets/laser_alive2.bin'
-data_sprite_laser_alive2_end:
-
-data_sprite_laser_alive3_start:
-data_sprite_laser_alive3:
-  INCBIN 'assets/laser_alive3.bin'
-data_sprite_laser_alive3_end:
-
-data_sprite_laser_dying0_start:
-data_sprite_laser_dying0:
-  INCBIN 'assets/laser_dying0.bin'
-data_sprite_laser_dying0_end:
-
-data_sprite_laser_dying1_start:
-data_sprite_laser_dying1:
-  INCBIN 'assets/laser_dying1.bin'
-data_sprite_laser_dying1_end:
-
-data_sprite_laser_dying2_start:
-data_sprite_laser_dying2:
-  INCBIN 'assets/laser_dying2.bin'
-data_sprite_laser_dying2_end:
-
-data_sprite_laser_dying3_start:
-data_sprite_laser_dying3:
-  INCBIN 'assets/laser_dying3.bin'
-data_sprite_laser_dying3_end:
-
-data_sprite_laser_col_purple_start:
-data_sprite_laser_col_purple:
-  INCBIN 'assets/laser_col_purple.bin'
-data_sprite_laser_col_purple_end:
 
 ;---------------------------------------------------------------------------------
 
