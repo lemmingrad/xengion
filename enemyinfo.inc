@@ -2,7 +2,7 @@
 ; ENEMY INFO
 ;---------------------------------------------------------------------------------
 
-E_ENEMY_STATE_DEAD
+E_ENEMY_STATE_DEAD					= 0
 E_ENEMY_STATE_ALIVE					= 2
 E_ENEMY_STATE_HIT_WALL				= 4
 E_ENEMY_STATE_HIT_PLAYER			= 6
@@ -69,12 +69,18 @@ E_ENEMY_SPRITE_MAXCOUNT				= 42
 ENEMY_WIDTH							= 32
 ENEMY_HEIGHT						= 16
 ENEMY_ALIVE_XPOS_MIN				= 0
+ENEMY_DYING_XPOS_MIN				= 0
+ENEMY_DYING_SPEED_X				= 1
 ENEMY_DYING_TIMER_MAX				= 8
 
 
 
 data_enemy_slot_lookup:
   LDHI I, data_enemy_slot_0
+  LDHI I, data_enemy_slot_1
+  LDHI I, data_enemy_slot_2
+  LDHI I, data_enemy_slot_3
+  LDHI I, data_enemy_slot_4
 
 data_enemy_slot_0:
   DB 0
@@ -85,9 +91,9 @@ data_enemy_slot_0:
   DB 3								; enemy.health
   DB E_ENEMY_STATE_ALIVE					; enemy.state
   DB 220							; enemy.xpos
-  DB 150							; enemy.ypos
+  DB 120						; enemy.ypos
   DB E_ENEMY_TYPE_SHIP_1		 			; enemy.type
-  DB 1 + E_ENEMY_Y_MOVE_POS32_SIN64			; enemy.move
+  DB 1 + E_ENEMY_Y_ZERO				; enemy.move
   DB 0								; enemy.timer
   DB 0								; reserved
 data_enemy_slot_1:
@@ -147,6 +153,29 @@ data_enemy_slot_4:
   DB 0
   DB 0
 
+data_enemy_alive_constants:
+  DB 0								; V0
+  DB 0								; V1
+  DB 0								; V2
+  DB 0								; V3
+  DB ENEMY_ALIVE_XPOS_MIN			; V4 enemy.const ENEMY_ALIVE_XPOS_MIN
+
+data_enemy_dying_constants:
+  DB 0								; V0
+  DB 0								; V1
+  DB ENEMY_DYING_XPOS_MIN			; V2 enemy.const ENEMY_DYING_XPOS_MIN
+  DB ENEMY_DYING_SPEED_X			; V3 enemy.const ENEMY_DYING_SPEED_X 
+  DB ENEMY_DYING_TIMER_MAX			; V4 enemy.const ENEMY_DYING_TIMER_MAX
+
+data_enemy_update_switch_lookup:
+  JP lbl_enemy_update_switch_end			; E_ENEMY_STATE_DEAD
+  JP lbl_enemy_update_switch_case_alive			; E_ENEMY_STATE_ALIVE
+  JP lbl_enemy_update_switch_case_hit_wall		; E_ENEMY_STATE_HIT_WALL
+  JP lbl_enemy_update_switch_case_hit_player		; E_ENEMY_STATE_HIT_PLAYER
+  JP lbl_enemy_update_switch_case_damaged_by_laser	; E_ENEMY_STATE_DAMAGED_BY_LASER
+  JP lbl_enemy_update_switch_case_killed_by_laser	; E_ENEMY_STATE_KILLED_BY_LASER
+  JP lbl_enemy_update_switch_case_dying			; E_ENEMY_STATE_DYING
+
 data_enemy_type_lookup:
   LDHI I, data_enemy_ship_1_sprite_lookup
   LDHI I, data_enemy_ship_2_sprite_lookup
@@ -189,13 +218,13 @@ data_enemy_turret_sprite_lookup:
   LDHI I, data_enemy_ship_1_sprite_collision
   LDHI I, data_enemy_ship_1_sprite_collision
   LDHI I, data_enemy_ship_1_sprite_collision
+  LDHI I, data_generic_sprite_boom
   LDHI I, data_enemy_ship_1_sprite_collision
+  LDHI I, data_generic_sprite_boom
   LDHI I, data_enemy_ship_1_sprite_collision
+  LDHI I, data_generic_sprite_boom
   LDHI I, data_enemy_ship_1_sprite_collision
-  LDHI I, data_enemy_ship_1_sprite_collision
-  LDHI I, data_enemy_ship_1_sprite_collision
-  LDHI I, data_enemy_ship_1_sprite_collision
-  LDHI I, data_enemy_ship_1_sprite_collision
+  LDHI I, data_generic_sprite_boom
   LDHI I, data_enemy_ship_1_sprite_collision
   LDHI I, data_enemy_ship_1_sprite_collision
 
