@@ -78,7 +78,6 @@ KEY_UP								= 5
 
 PLAYER_WIDTH						= 32
 PLAYER_HEIGHT						= 16
-PLAYER_REVIVING_TIMER_INC			= 1
 PLAYER_REVIVING_TIMER_MAX 			= 50 
 PLAYER_REVIVING_START_XPOS			= 0
 PLAYER_REVIVING_START_YPOS			= 70
@@ -89,25 +88,24 @@ PLAYER_ALIVE_SPEED_X				= 2
 PLAYER_ALIVE_SPEED_Y				= 2
 PLAYER_DYING_XPOS_MIN				= 0
 PLAYER_DYING_SPEED_X				= GAME_SCROLL_SPEED
-PLAYER_DYING_TIMER_INC				= 1
 PLAYER_DYING_TIMER_MAX				= 50
 
-dPlayerInfo:
-  DB 0								; V0
-  DB 0								; V1
-  DB 0								; V2
-  DB 0								; V3
-  DB 0 								; V4
-  DB 0 								; V5
-  DB 0 								; V6
-  DB 0 								; V7  
-  DB 0								; V8 player.nextsprite
-  DB 0								; V9 player.timer
-  DB 0								; VA player.xpos
-  DB 0								; VB player.ypos
-  DB 0								; VC player.state
+data_player_info:
+  DB 0								
+  DB 0							
+  DB 0								
+  DB 0								
+  DB 0 								
+  DB 0 								
+  DB 0 								 
+  DB 0 								  
+  DB 0								; player.nextsprite
+  DB 0								; player.timer
+  DB 0								; player.xpos
+  DB 0								; player.ypos
+  DB 0								; player.state
  
-dPlayerAliveConstants:
+data_player_alive_constants:
   DB PLAYER_ALIVE_XPOS_MIN			; V0 player.const PLAYER_ALIVE_XPOS_MIN
   DB PLAYER_ALIVE_XPOS_MAX			; V1 player.const PLAYER_ALIVE_XPOS_MAX
   DB PLAYER_ALIVE_SPEED_X			; V2 player.const PLAYER_ALIVE_SPEED_X
@@ -117,27 +115,27 @@ dPlayerAliveConstants:
   DB KEY_DOWN						; V6 player.const KEY_DOWN
   DB KEY_UP							; V7 player.const KEY_UP
 
-dPlayerRevivingConstants:
+data_player_reviving_constants:
   DB 0								; V0
   DB 0								; V1
   DB 0								; V2
   DB 0								; V3
   DB 0								; V4
-  DB PLAYER_REVIVING_SPEED_X		; V5 player.const PLAYER_REVIVING_SPEED_X
-  DB PLAYER_REVIVING_TIMER_INC		; V6 player.const PLAYER_REVIVING_TIMER_INC
+  DB 0								; V5
+  DB PLAYER_REVIVING_SPEED_X		; V6 player.const PLAYER_REVIVING_SPEED_X
   DB PLAYER_REVIVING_TIMER_MAX		; V7 player.const PLAYER_REVIVING_TIMER_MAX
 
-dPlayerDyingConstants:
+data_player_dying_constants:
   DB 0								; V0
   DB 0								; V1
   DB 0								; V2
   DB 0								; V3
-  DB PLAYER_DYING_XPOS_MIN			; V4 player.const PLAYER_DYING_XPOS_MIN
-  DB PLAYER_DYING_SPEED_X			; V5 player.const PLAYER_DYING_SPEED_X 
-  Db PLAYER_DYING_TIMER_INC			; V6 player.const PLAYER_DYING_TIMER_INC 
+  DB 0								; V4
+  DB PLAYER_DYING_XPOS_MIN			; V5 player.const PLAYER_DYING_XPOS_MIN
+  DB PLAYER_DYING_SPEED_X			; V6 player.const PLAYER_DYING_SPEED_X 
   DB PLAYER_DYING_TIMER_MAX			; V7 player.const PLAYER_DYING_TIMER_MAX
 
-dPlayerInfoReset:
+data_player_reset:
   DB 0								; V0
   DB 0								; V1
   DB 0								; V2
@@ -152,77 +150,77 @@ dPlayerInfoReset:
   DB PLAYER_REVIVING_START_YPOS		; VB player.ypos = PLAYER_REVIVING_START_YPOS
   DB E_PLAYER_STATE_REVIVING		; VC player.state = E_PLAYER_STATE_REVIVING
  
-dPlayerUpdateSwitchLookup:
-  JP lPlayerUpdateCaseReviving		; E_PLAYER_STATE_REVIVING
-  JP lPlayerUpdateCaseAlive			; E_PLAYER_STATE_ALIVE
-  JP lPlayerUpdateCaseHitWall		; E_PLAYER_STATE_HIT_WALL
-  JP lPlayerUpdateCaseHitEnemy		; E_PLAYER_STATE_HIT_ENEMY
-  JP lPlayerUpdateCaseHitBullet		; E_PLAYER_STATE_HIT_BULLET
-  JP lPlayerUpdateCaseDying			; E_PLAYER_STATE_DYING
+data_player_update_switch_lookup:
+  JP lbl_player_update_switch_case_reviving		; E_PLAYER_STATE_REVIVING
+  JP lbl_player_update_switch_case_alive		; E_PLAYER_STATE_ALIVE
+  JP lbl_player_update_switch_case_hit_wall		; E_PLAYER_STATE_HIT_WALL
+  JP lbl_player_update_switch_case_hit_enemy	; E_PLAYER_STATE_HIT_ENEMY
+  JP lbl_player_update_switch_case_hit_bullet	; E_PLAYER_STATE_HIT_BULLET
+  JP lbl_player_update_switch_case_dying		; E_PLAYER_STATE_DYING
 
-dPlayerSpriteLookup:
-  LDHI I, dPlayerSpriteNormal		; E_PLAYER_SPRITE_ALIVE_0
-  LDHI I, dPlayerSpriteNormal		; E_PLAYER_SPRITE_ALIVE_1
-  LDHI I, dPlayerSpriteNormal		; E_PLAYER_SPRITE_ALIVE_2
-  LDHI I, dPlayerSpriteNormal		; E_PLAYER_SPRITE_ALIVE_3
-  LDHI I, dPlayerSpriteNormal		; E_PLAYER_SPRITE_ALIVE_4
-  LDHI I, dPlayerSpriteNormal		; E_PLAYER_SPRITE_ALIVE_5
-  LDHI I, dPlayerSpriteNormal		; E_PLAYER_SPRITE_ALIVE_6
-  LDHI I, dPlayerSpriteNormal		; E_PLAYER_SPRITE_ALIVE_7
-  LDHI I, dPlayerSpriteNormal		; E_PLAYER_SPRITE_ALIVE_8
-  LDHI I, dPlayerSpriteNormal		; E_PLAYER_SPRITE_ALIVE_9
-  LDHI I, dPlayerSpriteNormal		; E_PLAYER_SPRITE_ALIVE_10
-  LDHI I, dPlayerSpriteNormal		; E_PLAYER_SPRITE_ALIVE_11
-  LDHI I, dPlayerSpriteNormal		; E_PLAYER_SPRITE_ALIVE_12
-  LDHI I, dPlayerSpriteNormal		; E_PLAYER_SPRITE_ALIVE_13
-  LDHI I, dPlayerSpriteNormal		; E_PLAYER_SPRITE_ALIVE_14
-  LDHI I, dPlayerSpriteNormal		; E_PLAYER_SPRITE_ALIVE_15
-  LDHI I, dPlayerSpriteNormal		; E_PLAYER_SPRITE_DYING_0
-  LDHI I, dPlayerSpriteUp			; E_PLAYER_SPRITE_DYING_1
-  LDHI I, dPlayerSpriteDown			; E_PLAYER_SPRITE_DYING_2
-  LDHI I, dBoomSprite				; E_PLAYER_SPRITE_DYING_3
-  LDHI I, dPlayerSpriteNormal		; E_PLAYER_SPRITE_DYING_4
-  LDHI I, dPlayerSpriteUp			; E_PLAYER_SPRITE_DYING_5
-  LDHI I, dPlayerSpriteDown			; E_PLAYER_SPRITE_DYING_6
-  LDHI I, dBoomSprite				; E_PLAYER_SPRITE_DYING_7
-  LDHI I, dPlayerSpriteNormal		; E_PLAYER_SPRITE_DYING_8
-  LDHI I, dPlayerSpriteUp			; E_PLAYER_SPRITE_DYING_9
-  LDHI I, dPlayerSpriteDown			; E_PLAYER_SPRITE_DYING_10
-  LDHI I, dBoomSprite				; E_PLAYER_SPRITE_DYING_11
-  LDHI I, dPlayerSpriteNormal		; E_PLAYER_SPRITE_DYING_12
-  LDHI I, dPlayerSpriteUp			; E_PLAYER_SPRITE_DYING_13
-  LDHI I, dPlayerSpriteDown			; E_PLAYER_SPRITE_DYING_14
-  LDHI I, dBoomSprite				; E_PLAYER_SPRITE_DYING_15
-  LDHI I, dPlayerSpriteNormal		; E_PLAYER_SPRITE_REVIVING_0
-  LDHI I, dPlayerSpriteUp			; E_PLAYER_SPRITE_REVIVING_1
-  LDHI I, dPlayerSpriteDown			; E_PLAYER_SPRITE_REVIVING_2
-  LDHI I, dBoomSprite				; E_PLAYER_SPRITE_REVIVING_3
-  LDHI I, dPlayerSpriteNormal		; E_PLAYER_SPRITE_REVIVING_4
-  LDHI I, dPlayerSpriteUp			; E_PLAYER_SPRITE_REVIVING_5
-  LDHI I, dPlayerSpriteDown			; E_PLAYER_SPRITE_REVIVING_6
-  LDHI I, dBoomSprite				; E_PLAYER_SPRITE_REVIVING_7
-  LDHI I, dPlayerSpriteNormal		; E_PLAYER_SPRITE_REVIVING_8
-  LDHI I, dPlayerSpriteUp			; E_PLAYER_SPRITE_REVIVING_9
-  LDHI I, dPlayerSpriteDown			; E_PLAYER_SPRITE_REVIVING_10
-  LDHI I, dBoomSprite				; E_PLAYER_SPRITE_REVIVING_11
-  LDHI I, dPlayerSpriteNormal		; E_PLAYER_SPRITE_REVIVING_12
-  LDHI I, dPlayerSpriteUp			; E_PLAYER_SPRITE_REVIVING_13
-  LDHI I, dPlayerSpriteDown			; E_PLAYER_SPRITE_REVIVING_14
-  LDHI I, dBoomSprite				; E_PLAYER_SPRITE_REVIVING_15
-  LDHI I, dPlayerSpriteUp			; E_PLAYER_SPRITE_MOVE_UP
-  LDHI I, dPlayerSpriteDown			; E_PLAYER_SPRITE_MOVE_DOWN
-  LDHI I, dPlayerSpriteNormal		; E_PLAYER_SPRITE_MOVE_LEFT_0
-  LDHI I, dPlayerSpriteNormal		; E_PLAYER_SPRITE_MOVE_LEFT_1
-  LDHI I, dPlayerSpriteNormal		; E_PLAYER_SPRITE_MOVE_LEFT_2
-  LDHI I, dPlayerSpriteNormal		; E_PLAYER_SPRITE_MOVE_LEFT_3
-  LDHI I, dPlayerSpriteNormal		; E_PLAYER_SPRITE_MOVE_RIGHT_0
-  LDHI I, dPlayerSpriteNormal		; E_PLAYER_SPRITE_MOVE_RIGHT_1
-  LDHI I, dPlayerSpriteNormal		; E_PLAYER_SPRITE_MOVE_RIGHT_2
-  LDHI I, dPlayerSpriteNormal		; E_PLAYER_SPRITE_MOVE_RIGHT_3
-  LDHI I, dPlayerSpriteClearCollision 	; E_PLAYER_SPRITE_CLEAR_COLLISION
-  LDHI I, dPlayerSpriteCollision	; E_PLAYER_SPRITE_COLLISION
+data_player_sprite_lookup:
+  LDHI I, data_player_sprite_normal				; E_PLAYER_SPRITE_ALIVE_0
+  LDHI I, data_player_sprite_normal				; E_PLAYER_SPRITE_ALIVE_1
+  LDHI I, data_player_sprite_normal				; E_PLAYER_SPRITE_ALIVE_2
+  LDHI I, data_player_sprite_normal				; E_PLAYER_SPRITE_ALIVE_3
+  LDHI I, data_player_sprite_normal				; E_PLAYER_SPRITE_ALIVE_4
+  LDHI I, data_player_sprite_normal				; E_PLAYER_SPRITE_ALIVE_5
+  LDHI I, data_player_sprite_normal				; E_PLAYER_SPRITE_ALIVE_6
+  LDHI I, data_player_sprite_normal				; E_PLAYER_SPRITE_ALIVE_7
+  LDHI I, data_player_sprite_normal				; E_PLAYER_SPRITE_ALIVE_8
+  LDHI I, data_player_sprite_normal				; E_PLAYER_SPRITE_ALIVE_9
+  LDHI I, data_player_sprite_normal				; E_PLAYER_SPRITE_ALIVE_10
+  LDHI I, data_player_sprite_normal				; E_PLAYER_SPRITE_ALIVE_11
+  LDHI I, data_player_sprite_normal				; E_PLAYER_SPRITE_ALIVE_12
+  LDHI I, data_player_sprite_normal				; E_PLAYER_SPRITE_ALIVE_13
+  LDHI I, data_player_sprite_normal				; E_PLAYER_SPRITE_ALIVE_14
+  LDHI I, data_player_sprite_normal				; E_PLAYER_SPRITE_ALIVE_15
+  LDHI I, data_player_sprite_normal				; E_PLAYER_SPRITE_DYING_0
+  LDHI I, data_player_sprite_up					; E_PLAYER_SPRITE_DYING_1
+  LDHI I, data_player_sprite_down				; E_PLAYER_SPRITE_DYING_2
+  LDHI I, data_generic_sprite_boom				; E_PLAYER_SPRITE_DYING_3
+  LDHI I, data_player_sprite_normal				; E_PLAYER_SPRITE_DYING_4
+  LDHI I, data_player_sprite_up					; E_PLAYER_SPRITE_DYING_5
+  LDHI I, data_player_sprite_down				; E_PLAYER_SPRITE_DYING_6
+  LDHI I, data_generic_sprite_boom				; E_PLAYER_SPRITE_DYING_7
+  LDHI I, data_player_sprite_normal				; E_PLAYER_SPRITE_DYING_8
+  LDHI I, data_player_sprite_up					; E_PLAYER_SPRITE_DYING_9
+  LDHI I, data_player_sprite_down				; E_PLAYER_SPRITE_DYING_10
+  LDHI I, data_generic_sprite_boom				; E_PLAYER_SPRITE_DYING_11
+  LDHI I, data_player_sprite_normal				; E_PLAYER_SPRITE_DYING_12
+  LDHI I, data_player_sprite_up					; E_PLAYER_SPRITE_DYING_13
+  LDHI I, data_player_sprite_down				; E_PLAYER_SPRITE_DYING_14
+  LDHI I, data_generic_sprite_boom				; E_PLAYER_SPRITE_DYING_15
+  LDHI I, data_player_sprite_normal				; E_PLAYER_SPRITE_REVIVING_0
+  LDHI I, data_player_sprite_up					; E_PLAYER_SPRITE_REVIVING_1
+  LDHI I, data_player_sprite_down				; E_PLAYER_SPRITE_REVIVING_2
+  LDHI I, data_generic_sprite_boom				; E_PLAYER_SPRITE_REVIVING_3
+  LDHI I, data_player_sprite_normal				; E_PLAYER_SPRITE_REVIVING_4
+  LDHI I, data_player_sprite_up					; E_PLAYER_SPRITE_REVIVING_5
+  LDHI I, data_player_sprite_down				; E_PLAYER_SPRITE_REVIVING_6
+  LDHI I, data_generic_sprite_boom				; E_PLAYER_SPRITE_REVIVING_7
+  LDHI I, data_player_sprite_normal				; E_PLAYER_SPRITE_REVIVING_8
+  LDHI I, data_player_sprite_up					; E_PLAYER_SPRITE_REVIVING_9
+  LDHI I, data_player_sprite_down				; E_PLAYER_SPRITE_REVIVING_10
+  LDHI I, data_generic_sprite_boom				; E_PLAYER_SPRITE_REVIVING_11
+  LDHI I, data_player_sprite_normal				; E_PLAYER_SPRITE_REVIVING_12
+  LDHI I, data_player_sprite_up					; E_PLAYER_SPRITE_REVIVING_13
+  LDHI I, data_player_sprite_down				; E_PLAYER_SPRITE_REVIVING_14
+  LDHI I, data_generic_sprite_boom				; E_PLAYER_SPRITE_REVIVING_15
+  LDHI I, data_player_sprite_up					; E_PLAYER_SPRITE_MOVE_UP
+  LDHI I, data_player_sprite_down				; E_PLAYER_SPRITE_MOVE_DOWN
+  LDHI I, data_player_sprite_normal				; E_PLAYER_SPRITE_MOVE_LEFT_0
+  LDHI I, data_player_sprite_normal				; E_PLAYER_SPRITE_MOVE_LEFT_1
+  LDHI I, data_player_sprite_normal				; E_PLAYER_SPRITE_MOVE_LEFT_2
+  LDHI I, data_player_sprite_normal				; E_PLAYER_SPRITE_MOVE_LEFT_3
+  LDHI I, data_player_sprite_normal				; E_PLAYER_SPRITE_MOVE_RIGHT_0
+  LDHI I, data_player_sprite_normal				; E_PLAYER_SPRITE_MOVE_RIGHT_1
+  LDHI I, data_player_sprite_normal				; E_PLAYER_SPRITE_MOVE_RIGHT_2
+  LDHI I, data_player_sprite_normal				; E_PLAYER_SPRITE_MOVE_RIGHT_3
+  LDHI I, data_player_sprite_clear_collision 	; E_PLAYER_SPRITE_CLEAR_COLLISION
+  LDHI I, data_player_sprite_collision			; E_PLAYER_SPRITE_COLLISION
 
-dPlayerSpriteCollision:
+data_player_sprite_collision:
   DB 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
   DB 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
   DB 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
@@ -240,7 +238,7 @@ dPlayerSpriteCollision:
   DB 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
   DB 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
 
-dPlayerSpriteClearCollision:
+data_player_sprite_clear_collision:
   DB 2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2
   DB 2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2
   DB 2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2
@@ -258,7 +256,7 @@ dPlayerSpriteClearCollision:
   DB 2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2
   DB 2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2
   
-dPlayerSpriteNormal:
+data_player_sprite_normal:
   DB 0,0,0,3,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
   DB 0,0,0,3,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
   DB 0,0,0,3,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
@@ -276,7 +274,7 @@ dPlayerSpriteNormal:
   DB 0,0,0,0,0,3,0,3,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
   DB 0,0,0,0,0,0,3,3,3,3,3,3,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 
-dPlayerSpriteUp:
+data_player_sprite_up:
   DB 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
   DB 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
   DB 0,0,0,3,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
@@ -294,7 +292,7 @@ dPlayerSpriteUp:
   DB 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
   DB 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 
-dPlayerSpriteDown:
+data_player_sprite_down:
   DB 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
   DB 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
   DB 0,0,0,3,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
