@@ -1,0 +1,2124 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Bitmap name="D:\assets\nevshooter_tiles.png">
+  <Sprite name="wall_col_00">
+    <Rectangle x="8" y="11" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_col_04">
+    <Rectangle x="25" y="11" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_col_08">
+    <Rectangle x="42" y="11" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_col_0C">
+    <Rectangle x="59" y="11" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_col_10">
+    <Rectangle x="76" y="11" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_col_14">
+    <Rectangle x="93" y="11" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_col_18">
+    <Rectangle x="110" y="11" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_col_1C">
+    <Rectangle x="127" y="11" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_col_20">
+    <Rectangle x="144" y="11" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_col_24">
+    <Rectangle x="161" y="11" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_col_28">
+    <Rectangle x="178" y="11" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_col_2C">
+    <Rectangle x="195" y="11" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_col_30">
+    <Rectangle x="212" y="11" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_col_34">
+    <Rectangle x="229" y="11" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_col_38">
+    <Rectangle x="246" y="11" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_col_3C">
+    <Rectangle x="263" y="11" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_col_40">
+    <Rectangle x="280" y="11" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_col_44">
+    <Rectangle x="297" y="11" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_col_48">
+    <Rectangle x="314" y="11" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_col_4C">
+    <Rectangle x="331" y="11" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_col_50">
+    <Rectangle x="348" y="11" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_col_54">
+    <Rectangle x="365" y="11" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_col_58">
+    <Rectangle x="382" y="11" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_col_5C">
+    <Rectangle x="399" y="11" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_col_60">
+    <Rectangle x="416" y="11" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_col_64">
+    <Rectangle x="433" y="11" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_col_68">
+    <Rectangle x="450" y="11" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_col_6C">
+    <Rectangle x="467" y="11" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_col_70">
+    <Rectangle x="484" y="11" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_col_74">
+    <Rectangle x="501" y="11" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_col_78">
+    <Rectangle x="518" y="11" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_col_7C">
+    <Rectangle x="535" y="11" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_col_80">
+    <Rectangle x="552" y="11" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_col_84">
+    <Rectangle x="569" y="11" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_col_88">
+    <Rectangle x="586" y="11" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_col_8C">
+    <Rectangle x="603" y="11" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_col_90">
+    <Rectangle x="620" y="11" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_col_94">
+    <Rectangle x="637" y="11" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_col_98">
+    <Rectangle x="654" y="11" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_col_9C">
+    <Rectangle x="671" y="11" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_col_A0">
+    <Rectangle x="688" y="11" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_col_A4">
+    <Rectangle x="705" y="11" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_col_A8">
+    <Rectangle x="722" y="11" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_col_AC">
+    <Rectangle x="739" y="11" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_col_B0">
+    <Rectangle x="756" y="11" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_col_B4">
+    <Rectangle x="773" y="11" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_col_B8">
+    <Rectangle x="790" y="11" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_col_BC">
+    <Rectangle x="807" y="11" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_col_C0">
+    <Rectangle x="824" y="11" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_col_C4">
+    <Rectangle x="841" y="11" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_col_C8">
+    <Rectangle x="858" y="11" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_col_CC">
+    <Rectangle x="875" y="11" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_col_D0">
+    <Rectangle x="892" y="11" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_col_D4">
+    <Rectangle x="909" y="11" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_col_D8">
+    <Rectangle x="926" y="11" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_col_DC">
+    <Rectangle x="943" y="11" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_col_E0">
+    <Rectangle x="960" y="11" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_col_E4">
+    <Rectangle x="977" y="11" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_col_E8">
+    <Rectangle x="994" y="11" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_col_EC">
+    <Rectangle x="1011" y="11" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_col_F0">
+    <Rectangle x="1028" y="11" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_col_F4">
+    <Rectangle x="1045" y="11" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_col_F8">
+    <Rectangle x="1062" y="11" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_strip_00">
+    <Rectangle x="8" y="209" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_strip_04">
+    <Rectangle x="25" y="209" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_strip_08">
+    <Rectangle x="42" y="209" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_strip_0C">
+    <Rectangle x="59" y="209" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_strip_10">
+    <Rectangle x="76" y="209" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_strip_14">
+    <Rectangle x="93" y="209" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_strip_18">
+    <Rectangle x="110" y="209" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_strip_1C">
+    <Rectangle x="127" y="209" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_strip_20">
+    <Rectangle x="144" y="209" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_strip_24">
+    <Rectangle x="161" y="209" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_strip_28">
+    <Rectangle x="178" y="209" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_strip_2C">
+    <Rectangle x="195" y="209" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_strip_30">
+    <Rectangle x="212" y="209" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_strip_34">
+    <Rectangle x="229" y="209" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_strip_38">
+    <Rectangle x="246" y="209" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_strip_3C">
+    <Rectangle x="263" y="209" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_strip_40">
+    <Rectangle x="280" y="209" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_strip_44">
+    <Rectangle x="297" y="209" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_strip_48">
+    <Rectangle x="314" y="209" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_strip_4C">
+    <Rectangle x="331" y="209" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_strip_50">
+    <Rectangle x="348" y="209" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_strip_54">
+    <Rectangle x="365" y="209" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_strip_58">
+    <Rectangle x="382" y="209" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_strip_5C">
+    <Rectangle x="399" y="209" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_strip_60">
+    <Rectangle x="416" y="209" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_strip_64">
+    <Rectangle x="433" y="209" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_strip_68">
+    <Rectangle x="450" y="11" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_strip_6C">
+    <Rectangle x="467" y="209" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_strip_70">
+    <Rectangle x="484" y="209" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_strip_74">
+    <Rectangle x="501" y="209" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_strip_78">
+    <Rectangle x="518" y="209" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_strip_7C">
+    <Rectangle x="535" y="209" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_strip_80">
+    <Rectangle x="552" y="209" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_strip_84">
+    <Rectangle x="569" y="209" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_strip_88">
+    <Rectangle x="586" y="209" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_strip_8C">
+    <Rectangle x="603" y="209" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_strip_90">
+    <Rectangle x="620" y="209" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_strip_94">
+    <Rectangle x="637" y="209" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_strip_98">
+    <Rectangle x="654" y="209" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_strip_9C">
+    <Rectangle x="671" y="209" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_strip_A0">
+    <Rectangle x="688" y="209" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_strip_A4">
+    <Rectangle x="705" y="209" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_strip_A8">
+    <Rectangle x="722" y="209" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_strip_AC">
+    <Rectangle x="739" y="209" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_strip_B0">
+    <Rectangle x="756" y="209" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_strip_B4">
+    <Rectangle x="773" y="209" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_strip_B8">
+    <Rectangle x="790" y="209" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_strip_BC">
+    <Rectangle x="807" y="209" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_strip_C0">
+    <Rectangle x="824" y="209" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_strip_C4">
+    <Rectangle x="841" y="209" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_strip_C8">
+    <Rectangle x="858" y="209" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_strip_CC">
+    <Rectangle x="875" y="209" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_strip_D0">
+    <Rectangle x="892" y="209" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_strip_D4">
+    <Rectangle x="909" y="209" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_strip_D8">
+    <Rectangle x="926" y="209" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_strip_DC">
+    <Rectangle x="943" y="209" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_strip_E0">
+    <Rectangle x="960" y="209" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_strip_E4">
+    <Rectangle x="977" y="209" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_strip_E8">
+    <Rectangle x="994" y="209" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_strip_EC">
+    <Rectangle x="1011" y="209" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_strip_F0">
+    <Rectangle x="1028" y="209" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_strip_F4">
+    <Rectangle x="1045" y="209" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="wall_strip_F8">
+    <Rectangle x="1062" y="209" width="16" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="parallax_A">
+    <Rectangle x="573" y="404" width="240" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="parallax_B">
+    <Rectangle x="314" y="404" width="240" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="background">
+    <Rectangle x="750" y="605" width="256" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="border">
+    <Rectangle x="837" y="404" width="256" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="title_screen">
+    <Rectangle x="6" y="403" width="256" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="game_over_screen">
+    <Rectangle x="7" y="600" width="256" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="number_1">
+    <Rectangle x="300" y="406" width="8" height="16" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="number_2">
+    <Rectangle x="301" y="423" width="8" height="16" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="number_3">
+    <Rectangle x="301" y="440" width="8" height="16" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="number_4">
+    <Rectangle x="301" y="456" width="8" height="16" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="number_5">
+    <Rectangle x="301" y="473" width="8" height="16" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="number_6">
+    <Rectangle x="301" y="490" width="8" height="16" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="number_7">
+    <Rectangle x="301" y="507" width="8" height="16" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="number_8">
+    <Rectangle x="301" y="524" width="8" height="16" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="number_9">
+    <Rectangle x="301" y="540" width="8" height="16" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="number_0">
+    <Rectangle x="301" y="557" width="8" height="16" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="player_alive0">
+    <Rectangle x="240" y="1050" width="32" height="48" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="player_alive1">
+    <Rectangle x="274" y="1050" width="32" height="48" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="player_alive2">
+    <Rectangle x="308" y="1050" width="32" height="48" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="player_alive3">
+    <Rectangle x="342" y="1050" width="32" height="48" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="player_alive4">
+    <Rectangle x="376" y="1050" width="32" height="48" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="player_invulnerable0">
+    <Rectangle x="418" y="1050" width="32" height="48" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="player_invulnerable1">
+    <Rectangle x="452" y="1050" width="32" height="48" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="player_invulnerable2">
+    <Rectangle x="486" y="1050" width="32" height="48" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="player_invulnerable3">
+    <Rectangle x="520" y="1050" width="32" height="48" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="player_invulnerable4">
+    <Rectangle x="554" y="1050" width="32" height="48" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="player_invulnerable5">
+    <Rectangle x="588" y="1050" width="32" height="48" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="player_invulnerable6">
+    <Rectangle x="622" y="1050" width="32" height="48" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="player_invulnerable7">
+    <Rectangle x="656" y="1050" width="32" height="48" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="player_dying0">
+    <Rectangle x="695" y="1050" width="32" height="48" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="player_dying1">
+    <Rectangle x="729" y="1050" width="32" height="48" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="player_dying2">
+    <Rectangle x="763" y="1050" width="32" height="48" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="player_dying3">
+    <Rectangle x="797" y="1050" width="32" height="48" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="player_dying4">
+    <Rectangle x="831" y="1050" width="32" height="48" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="player_dying5">
+    <Rectangle x="865" y="1050" width="32" height="48" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="player_dying6">
+    <Rectangle x="899" y="1050" width="32" height="48" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="player_dying7">
+    <Rectangle x="933" y="1050" width="32" height="48" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="player_col_purple">
+    <Rectangle x="998" y="1050" width="32" height="48" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="player_col_white">
+    <Rectangle x="1031" y="1050" width="32" height="48" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="player_col_orange">
+    <Rectangle x="1065" y="1050" width="32" height="48" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="laser_alive0">
+    <Rectangle x="573" y="702" width="16" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="laser_alive1">
+    <Rectangle x="591" y="702" width="16" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="laser_dying0">
+    <Rectangle x="609" y="702" width="16" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="laser_dying1">
+    <Rectangle x="627" y="702" width="16" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="laser_dying2">
+    <Rectangle x="645" y="702" width="16" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="laser_dying3">
+    <Rectangle x="663" y="702" width="16" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="laser_col_purple">
+    <Rectangle x="573" y="735" width="16" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="laser_col_white">
+    <Rectangle x="591" y="735" width="16" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="laser_col_orange">
+    <Rectangle x="609" y="735" width="16" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="ship1_alive0">
+    <Rectangle x="267" y="601" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="ship1_alive1">
+    <Rectangle x="301" y="601" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="ship1_alive2">
+    <Rectangle x="335" y="601" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="ship1_alive3">
+    <Rectangle x="369" y="601" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="ship1_damaged0">
+    <Rectangle x="267" y="634" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="ship1_damaged1">
+    <Rectangle x="301" y="634" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="ship1_damaged2">
+    <Rectangle x="335" y="634" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="ship1_damaged3">
+    <Rectangle x="369" y="634" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="ship1_dying0">
+    <Rectangle x="403" y="601" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="ship1_dying1">
+    <Rectangle x="437" y="601" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="ship1_dying2">
+    <Rectangle x="471" y="601" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="ship1_dying3">
+    <Rectangle x="505" y="601" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="ship1_dying4">
+    <Rectangle x="403" y="634" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="ship1_dying5">
+    <Rectangle x="437" y="634" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="ship1_dying6">
+    <Rectangle x="471" y="634" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="ship1_dying7">
+    <Rectangle x="505" y="634" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="ship1_col_purple">
+    <Rectangle x="539" y="601" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="ship1_col_white">
+    <Rectangle x="539" y="634" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="ship1_col_orange">
+    <Rectangle x="573" y="634" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="ship2_alive">
+    <Rectangle x="267" y="902" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="ship2_dying0">
+    <Rectangle x="301" y="902" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="ship2_dying1">
+    <Rectangle x="335" y="902" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="ship2_dying2">
+    <Rectangle x="369" y="902" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="ship2_dying3">
+    <Rectangle x="403" y="902" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="ship2_dying4">
+    <Rectangle x="437" y="902" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="ship2_dying5">
+    <Rectangle x="471" y="902" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="ship2_dying6">
+    <Rectangle x="505" y="902" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="ship2_dying7">
+    <Rectangle x="539" y="902" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="ship2_col_purple">
+    <Rectangle x="573" y="902" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="ship2_col_white">
+    <Rectangle x="607" y="902" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="ship2_col_orange">
+    <Rectangle x="641" y="902" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="missile_alive">
+    <Rectangle x="267" y="667" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="missile_dying0">
+    <Rectangle x="301" y="667" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="missile_dying1">
+    <Rectangle x="335" y="667" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="missile_dying2">
+    <Rectangle x="369" y="667" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="missile_dying3">
+    <Rectangle x="403" y="667" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="missile_dying4">
+    <Rectangle x="437" y="667" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="missile_dying5">
+    <Rectangle x="471" y="667" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="missile_dying6">
+    <Rectangle x="505" y="667" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="missile_dying7">
+    <Rectangle x="539" y="667" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="missile_col_purple">
+    <Rectangle x="573" y="667" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="missile_col_white">
+    <Rectangle x="607" y="667" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="missile_col_orange">
+    <Rectangle x="641" y="667" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="floorturret_alive0">
+    <Rectangle x="267" y="702" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="floorturret_alive1">
+    <Rectangle x="301" y="702" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="floorturret_alive2">
+    <Rectangle x="335" y="702" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="floorturret_alive3">
+    <Rectangle x="369" y="702" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="floorturret_alive4">
+    <Rectangle x="403" y="702" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="floorturret_alive5">
+    <Rectangle x="437" y="702" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="floorturret_alive6">
+    <Rectangle x="471" y="702" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="floorturret_alive7">
+    <Rectangle x="505" y="702" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="floorturret_damaged0">
+    <Rectangle x="267" y="735" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="floorturret_damaged1">
+    <Rectangle x="301" y="735" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="floorturret_damaged2">
+    <Rectangle x="335" y="735" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="floorturret_damaged3">
+    <Rectangle x="369" y="735" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="floorturret_damaged4">
+    <Rectangle x="403" y="735" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="floorturret_damaged5">
+    <Rectangle x="437" y="735" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="floorturret_damaged6">
+    <Rectangle x="471" y="735" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="floorturret_damaged7">
+    <Rectangle x="505" y="735" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="floorturret_dying0">
+    <Rectangle x="267" y="768" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="floorturret_dying1">
+    <Rectangle x="301" y="768" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="floorturret_dying2">
+    <Rectangle x="335" y="768" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="floorturret_dying3">
+    <Rectangle x="369" y="768" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="floorturret_dying4">
+    <Rectangle x="403" y="768" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="floorturret_dying5">
+    <Rectangle x="437" y="768" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="floorturret_dying6">
+    <Rectangle x="471" y="768" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="floorturret_dying7">
+    <Rectangle x="505" y="768" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="floorturret_col_purple">
+    <Rectangle x="539" y="702" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="floorturret_col_white">
+    <Rectangle x="539" y="735" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="floorturret_col_orange">
+    <Rectangle x="539" y="768" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="roofturret_alive0">
+    <Rectangle x="267" y="802" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="roofturret_alive1">
+    <Rectangle x="301" y="802" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="roofturret_alive2">
+    <Rectangle x="335" y="802" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="roofturret_alive3">
+    <Rectangle x="369" y="802" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="roofturret_alive4">
+    <Rectangle x="403" y="802" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="roofturret_alive5">
+    <Rectangle x="437" y="802" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="roofturret_alive6">
+    <Rectangle x="471" y="802" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="roofturret_alive7">
+    <Rectangle x="505" y="802" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="roofturret_damaged0">
+    <Rectangle x="267" y="835" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="roofturret_damaged1">
+    <Rectangle x="301" y="835" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="roofturret_damaged2">
+    <Rectangle x="335" y="835" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="roofturret_damaged3">
+    <Rectangle x="369" y="835" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="roofturret_damaged4">
+    <Rectangle x="403" y="835" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="roofturret_damaged5">
+    <Rectangle x="437" y="835" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="roofturret_damaged6">
+    <Rectangle x="471" y="835" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="roofturret_damaged7">
+    <Rectangle x="505" y="835" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="roofturret_dying0">
+    <Rectangle x="267" y="868" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="roofturret_dying1">
+    <Rectangle x="301" y="868" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="roofturret_dying2">
+    <Rectangle x="335" y="868" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="roofturret_dying3">
+    <Rectangle x="369" y="868" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="roofturret_dying4">
+    <Rectangle x="403" y="868" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="roofturret_dying5">
+    <Rectangle x="437" y="868" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="roofturret_dying6">
+    <Rectangle x="471" y="868" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="roofturret_dying7">
+    <Rectangle x="505" y="868" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="roofturret_col_purple">
+    <Rectangle x="539" y="802" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="roofturret_col_white">
+    <Rectangle x="539" y="835" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="roofturret_col_orange">
+    <Rectangle x="539" y="868" width="32" height="32" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="boss_col">
+    <Rectangle x="7" y="795" width="256" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="boss_background">
+    <Rectangle x="838" y="803" width="256" height="192" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="eye_col_purple">
+    <Rectangle x="411" y="997" width="52" height="52" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="eye_col_white">
+    <Rectangle x="464" y="997" width="52" height="52" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="eye_col_orange">
+    <Rectangle x="517" y="997" width="52" height="52" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="eye_damaged">
+    <Rectangle x="570" y="997" width="52" height="52" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="eye_dying0">
+    <Rectangle x="623" y="997" width="52" height="52" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="eye_dying1">
+    <Rectangle x="676" y="997" width="52" height="52" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="eye_dying2">
+    <Rectangle x="729" y="997" width="52" height="52" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="eye_dying3">
+    <Rectangle x="782" y="997" width="52" height="52" />
+    <PaletteMode value="0" />
+    <Transparency color="FF311D31" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="eye_dying4">
+    <Rectangle x="835" y="997" width="52" height="52" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="eye_dying5">
+    <Rectangle x="888" y="997" width="52" height="52" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="eye_dying6">
+    <Rectangle x="941" y="997" width="52" height="52" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="eye_dying7">
+    <Rectangle x="994" y="997" width="52" height="52" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="eye_blink">
+    <Rectangle x="1047" y="997" width="52" height="52" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="bullet_alive0">
+    <Rectangle x="263" y="403" width="16" height="16" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="bullet_alive1">
+    <Rectangle x="281" y="403" width="16" height="16" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="bullet_alive2">
+    <Rectangle x="263" y="420" width="16" height="16" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="bullet_alive3">
+    <Rectangle x="281" y="420" width="16" height="16" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="bullet_alive4">
+    <Rectangle x="263" y="436" width="16" height="16" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="bullet_alive5">
+    <Rectangle x="281" y="436" width="16" height="16" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="bullet_alive6">
+    <Rectangle x="263" y="452" width="16" height="16" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="bullet_alive7">
+    <Rectangle x="281" y="452" width="16" height="16" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="bullet_dying0">
+    <Rectangle x="263" y="473" width="16" height="16" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="bullet_dying1">
+    <Rectangle x="281" y="473" width="16" height="16" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="bullet_dying2">
+    <Rectangle x="263" y="491" width="16" height="16" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="bullet_dying3">
+    <Rectangle x="281" y="491" width="16" height="16" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="bullet_dying4">
+    <Rectangle x="263" y="509" width="16" height="16" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="bullet_dying5">
+    <Rectangle x="281" y="509" width="16" height="16" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="bullet_dying6">
+    <Rectangle x="263" y="527" width="16" height="16" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+  <Sprite name="bullet_dying7">
+    <Rectangle x="281" y="527" width="16" height="16" />
+    <PaletteMode value="0" />
+    <Transparency color="FF321E32" />
+    <Collision on="True" color="FFFF32FF" />
+    <Transposed value="False" />
+  </Sprite>
+</Bitmap>

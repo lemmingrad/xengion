@@ -2,13 +2,15 @@
 ; PLAYER INFO
 ;---------------------------------------------------------------------------------
 
-E_PLAYER_STATE_REVIVING						= #00
-E_PLAYER_STATE_ALIVE						= #02
-E_PLAYER_STATE_HIT_WALL						= #04
-E_PLAYER_STATE_HIT_ENEMY					= #06
-E_PLAYER_STATE_HIT_BULLET					= #08
-E_PLAYER_STATE_DYING						= #0A
-E_PLAYER_STATE_OUTRO						= #0C
+E_PLAYER_STATE_DEAD						= #00
+E_PLAYER_STATE_REVIVING						= #02
+E_PLAYER_STATE_ALIVE						= #04
+E_PLAYER_STATE_HIT_WALL						= #06
+E_PLAYER_STATE_HIT_ENEMY					= #08
+E_PLAYER_STATE_HIT_BULLET					= #0A
+E_PLAYER_STATE_DYING						= #0C
+E_PLAYER_STATE_OUTRO						= #0E
+E_PLAYER_STATE_SUCCESS						= #10
 
 E_PLAYER_SPRITE_ALIVE_0						= #00
 E_PLAYER_SPRITE_ALIVE_1						= #04
@@ -62,8 +64,9 @@ E_PLAYER_SPRITE_MOVE_UP						= #C0
 E_PLAYER_SPRITE_MOVE_DOWN					= #C4
 E_PLAYER_SPRITE_MOVE_LEFT					= #C8
 E_PLAYER_SPRITE_MOVE_RIGHT					= #CC
-E_PLAYER_SPRITE_CLEAR_COLLISION					= #D0
-E_PLAYER_SPRITE_COLLISION					= #D4
+E_PLAYER_SPRITE_COL_PURPLE					= #D0
+E_PLAYER_SPRITE_COL_WHITE					= #D4
+E_PLAYER_SPRITE_COL_ORANGE					= #D8
 		
 KEY_RIGHT							= 9
 KEY_LEFT 							= 7 
@@ -81,8 +84,11 @@ PLAYER_ALIVE_SPEED_X						= 2
 PLAYER_ALIVE_SPEED_Y						= 2
 
 PLAYER_DYING_XPOS_MIN						= 0
-PLAYER_DYING_SPEED_X						= GAME_SCROLL_SPEED
+PLAYER_DYING_SPEED_X						= GAMEPLAY_SCROLL_SPEED
 PLAYER_DYING_TIMER_MAX						= 50
+
+PLAYER_OUTRO_XPOS_MAX						= 200
+PLAYER_OUTRO_SPEED_X						= 2
 
 ;---------------------------------------------------------------------------------
 
@@ -123,7 +129,9 @@ data_player_dying_constants:
 
   DS 12
 data_player_outro_constants:
-
+  DB PLAYER_OUTRO_XPOS_MAX					; player.const PLAYER_OUTRO_XPOS_MAX
+  DB PLAYER_OUTRO_SPEED_X					; player.const PLAYER_OUTRO_SPEED_X
+  DB E_PLAYER_SPRITE_REVIVING_0					; player.nextsprite = E_PLAYER_SPRITE_REVIVING_0
 
   DS 12
 data_player_reset:
@@ -136,13 +144,15 @@ data_player_reset:
 ;---------------------------------------------------------------------------------
 
 data_player_update_state_switch_lookup:
+  JP lbl_do_update_player_case_dead				; E_PLAYER_STATE_DEAD
   JP lbl_do_update_player_case_reviving				; E_PLAYER_STATE_REVIVING
   JP lbl_do_update_player_case_alive				; E_PLAYER_STATE_ALIVE
-  JP lbl_do_update_player_case_hit_anything			; E_PLAYER_STATE_HIT_WALL
-  JP lbl_do_update_player_case_hit_anything			; E_PLAYER_STATE_HIT_ENEMY
-  JP lbl_do_update_player_case_hit_anything			; E_PLAYER_STATE_HIT_BULLET
+  JP lbl_do_update_player_case_hit_wall				; E_PLAYER_STATE_HIT_WALL
+  JP lbl_do_update_player_case_hit_enemy			; E_PLAYER_STATE_HIT_ENEMY
+  JP lbl_do_update_player_case_hit_bullet			; E_PLAYER_STATE_HIT_BULLET
   JP lbl_do_update_player_case_dying				; E_PLAYER_STATE_DYING
   JP lbl_do_update_player_case_outro				; E_PLAYER_STATE_OUTRO
+  JP lbl_do_update_player_case_success				; E_PLAYER_STATE_SUCCESS
 
 ;---------------------------------------------------------------------------------
 
@@ -152,67 +162,131 @@ PLAYER_HEIGHT							= 48
 data_player_sprite_lookup:
   LDHI I, data_sprite_player_alive0				; E_PLAYER_SPRITE_ALIVE_0
   LDHI I, data_sprite_player_alive0				; E_PLAYER_SPRITE_ALIVE_1
-  LDHI I, data_sprite_player_alive0				; E_PLAYER_SPRITE_ALIVE_2
-  LDHI I, data_sprite_player_alive0				; E_PLAYER_SPRITE_ALIVE_3
-  LDHI I, data_sprite_player_alive0				; E_PLAYER_SPRITE_ALIVE_4
-  LDHI I, data_sprite_player_alive0				; E_PLAYER_SPRITE_ALIVE_5
-  LDHI I, data_sprite_player_alive0				; E_PLAYER_SPRITE_ALIVE_6
-  LDHI I, data_sprite_player_alive0				; E_PLAYER_SPRITE_ALIVE_7
-  LDHI I, data_sprite_player_alive0				; E_PLAYER_SPRITE_ALIVE_8
-  LDHI I, data_sprite_player_alive0				; E_PLAYER_SPRITE_ALIVE_9
-  LDHI I, data_sprite_player_alive0				; E_PLAYER_SPRITE_ALIVE_10
-  LDHI I, data_sprite_player_alive0				; E_PLAYER_SPRITE_ALIVE_11
-  LDHI I, data_sprite_player_alive0				; E_PLAYER_SPRITE_ALIVE_12
-  LDHI I, data_sprite_player_alive0				; E_PLAYER_SPRITE_ALIVE_13
-  LDHI I, data_sprite_player_alive0				; E_PLAYER_SPRITE_ALIVE_14
-  LDHI I, data_sprite_player_alive0				; E_PLAYER_SPRITE_ALIVE_15
-  LDHI I, data_generic_sprite_boom				; E_PLAYER_SPRITE_DYING_0
-  LDHI I, data_sprite_player_clearcollision			; E_PLAYER_SPRITE_DYING_1
-  LDHI I, data_sprite_player_alive0				; E_PLAYER_SPRITE_DYING_2
-  LDHI I, data_generic_sprite_boom				; E_PLAYER_SPRITE_DYING_3
-  LDHI I, data_sprite_player_clearcollision			; E_PLAYER_SPRITE_DYING_4
-  LDHI I, data_sprite_player_alive0				; E_PLAYER_SPRITE_DYING_5
-  LDHI I, data_generic_sprite_boom				; E_PLAYER_SPRITE_DYING_6
-  LDHI I, data_sprite_player_clearcollision			; E_PLAYER_SPRITE_DYING_7
-  LDHI I, data_sprite_player_alive0				; E_PLAYER_SPRITE_DYING_8
-  LDHI I, data_generic_sprite_boom				; E_PLAYER_SPRITE_DYING_9
-  LDHI I, data_sprite_player_clearcollision			; E_PLAYER_SPRITE_DYING_10
-  LDHI I, data_sprite_player_alive0				; E_PLAYER_SPRITE_DYING_11
-  LDHI I, data_generic_sprite_boom				; E_PLAYER_SPRITE_DYING_12
-  LDHI I, data_sprite_player_clearcollision			; E_PLAYER_SPRITE_DYING_13
-  LDHI I, data_sprite_player_alive0				; E_PLAYER_SPRITE_DYING_14
-  LDHI I, data_generic_sprite_boom				; E_PLAYER_SPRITE_DYING_15
-  LDHI I, data_sprite_player_alive0				; E_PLAYER_SPRITE_REVIVING_0
-  LDHI I, data_sprite_player_clearcollision			; E_PLAYER_SPRITE_REVIVING_1
-  LDHI I, data_sprite_player_alive0		  		; E_PLAYER_SPRITE_REVIVING_2
-  LDHI I, data_sprite_player_clearcollision			; E_PLAYER_SPRITE_REVIVING_3
-  LDHI I, data_sprite_player_alive0				; E_PLAYER_SPRITE_REVIVING_4
-  LDHI I, data_sprite_player_clearcollision			; E_PLAYER_SPRITE_REVIVING_5
-  LDHI I, data_sprite_player_alive0				; E_PLAYER_SPRITE_REVIVING_6
-  LDHI I, data_sprite_player_clearcollision			; E_PLAYER_SPRITE_REVIVING_7
-  LDHI I, data_sprite_player_alive0				; E_PLAYER_SPRITE_REVIVING_8
-  LDHI I, data_sprite_player_clearcollision			; E_PLAYER_SPRITE_REVIVING_9
-  LDHI I, data_sprite_player_alive0				; E_PLAYER_SPRITE_REVIVING_10
-  LDHI I, data_sprite_player_clearcollision			; E_PLAYER_SPRITE_REVIVING_11
-  LDHI I, data_sprite_player_alive0				; E_PLAYER_SPRITE_REVIVING_12
-  LDHI I, data_sprite_player_clearcollision			; E_PLAYER_SPRITE_REVIVING_13
-  LDHI I, data_sprite_player_alive0				; E_PLAYER_SPRITE_REVIVING_14
-  LDHI I, data_sprite_player_clearcollision			; E_PLAYER_SPRITE_REVIVING_15
-  LDHI I, data_sprite_player_clearcollision			; E_PLAYER_SPRITE_MOVE_UP
-  LDHI I, data_sprite_player_clearcollision			; E_PLAYER_SPRITE_MOVE_DOWN
-  LDHI I, data_sprite_player_clearcollision			; E_PLAYER_SPRITE_MOVE_LEFT
-  LDHI I, data_sprite_player_clearcollision			; E_PLAYER_SPRITE_MOVE_RIGHT
-  LDHI I, data_sprite_player_clearcollision 			; E_PLAYER_SPRITE_CLEAR_COLLISION
-  LDHI I, data_sprite_player_collision				; E_PLAYER_SPRITE_COLLISION
+  LDHI I, data_sprite_player_alive1				; E_PLAYER_SPRITE_ALIVE_2
+  LDHI I, data_sprite_player_alive1				; E_PLAYER_SPRITE_ALIVE_3
+  LDHI I, data_sprite_player_alive2				; E_PLAYER_SPRITE_ALIVE_4
+  LDHI I, data_sprite_player_alive2				; E_PLAYER_SPRITE_ALIVE_5
+  LDHI I, data_sprite_player_alive3				; E_PLAYER_SPRITE_ALIVE_6
+  LDHI I, data_sprite_player_alive3				; E_PLAYER_SPRITE_ALIVE_7
+  LDHI I, data_sprite_player_alive4				; E_PLAYER_SPRITE_ALIVE_8
+  LDHI I, data_sprite_player_alive4				; E_PLAYER_SPRITE_ALIVE_9
+  LDHI I, data_sprite_player_alive3				; E_PLAYER_SPRITE_ALIVE_10
+  LDHI I, data_sprite_player_alive3				; E_PLAYER_SPRITE_ALIVE_11
+  LDHI I, data_sprite_player_alive2				; E_PLAYER_SPRITE_ALIVE_12
+  LDHI I, data_sprite_player_alive2				; E_PLAYER_SPRITE_ALIVE_13
+  LDHI I, data_sprite_player_alive1				; E_PLAYER_SPRITE_ALIVE_14
+  LDHI I, data_sprite_player_alive1				; E_PLAYER_SPRITE_ALIVE_15
+  LDHI I, data_sprite_player_dying0				; E_PLAYER_SPRITE_DYING_0
+  LDHI I, data_sprite_player_dying0				; E_PLAYER_SPRITE_DYING_1
+  LDHI I, data_sprite_player_dying1				; E_PLAYER_SPRITE_DYING_2
+  LDHI I, data_sprite_player_dying1				; E_PLAYER_SPRITE_DYING_3
+  LDHI I, data_sprite_player_dying2				; E_PLAYER_SPRITE_DYING_4
+  LDHI I, data_sprite_player_dying2				; E_PLAYER_SPRITE_DYING_5
+  LDHI I, data_sprite_player_dying3				; E_PLAYER_SPRITE_DYING_6
+  LDHI I, data_sprite_player_dying3				; E_PLAYER_SPRITE_DYING_7
+  LDHI I, data_sprite_player_dying4				; E_PLAYER_SPRITE_DYING_8
+  LDHI I, data_sprite_player_dying4				; E_PLAYER_SPRITE_DYING_9
+  LDHI I, data_sprite_player_dying5				; E_PLAYER_SPRITE_DYING_10
+  LDHI I, data_sprite_player_dying5				; E_PLAYER_SPRITE_DYING_11
+  LDHI I, data_sprite_player_dying6				; E_PLAYER_SPRITE_DYING_12
+  LDHI I, data_sprite_player_dying6				; E_PLAYER_SPRITE_DYING_13
+  LDHI I, data_sprite_player_dying7				; E_PLAYER_SPRITE_DYING_14
+  LDHI I, data_sprite_player_dying7				; E_PLAYER_SPRITE_DYING_15
+  LDHI I, data_sprite_player_invulnerable0			; E_PLAYER_SPRITE_REVIVING_0
+  LDHI I, data_sprite_player_invulnerable0			; E_PLAYER_SPRITE_REVIVING_1
+  LDHI I, data_sprite_player_invulnerable1		  	; E_PLAYER_SPRITE_REVIVING_2
+  LDHI I, data_sprite_player_invulnerable1			; E_PLAYER_SPRITE_REVIVING_3
+  LDHI I, data_sprite_player_invulnerable2			; E_PLAYER_SPRITE_REVIVING_4
+  LDHI I, data_sprite_player_invulnerable2			; E_PLAYER_SPRITE_REVIVING_5
+  LDHI I, data_sprite_player_invulnerable3			; E_PLAYER_SPRITE_REVIVING_6
+  LDHI I, data_sprite_player_invulnerable3			; E_PLAYER_SPRITE_REVIVING_7
+  LDHI I, data_sprite_player_invulnerable4			; E_PLAYER_SPRITE_REVIVING_8
+  LDHI I, data_sprite_player_invulnerable4			; E_PLAYER_SPRITE_REVIVING_9
+  LDHI I, data_sprite_player_invulnerable5			; E_PLAYER_SPRITE_REVIVING_10
+  LDHI I, data_sprite_player_invulnerable5			; E_PLAYER_SPRITE_REVIVING_11
+  LDHI I, data_sprite_player_invulnerable6			; E_PLAYER_SPRITE_REVIVING_12
+  LDHI I, data_sprite_player_invulnerable6			; E_PLAYER_SPRITE_REVIVING_13
+  LDHI I, data_sprite_player_invulnerable7			; E_PLAYER_SPRITE_REVIVING_14
+  LDHI I, data_sprite_player_invulnerable7			; E_PLAYER_SPRITE_REVIVING_15
+  LDHI I, data_sprite_player_alive4				; E_PLAYER_SPRITE_MOVE_UP
+  LDHI I, data_sprite_player_alive0				; E_PLAYER_SPRITE_MOVE_DOWN
+  LDHI I, data_sprite_player_alive2				; E_PLAYER_SPRITE_MOVE_LEFT
+  LDHI I, data_sprite_player_alive2				; E_PLAYER_SPRITE_MOVE_RIGHT
+  LDHI I, data_sprite_player_col_purple 			; E_PLAYER_SPRITE_COL_PURPLE
+  LDHI I, data_sprite_player_col_white				; E_PLAYER_SPRITE_COL_WHITE
+  LDHI I, data_sprite_player_col_orange				; E_PLAYER_SPRITE_COL_ORANGE
 
 data_sprite_player_alive0:
   INCBIN 'assets/player_alive0.bin'
 
-data_sprite_player_clearcollision:
-  INCBIN 'assets/player_clearcollision.bin'
+data_sprite_player_alive1:
+  INCBIN 'assets/player_alive1.bin'
 
-data_sprite_player_collision:
-  INCBIN 'assets/player_collision.bin'
+data_sprite_player_alive2:
+  INCBIN 'assets/player_alive2.bin'
+
+data_sprite_player_alive3:
+  INCBIN 'assets/player_alive3.bin'
+
+data_sprite_player_alive4:
+  INCBIN 'assets/player_alive4.bin'
+
+data_sprite_player_dying0:
+  INCBIN 'assets/player_dying0.bin'
+
+data_sprite_player_dying1:
+  INCBIN 'assets/player_dying1.bin'
+
+data_sprite_player_dying2:
+  INCBIN 'assets/player_dying2.bin'
+
+data_sprite_player_dying3:
+  INCBIN 'assets/player_dying3.bin'
+
+data_sprite_player_dying4:
+  INCBIN 'assets/player_dying4.bin'
+
+data_sprite_player_dying5:
+  INCBIN 'assets/player_dying5.bin'
+
+data_sprite_player_dying6:
+  INCBIN 'assets/player_dying6.bin'
+
+data_sprite_player_dying7:
+  INCBIN 'assets/player_dying7.bin'
+
+data_sprite_player_invulnerable0:
+  INCBIN 'assets/player_invulnerable0.bin'
+
+data_sprite_player_invulnerable1:
+  INCBIN 'assets/player_invulnerable1.bin'
+
+data_sprite_player_invulnerable2:
+  INCBIN 'assets/player_invulnerable2.bin'
+
+data_sprite_player_invulnerable3:
+  INCBIN 'assets/player_invulnerable3.bin'
+
+data_sprite_player_invulnerable4:
+  INCBIN 'assets/player_invulnerable4.bin'
+
+data_sprite_player_invulnerable5:
+  INCBIN 'assets/player_invulnerable5.bin'
+
+data_sprite_player_invulnerable6:
+  INCBIN 'assets/player_invulnerable6.bin'
+
+data_sprite_player_invulnerable7:
+  INCBIN 'assets/player_invulnerable7.bin'
+
+data_sprite_player_col_purple:
+  INCBIN 'assets/player_col_purple.bin'
+
+data_sprite_player_col_white:
+  INCBIN 'assets/player_col_white.bin'
+
+data_sprite_player_col_orange:
+  INCBIN 'assets/player_col_orange.bin'
 
 ;---------------------------------------------------------------------------------
 

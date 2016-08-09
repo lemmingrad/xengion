@@ -16,7 +16,7 @@ E_BULLET_SLOT_6							= #18
 E_BULLET_SLOT_7							= #1C
 E_BULLET_SLOT_8							= #20
 E_BULLET_SLOT_9							= #24
-E_BULLET_SLOT_MAX 						= E_BULLET_SLOT_9
+E_BULLET_SLOT_MAX 						= E_BULLET_SLOT_1
 BULLET_SLOT_INC							= #04
 
 E_BULLET_SPRITE_ALIVE_0						= #00
@@ -232,21 +232,21 @@ BULLET_HEIGHT = 16
 
 data_bullet_sprite_lookup:
   LDHI I, data_sprite_bullet_alive0				; E_BULLET_SPRITE_ALIVE_0
-  LDHI I, data_sprite_bullet_alive1				; E_BULLET_SPRITE_ALIVE_1
-  LDHI I, data_sprite_bullet_alive2				; E_BULLET_SPRITE_ALIVE_2
-  LDHI I, data_sprite_bullet_alive3				; E_BULLET_SPRITE_ALIVE_3
-  LDHI I, data_sprite_bullet_alive4				; E_BULLET_SPRITE_ALIVE_4
-  LDHI I, data_sprite_bullet_alive5				; E_BULLET_SPRITE_ALIVE_5
-  LDHI I, data_sprite_bullet_alive6				; E_BULLET_SPRITE_ALIVE_6
-  LDHI I, data_sprite_bullet_alive7				; E_BULLET_SPRITE_ALIVE_7
-  LDHI I, data_sprite_bullet_alive8				; E_BULLET_SPRITE_ALIVE_8
-  LDHI I, data_sprite_bullet_alive9				; E_BULLET_SPRITE_ALIVE_9
-  LDHI I, data_sprite_bullet_alive10				; E_BULLET_SPRITE_ALIVE_10
-  LDHI I, data_sprite_bullet_alive11				; E_BULLET_SPRITE_ALIVE_11
-  LDHI I, data_sprite_bullet_alive12				; E_BULLET_SPRITE_ALIVE_12
-  LDHI I, data_sprite_bullet_alive13				; E_BULLET_SPRITE_ALIVE_13
-  LDHI I, data_sprite_bullet_alive14				; E_BULLET_SPRITE_ALIVE_14
-  LDHI I, data_sprite_bullet_alive15				; E_BULLET_SPRITE_ALIVE_15
+  LDHI I, data_sprite_bullet_alive0				; E_BULLET_SPRITE_ALIVE_1
+  LDHI I, data_sprite_bullet_alive1				; E_BULLET_SPRITE_ALIVE_2
+  LDHI I, data_sprite_bullet_alive1				; E_BULLET_SPRITE_ALIVE_3
+  LDHI I, data_sprite_bullet_alive2				; E_BULLET_SPRITE_ALIVE_4
+  LDHI I, data_sprite_bullet_alive2				; E_BULLET_SPRITE_ALIVE_5
+  LDHI I, data_sprite_bullet_alive3				; E_BULLET_SPRITE_ALIVE_6
+  LDHI I, data_sprite_bullet_alive3				; E_BULLET_SPRITE_ALIVE_7
+  LDHI I, data_sprite_bullet_alive4				; E_BULLET_SPRITE_ALIVE_8
+  LDHI I, data_sprite_bullet_alive4				; E_BULLET_SPRITE_ALIVE_9
+  LDHI I, data_sprite_bullet_alive5				; E_BULLET_SPRITE_ALIVE_10
+  LDHI I, data_sprite_bullet_alive5				; E_BULLET_SPRITE_ALIVE_11
+  LDHI I, data_sprite_bullet_alive6				; E_BULLET_SPRITE_ALIVE_12
+  LDHI I, data_sprite_bullet_alive6				; E_BULLET_SPRITE_ALIVE_13
+  LDHI I, data_sprite_bullet_alive7				; E_BULLET_SPRITE_ALIVE_14
+  LDHI I, data_sprite_bullet_alive7				; E_BULLET_SPRITE_ALIVE_15
   LDHI I, data_sprite_bullet_dying0				; E_BULLET_SPRITE_DYING_0
   LDHI I, data_sprite_bullet_dying1				; E_BULLET_SPRITE_DYING_1
   LDHI I, data_sprite_bullet_dying2				; E_BULLET_SPRITE_DYING_2
@@ -279,30 +279,6 @@ data_sprite_bullet_alive6:
 
 data_sprite_bullet_alive7:
   INCBIN 'assets/bullet_alive7.bin'
-
-data_sprite_bullet_alive8:
-  INCBIN 'assets/bullet_alive8.bin'
-
-data_sprite_bullet_alive9:
-  INCBIN 'assets/bullet_alive9.bin'
-
-data_sprite_bullet_alive10:
-  INCBIN 'assets/bullet_alive10.bin'
-
-data_sprite_bullet_alive11:
-  INCBIN 'assets/bullet_alive11.bin'
-
-data_sprite_bullet_alive12:
-  INCBIN 'assets/bullet_alive12.bin'
-
-data_sprite_bullet_alive13:
-  INCBIN 'assets/bullet_alive13.bin'
-
-data_sprite_bullet_alive14:
-  INCBIN 'assets/bullet_alive14.bin'
-
-data_sprite_bullet_alive15:
-  INCBIN 'assets/bullet_alive15.bin'
 
 data_sprite_bullet_dying0:
   INCBIN 'assets/bullet_dying0.bin'
