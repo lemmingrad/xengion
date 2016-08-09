@@ -1,0 +1,257 @@
+;---------------------------------------------------------------------------------
+; ENEMY INFO
+;---------------------------------------------------------------------------------
+
+E_ENEMY_STATE_DEAD						= #00
+E_ENEMY_STATE_ALIVE						= #02
+E_ENEMY_STATE_HIT_SOMETHING					= #04
+E_ENEMY_STATE_DAMAGED_BY_LASER					= #06
+E_ENEMY_STATE_KILLED_BY_LASER					= #08
+E_ENEMY_STATE_DYING						= #0A
+
+E_ENEMY_TYPE_SHIP_1						= #00
+E_ENEMY_TYPE_SHIP_2						= #04
+E_ENEMY_TYPE_MISSILE						= #08
+E_ENEMY_TYPE_TURRET						= #0C
+
+E_ENEMY_SLOT_0 	 						= #00
+E_ENEMY_SLOT_1							= #04
+E_ENEMY_SLOT_2							= #08
+E_ENEMY_SLOT_3							= #0C
+E_ENEMY_SLOT_4							= #10
+E_ENEMY_SLOT_MAX						= E_ENEMY_SLOT_1
+E_ENEMY_SLOT_INC						= #04
+
+E_ENEMY_SPRITE_ALIVE_0						= #00 
+E_ENEMY_SPRITE_ALIVE_1						= #04
+E_ENEMY_SPRITE_ALIVE_2						= #08 
+E_ENEMY_SPRITE_ALIVE_3						= #0C 
+E_ENEMY_SPRITE_ALIVE_4						= #10 
+E_ENEMY_SPRITE_ALIVE_5						= #14 
+E_ENEMY_SPRITE_ALIVE_6						= #18 
+E_ENEMY_SPRITE_ALIVE_7						= #1C 
+E_ENEMY_SPRITE_ALIVE_8						= #20 
+E_ENEMY_SPRITE_ALIVE_9						= #24 
+E_ENEMY_SPRITE_ALIVE_10						= #28 
+E_ENEMY_SPRITE_ALIVE_11						= #2C 
+E_ENEMY_SPRITE_ALIVE_12						= #30 
+E_ENEMY_SPRITE_ALIVE_13						= #34 
+E_ENEMY_SPRITE_ALIVE_14						= #38 
+E_ENEMY_SPRITE_ALIVE_15						= #3C 
+E_ENEMY_SPRITE_DAMAGED_0					= #40
+E_ENEMY_SPRITE_DAMAGED_1					= #44
+E_ENEMY_SPRITE_DAMAGED_2					= #48
+E_ENEMY_SPRITE_DAMAGED_3					= #4C
+E_ENEMY_SPRITE_DAMAGED_4					= #50
+E_ENEMY_SPRITE_DAMAGED_5					= #54
+E_ENEMY_SPRITE_DAMAGED_6					= #58
+E_ENEMY_SPRITE_DAMAGED_7					= #5C
+E_ENEMY_SPRITE_DAMAGED_8					= #60
+E_ENEMY_SPRITE_DAMAGED_9					= #64
+E_ENEMY_SPRITE_DAMAGED_10					= #68
+E_ENEMY_SPRITE_DAMAGED_11					= #6C
+E_ENEMY_SPRITE_DAMAGED_12					= #70
+E_ENEMY_SPRITE_DAMAGED_13					= #74
+E_ENEMY_SPRITE_DAMAGED_14					= #78
+E_ENEMY_SPRITE_DAMAGED_15					= #7C
+E_ENEMY_SPRITE_DYING_0						= #80
+E_ENEMY_SPRITE_DYING_1						= #84
+E_ENEMY_SPRITE_DYING_2						= #88
+E_ENEMY_SPRITE_DYING_3						= #8C
+E_ENEMY_SPRITE_DYING_4						= #90
+E_ENEMY_SPRITE_DYING_5						= #94
+E_ENEMY_SPRITE_DYING_6						= #98
+E_ENEMY_SPRITE_DYING_7						= #9C
+E_ENEMY_SPRITE_CLEAR_COLLISION					= #A0
+E_ENEMY_SPRITE_COLLISION					= #A4
+
+ENEMY_WIDTH							= 32
+ENEMY_HEIGHT							= 16
+
+ENEMY_ALIVE_XPOS_MIN						= 0
+ENEMY_ALIVE_X_MOVE_MASK						= #03
+ENEMY_ALIVE_Y_MOVE_MASK						= #FC
+
+ENEMY_DYING_XPOS_MIN						= 0
+ENEMY_DYING_SPEED_X						= 1
+ENEMY_DYING_TIMER_MAX						= 8
+
+;---------------------------------------------------------------------------------
+
+data_enemy_slot_lookup:
+  LDHI I, data_enemy_slot_0
+  LDHI I, data_enemy_slot_1
+  LDHI I, data_enemy_slot_2
+  LDHI I, data_enemy_slot_3
+  LDHI I, data_enemy_slot_4
+
+data_enemy_slot_0:
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 3								; enemy.health
+  DB E_ENEMY_STATE_ALIVE					; enemy.state
+  DB 220							; enemy.xpos
+  DB 120							; enemy.ypos
+  DB E_ENEMY_TYPE_SHIP_1		 			; enemy.type
+  DB 1 + E_ENEMY_Y_MOVE_POS32_SIN64				; enemy.move
+  DB 0								; enemy.timer
+  DB 0								
+data_enemy_slot_1:
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+data_enemy_slot_2:
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+data_enemy_slot_3:
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+data_enemy_slot_4:
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+
+  DS 12
+data_enemy_alive_constants:
+  DB ENEMY_ALIVE_X_MOVE_MASK					; V2 enemy.const ENEMY_ALIVE_X_MOVE_MASK
+  DB ENEMY_ALIVE_Y_MOVE_MASK					; V3 enemy.const ENEMY_ALIVE_Y_MOVE_MASK
+  DB ENEMY_ALIVE_XPOS_MIN					; V4 enemy.const ENEMY_ALIVE_XPOS_MIN
+
+  DS 12
+data_enemy_dying_constants:
+  DB ENEMY_DYING_XPOS_MIN					; V2 enemy.const ENEMY_DYING_XPOS_MIN
+  DB ENEMY_DYING_SPEED_X					; V3 enemy.const ENEMY_DYING_SPEED_X 
+  DB ENEMY_DYING_TIMER_MAX					; V4 enemy.const ENEMY_DYING_TIMER_MAX
+
+data_enemy_update_state_switch_lookup:
+  JP lbl_do_update_enemies_case_dead				; E_ENEMY_STATE_DEAD
+  JP lbl_do_update_enemies_case_alive				; E_ENEMY_STATE_ALIVE
+  JP lbl_do_update_enemies_case_hit_something			; E_ENEMY_STATE_HIT_SOMETHING
+  JP lbl_do_update_enemies_case_damaged_by_laser		; E_ENEMY_STATE_DAMAGED_BY_LASER
+  JP lbl_do_update_enemies_case_killed_by_laser			; E_ENEMY_STATE_KILLED_BY_LASER
+  JP lbl_enemy_update_switch_case_dying				; E_ENEMY_STATE_DYING
+
+data_enemy_type_lookup:
+  LDHI I, data_enemy_ship_1_sprite_lookup			; E_ENEMY_TYPE_SHIP_1
+  LDHI I, data_enemy_ship_2_sprite_lookup			; E_ENEMY_TYPE_SHIP_2
+  LDHI I, data_enemy_missile_sprite_lookup			; E_ENEMY_TYPE_MISSILE
+  LDHI I, data_enemy_turret_sprite_lookup			; E_ENEMY_TYPE_TURRET
+
+data_enemy_ship_1_sprite_lookup:
+data_enemy_ship_2_sprite_lookup:
+data_enemy_missile_sprite_lookup:
+data_enemy_turret_sprite_lookup:
+  LDHI I, data_enemy_ship_1_sprite_collision			; E_ENEMY_SPRITE_ALIVE_0
+  LDHI I, data_enemy_ship_1_sprite_collision			; E_ENEMY_SPRITE_ALIVE_1
+  LDHI I, data_enemy_ship_1_sprite_collision			; E_ENEMY_SPRITE_ALIVE_2
+  LDHI I, data_enemy_ship_1_sprite_collision			; E_ENEMY_SPRITE_ALIVE_3
+  LDHI I, data_enemy_ship_1_sprite_collision			; E_ENEMY_SPRITE_ALIVE_4
+  LDHI I, data_enemy_ship_1_sprite_collision			; E_ENEMY_SPRITE_ALIVE_5
+  LDHI I, data_enemy_ship_1_sprite_collision			; E_ENEMY_SPRITE_ALIVE_6
+  LDHI I, data_enemy_ship_1_sprite_collision			; E_ENEMY_SPRITE_ALIVE_7
+  LDHI I, data_enemy_ship_1_sprite_collision			; E_ENEMY_SPRITE_ALIVE_8
+  LDHI I, data_enemy_ship_1_sprite_collision			; E_ENEMY_SPRITE_ALIVE_9
+  LDHI I, data_enemy_ship_1_sprite_collision			; E_ENEMY_SPRITE_ALIVE_10
+  LDHI I, data_enemy_ship_1_sprite_collision			; E_ENEMY_SPRITE_ALIVE_11
+  LDHI I, data_enemy_ship_1_sprite_collision			; E_ENEMY_SPRITE_ALIVE_12
+  LDHI I, data_enemy_ship_1_sprite_collision			; E_ENEMY_SPRITE_ALIVE_13
+  LDHI I, data_enemy_ship_1_sprite_collision			; E_ENEMY_SPRITE_ALIVE_14
+  LDHI I, data_enemy_ship_1_sprite_collision			; E_ENEMY_SPRITE_ALIVE_15
+  LDHI I, data_enemy_ship_1_sprite_collision			; E_ENEMY_SPRITE_DAMAGED_0
+  LDHI I, data_enemy_ship_1_sprite_collision			; E_ENEMY_SPRITE_DAMAGED_1
+  LDHI I, data_enemy_ship_1_sprite_collision			; E_ENEMY_SPRITE_DAMAGED_2
+  LDHI I, data_enemy_ship_1_sprite_collision			; E_ENEMY_SPRITE_DAMAGED_3
+  LDHI I, data_enemy_ship_1_sprite_collision			; E_ENEMY_SPRITE_DAMAGED_4
+  LDHI I, data_enemy_ship_1_sprite_collision			; E_ENEMY_SPRITE_DAMAGED_5
+  LDHI I, data_enemy_ship_1_sprite_collision			; E_ENEMY_SPRITE_DAMAGED_6
+  LDHI I, data_enemy_ship_1_sprite_collision			; E_ENEMY_SPRITE_DAMAGED_7
+  LDHI I, data_enemy_ship_1_sprite_collision			; E_ENEMY_SPRITE_DAMAGED_8
+  LDHI I, data_enemy_ship_1_sprite_collision			; E_ENEMY_SPRITE_DAMAGED_9
+  LDHI I, data_enemy_ship_1_sprite_collision			; E_ENEMY_SPRITE_DAMAGED_10
+  LDHI I, data_enemy_ship_1_sprite_collision			; E_ENEMY_SPRITE_DAMAGED_11
+  LDHI I, data_enemy_ship_1_sprite_collision			; E_ENEMY_SPRITE_DAMAGED_12
+  LDHI I, data_enemy_ship_1_sprite_collision			; E_ENEMY_SPRITE_DAMAGED_13
+  LDHI I, data_enemy_ship_1_sprite_collision			; E_ENEMY_SPRITE_DAMAGED_14
+  LDHI I, data_enemy_ship_1_sprite_collision			; E_ENEMY_SPRITE_DAMAGED_15
+  LDHI I, data_generic_sprite_boom				; E_ENEMY_SPRITE_DYING_0
+  LDHI I, data_enemy_ship_1_sprite_collision			; E_ENEMY_SPRITE_DYING_1
+  LDHI I, data_generic_sprite_boom				; E_ENEMY_SPRITE_DYING_2
+  LDHI I, data_enemy_ship_1_sprite_collision			; E_ENEMY_SPRITE_DYING_3
+  LDHI I, data_generic_sprite_boom				; E_ENEMY_SPRITE_DYING_4
+  LDHI I, data_enemy_ship_1_sprite_collision			; E_ENEMY_SPRITE_DYING_5
+  LDHI I, data_generic_sprite_boom				; E_ENEMY_SPRITE_DYING_6
+  LDHI I, data_generic_sprite_boom				; E_ENEMY_SPRITE_DYING_7
+  LDHI I, data_enemy_ship_1_sprite_collision			; E_ENEMY_SPRITE_CLEAR_COLLISION
+  LDHI I, data_enemy_ship_1_sprite_collision			; E_ENEMY_SPRITE_COLLISION
+
+data_enemy_ship_1_sprite_collision:
+  DB 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+  DB 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+  DB 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+  DB 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+  DB 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+  DB 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+  DB 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+  DB 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+  DB 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+  DB 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+  DB 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+  DB 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+  DB 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+  DB 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+  DB 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+  DB 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+
+
+
+
+
+
+
+
+
