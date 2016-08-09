@@ -16,7 +16,7 @@
   CCOL 1 							; Always use col index 1 for collisions		
 
   LDHI I, data_generic_palette		; Load a palette
-  LDPAL 6
+  LDPAL 255
 
 lbl_main_start_frame:
   
@@ -140,13 +140,19 @@ func_DoTitleScreen:
 ;---------------------------------------------------------------------------------
 func_DoGameplay:
 
-;  CALL func_DoEnemyVsLaser
+  CALL func_DoEnemyVsLaser
 
+  CALL func_DrawCollisionWalls
+  CALL func_DrawCollisionWalls
+  CALL func_DrawCollisionWalls
+  CALL func_DrawCollisionWalls
+  CALL func_DrawCollisionWalls
+  CALL func_DrawCollisionWalls
   CALL func_DrawCollisionWalls
 
   CALL func_DoUpdateEnemies
   CALL func_DoUpdatePlayer
-;  CALL func_DoUpdateLaser
+  CALL func_DoUpdateLaser
   
   RET
   
@@ -195,14 +201,14 @@ lbl_enemy_vs_laser_slot_draw_overwrite:
   LDHI I, lbl_enemy_vs_laser_slot_draw_overwrite
   LD V9, [I]
 									; V5 enemy.health
-  									; V6 enemy.xpos
-  									; V7 enemy.ypos
-									; V8 enemy.state
+  									; V6 enemy.state
+  									; V7 enemy.xpos
+									; V8 enemy.ypos
 							 		; V9 enemy.type
 
   ; if (enemy.state != alive)
   ; then do next enemy
-  SE V8, E_ENEMY_STATE_ALIVE
+  SE V6, E_ENEMY_STATE_ALIVE
   JP lbl_enemy_vs_laser_loop_start
   
   ; draw enemy
@@ -226,7 +232,7 @@ lbl_enemy_vs_laser_slot_damage_overwrite:
 
   LD VB, E_LASER_STATE_HIT_ENEMY	; laser.state = E_LASER_STATE_HIT_ENEMY
   LD VC, 0							; laser.charge = 0
-  LD V8, E_ENEMY_STATE_KILLED_BY_LASER ; enemy.state = E_ENEMY_STATE_KILLED_BY_LASER
+  LD V6, E_ENEMY_STATE_KILLED_BY_LASER ; enemy.state = E_ENEMY_STATE_KILLED_BY_LASER
   LD V5, 0							; enemy.health = 0
   
   ; save enemy
@@ -241,7 +247,7 @@ lbl_enemy_vs_laser_less_than:
   SE VF, 1
   JP lbl_enemy_vs_laser_greater_than
   
-  LD V8, E_ENEMY_STATE_DAMAGED_BY_LASER ; enemy.state = E_ENEMY_STATE_DAMAGED_BY_LASER
+  LD V6, E_ENEMY_STATE_DAMAGED_BY_LASER ; enemy.state = E_ENEMY_STATE_DAMAGED_BY_LASER
   SUB V5, VC							; enemy.health -= laser.charge
   LD VB, E_LASER_STATE_HIT_ENEMY	; laser.state = E_LASER_STATE_HIT_ENEMY
   LD VC, 0							; laser.charge = 0
@@ -255,7 +261,7 @@ lbl_enemy_vs_laser_less_than:
 lbl_enemy_vs_laser_greater_than:
 
   SUB VC, V5						; laser.charge -= enemy.health
-  LD V8, E_ENEMY_STATE_KILLED_BY_LASER ; enemy.state = E_ENEMY_STATE_KILLED_BY_LASER
+  LD V6, E_ENEMY_STATE_KILLED_BY_LASER ; enemy.state = E_ENEMY_STATE_KILLED_BY_LASER
   LD V5, 0							; enemy.health = 0
   
   ; save enemy
@@ -989,12 +995,277 @@ data_generic_sprite_boom:
   DB 4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4
   DB 4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4
   DB 4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4
+  DB 4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4
+  DB 4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4
+  DB 4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4
+  DB 4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4
+  DB 4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4
+  DB 4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4
+  DB 4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4
+  DB 4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4
+  DB 4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4
+  DB 4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4
+  DB 4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4
+  DB 4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4
+  DB 4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4
+  DB 4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4
+  DB 4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4
+  DB 4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4
 
 data_generic_palette:
-  DB #FF, #FF, #55, #FF    ; 1 = collision index. PINK
-  DB #FF, #FF, #FF, #FF    ; 2 = black
-  DB #FF, #FF, #FF, #FF    ; 3 = white
-  DB #FF, #FF, #00, #00    ; 4 = red
-  DB #FF, #00, #FF, #00    ; 5 = green
-  DB #FF, #00, #00, #FF    ; 6 = blue
+  DB #FF, #FF, #32, #FF
+  DB #FF, #00, #00, #00
+  DB #FF, #80, #80, #80
+  DB #FF, #81, #81, #81
+  DB #FF, #82, #84, #85
+  DB #FF, #8A, #87, #89
+  DB #FF, #8B, #8D, #8A
+  DB #FF, #8E, #8A, #8D
+  DB #FF, #8A, #8A, #8C
+  DB #FF, #87, #86, #86
+  DB #FF, #0C, #FF, #00
+  DB #FF, #8D, #8D, #8D
+  DB #FF, #96, #96, #99
+  DB #FF, #FF, #FF, #FF
+  DB #FF, #CB, #CC, #CC
+  DB #FF, #CE, #CE, #CF
+  DB #FF, #B9, #B7, #B3
+  DB #FF, #B2, #AF, #B1
+  DB #FF, #84, #86, #86
+  DB #FF, #A2, #9E, #A2
+  DB #FF, #C8, #C7, #CA
+  DB #FF, #C8, #C9, #C6
+  DB #FF, #C8, #CB, #C9
+  DB #FF, #C6, #C6, #C8
+  DB #FF, #BE, #BF, #C0
+  DB #FF, #B6, #B7, #B6
+  DB #FF, #82, #82, #81
+  DB #FF, #82, #81, #84
+  DB #FF, #47, #46, #47
+  DB #FF, #DF, #E0, #E1
+  DB #FF, #C0, #C0, #C0
+  DB #FF, #BC, #BC, #BB
+  DB #FF, #AF, #AE, #AE
+  DB #FF, #82, #86, #8B
+  DB #FF, #72, #B4, #E1
+  DB #FF, #6E, #A4, #CC
+  DB #FF, #75, #7C, #81
+  DB #FF, #55, #55, #57
+  DB #FF, #BD, #C0, #C5
+  DB #FF, #90, #8D, #8E
+  DB #FF, #81, #82, #81
+  DB #FF, #86, #83, #86
+  DB #FF, #88, #88, #8A
+  DB #FF, #89, #89, #86
+  DB #FF, #3C, #A5, #EF
+  DB #FF, #2F, #9F, #F1
+  DB #FF, #47, #94, #CC
+  DB #FF, #6E, #7A, #83
+  DB #FF, #89, #AC, #C8
+  DB #FF, #8B, #B3, #CA
+  DB #FF, #C0, #BF, #BA
+  DB #FF, #96, #99, #9A
+  DB #FF, #7E, #81, #7F
+  DB #FF, #7F, #7E, #7E
+  DB #FF, #F1, #F0, #F0
+  DB #FF, #D7, #DC, #DB
+  DB #FF, #AB, #AA, #A9
+  DB #FF, #AC, #AB, #AD
+  DB #FF, #B9, #B8, #BA
+  DB #FF, #09, #98, #FF
+  DB #FF, #05, #97, #FF
+  DB #FF, #00, #94, #FF
+  DB #FF, #8A, #8C, #8D
+  DB #FF, #8D, #8E, #8B
+  DB #FF, #8B, #8F, #93
+  DB #FF, #0F, #94, #FE
+  DB #FF, #05, #94, #FA
+  DB #FF, #63, #82, #9A
+  DB #FF, #72, #76, #79
+  DB #FF, #4E, #4B, #4E
+  DB #FF, #B5, #B5, #BA
+  DB #FF, #B4, #BA, #BD
+  DB #FF, #B4, #B3, #B3
+  DB #FF, #95, #97, #95
+  DB #FF, #19, #99, #F8
+  DB #FF, #A7, #A9, #AA
+  DB #FF, #92, #93, #94
+  DB #FF, #78, #78, #78
+  DB #FF, #7D, #7B, #7C
+  DB #FF, #79, #7B, #7A
+  DB #FF, #57, #59, #56
+  DB #FF, #83, #80, #80
+  DB #FF, #84, #83, #82
+  DB #FF, #D1, #D3, #D2
+  DB #FF, #40, #40, #40
+  DB #FF, #2A, #3C, #7A
+  DB #FF, #05, #94, #FC
+  DB #FF, #A3, #AA, #B1
+  DB #FF, #26, #A5, #FF
+  DB #FF, #38, #AD, #FF
+  DB #FF, #4C, #B5, #FF
+  DB #FF, #59, #BB, #FD
+  DB #FF, #45, #B1, #FF
+  DB #FF, #11, #9A, #FF
+  DB #FF, #FE, #FE, #FE
+  DB #FF, #A6, #A5, #A4
+  DB #FF, #30, #9B, #E6
+  DB #FF, #1B, #94, #E8
+  DB #FF, #0F, #92, #ED
+  DB #FF, #4E, #4C, #49
+  DB #FF, #78, #85, #96
+  DB #FF, #8E, #A0, #A7
+  DB #FF, #9C, #9C, #9C
+  DB #FF, #9D, #A0, #A1
+  DB #FF, #A6, #A6, #A8
+  DB #FF, #7F, #82, #83
+  DB #FF, #5F, #61, #62
+  DB #FF, #81, #7D, #7C
+  DB #FF, #6C, #6D, #6C
+  DB #FF, #5A, #5A, #60
+  DB #FF, #53, #53, #52
+  DB #FF, #5A, #57, #56
+  DB #FF, #AB, #A6, #A5
+  DB #FF, #AB, #B1, #B3
+  DB #FF, #B1, #B3, #B0
+  DB #FF, #91, #92, #90
+  DB #FF, #8B, #8A, #89
+  DB #FF, #77, #75, #76
+  DB #FF, #48, #45, #49
+  DB #FF, #30, #2E, #31
+  DB #FF, #47, #46, #44
+  DB #FF, #65, #C1, #FF
+  DB #FF, #5D, #D2, #FF
+  DB #FF, #1E, #A3, #FE
+  DB #FF, #7E, #7E, #80
+  DB #FF, #71, #6C, #47
+  DB #FF, #F0, #CC, #08
+  DB #FF, #03, #94, #FD
+  DB #FF, #FE, #FC, #FB
+  DB #FF, #F4, #F5, #F8
+  DB #FF, #4E, #50, #52
+  DB #FF, #87, #87, #7C
+  DB #FF, #FC, #D6, #02
+  DB #FF, #7F, #78, #7F
+  DB #FF, #73, #74, #72
+  DB #FF, #3B, #3A, #3B
+  DB #FF, #70, #C8, #FF
+  DB #FF, #A4, #DC, #FF
+  DB #FF, #76, #C4, #FD
+  DB #FF, #7C, #7C, #76
+  DB #FF, #8E, #88, #62
+  DB #FF, #F5, #F3, #F2
+  DB #FF, #0D, #90, #F0
+  DB #FF, #1C, #8A, #D6
+  DB #FF, #58, #62, #82
+  DB #FF, #52, #50, #4D
+  DB #FF, #C3, #C1, #C4
+  DB #FF, #7B, #82, #89
+  DB #FF, #8B, #96, #9C
+  DB #FF, #84, #88, #85
+  DB #FF, #71, #73, #6F
+  DB #FF, #44, #43, #45
+  DB #FF, #48, #49, #46
+  DB #FF, #86, #82, #7F
+  DB #FF, #7A, #C6, #FF
+  DB #FF, #7B, #C8, #FF
+  DB #FF, #E0, #F8, #FF
+  DB #FF, #43, #9D, #E1
+  DB #FF, #76, #9A, #B5
+  DB #FF, #7D, #8F, #9D
+  DB #FF, #86, #89, #8D
+  DB #FF, #91, #8D, #91
+  DB #FF, #78, #77, #71
+  DB #FF, #EC, #EC, #EC
+  DB #FF, #48, #57, #69
+  DB #FF, #40, #54, #78
+  DB #FF, #4E, #53, #4E
+  DB #FF, #48, #48, #40
+  DB #FF, #06, #97, #FC
+  DB #FF, #F7, #F8, #F9
+  DB #FF, #FC, #FE, #FD
+  DB #FF, #FC, #FB, #FC
+  DB #FF, #70, #72, #73
+  DB #FF, #4D, #4D, #4D
+  DB #FF, #44, #45, #43
+  DB #FF, #42, #42, #43
+  DB #FF, #4B, #4A, #49
+  DB #FF, #5A, #56, #59
+  DB #FF, #7E, #7E, #7B
+  DB #FF, #C6, #ED, #FF
+  DB #FF, #82, #F2, #FF
+  DB #FF, #5D, #8B, #AE
+  DB #FF, #5C, #5A, #53
+  DB #FF, #66, #61, #4F
+  DB #FF, #8D, #90, #8F
+  DB #FF, #03, #94, #FF
+  DB #FF, #04, #8F, #FC
+  DB #FF, #A4, #AC, #A7
+  DB #FF, #47, #4A, #5A
+  DB #FF, #41, #43, #44
+  DB #FF, #6F, #6D, #73
+  DB #FF, #9E, #A4, #A9
+  DB #FF, #7B, #7D, #7D
+  DB #FF, #40, #40, #43
+  DB #FF, #2D, #2A, #2C
+  DB #FF, #76, #7A, #79
+  DB #FF, #01, #8D, #FF
+  DB #FF, #00, #82, #FF
+  DB #FF, #07, #7A, #F9
+  DB #FF, #2C, #64, #F9
+  DB #FF, #65, #67, #69
+  DB #FF, #12, #8C, #FF
+  DB #FF, #0B, #5A, #FD
+  DB #FF, #69, #6C, #7C
+  DB #FF, #39, #39, #38
+  DB #FF, #44, #44, #3F
+  DB #FF, #5D, #54, #37
+  DB #FF, #04, #95, #FF
+  DB #FF, #BF, #C9, #D1
+  DB #FF, #06, #41, #FB
+  DB #FF, #01, #35, #FF
+  DB #FF, #15, #33, #EF
+  DB #FF, #49, #4C, #4C
+  DB #FF, #53, #55, #44
+  DB #FF, #4A, #4D, #4A
+  DB #FF, #3F, #40, #47
+  DB #FF, #39, #3D, #57
+  DB #FF, #3E, #41, #4F
+  DB #FF, #42, #41, #41
+  DB #FF, #28, #58, #FF
+  DB #FF, #05, #29, #EE
+  DB #FF, #00, #26, #FF
+  DB #FF, #3B, #41, #61
+  DB #FF, #52, #4F, #50
+  DB #FF, #3D, #3D, #40
+  DB #FF, #28, #25, #27
+  DB #FF, #3E, #36, #3F
+  DB #FF, #E0, #E2, #EC
+  DB #FF, #01, #28, #FD
+  DB #FF, #7C, #76, #78
+  DB #FF, #71, #6E, #6D
+  DB #FF, #31, #2F, #2B
+  DB #FF, #0D, #2C, #CF
+  DB #FF, #04, #28, #F6
+  DB #FF, #05, #2A, #FE
+  DB #FF, #27, #25, #2F
+  DB #FF, #2C, #2C, #3A
+  DB #FF, #2F, #34, #4B
+  DB #FF, #46, #43, #34
+  DB #FF, #07, #29, #E5
+  DB #FF, #34, #33, #35
+  DB #FF, #39, #33, #35
+  DB #FF, #4B, #4A, #4C
+  DB #FF, #47, #42, #42
+  DB #FF, #2D, #6E, #C7
+  DB #FF, #21, #3F, #A8
+  DB #FF, #12, #32, #FF
+  DB #FF, #16, #2B, #BB
+  DB #FF, #82, #87, #7E
+  DB #FF, #42, #47, #46
+  DB #FF, #3F, #4B, #A0
+  DB #FF, #FF, #AB, #00
+  DB #FF, #FF, #E6, #00
+  DB #FF, #FF, #62, #40
+  DB #FF, #82, #00, #2F
 
