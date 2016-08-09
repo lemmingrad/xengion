@@ -4,8 +4,10 @@
 
 E_PLAYER_STATE_REVIVING						= #00
 E_PLAYER_STATE_ALIVE						= #02
-E_PLAYER_STATE_HIT_ANYTHING					= #04
-E_PLAYER_STATE_DYING						= #06
+E_PLAYER_STATE_HIT_WALL						= #04
+E_PLAYER_STATE_HIT_ENEMY					= #06
+E_PLAYER_STATE_HIT_BULLET					= #08
+E_PLAYER_STATE_DYING						= #0A
 
 E_PLAYER_SPRITE_ALIVE_0						= #00
 E_PLAYER_SPRITE_ALIVE_1						= #04
@@ -66,9 +68,6 @@ KEY_RIGHT							= 9
 KEY_LEFT 							= 7 
 KEY_DOWN							= 8 
 KEY_UP								= 5
-
-PLAYER_WIDTH							= 32
-PLAYER_HEIGHT							= 16
 
 PLAYER_REVIVING_TIMER_MAX 					= 50 
 PLAYER_REVIVING_START_XPOS					= 0
@@ -132,151 +131,77 @@ data_player_reset:
 data_player_update_state_switch_lookup:
   JP lbl_do_update_player_case_reviving				; E_PLAYER_STATE_REVIVING
   JP lbl_do_update_player_case_alive				; E_PLAYER_STATE_ALIVE
-  JP lbl_do_update_player_case_hit_anything			; E_PLAYER_STATE_HIT_ANYTHING
+  JP lbl_do_update_player_case_hit_anything			; E_PLAYER_STATE_HIT_WALL
+  JP lbl_do_update_player_case_hit_anything			; E_PLAYER_STATE_HIT_ENEMY
+  JP lbl_do_update_player_case_hit_anything			; E_PLAYER_STATE_HIT_BULLET
   JP lbl_do_update_player_case_dying				; E_PLAYER_STATE_DYING
 
+
+PLAYER_WIDTH							= 32
+PLAYER_HEIGHT							= 48
+
 data_player_sprite_lookup:
-  LDHI I, data_player_sprite_normal				; E_PLAYER_SPRITE_ALIVE_0
-  LDHI I, data_player_sprite_normal				; E_PLAYER_SPRITE_ALIVE_1
-  LDHI I, data_player_sprite_normal				; E_PLAYER_SPRITE_ALIVE_2
-  LDHI I, data_player_sprite_normal				; E_PLAYER_SPRITE_ALIVE_3
-  LDHI I, data_player_sprite_normal				; E_PLAYER_SPRITE_ALIVE_4
-  LDHI I, data_player_sprite_normal				; E_PLAYER_SPRITE_ALIVE_5
-  LDHI I, data_player_sprite_normal				; E_PLAYER_SPRITE_ALIVE_6
-  LDHI I, data_player_sprite_normal				; E_PLAYER_SPRITE_ALIVE_7
-  LDHI I, data_player_sprite_normal				; E_PLAYER_SPRITE_ALIVE_8
-  LDHI I, data_player_sprite_normal				; E_PLAYER_SPRITE_ALIVE_9
-  LDHI I, data_player_sprite_normal				; E_PLAYER_SPRITE_ALIVE_10
-  LDHI I, data_player_sprite_normal				; E_PLAYER_SPRITE_ALIVE_11
-  LDHI I, data_player_sprite_normal				; E_PLAYER_SPRITE_ALIVE_12
-  LDHI I, data_player_sprite_normal				; E_PLAYER_SPRITE_ALIVE_13
-  LDHI I, data_player_sprite_normal				; E_PLAYER_SPRITE_ALIVE_14
-  LDHI I, data_player_sprite_normal				; E_PLAYER_SPRITE_ALIVE_15
-  LDHI I, data_player_sprite_normal				; E_PLAYER_SPRITE_DYING_0
-  LDHI I, data_player_sprite_up					; E_PLAYER_SPRITE_DYING_1
-  LDHI I, data_player_sprite_down				; E_PLAYER_SPRITE_DYING_2
+  LDHI I, data_sprite_player_alive0				; E_PLAYER_SPRITE_ALIVE_0
+  LDHI I, data_sprite_player_alive0				; E_PLAYER_SPRITE_ALIVE_1
+  LDHI I, data_sprite_player_alive0				; E_PLAYER_SPRITE_ALIVE_2
+  LDHI I, data_sprite_player_alive0				; E_PLAYER_SPRITE_ALIVE_3
+  LDHI I, data_sprite_player_alive0				; E_PLAYER_SPRITE_ALIVE_4
+  LDHI I, data_sprite_player_alive0				; E_PLAYER_SPRITE_ALIVE_5
+  LDHI I, data_sprite_player_alive0				; E_PLAYER_SPRITE_ALIVE_6
+  LDHI I, data_sprite_player_alive0				; E_PLAYER_SPRITE_ALIVE_7
+  LDHI I, data_sprite_player_alive0				; E_PLAYER_SPRITE_ALIVE_8
+  LDHI I, data_sprite_player_alive0				; E_PLAYER_SPRITE_ALIVE_9
+  LDHI I, data_sprite_player_alive0				; E_PLAYER_SPRITE_ALIVE_10
+  LDHI I, data_sprite_player_alive0				; E_PLAYER_SPRITE_ALIVE_11
+  LDHI I, data_sprite_player_alive0				; E_PLAYER_SPRITE_ALIVE_12
+  LDHI I, data_sprite_player_alive0				; E_PLAYER_SPRITE_ALIVE_13
+  LDHI I, data_sprite_player_alive0				; E_PLAYER_SPRITE_ALIVE_14
+  LDHI I, data_sprite_player_alive0				; E_PLAYER_SPRITE_ALIVE_15
+  LDHI I, data_generic_sprite_boom				; E_PLAYER_SPRITE_DYING_0
+  LDHI I, data_sprite_player_clearcollision			; E_PLAYER_SPRITE_DYING_1
+  LDHI I, data_sprite_player_alive0				; E_PLAYER_SPRITE_DYING_2
   LDHI I, data_generic_sprite_boom				; E_PLAYER_SPRITE_DYING_3
-  LDHI I, data_player_sprite_normal				; E_PLAYER_SPRITE_DYING_4
-  LDHI I, data_player_sprite_up					; E_PLAYER_SPRITE_DYING_5
-  LDHI I, data_player_sprite_down				; E_PLAYER_SPRITE_DYING_6
-  LDHI I, data_generic_sprite_boom				; E_PLAYER_SPRITE_DYING_7
-  LDHI I, data_player_sprite_normal				; E_PLAYER_SPRITE_DYING_8
-  LDHI I, data_player_sprite_up					; E_PLAYER_SPRITE_DYING_9
-  LDHI I, data_player_sprite_down				; E_PLAYER_SPRITE_DYING_10
-  LDHI I, data_generic_sprite_boom				; E_PLAYER_SPRITE_DYING_11
-  LDHI I, data_player_sprite_normal				; E_PLAYER_SPRITE_DYING_12
-  LDHI I, data_player_sprite_up					; E_PLAYER_SPRITE_DYING_13
-  LDHI I, data_player_sprite_down				; E_PLAYER_SPRITE_DYING_14
+  LDHI I, data_sprite_player_clearcollision			; E_PLAYER_SPRITE_DYING_4
+  LDHI I, data_sprite_player_alive0				; E_PLAYER_SPRITE_DYING_5
+  LDHI I, data_generic_sprite_boom				; E_PLAYER_SPRITE_DYING_6
+  LDHI I, data_sprite_player_clearcollision			; E_PLAYER_SPRITE_DYING_7
+  LDHI I, data_sprite_player_alive0				; E_PLAYER_SPRITE_DYING_8
+  LDHI I, data_generic_sprite_boom				; E_PLAYER_SPRITE_DYING_9
+  LDHI I, data_sprite_player_clearcollision			; E_PLAYER_SPRITE_DYING_10
+  LDHI I, data_sprite_player_alive0				; E_PLAYER_SPRITE_DYING_11
+  LDHI I, data_generic_sprite_boom				; E_PLAYER_SPRITE_DYING_12
+  LDHI I, data_sprite_player_clearcollision			; E_PLAYER_SPRITE_DYING_13
+  LDHI I, data_sprite_player_alive0				; E_PLAYER_SPRITE_DYING_14
   LDHI I, data_generic_sprite_boom				; E_PLAYER_SPRITE_DYING_15
-  LDHI I, data_player_sprite_normal				; E_PLAYER_SPRITE_REVIVING_0
-  LDHI I, data_player_sprite_up					; E_PLAYER_SPRITE_REVIVING_1
-  LDHI I, data_player_sprite_down				; E_PLAYER_SPRITE_REVIVING_2
-  LDHI I, data_generic_sprite_boom				; E_PLAYER_SPRITE_REVIVING_3
-  LDHI I, data_player_sprite_normal				; E_PLAYER_SPRITE_REVIVING_4
-  LDHI I, data_player_sprite_up					; E_PLAYER_SPRITE_REVIVING_5
-  LDHI I, data_player_sprite_down				; E_PLAYER_SPRITE_REVIVING_6
-  LDHI I, data_generic_sprite_boom				; E_PLAYER_SPRITE_REVIVING_7
-  LDHI I, data_player_sprite_normal				; E_PLAYER_SPRITE_REVIVING_8
-  LDHI I, data_player_sprite_up					; E_PLAYER_SPRITE_REVIVING_9
-  LDHI I, data_player_sprite_down				; E_PLAYER_SPRITE_REVIVING_10
-  LDHI I, data_generic_sprite_boom				; E_PLAYER_SPRITE_REVIVING_11
-  LDHI I, data_player_sprite_normal				; E_PLAYER_SPRITE_REVIVING_12
-  LDHI I, data_player_sprite_up					; E_PLAYER_SPRITE_REVIVING_13
-  LDHI I, data_player_sprite_down				; E_PLAYER_SPRITE_REVIVING_14
-  LDHI I, data_generic_sprite_boom				; E_PLAYER_SPRITE_REVIVING_15
-  LDHI I, data_player_sprite_up					; E_PLAYER_SPRITE_MOVE_UP
-  LDHI I, data_player_sprite_down				; E_PLAYER_SPRITE_MOVE_DOWN
-  LDHI I, data_player_sprite_normal				; E_PLAYER_SPRITE_MOVE_LEFT
-  LDHI I, data_player_sprite_normal				; E_PLAYER_SPRITE_MOVE_RIGHT
-  LDHI I, data_player_sprite_clear_collision 			; E_PLAYER_SPRITE_CLEAR_COLLISION
-  LDHI I, data_player_sprite_collision				; E_PLAYER_SPRITE_COLLISION
+  LDHI I, data_sprite_player_alive0				; E_PLAYER_SPRITE_REVIVING_0
+  LDHI I, data_sprite_player_clearcollision			; E_PLAYER_SPRITE_REVIVING_1
+  LDHI I, data_sprite_player_alive0		  		; E_PLAYER_SPRITE_REVIVING_2
+  LDHI I, data_sprite_player_clearcollision			; E_PLAYER_SPRITE_REVIVING_3
+  LDHI I, data_sprite_player_alive0				; E_PLAYER_SPRITE_REVIVING_4
+  LDHI I, data_sprite_player_clearcollision			; E_PLAYER_SPRITE_REVIVING_5
+  LDHI I, data_sprite_player_alive0				; E_PLAYER_SPRITE_REVIVING_6
+  LDHI I, data_sprite_player_clearcollision			; E_PLAYER_SPRITE_REVIVING_7
+  LDHI I, data_sprite_player_alive0				; E_PLAYER_SPRITE_REVIVING_8
+  LDHI I, data_sprite_player_clearcollision			; E_PLAYER_SPRITE_REVIVING_9
+  LDHI I, data_sprite_player_alive0				; E_PLAYER_SPRITE_REVIVING_10
+  LDHI I, data_sprite_player_clearcollision			; E_PLAYER_SPRITE_REVIVING_11
+  LDHI I, data_sprite_player_alive0				; E_PLAYER_SPRITE_REVIVING_12
+  LDHI I, data_sprite_player_clearcollision			; E_PLAYER_SPRITE_REVIVING_13
+  LDHI I, data_sprite_player_alive0				; E_PLAYER_SPRITE_REVIVING_14
+  LDHI I, data_sprite_player_clearcollision			; E_PLAYER_SPRITE_REVIVING_15
+  LDHI I, data_sprite_player_clearcollision			; E_PLAYER_SPRITE_MOVE_UP
+  LDHI I, data_sprite_player_clearcollision			; E_PLAYER_SPRITE_MOVE_DOWN
+  LDHI I, data_sprite_player_clearcollision			; E_PLAYER_SPRITE_MOVE_LEFT
+  LDHI I, data_sprite_player_clearcollision			; E_PLAYER_SPRITE_MOVE_RIGHT
+  LDHI I, data_sprite_player_clearcollision 			; E_PLAYER_SPRITE_CLEAR_COLLISION
+  LDHI I, data_sprite_player_collision				; E_PLAYER_SPRITE_COLLISION
 
-data_player_sprite_collision:
-  DB 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-  DB 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-  DB 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-  DB 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-  DB 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-  DB 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-  DB 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-  DB 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-  DB 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-  DB 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-  DB 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-  DB 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-  DB 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-  DB 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-  DB 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-  DB 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+data_sprite_player_alive0:
+  INCBIN 'assets/player_alive0.bin'
 
-data_player_sprite_clear_collision:
-  DB 2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2
-  DB 2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2
-  DB 2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2
-  DB 2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2
-  DB 2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2
-  DB 2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2
-  DB 2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2
-  DB 2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2
-  DB 2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2
-  DB 2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2
-  DB 2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2
-  DB 2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2
-  DB 2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2
-  DB 2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2
-  DB 2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2
-  DB 2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2
-  
-data_player_sprite_normal:
-  DB 0,0,0,3,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-  DB 0,0,0,3,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-  DB 0,0,0,3,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-  DB 0,0,3,0,3,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-  DB 0,0,3,0,3,0,0,0,0,3,3,3,3,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-  DB 0,0,3,0,3,0,0,0,3,5,5,5,5,5,0,6,6,6,6,0,0,0,0,0,0,0,0,0,0,0,0,0
-  DB 0,0,3,0,3,0,0,3,0,0,0,5,5,5,6,6,6,6,6,6,0,0,0,0,0,0,0,0,0,0,0,0
-  DB 4,4,3,3,3,3,3,0,0,0,0,0,0,5,0,3,3,3,3,3,3,3,3,3,3,3,0,0,0,0,0,0
-  DB 4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,3,3,3,0,0,0
-  DB 4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,4,4,4,0,0,0,0,0,3,3,3,0
-  DB 4,4,3,0,0,0,3,3,3,3,3,3,3,3,3,3,0,0,0,0,0,0,3,3,3,3,3,3,0,0,0,0
-  DB 0,0,0,3,3,3,0,3,0,0,0,0,0,0,0,0,3,3,3,3,3,3,0,0,0,0,0,0,0,0,0,0
-  DB 0,0,0,0,0,3,0,3,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-  DB 0,0,0,0,0,3,0,3,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-  DB 0,0,0,0,0,3,0,3,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-  DB 0,0,0,0,0,0,3,3,3,3,3,3,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+data_sprite_player_clearcollision:
+  INCBIN 'assets/player_clearcollision.bin'
 
-data_player_sprite_up:
-  DB 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-  DB 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-  DB 0,0,0,3,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-  DB 0,0,3,0,3,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-  DB 0,0,3,0,3,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-  DB 0,0,3,0,3,0,0,0,3,5,5,5,5,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-  DB 0,0,3,3,3,3,3,3,0,0,0,5,5,5,6,6,6,6,6,6,0,0,0,0,0,0,0,0,0,0,0,0
-  DB 4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,3,3,3,3,3,3,3,3,3,3,3,0,0,0,0,0,0
-  DB 4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,4,4,4,0,0,3,3,3,3,0,0,0
-  DB 4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,3,3,0
-  DB 4,4,3,0,0,0,3,3,3,3,3,3,3,3,3,3,0,0,0,0,0,0,3,3,3,3,3,3,0,0,0,0
-  DB 0,0,0,3,3,3,0,3,0,0,0,0,0,0,0,0,3,3,3,3,3,3,0,0,0,0,0,0,0,0,0,0
-  DB 0,0,0,0,0,3,0,3,0,0,0,0,0,3,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-  DB 0,0,0,0,0,3,3,3,3,3,3,3,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-  DB 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-  DB 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+data_sprite_player_collision:
+  INCBIN 'assets/player_collision.bin'
 
-data_player_sprite_down:
-  DB 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-  DB 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-  DB 0,0,0,3,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-  DB 0,0,3,0,3,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-  DB 0,0,3,0,3,0,0,3,0,3,3,3,3,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-  DB 0,0,3,0,3,0,0,0,3,5,5,5,5,5,6,6,6,6,6,0,0,0,0,0,0,0,0,0,0,0,0,0
-  DB 0,0,3,0,3,0,0,3,0,0,5,5,5,5,6,6,6,6,6,6,0,0,0,0,0,0,0,0,0,0,0,0
-  DB 4,4,3,0,0,0,3,0,0,0,0,5,5,5,0,6,6,6,6,6,3,3,3,3,3,3,0,0,0,0,0,0
-  DB 4,4,3,3,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,3,3,3,0,0,0
-  DB 4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,3,3,0
-  DB 4,4,3,0,0,0,3,3,3,3,3,3,3,3,3,3,0,0,4,4,4,4,4,3,3,3,3,3,0,0,0,0
-  DB 0,0,0,3,3,3,0,3,0,0,0,0,0,0,0,0,3,3,3,3,3,3,0,0,0,0,0,0,0,0,0,0
-  DB 0,0,0,0,0,3,0,3,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-  DB 0,0,0,0,0,3,0,3,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-  DB 0,0,0,0,0,3,0,3,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-  DB 0,0,0,0,0,0,3,3,3,3,3,3,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0

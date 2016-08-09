@@ -1,0 +1,1849 @@
+;---------------------------------------------------------------------------------
+; NevShooter copyright Michael Neve 2012
+; No, it has nothing to do with shooting me.
+;---------------------------------------------------------------------------------
+
+;---------------------------------------------------------------------------------
+; A note on register usage:
+;
+;   VF = reserved for carry/collision. Do not use.
+;   VE = Global anim counter. Loops continuously from 0 to 63, step 4. (global.anim)
+;   VD = Data index. Increments each time VE rolls around. (global.dataindex)
+;---------------------------------------------------------------------------------
+
+  MEGAON							; Megachip8 mode
+
+  CCOL COL_PURPLE						; by default, use col index 1 for collisions		
+
+  LDHI I, data_palette						; Load a palette
+  LDPAL PALETTE_SIZE
+
+lbl_main_frame_loop_start:
+  
+  CLS
+
+  ; load game info
+  ; It has the game state (aka number of lives).
+  LDHI I, data_game_livesinfo-0
+  LD V0, [I]
+								; V0 = game.lives
+
+  ; if (game.lives == E_GAME_LIVES_START_SCREEN)
+  ; then do title screen
+  ; else if (game.lives == E_GAME_LIVES_GAME_OVER)
+  ; then do game-over screen
+  ; else if (game.lives == E_GAME_LIVES_X)
+  ; then do gameplay
+  ; else if (game.lives == E_GAME_LIVES_X_BOSS)
+  ; then do boss
+  ; else if (game.lives == E_GAME_LIVES_X_WIN)
+  ; then do win screen
+
+  LDHI I, data_game_main_frame_lives_switch_lookup
+  ADD I, V0
+  LD V1, [I]
+  LD I, lbl_main_frame_lives_switch_start
+  LD [I], V1
+
+lbl_main_frame_lives_switch_start:
+  JP lbl_main_frame_lives_switch_start
+
+lbl_main_frame_lives_case_start_screen:
+
+  CALL func_DoTitleScreen
+
+  JP lbl_main_frame_lives_switch_end				; break
+
+lbl_main_frame_lives_case_lives_1:
+lbl_main_frame_lives_case_lives_2:
+lbl_main_frame_lives_case_lives_3:
+
+  CALL func_DoGameplay
+
+  JP lbl_main_frame_lives_switch_end				; break
+
+lbl_main_frame_lives_case_lives_1_boss:
+lbl_main_frame_lives_case_lives_2_boss:
+lbl_main_frame_lives_case_lives_3_boss:
+
+;  CALL func_DoBoss
+
+  JP lbl_main_frame_lives_switch_end				; break
+
+lbl_main_frame_lives_case_win_screen:
+lbl_main_frame_lives_case_game_over:
+
+  CALL func_DoGameOverScreen
+
+lbl_main_frame_lives_switch_end:
+    ;---------------------------------------------------------------------------------
+
+  ; loop to start
+  JP lbl_main_frame_loop_start
+
+  EXIT
+
+;---------------------------------------------------------------------------------
+; func_ResetAll
+;---------------------------------------------------------------------------------
+func_ResetAll:
+
+  ; reset bullet slots
+  ; TODO
+
+  ; reset enemy slots
+  ; TODO
+
+  ; reset laser
+  LDHI I, data_laser_reset
+  LD V4, [I]
+  LDHI I, data_laser_info
+  LD [I], V4
+ 
+  ; reset player
+  LDHI I, data_player_reset
+  LD V4, [I]
+  LDHI I, data_player_info
+  LD [I], V4
+
+  ; reset global.dataindex
+  LD VD, 0
+
+  ; reset global.anim
+  LD VE, 0 
+  
+  ; load any new enemies or bullets
+  ; CALL func_LoadNewThreats
+
+  RET
+
+;---------------------------------------------------------------------------------
+; func_DoTitleScreen
+;---------------------------------------------------------------------------------
+func_DoTitleScreen:
+
+  ; draw title
+  ; For now, just draw a placeholder
+  SPRW TITLE_SCREEN_WIDTH
+  SPRH TITLE_SCREEN_HEIGHT
+  LDHI I, data_sprite_title_screen
+  LD V0, 0
+  DRW V0, V0, 1
+
+  ; increment a title screen timer
+  SE VD, 255
+  ADD VD, 1
+
+  ; load game data 
+  LDHI I, data_game_hiscoreinfo-4
+  LD VC, [I]
+								; V4 = game.hi-score 100s
+								; V5 = game.hi-score 10s
+								; V6 = game.hi-score 1s
+								; V7 = game.hi-score
+								; V8 = game.const GAME_HISCORE_Y_POS
+								; V9 = game.const GAME_HISCORE_100S_X_POS
+								; VA = game.const GAME_HISCORE_10S_X_POS
+								; VB = game.const GAME_HISCORE_1S_X_POS
+								; VC = KEY_START
+
+  SPRW NUMBER_WIDTH
+  SPRH NUMBER_HEIGHT
+
+  ; draw hi-score 100s
+  LDHI I, data_number_lookup
+  ADD I, V4
+  LD V3, [I]
+  LD I, lbl_game_start_screen_ptr1
+  LD [I], V3
+lbl_game_start_screen_ptr1:
+  LDHI I, lbl_game_start_screen_ptr1
+  DRW V9, V8, 1
+
+  ; draw hi-score 10s
+  LDHI I, data_number_lookup
+  ADD I, V5
+  LD V3, [I]
+  LD I, lbl_game_start_screen_ptr2
+  LD [I], V3
+lbl_game_start_screen_ptr2:
+  LDHI I, lbl_game_start_screen_ptr2
+  DRW VA, V8, 1
+
+  ; draw hi-score 1s
+  LDHI I, data_number_lookup
+  ADD I, V6
+  LD V3, [I]
+  LD I, lbl_game_start_screen_ptr3
+  LD [I], V3
+lbl_game_start_screen_ptr3:
+  LDHI I, lbl_game_start_screen_ptr3
+  DRW VB, V8, 1
+
+  ; if (KEY_START != pressed)
+  ; then return
+  SKP VC 				
+  RET
+
+  ; reset lives
+  LDHI I, data_game_livesinfo-0
+  LD V0, E_GAME_LIVES_3						; game.lives = E_GAME_LIVES_3
+  LD [I], V0
+
+  ; reset score
+  LDHI I, data_game_scoreinfo-0
+  LD V0, 0							; game.score 100s = 0
+  LD V1, 0							; game.score 10s = 0
+  LD V2, 0							; game.score 1s = 0
+  LD V3, 0							; game.score = 0
+  LD [I], V3
+
+  ; reset everything else
+  CALL func_ResetAll					
+
+  RET
+
+;---------------------------------------------------------------------------------
+; func_DoGameplay
+;---------------------------------------------------------------------------------
+func_DoGameplay:
+
+  CALL func_DoEnemyVsLaser
+  CALL func_DrawBackgroundAndParallax
+  CALL func_DrawCollisionWalls
+  CALL func_DoLaserVsWalls
+  CALL func_DoEnemyVsPlayerVsWalls
+;  CALL func_DoUpdateBullets
+;  CALL func_DoPlayerVsBullets
+  CALL func_DrawRealWalls
+  CALL func_DoUpdateLaser
+  CALL func_DoUpdateEnemies
+  CALL func_DoUpdatePlayer
+  CALL func_DrawBorder
+  
+  ; increment anim counter
+  ADD VE, GAME_ANIM_INC						; global.anim++
+
+  ; if (global.anim != 64)
+  ; then early exit 
+  SE VE, GAME_ANIM_SIZE
+  RET
+  
+  LD VE, 0							; global.anim = 0
+  
+  ; if (global.dataindex == GAME_DATA_SIZE)
+  ; then early exit
+  SNE VD, GAME_DATA_SIZE
+  RET
+
+  ADD VD, GAME_DATA_INC						; global.dataindex++
+
+  ; load any new enemies or bullets
+ ; CALL func_LoadNewThreats
+
+  RET
+ 
+;---------------------------------------------------------------------------------
+; func_DoEnemyVsLaser
+;---------------------------------------------------------------------------------
+func_DoEnemyVsLaser:
+
+  ; load laser
+  LDHI I, data_laser_info-8
+  LD VC, [I]
+								; V8 = laser.timer
+								; V9 = laser.xpos
+								; VA = laser.ypos
+								; VB = laser.state
+								; VC = laser.charge
+
+  ; if (laser.state != alive)
+  ; then exit test
+  SE VB, E_LASER_STATE_ALIVE
+  RET
+
+  ; draw collision laser
+  SPRW LASER_WIDTH
+  SPRH LASER_HEIGHT
+  LD V4, E_LASER_SPRITE_COLLISION
+  CALL func_DrawLaser
+
+  ; VA is now our enemy loop counter/indexer			; VA = enemy looper
+  LD VA, 0	
+  
+  ; set enemy sprite params
+  SPRW ENEMY_WIDTH
+  SPRH ENEMY_HEIGHT
+
+lbl_enemy_vs_laser_loop_start:
+
+  ; load enemy info
+  LDHI I, data_enemy_slot_lookup
+  ADD I, VA
+  LD V3, [I]
+  LD I, lbl_enemy_vs_laser_ptr1
+  LD [I], V3
+
+  LD I, lbl_enemy_vs_laser_ptr2
+  LD [I], V3
+
+lbl_enemy_vs_laser_ptr1:
+  LDHI I, lbl_enemy_vs_laser_ptr1
+  LD V9, [I]
+								; V5 = enemy.health
+  								; V6 = enemy.state
+  								; V7 = enemy.xpos
+								; V8 = enemy.ypos
+						 		; V9 = enemy.type
+
+  ; if (enemy.state != alive)
+  ; then do next enemy
+  SE V6, E_ENEMY_STATE_ALIVE
+  JP lbl_enemy_vs_laser_loop_next
+  
+  ; draw enemy
+  LD V4, E_ENEMY_SPRITE_CLEAR_COLLISION
+  CALL func_DrawEnemy
+  
+  ; if no collision against laser
+  ; then go to next enemy
+  SE VF, 1
+  JP lbl_enemy_vs_laser_loop_next				
+  
+lbl_enemy_vs_laser_ptr2:
+  LDHI I, lbl_enemy_vs_laser_ptr2
+
+  ; logic is something like this:
+  ; if (laser.charge == enemy.charge)
+  ; then laser=dying, enemy=dying
+  ; else if (laser.charge < enemy.health)
+  ; then enemy.health -= laser.charge, laser=dying
+  ; else laser.charge -= enemy.charge, enemy=dying
+
+  ; if laser.charge != enemy.health
+  ; then goto laser.charge < enemy.health test
+  SE V5, VC
+  JP lbl_enemy_vs_laser_less_than
+
+  ; laser.charge == enemy.health, both are dying
+  LD VB, E_LASER_STATE_HIT_ENEMY				; laser.state = E_LASER_STATE_HIT_ENEMY
+  LD V6, E_ENEMY_STATE_KILLED_BY_LASER 				; enemy.state = E_ENEMY_STATE_KILLED_BY_LASER
+  
+  ; save enemy
+  LD [I], V9
+  
+  ; laser has no more charge, end test
+  JP lbl_enemy_vs_laser_end
+   
+lbl_enemy_vs_laser_less_than:
+  ; if laser.charge > enemy.health
+  ; then goto laser.charge > enemy.health branch
+  LD V0, V5
+  SUB V0, VC
+  SE VF, 1
+  JP lbl_enemy_vs_laser_greater_than
+  
+  ; laser.charge < enemy.health
+  LD V6, E_ENEMY_STATE_DAMAGED_BY_LASER 			; enemy.state = E_ENEMY_STATE_DAMAGED_BY_LASER
+  SUB V5, VC							; enemy.health -= laser.charge
+  LD VB, E_LASER_STATE_HIT_ENEMY				; laser.state = E_LASER_STATE_HIT_ENEMY
+  
+  ; save enemy
+  LD [I], V9
+  
+  ; laser has no more charge, end test
+  JP lbl_enemy_vs_laser_end
+  
+lbl_enemy_vs_laser_greater_than:
+
+  SUB VC, V5							; laser.charge -= enemy.health
+  LD V6, E_ENEMY_STATE_KILLED_BY_LASER 				; enemy.state = E_ENEMY_STATE_KILLED_BY_LASER
+  
+  ; save enemy
+  LD [I], V9
+  
+  ; laser still has some charge, go to next enemy by falling through
+
+lbl_enemy_vs_laser_loop_next:
+
+  ; if (loop != ENEMY_SLOT_MAX)
+  ; then goto start of loop
+  ADD VA, E_ENEMY_SLOT_INC
+  SE VA, E_ENEMY_SLOT_MAX
+  JP lbl_enemy_vs_laser_loop_start
+
+lbl_enemy_vs_laser_end:
+
+  ; save updated laser info
+  LDHI I, data_laser_info-8
+  LD VA, [I]
+  LD [I], VC  
+
+  RET 
+ 
+;---------------------------------------------------------------------------------
+; func_DrawBackgroundAndParallax
+;---------------------------------------------------------------------------------
+func_DrawBackgroundAndParallax:
+
+  SPRW BACKGROUND_WIDTH
+  SPRH BACKGROUND_HEIGHT
+  LDHI I, data_sprite_background
+
+  LD V0, 0
+  DRW V0, V0, 1
+
+  SPRW PARALLAX_WIDTH
+  SPRH PARALLAX_HEIGHT
+
+  ; set xpos draw position
+  LD V6, 64
+  SUB V6, VE
+  SHR V6
+  SHR V6
+  SHR V6							; V6 = (64 - global.anim) / 8
+
+  LDHI I, data_sprite_parallax_A
+
+  LD V1, #01
+  AND V1, VD
+  SE V1, 1
+  JP lbl_use_parallax_A
+
+  LDHI I, data_sprite_parallax_B
+
+lbl_use_parallax_A:  
+
+  DRW V6, V0, 1
+
+  RET
+ 
+;---------------------------------------------------------------------------------
+; func_DrawCollisionWalls
+; Draws the upper and lower boundary collision walls.
+;---------------------------------------------------------------------------------
+func_DrawCollisionWalls:
+
+  SPRW WALL_STRIP_WIDTH
+  SPRH WALL_STRIP_HEIGHT
+  
+;  LD V4, VD							; V4 = global.dataindex (VD)
+  LD V4, 0
+  LD V5, V4							; V5 = V4 + 15. 
+  ADD V5, 15				
+  
+  ; set xpos draw position
+  LD V6, 64
+  SUB V6, VE
+  SHR V6
+  SHR V6							; V6 = (64 - global.anim) / 4
+  
+  ; set ypos draw position
+  LD V7, WALL_YPOS						; V7 = Wall tile ypos draw position. Never changes.
+
+lbl_draw_collision_walls_loop:
+
+  ; get wall tile index from tile data map
+  LDHI I, data_walls_map  
+  ADD I, V4							; add tile data offset
+  LD V0, [I]
+ 
+  ; get collsion wall sprite from wall collision tile lookup
+  LDHI I, data_walls_collision_lookup
+  ADD I, V0
+  LD V3, [I]
+  LD I, lbl_draw_collision_walls_ptr
+  LD [I], V3
+lbl_draw_collision_walls_ptr:
+  LDHI I, lbl_draw_collision_walls_ptr
+
+  ; draw collision wall sprite
+  DRW V6, V7, 1
+ 
+  ADD V4, 1							; wall data++
+  ADD V6, 16							; wall xpos += 16
+  
+  ; if still more walls to draw, goto start of loop
+  SE V4, V5
+  JP lbl_draw_collision_walls_loop
+
+  RET
+
+;---------------------------------------------------------------------------------
+; func_DoLaserVsWalls
+; Test laser collision against walls
+;---------------------------------------------------------------------------------
+func_DoLaserVsWalls:
+
+  ; collision walls should have already been drawn
+
+  ; load laser
+  LDHI I, data_laser_info-8
+  LD VC, [I]
+								; V8 = laser.timer
+								; V9 = laser.xpos
+								; VA = laser.ypos
+								; VB = laser.state
+								; VC = laser.charge
+
+  ; if (laser.state != alive)
+  ; then early return
+  SE VB, E_LASER_STATE_ALIVE
+  RET
+
+  ; draw laser
+  SPRW LASER_WIDTH
+  SPRH LASER_HEIGHT
+  LD V4, E_LASER_SPRITE_CLEAR_COLLISION
+  CALL func_DrawLaser
+
+  ; if laser not collided with walls
+  ; then early return
+  SE VF, 1
+  RET
+ 
+  ; laser collided with a wall
+  LD VB, E_LASER_STATE_HIT_WALL					; laser.state = E_LASER_STATE_HIT_WALL
+
+  ; save updated laser state
+  LDHI I, data_laser_info-8
+  LD [I], VC
+  
+  RET
+
+;---------------------------------------------------------------------------------
+; func_DoEnemyVsPlayerVsWalls
+; Test enemies against collision player and collision walls
+;---------------------------------------------------------------------------------
+func_DoEnemyVsPlayerVsWalls:
+
+  ; collision walls should have already been drawn
+
+  ; load player
+  LDHI I, data_player_info-8
+  LD VC, [I]		
+								; V8 = player.nextsprite
+								; V9 = player.timer	
+								; VA = player.xpos
+								; VB = player.ypos
+								; VC = player.state
+
+  ; if (player.state != alive)
+  ; then skip to player
+  SE VC, E_PLAYER_STATE_ALIVE
+  JP lbl_test_enemy_vs_walls_and_player
+
+  ; draw player
+  SPRW PLAYER_WIDTH
+  SPRH PLAYER_HEIGHT
+  LD V4, E_PLAYER_SPRITE_COLLISION
+  CALL func_DrawPlayer
+  
+  ; test for collision of player against walls
+  SE VF, 1
+  JP lbl_test_enemy_vs_walls_and_player
+
+  ; there was a collision
+  LD VC, E_PLAYER_STATE_HIT_WALL
+
+  ; save player state
+  LDHI I, data_player_info-8
+  LD [I], VC
+
+  ; fallthrough to enemy vs walls and player test
+
+lbl_test_enemy_vs_walls_and_player:
+
+  ; VA is now our enemy loop counter/indexer			; VA = enemy looper
+  LD VA, 0	
+
+  ; set enemy sprite params
+  SPRW ENEMY_WIDTH
+  SPRH ENEMY_HEIGHT
+
+lbl_enemy_vs_walls_and_player_loop_start:
+
+   ; load enemy info
+  LDHI I, data_enemy_slot_lookup
+  ADD I, VA
+  LD V3, [I]
+  LD I, lbl_enemy_vs_walls_and_player_ptr1
+  LD [I], V3
+  LD I, lbl_enemy_vs_walls_and_player_ptr2
+  LD [I], V3
+
+lbl_enemy_vs_walls_and_player_ptr1:
+  LDHI I, lbl_enemy_vs_walls_and_player_ptr1
+  LD V9, [I]
+								; V5 = enemy.health
+  								; V6 = enemy.state
+  								; V7 = enemy.xpos
+								; V8 = enemy.ypos
+						 		; V9 = enemy.type
+
+  ; if (enemy.state != alive)
+  ; then do next enemy
+  SE V6, E_ENEMY_STATE_ALIVE
+  JP lbl_enemy_vs_walls_and_player_loop_next
+  
+  ; draw enemy
+  LD V4, E_ENEMY_SPRITE_CLEAR_COLLISION
+  CALL func_DrawEnemy
+  
+  ; if no collision against player or walls (or another enemy)
+  ; then go to next enemy
+  SE VF, 1
+  JP lbl_enemy_vs_walls_and_player_loop_next				
+  
+  ; enemy has hit something
+  LD V6, E_ENEMY_STATE_HIT_WALL
+
+lbl_enemy_vs_walls_and_player_ptr2:
+  LDHI I, lbl_enemy_vs_walls_and_player_ptr2
+
+  ; save enemy
+  LD [I], V9
+
+  ; fall through to next enemy
+
+lbl_enemy_vs_walls_and_player_loop_next:
+
+  ; if (loop != ENEMY_SLOT_MAX)
+  ; then goto start of loop
+  ADD VA, E_ENEMY_SLOT_INC
+  SE VA, E_ENEMY_SLOT_MAX
+  JP lbl_enemy_vs_walls_and_player_loop_start
+
+lbl_enemy_vs_walls_and_player_loop_end:
+
+  RET
+
+;---------------------------------------------------------------------------------
+; func_DoUpdateBullets
+;---------------------------------------------------------------------------------
+
+;---------------------------------------------------------------------------------
+; func_DoPlayerVsEverything
+;---------------------------------------------------------------------------------
+func_DoPlayerVsEverything
+
+  ; load player info
+  LDHI I, data_player_info-8
+  LD VC, [I]
+  								; V8 = player.nextsprite
+		  						; V9 = player.timer
+  								; VA = player.xpos
+								; VB = player.ypos
+								; VC = player.state
+
+  ; if player.state != alive
+  ; then return early
+  SE VC, E_PLAYER_STATE_ALIVE
+  RET
+
+  ; draw player 
+  SPRW PLAYER_WIDTH
+  SPRH PLAYER_HEIGHT
+  LD V4, E_PLAYER_SPRITE_CLEAR_COLLISION
+  CALL func_DrawPlayer
+    
+  ; test to see if the player collided with anything purple
+
+
+  ; draw again
+  CCOL COL_WHITE
+  LD VF, 0
+  DRW VF, Vf, 1
+  CCOL COL_PURPLE
+
+  ; test to see if player collided with anything white
+
+
+
+
+
+
+
+
+
+
+  ; player collided with something
+  
+  LD VC, E_PLAYER_STATE_HIT_BULLET
+  
+  ; save updated player state
+  LDHI I, data_player_info-8
+  LD [I], VC
+
+  RET
+
+
+;;;
+ ; walls and player are in col purple, enemies are in col white
+
+  LDHI I, data_player_info-8
+  LD VC, [I]		
+								; V8 = player.nextsprite
+								; V9 = player.timer	
+								; VA = player.xpos
+								; VB = player.ypos
+								; VC = player.state
+
+  ; if (player.state != alive)
+  ; then skip to player
+  SE VC, E_PLAYER_STATE_ALIVE
+  RET
+
+  ; draw player
+  CCOL COL_WHITE
+
+  SPRW PLAYER_WIDTH
+  SPRH PLAYER_HEIGHT
+  LD V4, E_PLAYER_SPRITE_COLLISION
+  CALL func_DrawPlayer
+
+  CCOL COL_PURPLE
+
+  SE VF, 1
+  RET  
+
+  ; purple player collided with something white. Enemy!
+  LD VC, E_PLAYER_STATE_HIT_ENEMY
+  LDHI I, data_player_info-8
+  LD [I], VC
+;;;
+
+
+
+;---------------------------------------------------------------------------------
+; func_DoUpdatePlayer
+;---------------------------------------------------------------------------------
+func_DoUpdatePlayer:
+
+  ; load player info
+  LDHI I, data_player_info-8
+  LD VC, [I]
+  								; V8 = player.nextsprite
+		  						; V9 = player.timer
+  								; VA = player.xpos
+								; VB = player.ypos
+								; VC = player.state
+
+  ; draw player
+  SPRW PLAYER_WIDTH
+  SPRH PLAYER_HEIGHT
+  LD V4, V8							; use player.nextsprite for drawing player
+  CALL func_DrawPlayer
+
+  ; set up switch
+  LDHI I, data_player_update_state_switch_lookup
+  ADD I, VC
+  LD V1, [I]
+  LD I, lbl_do_update_player_switch_start
+  LD [I], V1
+
+lbl_do_update_player_switch_start:
+  JP lbl_do_update_player_switch_start
+
+lbl_do_update_player_case_reviving:
+
+  LDHI I, data_player_reviving_constants-6
+  LD V8, [I]
+								; V6 = player.const PLAYER_REVIVING_SPEED_X
+								; V7 = player.const PLAYER_REVIVING_TIMER_MAX
+  								; V8 = player.nextstate = E_PLAYER_SPRITE_REVIVING_0
+
+  ; player reviving uses global.anim counter for animation
+  ADD V8, VE							; player.nextsprite += global.anim									 
+  ADD VA, V6							; player.xpos += player.const PLAYER_REVIVING_SPEED_X
+
+  ADD V9, 1							; player.timer++
+
+  ; if (player.timer == player.const PLAYER_REVIVING_TIMER_MAX)
+  ; then set player.state = alive
+  SNE V9, V7
+  LD VC, E_PLAYER_STATE_ALIVE					; player.state = E_PLAYER_STATE_ALIVE
+
+ JP lbl_do_update_player_switch_end				; break
+
+lbl_do_update_player_case_alive:
+
+  LDHI I, data_player_alive_constants-0
+  LD V8, [I]
+								; V0 = player.const PLAYER_ALIVE_XPOS_MIN
+								; V1 = player.const PLAYER_ALIVE_XPOS_MAX
+								; V2 = player.const PLAYER_ALIVE_SPEED_X
+								; V3 = player.const PLAYER_ALIVE_SPEED_Y
+								; V4 = player.const KEY_RIGHT 
+								; V5 = player.const KEY_LEFT
+								; V6 = player.const KEY_DOWN
+								; V7 = player.const KEY_UP
+								; V8 = player.nextsprite = E_PLAYER_STATE_ALIVE_0
+
+  ; player alive uses global.anim counter for animation
+  ADD V8, VE							; player.nextsprite += global.anim
+
+  ; if (KEY_RIGHT != pressed)
+  ; then jump to key_left test
+  SKP V4							; test KEY_RIGHT pressed
+  JP lbl_do_update_player_left_key_test
+
+  ; if (player.xpos > player.const PLAYER_ALIVE_XPOS_MAX)
+  ; then jump to key_left test
+  SUB V1, VA
+  SE VF, 1							; VF = 0 if player.xpos > player.const PLAYER_ALIVE_XPOS_MAX
+  JP lbl_do_update_player_left_key_test
+
+  ; player moving right uses fixed frame E_PLAYER_SPRITE_MOVE_RIGHT
+  LD V8, E_PLAYER_SPRITE_MOVE_RIGHT 				; player.nextsprite = E_PLAYER_SPRITE_MOVE_RIGHT 
+  
+  ADD VA, V2							; player.xpos += player.const PLAYER_ALIVE_SPEED_X 
+
+lbl_do_update_player_left_key_test:
+  ; if (KEY_LEFT != pressed)
+  ; then jump to key_down test
+  SKP V5							; test KEY_LEFT pressed
+  JP lbl_do_update_player_down_key_test
+
+  ; if (player.xpos <= player.const PLAYER_ALIVE_XPOS_MIN)
+  ; then jump to key_down test
+  SUB V0, VA						
+  SNE VF, 1							; VF = 1 if player.xpos <= player.const PLAYER_ALIVE_XPOS_MIN
+  JP lbl_do_update_player_down_key_test
+  
+  ; player moving left uses fixed frame E_PLAYER_SPRITE_MOVE_LEFT
+  LD V8, E_PLAYER_SPRITE_MOVE_LEFT				; player.nextsprite = E_PLAYER_SPRITE_MOVE_LEFT
+
+  SUB VA, V2							; player.xpos -= player.const PLAYER_ALIVE_SPEED_X
+
+lbl_do_update_player_down_key_test:
+  ; if (KEY_DOWN != pressed)
+  ; then jump to key_up test
+  SKP V6
+  JP lbl_do_update_player_up_key_test
+
+  ; player moving down uses fixed frame E_PLAYER_SPRITE_MOVE_DOWN
+  LD V8, E_PLAYER_SPRITE_MOVE_DOWN				; player.nextsprite = E_PLAYER_SPRITE_MOVE_DOWN
+ 
+  ADD VB, V3							; player.ypos += player.const PLAYER_SPEED_Y
+
+lbl_do_update_player_up_key_test:
+  ; if (KEY_UP != pressed)
+  ; then jump to switch end
+  SKP V7
+  JP lbl_do_update_player_switch_end		
+
+  ; player moving up uses fixed frame E_PLAYER_SPRITE_MOVE_UP
+  LD V8, E_PLAYER_SPRITE_MOVE_UP				; player.nextsprite = E_PLAYER_SPRITE_MOVE_UP
+ 
+  SUB VB, V3							; player.ypos -= PLAYER_SPEED_Y
+
+  JP lbl_do_update_player_switch_end				; break
+  
+lbl_do_update_player_case_hit_anything:
+  LD V9, 0							; player.timer = 0
+ 
+  LD VC, E_PLAYER_STATE_DYING					; player.state = E_PLAYER_STATE_DYING
+ 
+  ; fall through to case_dying
+
+lbl_do_update_player_case_dying:
+
+  LDHI I, data_player_dying_constants-5
+  LD V8, [I]
+								; V5 = player.const PLAYER_DYING_XPOS_MIN
+								; V6 = player.const PLAYER_DYING_SPEED_X
+								; V7 = player.const PLAYER_DYING_TIMER_MAX
+								; V8 = player.nextsprite = E_PLAYER_SPRITE_DYING_0
+
+  ADD V9, 1							; player.timer++
+  
+  ; if (player.timer == player.const PLAYER_DYING_TIMER_MAX)
+  ; then skip to died
+  SNE V9, V7
+  JP lbl_do_update_player_died
+
+  ; if (player.xpos <= player.const PLAYER_DYING_XPOS_MIN)
+  ; then skip to died
+  SUB V5, VA			
+  SNE VF, 1							; VF = 1 if player.xpos <= player.const PLAYER_DYING_XPOS_MIN
+  JP lbl_do_update_player_died
+  
+  ADD V8, VE							; player.nextsprite += global.anim
+ 
+  SUB VA, V6							; player.xpos -= player.const PLAYER_DYING_SPEED_X
+
+  JP lbl_do_update_player_switch_end 
+
+lbl_do_update_player_died:
+
+  CALL func_ResetAll
+  
+  ; decrement game.lives
+  LD I, data_game_livesinfo-0				 
+  LD V4, [I]
+  AND V0, V1							; game.lives &= GAME_LIVES_GAMEPLAY_MASK
+  ADD V0, GAME_LIVES_DEC 					; game.lives--
+  LD [I], V0
+  
+  ; reset all means we don't have to save updated player info, so return now.
+  RET
+
+lbl_do_update_player_switch_end:
+
+  ; save all player info
+  LDHI I, data_player_info-8
+  LD [I], VC
+
+  RET
+
+;---------------------------------------------------------------------------------
+; func_DoUpdateLaser
+;---------------------------------------------------------------------------------
+func_DoUpdateLaser:
+
+  ; load laser info
+  LDHI I, data_laser_info-8
+  LD VC, [I]
+		  						; V8 = laser.timer
+  								; V9 = laser.xpos
+								; VA = laser.ypos
+								; VB = laser.state
+								; VC = laser.charge
+  
+  SPRW LASER_WIDTH
+  SPRH LASER_HEIGHT
+
+  ; set up switch
+  LDHI I, data_laser_update_state_switch_lookup
+  ADD I, VB				
+  LD V1, [I]
+  LD I, lbl_do_update_laser_switch_start
+  LD [I], V1
+
+lbl_do_update_laser_switch_start:
+  JP lbl_do_update_laser_switch_start
+
+lbl_do_update_laser_case_dead:
+
+  LDHI I, data_laser_dead_constants-5
+  LD V7, [I]
+								; V5 = laser.const LASER_DEAD_OFFSET_X
+								; V6 = laser.const LASER_DEAD_OFFSET_Y  
+								; V7 = laser.const KEY_FIRE
+  LDHI I, data_player_info-0
+  LD V4, [I]						
+								; V0 = player.nextsprite
+								; V1 = player.timer
+								; V2 = player.xpos
+								; V3 = player.ypos
+								; V4 = player.state
+  ; if (player != alive)
+  ; then jump to end of switch
+  SE V4, E_PLAYER_STATE_ALIVE					; cannot fire if player is not alive
+  JP lbl_do_update_laser_switch_end			
+
+  ; if (KEY_FIRE != pressed)
+  ; then jump to end of switch
+  SKP V7							; test KEY_FIRE pressed
+  JP lbl_do_update_laser_switch_end
+  
+  ; optimisation to be had here - some kind of reset for setting V9, VA, VB, VC from memory
+
+  LD V9, V2
+  ADD V9, V5							; laser.xpos = player.xpos + laser.const LASER_DEAD_OFFSET_X
+
+  LD VA, V3
+  ADD VA, V6							; laser.ypos = player.ypos + laser.const LASER_DEAD_OFFSET_Y
+
+  LD VB, E_LASER_STATE_ALIVE					; laser.state = E_LASER_STATE_ALIVE
+
+  LD VC, LASER_DEAD_CHARGE					; laser.charge = LASER_DEAD_CHARGE
+  
+  ; fall through to case_alive
+  
+lbl_do_update_laser_case_alive:
+  
+  LDHI I, data_laser_alive_constants-4
+  LD V7, [I]
+								; V4 = E_LASER_SPRITE_ALIVE_0
+								; V5 = empty
+								; V6 = laser.const LASER_ALIVE_XPOS_MAX
+								; V7 = laser.const LASER_ALIVE_SPEED_X
+
+  ADD V4, VE							; V4 += global.anim
+		 
+  ; draw real laser
+;  CALL func_DrawLaser
+
+  ; if (laser.xpos > laser.const LASER_ALIVE_XPOS_MAX)
+  ; then skip to laser_died
+  SUB V6, V9
+  SE VF, 1							; VF = 1 if laser.xpos <= laser.const LASER_ALIVE_XPOS_MAX
+  JP lbl_do_update_laser_died
+
+  ADD V9, V7							; laser.xpos += laser.const LASER_ALIVE_SPEED_X
+  
+  JP lbl_do_update_laser_switch_end				; break
+
+lbl_do_update_laser_case_hit_enemy:
+lbl_do_update_laser_case_hit_wall:
+
+  LD V8, 0							; laser.timer = 0
+
+  LD VB, E_LASER_STATE_DYING					; laser.state = E_LASER_STATE_DYING
+
+  ; fall through
+
+lbl_do_update_laser_case_dying:
+
+  LDHI I, data_laser_dying_constants-4
+  LD V7, [I]
+								; V4 = E_LASER_SPRITE_DYING_0
+								; V5 = empty
+								; V6 = empty
+								; V7 = laser.const LASER_DYING_TIMER_MAX
+    
+  ADD V4, V8							; V4 += laser.timer
+  
+  ; draw laser
+  CALL func_DrawLaser
+  
+  ADD V8, LASER_DYING_TIMER_INC					; laser.timer++
+
+  ; if (laser.timer != laser.const LASER_DYING_TIMER_MAX)
+  ; then skip to end
+  ; else fall through to died
+  SE V8, V7				
+  JP lbl_do_update_laser_switch_end
+
+lbl_do_update_laser_died:
+
+  LD VB, E_LASER_STATE_DEAD					; laser.state = E_LASER_STATE_DEAD
+
+  ; fall through 
+
+lbl_do_update_laser_switch_end:
+
+  ; save all laser info
+  LDHI I, data_laser_info-8
+  LD [I], VC
+
+  RET
+  
+;---------------------------------------------------------------------------------
+; func_DoUpdateEnemies
+;---------------------------------------------------------------------------------
+func_DoUpdateEnemies:
+
+  ; VC is enemy looper
+  LD VC, 0
+
+  SPRW ENEMY_WIDTH
+  SPRH ENEMY_HEIGHT
+
+lbl_do_update_enemies_loop_start:
+
+  ; load enemy info
+  LDHI I, data_enemy_slot_lookup
+  ADD I, VC
+  LD V3, [I]
+  LD I, lbl_do_update_enemies_ptr1
+  LD [I], V3
+  LD I, lbl_do_update_enemies_ptr2
+  LD [I], V3
+
+lbl_do_update_enemies_ptr1:
+  LDHI I, lbl_do_update_enemies_ptr1
+
+  LD VB, [I]
+								; V5 = enemy.health
+								; V6 = enemy.state
+  								; V7 = enemy.xpos
+  								; V8 = enemy.ypos
+								; V9 = enemy.type
+								; VA = enemy.move
+								; VB = enemy.timer
+
+  ; set up switch
+  LDHI I, data_enemy_update_state_switch_lookup
+  ADD I, V6
+  LD V1, [I]
+  LD I, lbl_do_update_enemies_switch_start
+  LD [I], V1
+
+lbl_do_update_enemies_switch_start:
+  JP lbl_do_update_enemies_switch_start
+
+lbl_do_update_enemies_case_damaged_by_laser:
+ 
+  ; mark the enemy as damaged shield
+  LD V6, E_ENEMY_STATE_DAMAGED_SHIELD_1				; enemy.state = E_ENEMY_STATE_DAMAGED_SHIELD_1
+  
+  LD V4, E_ENEMY_SPRITE_DAMAGED_0
+  JP lbl_do_update_enemies_draw_alive
+
+lbl_do_update_enemies_case_damaged_shield_1:
+lbl_do_update_enemies_case_damaged_shield_2:
+lbl_do_update_enemies_case_damaged_shield_3:
+
+  ; mark the enemy as damaged shield
+  ADD V6, #02							; enemy.state = E_ENEMY_STATE_DAMAGED_SHIELD++
+  
+  LD V4, E_ENEMY_SPRITE_DAMAGED_0
+  JP lbl_do_update_enemies_draw_alive
+
+lbl_do_update_enemies_case_damaged_shield_last:
+
+  ; mark the enemy as alive again
+  LD V6, E_ENEMY_STATE_ALIVE					; enemy.state = E_ENEMY_STATE_ALIVE
+  
+  LD V4, E_ENEMY_SPRITE_DAMAGED_0
+  JP lbl_do_update_enemies_draw_alive
+
+lbl_do_update_enemies_case_alive:
+  
+  LD V4, E_ENEMY_SPRITE_ALIVE_0
+  
+  ; fall through to draw
+
+lbl_do_update_enemies_draw_alive:
+								; V4 is either E_ENEMY_SPRITE_DAMAGED_0 + global.anim
+  ADD V4, VE							; or E_ENEMY_SPRITE_ALIVE_0 + global.anim
+
+  ; draw enemy
+  CALL func_DrawEnemy
+
+  LDHI I, data_enemy_alive_constants-2
+  LD V4, [I]
+								; V2 = enemy.const ENEMY_ALIVE_X_MOVE_MASK
+								; V3 = enemy.const ENEMY_ALIVE_Y_MOVE_MASK
+								; V4 = enemy.const ENEMY_ALIVE_XPOS_MIN
+
+  AND V2, VA
+  SUB V7, V2							; enemy.xpos -= (enemy.move & enemy.const ENEMY_ALIVE_X_MASK)
+
+  ; if (enemy.xpos <= enemy.const ENEMY_ALIVE_XPOS_MIN)
+  ; then skip to dying_alive
+  SUB V4, V7			
+  SNE VF, 1							; VF = 1 if enemy.xpos <= enemy.const ENEMY_ALIVE_XPOS_MIN
+  JP lbl_do_update_enemies_died
+
+  AND V3, VA							
+  LDHI I, data_enemy_y_movement_lookup
+  ADD I, V3
+  LD V3, [I]  
+  LD I, lbl_do_update_enemies_ptr3
+  LD [I], V3
+lbl_do_update_enemies_ptr3:
+  LDHI I, lbl_do_update_enemies_ptr3
+  ADD I, VB
+  LD V0, [I]
+  ADD V8, V0							; enemy.ypos += delta[movement[enemy.move & enemy.const ENEMY_ALIVE_Y_MASK]]
+  
+  ADD VB, ENEMY_MOVEMENT_LOOKUP_INC				; enemy.timer++
+
+  JP lbl_do_update_enemies_switch_end				; break
+
+lbl_do_update_enemies_case_killed_by_laser:
+ 
+  ; load game.score
+  LDHI I, data_game_scoreinfo-0			
+  LD V3, [I]						
+								; V0 = game.score 100s
+								; V1 = game.score 10s
+								; V2 = game.score 1s
+								; V3 = game.score
+  ; increment
+  ADD V3, GAME_SCORE_INC					; game.score++
+  
+  ; set BCD
+  LD B, V3
+  LDHI I, data_game_scoreinfo-0
+  LD V2, [I]
+  SHL V0
+  SHL V0
+  SHL V1
+  SHL V1
+  SHL V2
+  SHL V2
+
+  ; save updated game.score
+  LD [I], V3
+
+  ; fall through
+
+lbl_do_update_enemies_case_hit_something:
+
+  LD V6, E_ENEMY_STATE_DYING					; enemy.state = E_ENEMY_STATE_DYING
+  
+  LD VB, 0							; enemy.timer = 0
+
+ ; fall through  
+
+lbl_enemy_update_switch_case_dying:
+
+  LD V4, E_ENEMY_SPRITE_DYING_0					; V4 = E_ENEMY_STATE_DYING_0 + enemy.timer
+  ADD V4, VB
+
+  ; draw enemy
+  CALL func_DrawEnemy
+
+  LDHI I, data_enemy_dying_constants-2
+  LD V4, [I]
+  								; V2 = player.const ENEMY_DYING_XPOS_MIN
+ 								; V3 = player.const ENEMY_DYING_SPEED_X 
+  								; V4 = player.const ENEMY_DYING_TIMER_MAX
+  
+  ADD VB, ENEMY_DYING_TIMER_INC					; enemy.timer++
+
+  ; if (enemy.timer == enemy.const ENEMY_DYING_TIMER_MAX)
+  ; then enemy died
+  SNE VB, V4
+  JP lbl_do_update_enemies_died
+
+  ; if (enemy.xpos <= enemy.const ENEMY_DYING_XPOS_MIN)
+  ; then skip to died
+  SUB V2, V7			
+  SNE VF, 1							; VF = 1 if enemy.xpos <= enemy.const ENEMY_DYING_XPOS_MIN
+  JP lbl_do_update_enemies_died
+ 
+  SUB V7, V3							; enemy.xpos -= enemy.const ENEMY_DYING_SPEED_X
+ 
+  JP lbl_do_update_enemies_switch_end				; break
+
+lbl_do_update_enemies_died:
+				
+  LD V6, E_ENEMY_STATE_DEAD					; enemy.state = E_ENEMY_STATE_DEAD
+
+lbl_do_update_enemies_case_dead:
+lbl_do_update_enemies_switch_end:
+
+lbl_do_update_enemies_ptr2:
+  LDHI I, lbl_do_update_enemies_ptr2
+
+  ; save enemy
+  LD [I], VB
+
+lbl_do_update_enemies_loop_next:  
+  
+  ; if (loop == ENEMY_SLOT_MAX)
+  ; then end test nicely
+  ADD VC, E_ENEMY_SLOT_INC
+  SE VC, E_ENEMY_SLOT_MAX
+  JP lbl_do_update_enemies_loop_start
+
+lbl_do_update_enemies_end:
+
+  RET 
+
+;---------------------------------------------------------------------------------
+; func_DrawBorder
+;---------------------------------------------------------------------------------
+func_DrawBorder:
+
+  SPRW BORDER_WIDTH
+  SPRH BORDER_HEIGHT
+
+  LDHI I, data_sprite_border
+
+  LD V0, 0
+  DRW V0, V0, 1
+
+  LDHI I, data_game_scoreinfo-4
+  LD VB, [I]
+								; V4 = game.score 100s
+								; V5 = game.score 10s
+								; V6 = game.score 1s
+								; V7 = game.score
+								; V8 = game.const GAME_SCORE_Y_POS
+								; V9 = game.const GAME_SCORE_100S_X_POS
+								; VA = game.const GAME_SCORE_10S_X_POS
+								; VB = game.const GAME_SCORE_1S_X_POS
+
+  SPRW NUMBER_WIDTH
+  SPRH NUMBER_HEIGHT
+
+  ; draw score 100s
+  LDHI I, data_number_lookup
+  ADD I, V4
+  LD V3, [I]
+  LD I, lbl_game_border_score_ptr1
+  LD [I], V3
+lbl_game_border_score_ptr1:
+  LDHI I, lbl_game_border_score_ptr1
+  DRW V9, V8, 1
+
+  ; draw score 10s
+  LDHI I, data_number_lookup
+  ADD I, V5
+  LD V3, [I]
+  LD I, lbl_game_border_score_ptr2
+  LD [I], V3
+lbl_game_border_score_ptr2:
+  LDHI I, lbl_game_border_score_ptr2
+  DRW VA, V8, 1
+
+  ; draw score 1s
+  LDHI I, data_number_lookup
+  ADD I, V6
+  LD V3, [I]
+  LD I, lbl_game_border_score_ptr3
+  LD [I], V3
+lbl_game_border_score_ptr3:
+  LDHI I, lbl_game_border_score_ptr3
+  DRW VB, V8, 1
+
+  ; draw lives
+  LDHI I, data_game_livesinfo-6
+  LD VB, [I]
+								; V6 = game.lives
+								; V7 = game.const GAME_LIVES_GAMEPLAY_MASK
+								; V8 = game.const GAME_LIVES_BOSS_SHIFT
+								; V9 = game.const GAME_LIVES_WIN_SHIFT
+								; VA = game.const GAME_LIVES_Y_POS
+								; VB = game.const GAME_LIVES_X_POS
+
+  LDHI I, data_draw_border_lives_switch_lookup
+  ADD I, V6 
+  LD V1, [I]
+  LD I, lbl_draw_border_lives_switch_start
+  LD [I], V1
+
+lbl_draw_border_lives_switch_start:
+  JP lbl_draw_border_lives_switch_start
+
+lbl_draw_border_lives_case_lives_3:
+lbl_draw_border_lives_case_lives_3_boss:
+
+  LDHI I, data_sprite_number_2
+  DRW VB, VA, 1 
+
+  JP lbl_draw_border_lives_switch_end  
+
+lbl_draw_border_lives_case_lives_2:
+lbl_draw_border_lives_case_lives_2_boss:
+
+  LDHI I, data_sprite_number_1
+  DRW VB, VA, 1 
+
+  JP lbl_draw_border_lives_switch_end  
+
+lbl_draw_border_lives_case_lives_1:
+lbl_draw_border_lives_case_lives_1_boss:
+
+  LDHI I, data_sprite_number_0
+  DRW VB, VA, 1 
+
+  JP lbl_draw_border_lives_switch_end  
+
+lbl_draw_border_lives_case_game_over:
+lbl_draw_border_lives_case_start_screen:
+lbl_draw_border_lives_case_win_screen:
+
+lbl_draw_border_lives_switch_end:
+
+  RET
+
+;---------------------------------------------------------------------------------
+; func_DrawPlayer
+; Draws player sprite index V4 at position [VA, VB]
+;---------------------------------------------------------------------------------
+func_DrawPlayer:
+  
+  ; player info must be loaded before func_DrawPlayer is called!
+  								; V4 = player sprite
+  								; VA = player x-position
+  								; VB = player y-position
+  ; convert V4 into a sprite address
+  LDHI I, data_player_sprite_lookup
+  ADD I, V4
+
+  LD V3, [I]
+  LD I, lbl_draw_player_ptr		
+  LD [I], V3		
+lbl_draw_player_ptr:
+  LDHI I, lbl_draw_player_ptr  
+
+  ; draw player sprite
+  DRW VA, VB, 1		
+
+  RET
+
+;---------------------------------------------------------------------------------
+; func_DrawLaser
+; Draws laser sprite index V4 at position [V9, VA]
+;---------------------------------------------------------------------------------
+func_DrawLaser:
+  
+  ; laser info must be loaded before func_DrawLaser is called!
+  								; V4 = laser sprite
+  								; V9 = laser x-position
+  								; VA = laser y-position
+
+  ; convert V4 into a sprite address
+  LDHI I, data_laser_sprite_lookup
+  ADD I, V4
+
+  LD V3, [I]
+  LD I, lbl_draw_laser_ptr		
+  LD [I], V3		
+lbl_draw_laser_ptr:
+  LDHI I, lbl_draw_laser_ptr  
+
+  ; draw laser sprite
+  DRW V9, VA, 1		
+
+  RET
+
+;---------------------------------------------------------------------------------
+; func_DrawEnemy
+; Draws enemy type V9 sprite index V4 at position [V7, V8]
+;---------------------------------------------------------------------------------
+func_DrawEnemy:
+  
+  ; enemy info must be loaded before func_DrawEnemy is called!
+  								; V4 = enemy sprite
+  								; V7 = enemy x-position
+  								; V8 = enemy y-position
+  								; V9 = enemy type
+
+  ; use enemy.type V9 to set the correct sprite lookup table
+  LDHI I, data_enemy_type_lookup
+  ADD I, V9
+  LD V3, [I]
+  LD I, lbl_draw_enemy_lookup_ptr				
+  LD [I], V3
+lbl_draw_enemy_lookup_ptr:
+  LDHI I, lbl_draw_enemy_lookup_ptr
+  
+  ; and use V4 to draw correct sprite frame
+  ADD I, V4
+  LD V3, [I]
+  LD I, lbl_draw_enemy_sprite_ptr		
+  LD [I], V3		
+lbl_draw_enemy_sprite_ptr:
+  LDHI I, lbl_draw_enemy_sprite_ptr  
+
+  ; draw  enemy sprite
+  DRW V7, V8, 1		
+
+  RET
+
+;---------------------------------------------------------------------------------
+; func_DrawRealWalls
+; Draws the real upper and lower boundary walls.
+;---------------------------------------------------------------------------------
+func_DrawRealWalls:
+
+  SPRW WALL_STRIP_WIDTH
+  SPRH WALL_STRIP_HEIGHT
+  
+;  LD V4, VD							; V4 = global.dataindex (VD)
+  LD V4, 0
+  
+  LD V5, V4							; V5 = V4 + 15
+  ADD V5, 15				
+  
+  ; set xpos draw position
+  LD V6, 64
+  SUB V6, VE
+  SHR V6
+  SHR V6							; V6 = (64 - global.anim) / 4
+  
+  ; set ypos draw position
+  LD V7, WALL_YPOS						; V7 = Wall tile ypos draw position. Never changes.
+
+lbl_draw_real_walls_loop:
+
+  ; get wall tile index from tile data map
+  LDHI I, data_walls_map  
+  ADD I, V4							; add tile data offset
+  LD V0, [I]
+ 
+  ; get real wall sprite from wall real tile lookup
+  LDHI I, data_walls_strip_lookup
+  ADD I, V0
+  LD V3, [I]
+  LD I, lbl_draw_real_walls_ptr
+  LD [I], V3
+lbl_draw_real_walls_ptr:
+  LDHI I, lbl_draw_real_walls_ptr
+
+  ; draw real wall sprite
+  DRW V6, V7, 1
+ 
+  ADD V4, 1							; wall data++
+  ADD V6, 16							; wall xpos += 16
+  
+  ; if still more walls to draw, goto start of loop
+  SE V4, V5
+  JP lbl_draw_real_walls_loop
+
+  RET
+
+;---------------------------------------------------------------------------------
+; func_DoGameOverScreen
+;---------------------------------------------------------------------------------
+func_DoGameOverScreen:
+
+  LDHI I, data_sprite_game_over_screen
+  
+  LD VE, 0							; VE = totalscore
+  
+  SPRW GAME_OVER_SCREEN_WIDTH
+  SPRH GAME_OVER_SCREEN_HEIGHT
+  DRW VE, VE, 1
+
+  ; increment a game over screen timer				; VD = game over screen timer
+  SE VD, 255
+  ADD VD, 1
+
+  LDHI I, data_game_over_screen_enemies_display-9
+  LD VC, [I]
+								; V9 = game.const GAME_RESULT_ENEMIES_Y_POS
+ 								; VA = game.const GAME_RESULT_ENEMIES_100S_X_POS
+								; VB = game.const GAME_RESULT_ENEMIES_10S_X_POS
+								; VC = game.const GAME_RESULT_ENEMIES_1S_X_POS
+
+  LDHI I, data_game_scoreinfo-4
+  LD V7, [I]
+								; V4 = game.score 100s
+								; V5 = game.score 10s
+								; V6 = game.score 1s
+								; V7 = game.score  
+
+  LD VE, V7							; totalscore = game.score
+
+  SPRW NUMBER_WIDTH
+  SPRH NUMBER_HEIGHT
+
+  ; draw enemies 100s
+  LDHI I, data_number_lookup
+  ADD I, V4
+  LD V3, [I]
+  LD I, lbl_game_over_enemies_ptr1
+  LD [I], V3
+lbl_game_over_enemies_ptr1:
+  LDHI I, lbl_game_over_enemies_ptr1
+  SE V4, 0
+  DRW VA, V9, 1
+
+  ; draw enemies 10s
+  LDHI I, data_number_lookup
+  ADD I, V5
+  LD V3, [I]
+  LD I, lbl_game_over_enemies_ptr2
+  LD [I], V3
+lbl_game_over_enemies_ptr2:
+  LDHI I, lbl_game_over_enemies_ptr2
+  SE V5, 0
+  DRW VB, V9, 1
+
+  ; draw enemies 1s
+  LDHI I, data_number_lookup
+  ADD I, V6
+  LD V3, [I]
+  LD I, lbl_game_over_enemies_ptr3
+  LD [I], V3
+lbl_game_over_enemies_ptr3:
+  LDHI I, lbl_game_over_enemies_ptr3
+  DRW VC, V9, 1
+
+  ; draw lives + boss	
+
+  LDHI I, data_game_over_screen_bosslives-7
+  LD VC, [I]
+								; V7 = game.const GAME_RESULT_LIVES_Y_POS
+  								; V8 = game.const GAME_RESULT_LIVES_X_POS
+ 								; V9 = game.const GAME_RESULT_BOSS_Y_POS
+ 								; VA = game.const GAME_RESULT_BOSS_X_POS
+ 								; VB = game.const GAME_RESULT_TIMER_LIVES
+ 								; VC = game.const GAME_RESULT_TIMER_BOSS
+
+  ; if game.gameovertimer > game.const GAME_RESULT_TIMER_LIVES
+  ; then update totalscore
+  SUB VB, VD
+  SE VF, 0
+  JP lbl_game_over_totalscore_ptr1
+
+  LDHI I, data_game_livesinfo-0
+  LD V0, [I]
+								; V0 = game.lives
+
+lbl_game_over_bosslives_0:
+
+  SE V0, E_GAME_LIVES_GAME_OVER
+  JP lbl_game_over_bosslives_win3
+
+  LDHI I, data_sprite_number_0
+  DRW V8, V7, 1
+
+  ; if game.gameovertimer > game.const GAME_RESULT_TIMER_BOSS
+  ; then update totalscore
+  SUB VC, VD
+  SE VF, 0
+  JP lbl_game_over_totalscore_ptr1
+
+  DRW VA, V9, 1
+  
+  JP lbl_game_over_bosslives_end
+  
+lbl_game_over_bosslives_win3:
+
+  SE V0, E_GAME_LIVES_3_WIN
+  JP lbl_game_over_bosslives_win2
+
+  LDHI I, data_sprite_number_3
+  DRW V8, V7, 1
+  ADD VE, GAME_RESULT_BOSSLIVES_3_TOTALSCORE_INC  
+
+  ; if game.gameovertimer > game.const GAME_RESULT_TIMER_BOSS
+  ; then update totalscore
+  SUB VC, VD
+  SE VF, 0
+  JP lbl_game_over_totalscore_ptr1
+
+  LDHI I, data_sprite_number_1
+  DRW VA, V9, 1
+
+  JP lbl_game_over_bosslives_end
+
+lbl_game_over_bosslives_win2:
+
+  SE V0, E_GAME_LIVES_1_WIN
+  JP lbl_game_over_bosslives_win1
+
+  LDHI I, data_sprite_number_2
+  DRW V8, V7, 1
+  ADD VE, GAME_RESULT_BOSSLIVES_2_TOTALSCORE_INC  
+
+  ; if game.gameovertimer > game.const GAME_RESULT_TIMER_BOSS
+  ; then update totalscore
+  SUB VC, VD
+  SE VF, 0
+  JP lbl_game_over_totalscore_ptr1
+
+  LDHI I, data_sprite_number_1
+  DRW VA, V9, 1
+
+  JP lbl_game_over_bosslives_end
+
+lbl_game_over_bosslives_win1:
+
+  LDHI I, data_sprite_number_1
+  DRW V8, V7, 1
+  ADD VE, GAME_RESULT_BOSSLIVES_1_TOTALSCORE_INC  
+
+  ; if game.gameovertimer > game.const GAME_RESULT_TIMER_BOSS
+  ; then update totalscore
+  SUB VC, VD
+  SE VF, 0
+  JP lbl_game_over_totalscore_ptr1
+
+  LDHI I, data_sprite_number_1
+  DRW VA, V9, 1
+
+lbl_game_over_bosslives_end:
+lbl_game_over_totalscore_ptr1:
+
+  ; draw total score
+  LDHI I, data_game_over_screen_score_display-0			
+  ; set BCD
+  LD B, VE
+  
+  LDHI I, data_game_over_screen_score_display-5
+  LD VC, [I]
+								; V5 = reserved for game.resultscore 100s
+  								; V6 = reserved for game.resultscore 10s
+  								; V7 = reserved for game.resultscore 1s
+								; V8 = game.const GAME_RESULT_SCORE_Y_POS
+  								; V9 = game.const GAME_RESULT_SCORE_100S_X_POS
+  								; VA = game.const GAME_RESULT_SCORE_10S_X_POS
+  								; VB = game.const GAME_RESULT_SCORE_1S_X_POS
+  								; VC = game.const GAME_RESULT_TIMER_TOTALSCORE
+
+  SHL V5
+  SHL V5
+  SHL V6
+  SHL V6
+  SHL V7
+  SHL V7
+
+  LD [I], V7
+
+  ; draw score 100s
+  LDHI I, data_number_lookup
+  ADD I, V5
+  LD V3, [I]
+  LD I, lbl_game_over_totalscore_ptr2
+  LD [I], V3
+lbl_game_over_totalscore_ptr2:
+  LDHI I, lbl_game_over_totalscore_ptr2
+  SE V5, 0
+  DRW V9, V8, 1
+
+  ; draw score 10s
+  LDHI I, data_number_lookup
+  ADD I, V6
+  LD V3, [I]
+  LD I, lbl_game_over_totalscore_ptr3
+  LD [I], V3
+lbl_game_over_totalscore_ptr3:
+  LDHI I, lbl_game_over_totalscore_ptr3
+  SE V6, 0
+  DRW VA, V8, 1
+
+  ; draw score 1s
+  LDHI I, data_number_lookup
+  ADD I, V7
+  LD V3, [I]
+  LD I, lbl_game_over_totalscore_ptr4
+  LD [I], V3
+lbl_game_over_totalscore_ptr4:
+  LDHI I, lbl_game_over_totalscore_ptr4
+  DRW VB, V8, 1
+
+  ; draw hi-score
+  LDHI I, data_game_over_screen_hiscore_display-8
+  LD VC, [I]
+								; V8 = game.const GAME_RESULT_HISCORE_Y_POS
+  								; V9 = game.const GAME_RESULT_HISCORE_100S_X_POS
+							  	; VA = game.const GAME_RESULT_HISCORE_10S_X_POS
+								; VB = game.const GAME_RESULT_HISCORE_1S_X_POS
+								; VC = game.const GAME_RESULT_TIMER_HISCORE
+
+  LDHI I, data_game_hiscoreinfo-4
+  LD V7, [I]
+								; V4 = current game.hi-score 100s
+								; V5 = current game.hi-score 10s
+								; V6 = current game.hi-score 1s
+								; V7 = current game.hi-score
+  
+  ; if game.gameovertimer > game.const GAME_RESULT_TIMER_HISCORE
+  ; then update hi-score
+  SUB VC, VD
+  SE VF, 0
+  JP lbl_game_over_hiscore_ptr1
+
+  ; if totalscore > hi-score
+  ; then hi-score = totalscore
+  SUB VE, V7
+  SE VF, 1
+  JP lbl_game_over_press_start
+
+  LD V7, VE							; new game.hi-score = totalscore
+
+  LDHI I, data_game_over_screen_score_display-4
+  LD V6, [I]
+								; V4 = new game.hi-score 100s = game.resultscore 100s
+								; V5 = new game.hi-score 10s = game.resultscore 10s
+								; V6 = new game.hi-score 1s = game.resultscore 1s
+
+  ; save new hi-score
+  LDHI I, data_game_hiscoreinfo-4
+  LD [I], V7
+
+lbl_game_over_press_start:
+
+  ; if (KEY_START != pressed)
+  ; then return
+  LD VE, KEY_START
+  SKP VE				
+  JP lbl_game_over_hiscore_ptr1
+
+  ; go to title screen
+  LDHI I, data_game_livesinfo-0
+  LD V0, E_GAME_LIVES_START_SCREEN				; game.lives = E_GAME_LIVES_TITLE_SCREEN
+  LD [I], V0
+  LD VD, 0
+  LD VE, 0
+
+  RET
+
+lbl_game_over_hiscore_ptr1:
+
+  ; draw score 100s
+  LDHI I, data_number_lookup
+  ADD I, V4
+  LD V3, [I]
+  LD I, lbl_game_over_hiscore_ptr2
+  LD [I], V3
+lbl_game_over_hiscore_ptr2:
+  LDHI I, lbl_game_over_hiscore_ptr2
+  SE V4, 0
+  DRW V9, V8, 1
+
+  ; draw score 10s
+  LDHI I, data_number_lookup  
+  ADD I, V5
+  LD V3, [I]
+  LD I, lbl_game_over_hiscore_ptr3
+  LD [I], V3
+lbl_game_over_hiscore_ptr3:
+  LDHI I, lbl_game_over_hiscore_ptr3
+  SE V5, 0
+  DRW VA, V8, 1
+
+  ; draw score 1s
+  LDHI I, data_number_lookup
+  ADD I, V6
+  LD V3, [I]
+  LD I, lbl_game_over_hiscore_ptr4
+  LD [I], V3
+lbl_game_over_hiscore_ptr4:
+  LDHI I, lbl_game_over_hiscore_ptr4
+  DRW VB, V8, 1
+
+  RET
+
+;---------------------------------------------------------------------------------
+; END OF CODE
+;---------------------------------------------------------------------------------
+
+lbl_end_code:
+  LD I, lbl_end_code
+
+;---------------------------------------------------------------------------------
+; GAME INFO
+;---------------------------------------------------------------------------------
+INCLUDE 'gameinfo.src'
+
+;---------------------------------------------------------------------------------
+; PLAYER INFO
+;---------------------------------------------------------------------------------
+INCLUDE 'playerinfo.src'
+
+;---------------------------------------------------------------------------------
+; LASER INFO
+;---------------------------------------------------------------------------------
+INCLUDE 'laserinfo.src'
+
+;---------------------------------------------------------------------------------
+; ENEMY INFO
+;---------------------------------------------------------------------------------
+INCLUDE 'enemyinfo.src'
+INCLUDE 'enemy_movement.src'
+
+;---------------------------------------------------------------------------------
+; BULLET INFO
+;---------------------------------------------------------------------------------
+;INCLUDE 'bulletinfo.src'
+INCLUDE 'bullet_movement.src' 
+
+;---------------------------------------------------------------------------------
+; WALL INFO
+;---------------------------------------------------------------------------------
+INCLUDE 'wallinfo.src'
+
+;---------------------------------------------------------------------------------
+; GENERIC
+;---------------------------------------------------------------------------------
+
+BOOMSPRITE_WIDTH = 32
+BOOMSPRITE_HEIGHT = 48
+
+data_generic_sprite_boom:
+  INCBIN 'assets/boomsprite.bin'
+
+

@@ -2,25 +2,62 @@
 ; GAME INFO
 ;---------------------------------------------------------------------------------
 
-E_GAME_LIVES_GAME_OVER    					= #00
-E_GAME_LIVES_1							= #02
-E_GAME_LIVES_2							= #04
-E_GAME_LIVES_3							= #06
-E_GAME_LIVES_1_BOSS						= #08
-E_GAME_LIVES_2_BOSS						= #0A
-E_GAME_LIVES_3_BOSS						= #0C
-E_GAME_LIVES_START_SCREEN					= #0E
-
-GAME_LIVES_TO_BOSS						= #06
-GAME_LIVES_FROM_BOSS						= #F8
-GAME_LIVES_DEC							= #FE
+E_GAME_LIVES_GAME_OVER    					= #00      
+E_GAME_LIVES_1							= #02       
+E_GAME_LIVES_2							= #04	
+E_GAME_LIVES_3							= #06	
+E_GAME_LIVES_START_SCREEN					= #08
+E_GAME_LIVES_1_BOSS						= #0A	
+E_GAME_LIVES_2_BOSS						= #0C	
+E_GAME_LIVES_3_BOSS						= #0E	
+E_GAME_LIVES_NULL_1						= #10
+E_GAME_LIVES_1_WIN						= #12	
+E_GAME_LIVES_2_WIN						= #14	
+E_GAME_LIVES_3_WIN						= #16	
 
 KEY_START							= 1
+
+GAME_LIVES_GAMEPLAY_MASK					= #07
+GAME_LIVES_BOSS_SHIFT						= #08
+GAME_LIVES_WIN_SHIFT						= #10
+GAME_LIVES_DEC							= #FE
+GAME_LIVES_Y_POS						= 0
+GAME_LIVES_X_POS						= 230
+
+GAME_SCORE_INC							= 1
+GAME_SCORE_Y_POS						= 0
+GAME_SCORE_100S_X_POS						= 60
+GAME_SCORE_10S_X_POS						= GAME_SCORE_100S_X_POS + NUMBER_WIDTH
+GAME_SCORE_1S_X_POS						= GAME_SCORE_10S_X_POS + NUMBER_WIDTH	
 
 GAME_HISCORE_Y_POS						= 0
 GAME_HISCORE_100S_X_POS						= 100
 GAME_HISCORE_10S_X_POS						= GAME_HISCORE_100S_X_POS + NUMBER_WIDTH
 GAME_HISCORE_1S_X_POS						= GAME_HISCORE_10S_X_POS + NUMBER_WIDTH
+
+GAME_RESULT_ENEMIES_Y_POS					= 72
+GAME_RESULT_ENEMIES_100S_X_POS					= 150
+GAME_RESULT_ENEMIES_10S_X_POS					= GAME_RESULT_ENEMIES_100S_X_POS + NUMBER_WIDTH
+GAME_RESULT_ENEMIES_1S_X_POS					= GAME_RESULT_ENEMIES_10S_X_POS + NUMBER_WIDTH
+GAME_RESULT_LIVES_Y_POS						= 86
+GAME_RESULT_LIVES_X_POS						= 150 + NUMBER_WIDTH + NUMBER_WIDTH
+GAME_RESULT_BOSS_Y_POS						= 100
+GAME_RESULT_BOSS_X_POS						= 150 + NUMBER_WIDTH + NUMBER_WIDTH
+GAME_RESULT_SCORE_Y_POS						= 115
+GAME_RESULT_SCORE_100S_X_POS					= 128
+GAME_RESULT_SCORE_10S_X_POS					= GAME_RESULT_SCORE_100S_X_POS + NUMBER_WIDTH
+GAME_RESULT_SCORE_1S_X_POS					= GAME_RESULT_SCORE_10S_X_POS + NUMBER_WIDTH
+GAME_RESULT_HISCORE_Y_POS					= 147
+GAME_RESULT_HISCORE_100S_X_POS					= 128
+GAME_RESULT_HISCORE_10S_X_POS					= GAME_RESULT_HISCORE_100S_X_POS + NUMBER_WIDTH
+GAME_RESULT_HISCORE_1S_X_POS					= GAME_RESULT_HISCORE_10S_X_POS + NUMBER_WIDTH
+GAME_RESULT_TIMER_LIVES						= 30
+GAME_RESULT_TIMER_BOSS						= 60
+GAME_RESULT_TIMER_TOTALSCORE					= 0
+GAME_RESULT_TIMER_HISCORE					= 100
+GAME_RESULT_BOSSLIVES_1_TOTALSCORE_INC				= 100
+GAME_RESULT_BOSSLIVES_2_TOTALSCORE_INC				= 150
+GAME_RESULT_BOSSLIVES_3_TOTALSCORE_INC				= 200
 
 GAME_DATA_SIZE							= 240
 GAME_DATA_INC							= 1
@@ -38,26 +75,50 @@ data_game_main_frame_lives_switch_lookup:
   JP lbl_main_frame_lives_case_lives_1				; E_GAME_LIVES_1
   JP lbl_main_frame_lives_case_lives_2				; E_GAME_LIVES_2
   JP lbl_main_frame_lives_case_lives_3				; E_GAME_LIVES_3
+  JP lbl_main_frame_lives_case_start_screen			; E_GAME_LIVES_START_SCREEN
   JP lbl_main_frame_lives_case_lives_1_boss			; E_GAME_LIVES_1_BOSS
   JP lbl_main_frame_lives_case_lives_2_boss			; E_GAME_LIVES_2_BOSS
   JP lbl_main_frame_lives_case_lives_3_boss			; E_GAME_LIVES_3_BOSS
-  JP lbl_main_frame_lives_case_start_screen			; E_GAME_LIVES_START_SCREEN
+  JP lbl_main_frame_lives_switch_end				; E_GAME_LIVES_NULL_1
+  JP lbl_main_frame_lives_case_win_screen			; E_GAME_LIVES_1_WIN
+  JP lbl_main_frame_lives_case_win_screen			; E_GAME_LIVES_2_WIN
+  JP lbl_main_frame_lives_case_win_screen			; E_GAME_LIVES_3_WIN
+  
+;---------------------------------------------------------------------------------
 
+data_draw_border_lives_switch_lookup:
+  JP lbl_draw_border_lives_case_game_over			; E_GAME_LIVES_GAME_OVER
+  JP lbl_draw_border_lives_case_lives_1				; E_GAME_LIVES_1
+  JP lbl_draw_border_lives_case_lives_2				; E_GAME_LIVES_2
+  JP lbl_draw_border_lives_case_lives_3				; E_GAME_LIVES_3
+  JP lbl_draw_border_lives_case_start_screen			; E_GAME_LIVES_START_SCREEN
+  JP lbl_draw_border_lives_case_lives_1_boss			; E_GAME_LIVES_1_BOSS
+  JP lbl_draw_border_lives_case_lives_2_boss			; E_GAME_LIVES_2_BOSS
+  JP lbl_draw_border_lives_case_lives_3_boss			; E_GAME_LIVES_3_BOSS
+  JP lbl_draw_border_lives_switch_end				; E_GAME_LIVES_NULL_1
+  JP lbl_draw_border_lives_case_win_screen			; E_GAME_LIVES_1_WIN
+  JP lbl_draw_border_lives_case_win_screen			; E_GAME_LIVES_2_WIN
+  JP lbl_draw_border_lives_case_win_screen			; E_GAME_LIVES_3_WIN
+  
 ;---------------------------------------------------------------------------------
 
   DS 12
-data_game_info:
+data_game_livesinfo:
   DB E_GAME_LIVES_START_SCREEN					; game.lives
-  DB 0								; game.score
-  DB 0								; game.hi-score
-
+  DB GAME_LIVES_GAMEPLAY_MASK					; game.const GAME_LIVES_GAMEPLAY_MASK
+  DB GAME_LIVES_BOSS_SHIFT					; game.const GAME_LIVES_BOSS_SHIFT
+  DB GAME_LIVES_WIN_SHIFT					; game.const GAME_LIVES_WIN_SHIFT
+  DB GAME_LIVES_Y_POS						; game.const GAME_LIVES_Y_POS
+  DB GAME_LIVES_X_POS						; game.const GAME_LIVES_X_POS
+ 
 ;---------------------------------------------------------------------------------
 
   DS 12
-data_game_hiscore:					
+data_game_hiscoreinfo:					
   DB 0								; reserved for game.hi-score 100s
   DB 0								; reserved for game.hi-score 10s
   DB 0								; reserved for game.hi-score 1s
+  DB 0								; game.hi-score
   DB GAME_HISCORE_Y_POS						; game.const GAME_HISCORE_Y_POS
   DB GAME_HISCORE_100S_X_POS					; game.const GAME_HISCORE_100S_X_POS
   DB GAME_HISCORE_10S_X_POS					; game.const GAME_HISCORE_10S_X_POS
@@ -66,7 +127,65 @@ data_game_hiscore:
 
 ;---------------------------------------------------------------------------------
 
+  DS 12
+data_game_scoreinfo:					
+  DB 0								; reserved for game.score 100s
+  DB 0								; reserved for game.score 10s
+  DB 0								; reserved for game.score 1s
+  DB 0								; game.score
+  DB GAME_SCORE_Y_POS						; game.const GAME_SCORE_Y_POS
+  DB GAME_SCORE_100S_X_POS					; game.const GAME_SCORE_100S_X_POS
+  DB GAME_SCORE_10S_X_POS					; game.const GAME_SCORE_10S_X_POS
+  DB GAME_SCORE_1S_X_POS					; game.const GAME_SCORE_1S_X_POS
+
+;---------------------------------------------------------------------------------
+
+  DS 12
+data_game_over_screen_enemies_display:
+  DB GAME_RESULT_ENEMIES_Y_POS					; game.const GAME_RESULT_ENEMIES_Y_POS
+  DB GAME_RESULT_ENEMIES_100S_X_POS				; game.const GAME_RESULT_ENEMIES_100S_X_POS
+  DB GAME_RESULT_ENEMIES_10S_X_POS				; game.const GAME_RESULT_ENEMIES_10S_X_POS
+  DB GAME_RESULT_ENEMIES_1S_X_POS				; game.const GAME_RESULT_ENEMIES_1S_X_POS
+
+;---------------------------------------------------------------------------------
+
+  DS 12
+data_game_over_screen_bosslives:
+  DB GAME_RESULT_LIVES_Y_POS					; game.const GAME_RESULT_LIVES_Y_POS
+  DB GAME_RESULT_LIVES_X_POS					; game.const GAME_RESULT_LIVES_X_POS
+  DB GAME_RESULT_BOSS_Y_POS					; game.const GAME_RESULT_BOSS_Y_POS
+  DB GAME_RESULT_BOSS_X_POS					; game.const GAME_RESULT_BOSS_X_POS
+  DB GAME_RESULT_TIMER_LIVES					; game.const GAME_RESULT_TIMER_LIVES
+  DB GAME_RESULT_TIMER_BOSS					; game.const GAME_RESULT_TIMER_BOSS
+
+;---------------------------------------------------------------------------------
+
+  DS 12
+data_game_over_screen_score_display:
+  DB 0								; reserved for game.resultscore 100s
+  DB 0								; reserved for game.resultscore 10s
+  DB 0								; reserved for game.resultscore 1s
+  DB GAME_RESULT_SCORE_Y_POS					; game.const GAME_RESULT_SCORE_Y_POS
+  DB GAME_RESULT_SCORE_100S_X_POS				; game.const GAME_RESULT_SCORE_100S_X_POS
+  DB GAME_RESULT_SCORE_10S_X_POS				; game.const GAME_RESULT_SCORE_10S_X_POS
+  DB GAME_RESULT_SCORE_1S_X_POS					; game.const GAME_RESULT_SCORE_1S_X_POS
+  DB GAME_RESULT_TIMER_TOTALSCORE				; game.const GAME_RESULT_TIMER_TOTALSCORE
+
+;---------------------------------------------------------------------------------
+
+  DS 12
+data_game_over_screen_hiscore_display:
+  DB GAME_RESULT_HISCORE_Y_POS					; game.const GAME_RESULT_HISCORE_Y_POS
+  DB GAME_RESULT_HISCORE_100S_X_POS				; game.const GAME_RESULT_HISCORE_100S_X_POS
+  DB GAME_RESULT_HISCORE_10S_X_POS				; game.const GAME_RESULT_HISCORE_10S_X_POS
+  DB GAME_RESULT_HISCORE_1S_X_POS				; game.const GAME_RESULT_HISCORE_1S_X_POS
+  DB GAME_RESULT_TIMER_HISCORE					; game.const GAME_RESULT_TIMER_HISCORE
+
+;---------------------------------------------------------------------------------
+
 PALETTE_SIZE = 251
+COL_PURPLE = 1
+COL_WHITE = 12
 
 data_palette:
   DB #FF, #FF, #32, #FF
@@ -323,19 +442,44 @@ data_palette:
 
 ;---------------------------------------------------------------------------------
 
-TITLE_SCREEN_WIDTH = 255
+TITLE_SCREEN_WIDTH = 0						; 0 means width = 256
 TITLE_SCREEN_HEIGHT = 192
 
 data_sprite_title_screen:
-  INCBIN 'title_screen.bin'
+  INCBIN 'assets/title_screen.bin'
 
 ;---------------------------------------------------------------------------------
 
-GAME_OVER_SCREEN_WIDTH = 255
+GAME_OVER_SCREEN_WIDTH = 255 ;0 					; 0 means width = 256
 GAME_OVER_SCREEN_HEIGHT = 192
 
 data_sprite_game_over_screen:
-  INCBIN 'game_over_screen.bin'
+  INCBIN 'assets/game_over_screen.bin'
+
+;---------------------------------------------------------------------------------
+
+BACKGROUND_WIDTH = 0
+BACKGROUND_HEIGHT = 192
+
+data_sprite_background:
+  INCBIN 'assets/background.bin'
+
+PARALLAX_WIDTH = 240
+PARALLAX_HEIGHT = 192
+
+data_sprite_parallax_A:
+  INCBIN 'assets/parallax_A.bin'
+
+data_sprite_parallax_B:
+  INCBIN 'assets/parallax_B.bin'
+
+;---------------------------------------------------------------------------------
+
+BORDER_WIDTH = 0
+BORDER_HEIGHT = 192
+
+data_sprite_border:
+  INCBIN 'assets/border.bin'
 
 ;---------------------------------------------------------------------------------
 
@@ -355,36 +499,34 @@ data_number_lookup:
   LDHI I, data_sprite_number_9
 
 data_sprite_number_0:
-  INCBIN 'number_0.bin'
+  INCBIN 'assets/number_0.bin'
 
 data_sprite_number_1:
-  INCBIN 'number_1.bin'
+  INCBIN 'assets/number_1.bin'
 
 data_sprite_number_2:
-  INCBIN 'number_2.bin'
+  INCBIN 'assets/number_2.bin'
 
 data_sprite_number_3:
-  INCBIN 'number_3.bin'
+  INCBIN 'assets/number_3.bin'
 
 data_sprite_number_4:
-  INCBIN 'number_4.bin'
+  INCBIN 'assets/number_4.bin'
 
 data_sprite_number_5:
-  INCBIN 'number_5.bin'
+  INCBIN 'assets/number_5.bin'
 
 data_sprite_number_6:
-  INCBIN 'number_6.bin'
+  INCBIN 'assets/number_6.bin'
 
 data_sprite_number_7:
-  INCBIN 'number_7.bin'
+  INCBIN 'assets/number_7.bin'
 
 data_sprite_number_8:
-  INCBIN 'number_8.bin'
+  INCBIN 'assets/number_8.bin'
 
 data_sprite_number_9:
-  INCBIN 'number_9.bin'
+  INCBIN 'assets/number_9.bin'
 
 ;---------------------------------------------------------------------------------
-
-
 

@@ -55,7 +55,8 @@ LASER_DEAD_CHARGE						= 1
 LASER_ALIVE_XPOS_MAX						= 232
 LASER_ALIVE_SPEED_X						= 4
 
-LASER_DYING_TIMER_MAX						= 15
+LASER_DYING_TIMER_INC						= #04
+LASER_DYING_TIMER_MAX						= #20
 
 ;---------------------------------------------------------------------------------
 
@@ -111,58 +112,49 @@ data_laser_update_state_switch_lookup:
 ;---------------------------------------------------------------------------------
 
 data_laser_sprite_lookup:
-  LDHI I, data_laser_sprite_collision				; E_LASER_SPRITE_ALIVE_0
-  LDHI I, data_laser_sprite_collision				; E_LASER_SPRITE_ALIVE_1
-  LDHI I, data_laser_sprite_collision				; E_LASER_SPRITE_ALIVE_2
-  LDHI I, data_laser_sprite_collision				; E_LASER_SPRITE_ALIVE_3
-  LDHI I, data_laser_sprite_collision				; E_LASER_SPRITE_ALIVE_4
-  LDHI I, data_laser_sprite_collision				; E_LASER_SPRITE_ALIVE_5
-  LDHI I, data_laser_sprite_collision				; E_LASER_SPRITE_ALIVE_6
-  LDHI I, data_laser_sprite_collision				; E_LASER_SPRITE_ALIVE_7
-  LDHI I, data_laser_sprite_collision				; E_LASER_SPRITE_ALIVE_8
-  LDHI I, data_laser_sprite_collision				; E_LASER_SPRITE_ALIVE_9
-  LDHI I, data_laser_sprite_collision				; E_LASER_SPRITE_ALIVE_10
-  LDHI I, data_laser_sprite_collision				; E_LASER_SPRITE_ALIVE_11
-  LDHI I, data_laser_sprite_collision				; E_LASER_SPRITE_ALIVE_12
-  LDHI I, data_laser_sprite_collision				; E_LASER_SPRITE_ALIVE_13
-  LDHI I, data_laser_sprite_collision				; E_LASER_SPRITE_ALIVE_14
-  LDHI I, data_laser_sprite_collision				; E_LASER_SPRITE_ALIVE_15
-  LDHI I, data_laser_sprite_collision				; E_LASER_SPRITE_DYING_0
-  LDHI I, data_generic_sprite_boom				; E_LASER_SPRITE_DYING_1
-  LDHI I, data_laser_sprite_collision				; E_LASER_SPRITE_DYING_2
-  LDHI I, data_generic_sprite_boom				; E_LASER_SPRITE_DYING_3
-  LDHI I, data_laser_sprite_collision				; E_LASER_SPRITE_DYING_4
-  LDHI I, data_generic_sprite_boom				; E_LASER_SPRITE_DYING_5
-  LDHI I, data_laser_sprite_collision				; E_LASER_SPRITE_DYING_6
-  LDHI I, data_generic_sprite_boom				; E_LASER_SPRITE_DYING_7
-  LDHI I, data_laser_sprite_collision				; E_LASER_SPRITE_DYING_8
-  LDHI I, data_generic_sprite_boom				; E_LASER_SPRITE_DYING_9
-  LDHI I, data_laser_sprite_collision				; E_LASER_SPRITE_DYING_10
-  LDHI I, data_generic_sprite_boom				; E_LASER_SPRITE_DYING_11
-  LDHI I, data_laser_sprite_collision				; E_LASER_SPRITE_DYING_12
-  LDHI I, data_generic_sprite_boom				; E_LASER_SPRITE_DYING_13
-  LDHI I, data_laser_sprite_collision				; E_LASER_SPRITE_DYING_14
-  LDHI I, data_generic_sprite_boom				; E_LASER_SPRITE_DYING_15
-  LDHI I, data_laser_sprite_collision				; E_LASER_SPRITE_CLEAR_COLLISION
-  LDHI I, data_laser_sprite_collision				; E_LASER_SPRITE_COLLISION
+  LDHI I, data_sprite_laser_alive0				; E_LASER_SPRITE_ALIVE_0
+  LDHI I, data_sprite_laser_alive0				; E_LASER_SPRITE_ALIVE_1
+  LDHI I, data_sprite_laser_alive0				; E_LASER_SPRITE_ALIVE_2
+  LDHI I, data_sprite_laser_alive0				; E_LASER_SPRITE_ALIVE_3
+  LDHI I, data_sprite_laser_alive0				; E_LASER_SPRITE_ALIVE_4
+  LDHI I, data_sprite_laser_alive0				; E_LASER_SPRITE_ALIVE_5
+  LDHI I, data_sprite_laser_alive0				; E_LASER_SPRITE_ALIVE_6
+  LDHI I, data_sprite_laser_alive0				; E_LASER_SPRITE_ALIVE_7
+  LDHI I, data_sprite_laser_alive0				; E_LASER_SPRITE_ALIVE_8
+  LDHI I, data_sprite_laser_alive0				; E_LASER_SPRITE_ALIVE_9
+  LDHI I, data_sprite_laser_alive0				; E_LASER_SPRITE_ALIVE_10
+  LDHI I, data_sprite_laser_alive0				; E_LASER_SPRITE_ALIVE_11
+  LDHI I, data_sprite_laser_alive0				; E_LASER_SPRITE_ALIVE_12
+  LDHI I, data_sprite_laser_alive0				; E_LASER_SPRITE_ALIVE_13
+  LDHI I, data_sprite_laser_alive0				; E_LASER_SPRITE_ALIVE_14
+  LDHI I, data_sprite_laser_alive0				; E_LASER_SPRITE_ALIVE_15
+  LDHI I, data_sprite_laser_clearcollision			; E_LASER_SPRITE_DYING_0
+  LDHI I, data_sprite_laser_clearcollision			; E_LASER_SPRITE_DYING_1
+  LDHI I, data_sprite_laser_clearcollision			; E_LASER_SPRITE_DYING_2
+  LDHI I, data_sprite_laser_clearcollision			; E_LASER_SPRITE_DYING_3
+  LDHI I, data_sprite_laser_clearcollision			; E_LASER_SPRITE_DYING_4
+  LDHI I, data_sprite_laser_clearcollision			; E_LASER_SPRITE_DYING_5
+  LDHI I, data_sprite_laser_clearcollision			; E_LASER_SPRITE_DYING_6
+  LDHI I, data_sprite_laser_clearcollision			; E_LASER_SPRITE_DYING_7
+  LDHI I, data_sprite_laser_clearcollision			; E_LASER_SPRITE_DYING_8
+  LDHI I, data_sprite_laser_clearcollision			; E_LASER_SPRITE_DYING_9
+  LDHI I, data_sprite_laser_clearcollision			; E_LASER_SPRITE_DYING_10
+  LDHI I, data_sprite_laser_clearcollision			; E_LASER_SPRITE_DYING_11
+  LDHI I, data_sprite_laser_clearcollision			; E_LASER_SPRITE_DYING_12
+  LDHI I, data_sprite_laser_clearcollision			; E_LASER_SPRITE_DYING_13
+  LDHI I, data_sprite_laser_clearcollision			; E_LASER_SPRITE_DYING_14
+  LDHI I, data_sprite_laser_clearcollision			; E_LASER_SPRITE_DYING_15
+  LDHI I, data_sprite_laser_clearcollision			; E_LASER_SPRITE_CLEAR_COLLISION
+  LDHI I, data_sprite_laser_collision				; E_LASER_SPRITE_COLLISION
 
-data_laser_sprite_collision:
-  DB 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-  DB 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-  DB 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-  DB 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-  DB 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-  DB 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-  DB 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-  DB 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-  DB 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-  DB 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-  DB 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-  DB 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-  DB 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-  DB 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-  DB 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-  DB 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+data_sprite_laser_alive0:
+  INCBIN 'assets/laser_alive0.bin'
+
+data_sprite_laser_clearcollision:
+  INCBIN 'assets/laser_clearcollision.bin'
+
+data_sprite_laser_collision:
+  INCBIN 'assets/laser_collision.bin'
 
 ;---------------------------------------------------------------------------------
 

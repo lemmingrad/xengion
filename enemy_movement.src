@@ -2,6 +2,8 @@
 ; ENEMY MOVEMENT
 ;---------------------------------------------------------------------------------
 
+ENEMY_MOVEMENT_LOOKUP_INC			= 1
+
 E_ENEMY_Y_MOVE_ZERO 				= #00
 E_ENEMY_Y_MOVE_POS32_X16_S16			= #04
 E_ENEMY_Y_MOVE_POS32_X16_S80			= #08
@@ -35,6 +37,8 @@ E_ENEMY_Y_MOVE_NEG64_X64_S16			= #74
 E_ENEMY_Y_MOVE_NEG64_X64_S80			= #78
 E_ENEMY_Y_MOVE_NEG64_SIN32			= #7C
 E_ENEMY_Y_MOVE_NEG64_SIN64			= #80
+
+;---------------------------------------------------------------------------------
 
 data_enemy_y_movement_lookup:
   LDHI I, data_enemy_y_zero
