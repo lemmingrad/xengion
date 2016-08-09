@@ -72,7 +72,8 @@ KEY_LEFT 							= #07
 KEY_DOWN							= #08 
 KEY_UP								= #05
 
-PLAYER_REVIVING_START_XPOS					= 16
+PLAYER_GAMEPLAY_REVIVING_START_XPOS				= 16
+PLAYER_BOSSPLAY_REVIVING_START_XPOS				= 0
 PLAYER_REVIVING_START_YPOS					= 70
 PLAYER_REVIVING_SPEED_X						= 2
 PLAYER_REVIVING_TIMER_INC					= 1
@@ -109,17 +110,21 @@ data_player_info_end:
 
 ;---------------------------------------------------------------------------------
 
-data_player_reset_start:
+data_playerinfo_generic_start:
+
   DS 12
-data_player_reset:
+data_player_gameplay_reset:
   DB E_PLAYER_STATE_REVIVING					; player.state = E_PLAYER_STATE_REVIVING
   DB 0								; player.timer = 0
-  DB PLAYER_REVIVING_START_XPOS					; player.xpos = PLAYER_REVIVING_START_XPOS
+  DB PLAYER_GAMEPLAY_REVIVING_START_XPOS			; player.xpos = PLAYER_GAMEPLAY_REVIVING_START_XPOS
   DB PLAYER_REVIVING_START_YPOS					; player.ypos = PLAYER_REVIVING_START_YPOS
-data_player_reset_end:
 
-;---------------------------------------------------------------------------------
-data_playerinfo_generic_start:
+  DS 12
+data_player_bossplay_reset:
+  DB E_PLAYER_STATE_REVIVING					; player.state = E_PLAYER_STATE_REVIVING
+  DB 0								; player.timer = 0
+  DB PLAYER_BOSSPLAY_REVIVING_START_XPOS			; player.xpos = PLAYER_BOSSPLAY_REVIVING_START_POS
+  DB PLAYER_REVIVING_START_YPOS					; player.ypos = PLAYER_REVIVING_START_YPOS
 
   DS 12
 data_player_gameplay_alive_constants:

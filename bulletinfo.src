@@ -293,7 +293,7 @@ data_bullet_dying_constants:
 ;---------------------------------------------------------------------------------
 
 data_bullet_update_state_switch_lookup:
-  JP lbl_do_update_bullets_case_dead				; E_BULLET_STATE_DEAD
+  JP lbl_do_update_bullets_loop_next				; E_BULLET_STATE_DEAD
   JP lbl_do_update_bullets_case_alive				; E_BULLET_STATE_ALIVE
   JP lbl_do_update_bullets_case_hit_something			; E_BULLET_STATE_HIT_SOMETHING
   JP lbl_do_update_bullets_case_dying				; E_BULLET_STATE_DYING

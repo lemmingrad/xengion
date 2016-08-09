@@ -18,29 +18,6 @@ data_walls_consts_end:
 
 ;---------------------------------------------------------------------------------
 
-data_walls_map_start:
-data_walls_map:
-  DB #00,#00,#00,#00,#00,#00,#00,#00,#00,#00,#00,#00,#00,#00,#00,#00
-  DB #00,#00,#00,#00,#00,#00,#00,#10,#38,#78,#00,#00,#00,#00,#00,#00
-  DB #00,#00,#00,#10,#38,#78,#00,#00,#00,#00,#00,#00,#00,#00,#00,#10
-  DB #38,#78,#00,#00,#00,#00,#00,#00,#00,#00,#00,#04,#18,#8C,#B4,#E8
-
-  DB #38,#38,#78,#00,#00,#00,#04,#08,#08,#08,#08,#08,#08,#08,#08,#08
-  DB #08,#08,#0C,#00,#04,#08,#0C,#00,#00,#00,#00,#00,#00,#00,#00,#00
-  DB #00,#00,#10,#38,#3C,#40,#40,#40,#50,#5C,#08,#08,#0C,#00,#00,#00
-  DB #00,#00,#00,#00,#04,#08,#08,#08,#08,#08,#08,#14,#3C,#AC,#E8,#EC
-
-  DB #38,#38,#38,#80,#A4,#C8,#38,#38,#3C,#40,#50,#38,#38,#3C,#40,#50
-  DB #38,#78,#00,#00,#00,#00,#00,#00,#00,#00,#00,#00,#00,#00,#00,#00
-  DB #00,#10,#38,#3C,#AC,#B0,#E8,#F8,#B8,#AC,#AC,#AC,#AC,#F0,#B8,#D0
-  DB #40,#50,#78,#00,#00,#00,#00,#00,#00,#00,#04,#38,#40,#AC,#E8,#B4
-
-  DB #E8,#F0,#B8,#E0,#5C,#0C,#00,#00,#00,#04,#14,#38,#A8,#D0,#40,#50
-  DB #38,#38,#3C,#40,#48,#4C,#74,#08,#08,#08,#08,#08,#08,#38,#38,#5C
-  DB #0C,#00,#00,#10,#3C,#40,#8C,#F0,#EC,#F4,#B4,#B4,#B4,#F8,#B4,#F8
-  DB #F0,#F0,#F0,#F0,#F0,#F0,#F0,#F0,#F0,#F0,#F0,#F0,#F0,#F0,#F0,#F0
-data_walls_map_end:
-
 ;---------------------------------------------------------------------------------
 
 WALL_STRIP_WIDTH = 16
@@ -127,156 +104,156 @@ data_walls_collision_lookup_end:
 ;data_sprite_wall_col_08:
 ;  INCBIN 'assets/wall_col_08.bin'
 ;data_sprite_wall_col_08_end:
-
-data_sprite_wall_col_0C_start:
-data_sprite_wall_col_0C:
-  INCBIN 'assets/wall_col_0C.bin'
-data_sprite_wall_col_0C_end:
-
-data_sprite_wall_col_10_start:
-data_sprite_wall_col_10:
-  INCBIN 'assets/wall_col_10.bin'
-data_sprite_wall_col_10_end:
-
-data_sprite_wall_col_14_start:
-data_sprite_wall_col_14:
-  INCBIN 'assets/wall_col_14.bin'
-data_sprite_wall_col_14_end:
-
-data_sprite_wall_col_18_start:
-data_sprite_wall_col_18:
-  INCBIN 'assets/wall_col_18.bin'
-data_sprite_wall_col_18_end:
-
-data_sprite_wall_col_1C_start:
-data_sprite_wall_col_1C:
-  INCBIN 'assets/wall_col_1C.bin'
-data_sprite_wall_col_1C_end:
-
-data_sprite_wall_col_20_start:
-data_sprite_wall_col_20:
-  INCBIN 'assets/wall_col_20.bin'
-data_sprite_wall_col_20_end:
-
-data_sprite_wall_col_24_start:
-data_sprite_wall_col_24:
-  INCBIN 'assets/wall_col_24.bin'
-data_sprite_wall_col_24_end:
-
-data_sprite_wall_col_28_start:
-data_sprite_wall_col_28:
-  INCBIN 'assets/wall_col_28.bin'
-data_sprite_wall_col_28_end:
-
-data_sprite_wall_col_2C_start:
-data_sprite_wall_col_2C:
-  INCBIN 'assets/wall_col_2C.bin'
-data_sprite_wall_col_2C_end:
-
-data_sprite_wall_col_30_start:
-data_sprite_wall_col_30:
-  INCBIN 'assets/wall_col_30.bin'
-data_sprite_wall_col_30_end:
-
-data_sprite_wall_col_34_start:
-data_sprite_wall_col_34:
-  INCBIN 'assets/wall_col_34.bin'
-data_sprite_wall_col_34_end:
-
-data_sprite_wall_col_38_start:
-data_sprite_wall_col_38:
-  INCBIN 'assets/wall_col_38.bin'
-data_sprite_wall_col_38_end:
-
-data_sprite_wall_col_3C_start:
-data_sprite_wall_col_3C:
-  INCBIN 'assets/wall_col_3C.bin'
-data_sprite_wall_col_3C_end:
-
-data_sprite_wall_col_40_start:
-data_sprite_wall_col_40:
-  INCBIN 'assets/wall_col_40.bin'
-data_sprite_wall_col_40_end:
-
-data_sprite_wall_col_44_start:
-data_sprite_wall_col_44:
-  INCBIN 'assets/wall_col_44.bin'
-data_sprite_wall_col_44_end:
-
-data_sprite_wall_col_48_start:
-data_sprite_wall_col_48:
-  INCBIN 'assets/wall_col_48.bin'
-data_sprite_wall_col_48_end:
-
-data_sprite_wall_col_4C_start:
-data_sprite_wall_col_4C:
-  INCBIN 'assets/wall_col_4C.bin'
-data_sprite_wall_col_4C_end:
-
-data_sprite_wall_col_50_start:
-data_sprite_wall_col_50:
-  INCBIN 'assets/wall_col_50.bin'
-data_sprite_wall_col_50_end:
-
-data_sprite_wall_col_54_start:
-data_sprite_wall_col_54:
-  INCBIN 'assets/wall_col_54.bin'
-data_sprite_wall_col_54_end:
-
-data_sprite_wall_col_58_start:
-data_sprite_wall_col_58:
-  INCBIN 'assets/wall_col_58.bin'
-data_sprite_wall_col_58_end:
-
-data_sprite_wall_col_5C_start:
-data_sprite_wall_col_5C:
-  INCBIN 'assets/wall_col_5C.bin'
-data_sprite_wall_col_5C_end:
-
-data_sprite_wall_col_60_start:
-data_sprite_wall_col_60:
-  INCBIN 'assets/wall_col_60.bin'
-data_sprite_wall_col_60_end:
-
-data_sprite_wall_col_64_start:
-data_sprite_wall_col_64:
-  INCBIN 'assets/wall_col_64.bin'
-data_sprite_wall_col_64_end:
-
-data_sprite_wall_col_68_start:
-data_sprite_wall_col_68:
-  INCBIN 'assets/wall_col_68.bin'
-data_sprite_wall_col_68_end:
-
-data_sprite_wall_col_6C_start:
-data_sprite_wall_col_6C:
-  INCBIN 'assets/wall_col_6C.bin'
-data_sprite_wall_col_6C_end:
-
-data_sprite_wall_col_70_start:
-data_sprite_wall_col_70:
-  INCBIN 'assets/wall_col_70.bin'
-data_sprite_wall_col_70_end:
-
-data_sprite_wall_col_74_start:
-data_sprite_wall_col_74:
-  INCBIN 'assets/wall_col_74.bin'
-data_sprite_wall_col_74_end:
-
-data_sprite_wall_col_78_start:
-data_sprite_wall_col_78:
-  INCBIN 'assets/wall_col_78.bin'
-data_sprite_wall_col_78_end:
-
-data_sprite_wall_col_7C_start:
-data_sprite_wall_col_7C:
-  INCBIN 'assets/wall_col_7C.bin'
-data_sprite_wall_col_7C_end:
-
-data_sprite_wall_col_80_start:
-data_sprite_wall_col_80:
-  INCBIN 'assets/wall_col_80.bin'
-data_sprite_wall_col_80_end:
+;
+;data_sprite_wall_col_0C_start:
+;data_sprite_wall_col_0C:
+;  INCBIN 'assets/wall_col_0C.bin'
+;data_sprite_wall_col_0C_end:
+;
+;data_sprite_wall_col_10_start:
+;data_sprite_wall_col_10:
+;  INCBIN 'assets/wall_col_10.bin'
+;data_sprite_wall_col_10_end:
+;
+;data_sprite_wall_col_14_start:
+;data_sprite_wall_col_14:
+;  INCBIN 'assets/wall_col_14.bin'
+;data_sprite_wall_col_14_end:
+;
+;data_sprite_wall_col_18_start:
+;data_sprite_wall_col_18:
+;  INCBIN 'assets/wall_col_18.bin'
+;data_sprite_wall_col_18_end:
+;
+;data_sprite_wall_col_1C_start:
+;data_sprite_wall_col_1C:
+;  INCBIN 'assets/wall_col_1C.bin'
+;data_sprite_wall_col_1C_end:
+;
+;data_sprite_wall_col_20_start:
+;data_sprite_wall_col_20:
+;  INCBIN 'assets/wall_col_20.bin'
+;data_sprite_wall_col_20_end:
+;
+;data_sprite_wall_col_24_start:
+;data_sprite_wall_col_24:
+;  INCBIN 'assets/wall_col_24.bin'
+;data_sprite_wall_col_24_end:
+;
+;data_sprite_wall_col_28_start:
+;data_sprite_wall_col_28:
+;  INCBIN 'assets/wall_col_28.bin'
+;data_sprite_wall_col_28_end:
+;
+;data_sprite_wall_col_2C_start:
+;data_sprite_wall_col_2C:
+;  INCBIN 'assets/wall_col_2C.bin'
+;data_sprite_wall_col_2C_end:
+;
+;data_sprite_wall_col_30_start:
+;data_sprite_wall_col_30:
+;  INCBIN 'assets/wall_col_30.bin'
+;data_sprite_wall_col_30_end:
+;
+;data_sprite_wall_col_34_start:
+;data_sprite_wall_col_34:
+;  INCBIN 'assets/wall_col_34.bin'
+;data_sprite_wall_col_34_end:
+;
+;data_sprite_wall_col_38_start:
+;data_sprite_wall_col_38:
+;  INCBIN 'assets/wall_col_38.bin'
+;data_sprite_wall_col_38_end:
+;
+;data_sprite_wall_col_3C_start:
+;data_sprite_wall_col_3C:
+;  INCBIN 'assets/wall_col_3C.bin'
+;data_sprite_wall_col_3C_end:
+;
+;data_sprite_wall_col_40_start:
+;data_sprite_wall_col_40:
+;  INCBIN 'assets/wall_col_40.bin'
+;data_sprite_wall_col_40_end:
+;
+;data_sprite_wall_col_44_start:
+;data_sprite_wall_col_44:
+;  INCBIN 'assets/wall_col_44.bin'
+;data_sprite_wall_col_44_end:
+;
+;data_sprite_wall_col_48_start:
+;data_sprite_wall_col_48:
+;  INCBIN 'assets/wall_col_48.bin'
+;data_sprite_wall_col_48_end:
+;
+;data_sprite_wall_col_4C_start:
+;data_sprite_wall_col_4C:
+;  INCBIN 'assets/wall_col_4C.bin'
+;data_sprite_wall_col_4C_end:
+;
+;data_sprite_wall_col_50_start:
+;data_sprite_wall_col_50:
+;  INCBIN 'assets/wall_col_50.bin'
+;data_sprite_wall_col_50_end:
+;
+;data_sprite_wall_col_54_start:
+;data_sprite_wall_col_54:
+;  INCBIN 'assets/wall_col_54.bin'
+;data_sprite_wall_col_54_end:
+;
+;data_sprite_wall_col_58_start:
+;data_sprite_wall_col_58:
+;  INCBIN 'assets/wall_col_58.bin'
+;data_sprite_wall_col_58_end:
+;
+;data_sprite_wall_col_5C_start:
+;data_sprite_wall_col_5C:
+;  INCBIN 'assets/wall_col_5C.bin'
+;data_sprite_wall_col_5C_end:
+;
+;data_sprite_wall_col_60_start:
+;data_sprite_wall_col_60:
+;  INCBIN 'assets/wall_col_60.bin'
+;data_sprite_wall_col_60_end:
+;
+;data_sprite_wall_col_64_start:
+;data_sprite_wall_col_64:
+;  INCBIN 'assets/wall_col_64.bin'
+;data_sprite_wall_col_64_end:
+;
+;data_sprite_wall_col_68_start:
+;data_sprite_wall_col_68:
+;  INCBIN 'assets/wall_col_68.bin'
+;data_sprite_wall_col_68_end:
+;
+;data_sprite_wall_col_6C_start:
+;data_sprite_wall_col_6C:
+;  INCBIN 'assets/wall_col_6C.bin'
+;data_sprite_wall_col_6C_end:
+;
+;data_sprite_wall_col_70_start:
+;data_sprite_wall_col_70:
+;  INCBIN 'assets/wall_col_70.bin'
+;data_sprite_wall_col_70_end:
+;
+;data_sprite_wall_col_74_start:
+;data_sprite_wall_col_74:
+;  INCBIN 'assets/wall_col_74.bin'
+;data_sprite_wall_col_74_end:
+;
+;data_sprite_wall_col_78_start:
+;data_sprite_wall_col_78:
+;  INCBIN 'assets/wall_col_78.bin'
+;data_sprite_wall_col_78_end:
+;
+;data_sprite_wall_col_7C_start:
+;data_sprite_wall_col_7C:
+;  INCBIN 'assets/wall_col_7C.bin'
+;data_sprite_wall_col_7C_end:
+;
+;data_sprite_wall_col_80_start:
+;data_sprite_wall_col_80:
+;  INCBIN 'assets/wall_col_80.bin'
+;data_sprite_wall_col_80_end:
 
 data_sprite_wall_col_84_start:
 data_sprite_wall_col_84:

@@ -36,6 +36,7 @@ BOSS_ALIVE_BLINK_CHANCE						= 100 		; 1/100 chance of blink
 
 BOSS_BLINK_TIMER_INC 						= 1
 BOSS_BLINK_TIMER_MAX						= 5
+BOSS_BLINK_MISSILE_CHANCE					= 10
 
 BOSS_DAMAGED_TIMER_INC						= 1
 BOSS_DAMAGED_TIMER_MAX						= 4
@@ -69,7 +70,7 @@ data_boss_reset:
   DS 12
 data_boss_blink_constants:
   DB E_BOSS_SPRITE_BLINK					; E_BOSS_SPRITE_BLINK
-  DB 0								; unused
+  DB BOSS_BLINK_MISSILE_CHANCE					; boss.const BOSS_BLINK_MISSILE_CHANCE
   DB BOSS_BLINK_TIMER_INC					; boss.const BOSS_BLINK_TIMER_INC
   DB BOSS_BLINK_TIMER_MAX					; boss.const BOSS_BLINK_TIMER_MAX
 

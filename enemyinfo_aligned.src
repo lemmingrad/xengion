@@ -12,7 +12,9 @@ E_ENEMY_STATE_DYING						= #0C
 E_ENEMY_STATE_DAMAGED_SHIELD_1					= #0E			
 E_ENEMY_STATE_DAMAGED_SHIELD_2					= #10			
 E_ENEMY_STATE_DAMAGED_SHIELD_3					= #12			
-E_ENEMY_STATE_DAMAGED_SHIELD_LAST				= #14			
+E_ENEMY_STATE_DAMAGED_SHIELD_4					= #14			
+E_ENEMY_STATE_DAMAGED_SHIELD_5					= #16			
+E_ENEMY_STATE_DAMAGED_SHIELD_LAST				= #18			
 
 E_ENEMY_TYPE_SHIP1						= #00
 E_ENEMY_TYPE_SHIP2						= #04
@@ -526,6 +528,19 @@ data_enemy_template_floorturret:
   DS 5
 data_enemy_templates_end:
 
+data_enemy_bossmissile_start:
+  DS 12
+data_enemy_bossmissile:
+  DB E_ENEMY_STATE_ALIVE
+  DB 1
+  DB 0
+  DB 184
+  DB 90
+  DB E_ENEMY_TYPE_MISSILE
+  DB 2 + E_ENEMY_Y_MOVE_ZERO
+  DS 5
+data_enemy_bossmissile_end:
+
 data_enemy_bossturrets_start:
   DS 12
 data_enemy_bossturrets:
@@ -591,7 +606,7 @@ data_enemy_dying_constants:
 ;---------------------------------------------------------------------------------
 
 data_enemy_update_state_switch_lookup:
-  JP lbl_do_update_enemies_case_dead				; E_ENEMY_STATE_DEAD
+  JP lbl_do_update_enemies_loop_next				; E_ENEMY_STATE_DEAD
   JP lbl_do_update_enemies_case_alive				; E_ENEMY_STATE_ALIVE
   JP lbl_do_update_enemies_case_hit_something			; E_ENEMY_STATE_HIT_WALL
   JP lbl_do_update_enemies_case_hit_something			; E_ENEMY_STATE_HIT_PLAYER
@@ -601,6 +616,8 @@ data_enemy_update_state_switch_lookup:
   JP lbl_do_update_enemies_case_damaged_shield_1		; E_ENEMY_STATE_DAMAGED_SHIELD_1
   JP lbl_do_update_enemies_case_damaged_shield_2		; E_ENEMY_STATE_DAMAGED_SHIELD_2
   JP lbl_do_update_enemies_case_damaged_shield_3		; E_ENEMY_STATE_DAMAGED_SHIELD_3
+  JP lbl_do_update_enemies_case_damaged_shield_4		; E_ENEMY_STATE_DAMAGED_SHIELD_4
+  JP lbl_do_update_enemies_case_damaged_shield_5		; E_ENEMY_STATE_DAMAGED_SHIELD_5
   JP lbl_do_update_enemies_case_damaged_shield_last		; E_ENEMY_STATE_DAMAGED_SHIELD_LAST
 
 ;---------------------------------------------------------------------------------
@@ -792,6 +809,42 @@ data_sprite_ship1_col_greenB_start:
 data_sprite_ship1_col_greenB_end:
 
 
+; packed in here to minimize waste due to alignment
+data_sprite_wall_col_14_start:
+data_sprite_wall_col_14:
+  INCBIN 'assets/wall_col_14.bin'
+data_sprite_wall_col_14_end:
+
+data_sprite_wall_col_18_start:
+data_sprite_wall_col_18:
+  INCBIN 'assets/wall_col_18.bin'
+data_sprite_wall_col_18_end:
+
+data_sprite_wall_col_1C_start:
+data_sprite_wall_col_1C:
+  INCBIN 'assets/wall_col_1C.bin'
+data_sprite_wall_col_1C_end:
+
+data_sprite_wall_col_20_start:
+data_sprite_wall_col_20:
+  INCBIN 'assets/wall_col_20.bin'
+data_sprite_wall_col_20_end:
+
+data_sprite_wall_col_24_start:
+data_sprite_wall_col_24:
+  INCBIN 'assets/wall_col_24.bin'
+data_sprite_wall_col_24_end:
+
+data_sprite_wall_col_28_start:
+data_sprite_wall_col_28:
+  INCBIN 'assets/wall_col_28.bin'
+data_sprite_wall_col_28_end:
+
+data_sprite_wall_col_2C_start:
+data_sprite_wall_col_2C:
+  INCBIN 'assets/wall_col_2C.bin'
+data_sprite_wall_col_2C_end:
+
 
 
 data_enemy_ship2_sprite_aligner:
@@ -966,6 +1019,42 @@ data_sprite_ship2_col_greenB_start:
   INCBIN 'assets/ship2_col_greenB.bin'
 data_sprite_ship2_col_greenB_end:
 
+
+; packed in here to minimize waste due to alignment
+data_sprite_wall_col_30_start:
+data_sprite_wall_col_30:
+  INCBIN 'assets/wall_col_30.bin'
+data_sprite_wall_col_30_end:
+
+data_sprite_wall_col_34_start:
+data_sprite_wall_col_34:
+  INCBIN 'assets/wall_col_34.bin'
+data_sprite_wall_col_34_end:
+
+data_sprite_wall_col_38_start:
+data_sprite_wall_col_38:
+  INCBIN 'assets/wall_col_38.bin'
+data_sprite_wall_col_38_end:
+
+data_sprite_wall_col_3C_start:
+data_sprite_wall_col_3C:
+  INCBIN 'assets/wall_col_3C.bin'
+data_sprite_wall_col_3C_end:
+
+data_sprite_wall_col_40_start:
+data_sprite_wall_col_40:
+  INCBIN 'assets/wall_col_40.bin'
+data_sprite_wall_col_40_end:
+
+data_sprite_wall_col_44_start:
+data_sprite_wall_col_44:
+  INCBIN 'assets/wall_col_44.bin'
+data_sprite_wall_col_44_end:
+
+data_sprite_wall_col_48_start:
+data_sprite_wall_col_48:
+  INCBIN 'assets/wall_col_48.bin'
+data_sprite_wall_col_48_end:
 
 
 
@@ -1143,6 +1232,43 @@ data_sprite_missile_col_greenB_end:
 
 
 
+; packed in here to minimize waste due to alignment
+data_sprite_wall_col_4C_start:
+data_sprite_wall_col_4C:
+  INCBIN 'assets/wall_col_4C.bin'
+data_sprite_wall_col_4C_end:
+
+data_sprite_wall_col_50_start:
+data_sprite_wall_col_50:
+  INCBIN 'assets/wall_col_50.bin'
+data_sprite_wall_col_50_end:
+
+data_sprite_wall_col_54_start:
+data_sprite_wall_col_54:
+  INCBIN 'assets/wall_col_54.bin'
+data_sprite_wall_col_54_end:
+
+data_sprite_wall_col_58_start:
+data_sprite_wall_col_58:
+  INCBIN 'assets/wall_col_58.bin'
+data_sprite_wall_col_58_end:
+
+data_sprite_wall_col_5C_start:
+data_sprite_wall_col_5C:
+  INCBIN 'assets/wall_col_5C.bin'
+data_sprite_wall_col_5C_end:
+
+data_sprite_wall_col_60_start:
+data_sprite_wall_col_60:
+  INCBIN 'assets/wall_col_60.bin'
+data_sprite_wall_col_60_end:
+
+data_sprite_wall_col_64_start:
+data_sprite_wall_col_64:
+  INCBIN 'assets/wall_col_64.bin'
+data_sprite_wall_col_64_end:
+
+
 
 data_enemy_roofturret_sprite_aligner:
   DS 65536 - (data_enemy_roofturret_sprite_aligner % 65536)
@@ -1316,6 +1442,43 @@ data_sprite_roofturret_col_greenB_start:
   INCBIN 'assets/roofturret_col_greenB.bin'
 data_sprite_roofturret_col_greenB_end:
 
+
+
+; packed in here to minimize waste due to alignment
+data_sprite_wall_col_68_start:
+data_sprite_wall_col_68:
+  INCBIN 'assets/wall_col_68.bin'
+data_sprite_wall_col_68_end:
+
+data_sprite_wall_col_6C_start:
+data_sprite_wall_col_6C:
+  INCBIN 'assets/wall_col_6C.bin'
+data_sprite_wall_col_6C_end:
+
+data_sprite_wall_col_70_start:
+data_sprite_wall_col_70:
+  INCBIN 'assets/wall_col_70.bin'
+data_sprite_wall_col_70_end:
+
+data_sprite_wall_col_74_start:
+data_sprite_wall_col_74:
+  INCBIN 'assets/wall_col_74.bin'
+data_sprite_wall_col_74_end:
+
+data_sprite_wall_col_78_start:
+data_sprite_wall_col_78:
+  INCBIN 'assets/wall_col_78.bin'
+data_sprite_wall_col_78_end:
+
+data_sprite_wall_col_7C_start:
+data_sprite_wall_col_7C:
+  INCBIN 'assets/wall_col_7C.bin'
+data_sprite_wall_col_7C_end:
+
+data_sprite_wall_col_80_start:
+data_sprite_wall_col_80:
+  INCBIN 'assets/wall_col_80.bin'
+data_sprite_wall_col_80_end:
 
 
 

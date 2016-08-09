@@ -217,7 +217,7 @@ func_ResetGameplay:
   LD [I], V4
  
   ; reset player
-  LDHI I, data_player_reset
+  LDHI I, data_player_gameplay_reset
   LD V3, [I]
   LDHI I, data_player_info
   LD [I], V3
@@ -273,51 +273,12 @@ func_DoGameplay:
   ; Do special flow control for gameplay state
   ; player.state is already loaded in V9
 
-lbl_do_gameplay_test_prev:
+  SNE V9, E_PLAYER_STATE_MODE_PREV
+  JP lbl_do_gameplay_test_prev
 
-  SE V9, E_PLAYER_STATE_MODE_PREV
+  SNE V9, E_PLAYER_STATE_MODE_NEXT
   JP lbl_do_gameplay_test_next
 
-  CALL func_ResetGameplay
-  
-  ; decrement game.lives
-  LDHI I, data_game_livesinfo-0				 
-  LD V1, [I]
-								; V0 = game.lives
-  								; V1 = game.const GAME_LIVES_GAMEPLAY_MASK
-								
-  AND V0, V1							; game.lives &= GAME_LIVES_GAMEPLAY_MASK
-  ADD V0, GAME_LIVES_DEC 					; game.lives--
-  LD [I], V0
-  CALL func_ChangeLives
-
-  CALL func_DrawBorder
-
-  RET
-
-lbl_do_gameplay_test_next:
-
-  SE V9, E_PLAYER_STATE_MODE_NEXT
-  JP lbl_do_gameplay_test_end
-
-  CALL func_ResetBossplay
-
-  ; update lives
-  LDHI I, data_game_livesinfo-0				 
-  LD V2, [I]
-								; V0 = game.lives
-								; V1 = game.const GAME_LIVES_GAMEPLAY_MASK
-								; V2 = game.const GAME_LIVES_BOSS_SHIFT
-  ADD V0, V2							; game.lives += GAME_LIVES_BOSS_SHIFT
-  LD [I], V0
-  CALL func_ChangeLives
-
-  CALL func_DrawBorder
-
-  RET
-
-lbl_do_gameplay_test_end:
-  
   CALL func_DrawBorder
 
   ; increment anim counter
@@ -344,6 +305,41 @@ lbl_do_gameplay_test_end:
 
   LDHI I, data_gameplay_bulletthreat_lookup
   CALL func_LoadBulletThreats
+
+  RET
+
+lbl_do_gameplay_test_prev:
+
+  CALL func_DrawBorder
+  CALL func_ResetGameplay
+  
+  ; decrement game.lives
+  LDHI I, data_game_livesinfo-0				 
+  LD V1, [I]
+								; V0 = game.lives
+  								; V1 = game.const GAME_LIVES_GAMEPLAY_MASK
+								
+  AND V0, V1							; game.lives &= GAME_LIVES_GAMEPLAY_MASK
+  ADD V0, GAME_LIVES_DEC 					; game.lives--
+  LD [I], V0
+  CALL func_ChangeLives
+
+  RET
+
+lbl_do_gameplay_test_next:
+
+  CALL func_DrawBorder
+  CALL func_ResetBossplay
+
+  ; update lives
+  LDHI I, data_game_livesinfo-0				 
+  LD V2, [I]
+								; V0 = game.lives
+								; V1 = game.const GAME_LIVES_GAMEPLAY_MASK
+								; V2 = game.const GAME_LIVES_BOSS_SHIFT
+  ADD V0, V2							; game.lives += GAME_LIVES_BOSS_SHIFT
+  LD [I], V0
+  CALL func_ChangeLives
 
   RET
 ;---------------------------------------------------------------------------------
@@ -411,10 +407,12 @@ func_ResetBossplay:
   LD VE, 0 
 
   ; load enemy threats
-  LDHI I, data_enemy_bossturrets + E_ENEMY_SLOT_0
+  LDHI I, data_enemy_bossmissile
   LD VC, [I]
+  LD V0, E_ENEMY_STATE_DEAD
   LDHI I, data_enemy_slots + E_ENEMY_SLOT_0
   LD [I], VC
+
   LDHI I, data_enemy_bossturrets + E_ENEMY_SLOT_1
   LD VC, [I]
   LDHI I, data_enemy_slots + E_ENEMY_SLOT_1
@@ -471,7 +469,7 @@ func_ResetBossplay:
   LD [I], V4
  
   ; reset player
-  LDHI I, data_player_reset
+  LDHI I, data_player_bossplay_reset
   LD V3, [I]
   LDHI I, data_player_info
   LD [I], V3
@@ -541,55 +539,11 @@ func_DoBossplay:
   ; Do special flow control for bossplay state
   ; player.state is already loaded in V9
 
-lbl_do_bossplay_test_prev:
+  SNE V9, E_PLAYER_STATE_MODE_PREV
+  JP lbl_do_bossplay_test_prev
 
-  SE V9, E_PLAYER_STATE_MODE_PREV
+  SNE V9, E_PLAYER_STATE_MODE_NEXT
   JP lbl_do_bossplay_test_next
-
-  CALL func_ResetGameplay
-  
-  ; decrement game.lives
-  LDHI I, data_game_livesinfo-0				 
-  LD V1, [I]
-								; V0 = game.lives
-  								; V1 = game.const GAME_LIVES_GAMEPLAY_MASK
-								
-  AND V0, V1							; game.lives &= GAME_LIVES_GAMEPLAY_MASK
-  ADD V0, GAME_LIVES_DEC 					; game.lives--
-  LD [I], V0
-  CALL func_ChangeLives
-
-  CALL func_DrawBorder
-
-  RET
-
-lbl_do_bossplay_test_next:
-
-  SE V9, E_PLAYER_STATE_MODE_NEXT
-  JP lbl_do_bossplay_test_end
-
-  ; update lives
-  LDHI I, data_game_livesinfo-0
-  LD V3, [I]
- 								; V0 = game.lives
-								; V1 = game.const GAME_LIVES_GAMEPLAY_MASK
-								; V2 = game.const GAME_LIVES_BOSS_SHIFT
-								; V3 = game.const GAME_LIVES_WIN_SHIFT
-
-  ADD V0, V3							; game.lives += GAME_LIVES_WIN_SHIFT
-
-  ; save updated game lives info	
-  LD [I], V3
-  CALL func_ChangeLives 
-
-  LD VD, 0
-  LD VE, 0
-
-  CALL func_DrawBorder
-
-  RET
-
-lbl_do_bossplay_test_end:
 
   ; draw score and border overlay
   CALL func_DrawBorder
@@ -610,6 +564,54 @@ lbl_do_bossplay_test_end:
   ; load any new boss bullet threats
   LDHI I, data_bossplay_bulletthreat_lookup
   CALL func_LoadBulletThreats
+
+  RET
+
+lbl_do_bossplay_test_prev:
+
+  CALL func_DrawBorder
+; changed to allow boss checkpoint
+;  CALL func_ResetGameplay
+  CALL func_ResetBossplay
+  
+  ; decrement game.lives
+  LDHI I, data_game_livesinfo-0				 
+  LD V1, [I]
+								; V0 = game.lives
+  								; V1 = game.const GAME_LIVES_GAMEPLAY_MASK
+; removed for boss checkpoint correct lives								
+;  AND V0, V1							; game.lives &= GAME_LIVES_GAMEPLAY_MASK
+  ADD V0, GAME_LIVES_DEC 					; game.lives--
+  
+; fix for boss checkpoint correct game over
+  SNE V0, E_GAME_LIVES_START_SCREEN
+  LD V0, E_GAME_LIVES_GAME_OVER 
+
+  LD [I], V0
+  CALL func_ChangeLives
+
+  RET
+
+lbl_do_bossplay_test_next:
+
+  CALL func_DrawBorder
+
+  ; update lives
+  LDHI I, data_game_livesinfo-0
+  LD V3, [I]
+ 								; V0 = game.lives
+								; V1 = game.const GAME_LIVES_GAMEPLAY_MASK
+								; V2 = game.const GAME_LIVES_BOSS_SHIFT
+								; V3 = game.const GAME_LIVES_WIN_SHIFT
+
+  ADD V0, V3							; game.lives += GAME_LIVES_WIN_SHIFT
+
+  ; save updated game lives info	
+  LD [I], V3
+  CALL func_ChangeLives 
+
+  LD VD, 0
+  LD VE, 0
 
   RET
 ;---------------------------------------------------------------------------------
@@ -1511,9 +1513,6 @@ lbl_do_update_bullets_loop_start:
 lbl_do_update_bullets_switch_start:
   JP lbl_do_update_bullets_switch_start
 
-lbl_do_update_bullets_case_dead:
-  JP lbl_do_update_bullets_loop_next
-
 lbl_do_update_bullets_case_hit_something:
 
   LD V8, 0
@@ -2138,12 +2137,6 @@ lbl_do_update_player_bossplay_now_dead:
 
   JP lbl_do_update_player_bossplay_switch_end			; break
 
-lbl_do_update_player_bossplay_case_disabled:
-
-  ; empty - do nothing
-
-  JP lbl_do_update_player_bossplay_switch_end			; break
-
 lbl_do_update_player_bossplay_now_alive:
 
   LD V9, E_PLAYER_STATE_ALIVE					; player.state = E_PLAYER_STATE_ALIVE
@@ -2281,7 +2274,7 @@ lbl_do_update_enemies_case_hit_something:
 
   LDHI I, data_sfx_boom
   RND V0, 6
-  ADD V0, 16
+  ADD V0, 12
   LD [I], V0
   LD V0, GAME_SFX_BOOM_LENGTH
   LD DT, V0
@@ -2338,12 +2331,6 @@ lbl_do_update_enemies_now_dead:
 
   JP lbl_do_update_enemies_switch_end				; break	
 
-lbl_do_update_enemies_case_dead:
-
-  ; empty 
-
-  JP lbl_do_update_enemies_loop_next				; break
-
 lbl_do_update_enemies_case_damaged_by_laser:
  
   ; mark the enemy as damaged shield
@@ -2358,6 +2345,8 @@ lbl_do_update_enemies_case_damaged_by_laser:
 lbl_do_update_enemies_case_damaged_shield_1:
 lbl_do_update_enemies_case_damaged_shield_2:
 lbl_do_update_enemies_case_damaged_shield_3:
+lbl_do_update_enemies_case_damaged_shield_4:
+lbl_do_update_enemies_case_damaged_shield_5:
 
   ; mark the enemy as damaged shield
   ADD V5, #02							; enemy.state = E_ENEMY_STATE_DAMAGED_SHIELD++
@@ -2413,8 +2402,6 @@ lbl_draw_enemy_sprite_ptr_alive:
 
   ; else enemy is still alive
 
-  ADD V7, V3							; enemy.timer += enemy.const ENEMY_ALIVE_TIMER_MOVE_INC
-
   AND V0, VB							; V0 = enemy.move & enemy.const ENEMY_ALIVE_Y_MASK
 
   LD I, lbl_do_update_enemies_movement_ptr+2
@@ -2425,6 +2412,8 @@ lbl_do_update_enemies_movement_ptr:
   ADD I, V7
   LD V0, [I]
   ADD V9, V0							; enemy.ypos += movement[enemy.move & enemy.const ENEMY_ALIVE_Y_MASK][enemy.timer]
+
+  ADD V7, V3							; enemy.timer += enemy.const ENEMY_ALIVE_TIMER_MOVE_INC
   
 lbl_do_update_enemies_switch_end:
 
@@ -2504,7 +2493,7 @@ lbl_do_boss_update_case_blink:
   LDHI I, data_boss_blink_constants-4
   LD V7, [I]
                 						; V4 = E_BOSS_SPRITE_BLINK
-               							; V5 = unused
+               							; V5 = boss.const BOSS_BLINK_MISSILE_CHANCE
     								; V6 = boss.const BOSS_BLINK_TIMER_INC
 								; V7 = boss.const BOSS_BLINK_TIMER_MAX
 
@@ -2512,14 +2501,30 @@ lbl_do_boss_update_case_blink:
 
   ADD VA, V6							; boss.timer += BOSS_BLINK_TIMER_INC
 
-  ; if (boss.timer == boss.const BOSS_BLINK_TIMER_MAX)
-  ; then boss is back to alive
-  SNE VA, V7
+  ; if (boss.timer != boss.const BOSS_BLINK_TIMER_MAX)
+  ; then boss is still blinking
+  SE VA, V7
+  JP lbl_do_boss_update_switch_end
+
+  ; else boss has finished blinking
+
+  RND V0, BOSS_BLINK_MISSILE_CHANCE
+  SE V0, BOSS_BLINK_MISSILE_CHANCE
+  JP lbl_do_boss_update_now_alive
+  
+  LDHI I, data_enemy_slot0
+  LD V0, [I]
+								; V0 = boss missile 
+  SE V0, E_ENEMY_STATE_DEAD
   JP lbl_do_boss_update_now_alive
 
-  ; else boss is still blinking
+  ; reset boss missile
+  LDHI I, data_enemy_bossmissile
+  LD V4, [I]
+  LDHI I, data_enemy_slot0
+  LD [I], V4
 
-  JP lbl_do_boss_update_switch_end				; break
+  JP lbl_do_boss_update_now_alive				
 
 lbl_do_boss_update_case_killed_by_laser:
 
@@ -2574,7 +2579,7 @@ lbl_do_boss_update_case_alive:
   ; do a blink
   LD VA, 0							; boss.timer = 0
   LD V8, E_BOSS_STATE_BLINK					; boss.state = E_BOSS_STATE_BLINK
-  
+
 lbl_do_boss_update_switch_end:
 
   ; save boss
@@ -2609,14 +2614,8 @@ func_DrawBackgroundAndParallax:
   SPRW PARALLAX_WIDTH
   SPRH PARALLAX_HEIGHT
 
-  SE VD, GAMEPLAY_GLOBALDATA_MAX
-  JP lbl_use_scrolling_parallax
-
-  LDHI I, data_sprite_parallax_A
-  DRW V3, V2, 1
-  RET
-
-lbl_use_scrolling_parallax:
+  SNE VD, GAMEPLAY_GLOBALDATA_MAX
+  JP lbl_use_fixed_parallax
 
   ; set xpos draw position
   SUB V0, VE
@@ -2636,6 +2635,11 @@ lbl_use_scrolling_parallax:
 lbl_use_parallax_A:  
   LDHI I, data_sprite_parallax_A
   DRW V0, V2, 1
+  RET
+
+lbl_use_fixed_parallax:
+  LDHI I, data_sprite_parallax_A
+  DRW V3, V2, 1
   RET
 
 ;---------------------------------------------------------------------------------
@@ -3081,16 +3085,35 @@ lbl_end_code:
 ;---------------------------------------------------------------------------------
 ; OPTIMISED MEMORY LAYOUT
 ;---------------------------------------------------------------------------------
+INCLUDE 'gameinfo.src'
+INCLUDE 'playerinfo.src'
+INCLUDE 'laserinfo.src'
+INCLUDE 'bulletinfo.src'
 
-data_sprite_border_start:
-data_sprite_border:
-  INCBIN 'assets/border.bin'
-data_sprite_border_end:
+data_sfx_death_start:
+data_sfx_death:
+  DB #13,#88,#00,#27,#10,#00
+  INCBIN 'assets/xengdeath.raw'
+data_sfx_death_end:
+
+data_sfx_laser_start:
+data_sfx_laser:
+  DB #13,#88,#00,#27,#10,#00
+  INCBIN 'assets/laser.raw'
+data_sfx_laser_end:
 
 data_sprite_wall_col_00_start:
 data_sprite_wall_col_00:
   INCBIN 'assets/wall_col_00.bin'
 data_sprite_wall_col_00_end:
+
+INCLUDE 'enemyinfo_aligned.src'
+
+data_sfx_boom_start:
+data_sfx_boom:
+  DB #13,#88,#00,#27,#10,#00
+  INCBIN 'assets/boom.raw'
+data_sfx_boom_end:
 
 data_sprite_wall_col_04_start:
 data_sprite_wall_col_04:
@@ -3102,17 +3125,19 @@ data_sprite_wall_col_08:
   INCBIN 'assets/wall_col_08.bin'
 data_sprite_wall_col_08_end:
 
+data_sprite_wall_col_0C_start:
+data_sprite_wall_col_0C:
+  INCBIN 'assets/wall_col_0C.bin'
+data_sprite_wall_col_0C_end:
 
-
-
-INCLUDE 'gameinfo.src'
-
-
-
-
-INCLUDE 'enemyinfo_aligned.src'
+data_sprite_wall_col_10_start:
+data_sprite_wall_col_10:
+  INCBIN 'assets/wall_col_10.bin'
+data_sprite_wall_col_10_end:
 
 INCLUDE 'interleaved_aligned.src'
+INCLUDE 'boss.src'
+INCLUDE 'wallinfo.src'
 
 data_sprite_title_screen_start:
 data_sprite_title_screen:
@@ -3139,52 +3164,10 @@ data_sprite_parallax_B:
   INCBIN 'assets/parallax_B.bin'
 data_sprite_parallax_B_end:
 
-;---------------------------------------------------------------------------------
-; PLAYER INFO
-;---------------------------------------------------------------------------------
-INCLUDE 'playerinfo.src'
-
-;---------------------------------------------------------------------------------
-; LASER INFO
-;---------------------------------------------------------------------------------
-INCLUDE 'laserinfo.src'
-
-;---------------------------------------------------------------------------------
-; ENEMY INFO
-;---------------------------------------------------------------------------------
-INCLUDE 'boss.src'
-
-;---------------------------------------------------------------------------------
-; BULLET INFO
-;---------------------------------------------------------------------------------
-INCLUDE 'bulletinfo.src'
-
-;---------------------------------------------------------------------------------
-; WALL INFO
-;---------------------------------------------------------------------------------
-INCLUDE 'wallinfo.src'
-
-;---------------------------------------------------------------------------------
-; GENERIC
-;---------------------------------------------------------------------------------
-
-data_sfx_laser_start:
-data_sfx_laser:
-  DB #13,#88,#00,#27,#10,#00
-  INCBIN 'assets/laser.raw'
-data_sfx_laser_end:
-
-data_sfx_boom_start:
-data_sfx_boom:
-  DB #13,#88,#00,#27,#10,#00
-  INCBIN 'assets/boom.raw'
-data_sfx_boom_end:
-
-data_sfx_death_start:
-data_sfx_death:
-  DB #13,#88,#00,#27,#10,#00
-  INCBIN 'assets/xengdeath.raw'
-data_sfx_death_end:
+data_sprite_border_start:
+data_sprite_border:
+  INCBIN 'assets/border.bin'
+data_sprite_border_end:
 
 data_sfx_bossdeath_start:
 data_sfx_bossdeath:
