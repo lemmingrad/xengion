@@ -2,183 +2,456 @@
 ; No, it has nothing to do with shooting me.
 
 
+; A note on reserved register usage:
+;
+;   VF = reserved for carry/collision. Do not use.
+;   VE = Scrollback counter. Loops continuously from 0 to 15.
+;   VD = Data index. Increments each time VE rolls around.
+;   VC = Game state. See E_GAME_STATE.
+
 ; defines
 
 
+; VC game state enum
+E_GAME_STATE_TITLE		= 0
+E_GAME_STATE_LIVES_1		= 1
+E_GAME_STATE_LIVES_2		= 2
+E_GAME_STATE_LIVES_3    	= 3
 
 
 
 
-; Initialise. Code starts here!
-MEGAON
-LDHI I, dPalette
-LDPAL 5
-CCOL 1
+
+
+
+  MEGAON			; Megachip8 mode
+
+  CCOL 1 			; Always use col index 1 for collisions		
+
+  LDHI I, dPalette		; Load a palette
+  LDPAL 5
 
 lInitialise:
-			; Some globals registers
-			; V0-V4 = Try to avoid using for local values, use for data load/save
-			; V5-VB = Local registers, or load consts
-LD VC, 0		; VC-VD = reserved
-LD VD, 0		
-LD VE, 0 		; VE = Global scrollback, in range 0-15, looping animations
-			; VF = DO NOT USE
 
+  LD VC, E_GAME_STATE_TITLE	; Game state TITLE
 
-
-
-
-fMain:
+lStartFrame:
   
-  CALL fDrawTiles
-  CALL fUpdateShip
+  CLS
+
+  ; draw BG
+;  SPRW 256
+;  SPRH 192
+;  LDHI I, dBackground
+;  LD V0, 0 
+;  DRW V0, V0, 1
+
+  ; If (game state == title) do title screen logic
+  ; else do game screen logic
+  SE VC, E_GAME_STATE_TITLE
+  JP lGameScreen
+
+lTitleScreen:
+
+  CALL fDoTitleScreen
+  JP lEndFrame
+
+lGameScreen:
+
+  CALL fDoGamePlay
+
+lEndFrame:
 
   ; Update scrollback counter
   ADD VE, 1
-  SNE VE, 16
-  LD VE, 1
+  SE VE, 16
+  JP lStartFrame
+  LD VE, 0
 
-  CLS
-  JP fMain
+  ; Update data scroller
+  SE VD, 255
+  ADD VD, 1  
+  JP lStartFrame
+
   EXIT
 
+;-----------------------------------------------------------
+fResetData:
 
+  ; reset player
+  LDHI I, dPlayerReset
+  LD V4, [I]
+  LDHI I, dPlayerInfo
+  LD [I], V4
 
+  ; reset laser
+  LDHI I, dLaserReset
+  LD V4, [I]
+  LDHI I, dLaserInfo
+  LD [I], V4
+  
+  ; reset data scroller
+  LD VD, 0
+  ; reset scrollback counter
+  LD VE, 0
+  
+  RET
 
-fUpdateShip:
+;-----------------------------------------------------------
+fDoTitleScreen
 
-  LDHI I, dShipVars
+  ; draw title
+  ; For now, just draw a placeholder
+  SPRW 32
+  SPRH 16
+  LDHI I, dBoomSprite
+  LD V0, 0
+  DRW V0, V0, 1
+
+  ; load Laser data (contains hi-score and KEY_FIRE)  
+  LDHI I, dLaserInfo
+  LD V7, [I] 
+
+  ; TODO - draw hi-score
+
+  ; if KEY_FIRE pressed, start game
+  SKP V7
+  RET
+
+  CALL fResetData
+  LD VC, E_GAME_STATE_LIVES_3
+  RET
+
+;-----------------------------------------------------------
+fDoGamePlay:
+
+  CALL fDrawWalls
+
+  LDHI I, dPlayerInfo
+  LD V4, [I]
+  LD V4, E_PLAYER_SPRITE_COLLISION
+  CALL fDrawPlayer
+  LD V5, 1
+  SNE VF, V5
+  LD V0, E_PLAYER_STATE_HIT_WALL
+  LDHI I, dPlayerInfo
+  LD [I], V4
+  
+  CALL fDoUpdatePlayer
+  
+  RET
+  
+;-----------------------------------------------------------
+fDoUpdatePlayer:
+
+  ; set up switch
+  LDHI I, dPlayerInfo
+  LD V0, [I]
+  LDHI I, dPlayerUpdateSwitchLookup
+  ADD I, V0
+  LD V1, [I]
+  LD I, lPlayerUpdateSwitchOverwrite
+  LD [I], V1
+
+  ; load player info
+  LDHI I, dPlayerInfo
   LD VB, [I]
-  SKNP V8		; KEY_RIGHT pressed
-  ADD V4, V6            ; dShipVars.x += SHIP_SPEED_X
-  SKNP V9		; KEY_LEFT pressed
-  SUB V4, V6		; dShipVars.x -= SHIP_SPEED_x
-  LD V6, 0
-  SKP VA		; KEY_DOWN pressed
-  JP lUp
-  ADD V5, V7		; dShipVars.y += SHIP_SPEED_Y
-  LD V6, 1
-lUp:
-  SKP VB               ; KEY_UP pressed
-  JP lDone
-  SUB V5, V7		; dShipVars.y -= SHIP_SPEED_Y
-  LD V6, 2
-lDone:
+
+  LD V4, VE				; player.sprite = scrollback counter
+
+lPlayerUpdateSwitchOverwrite:
+  JP lPlayerUpdatePostDraw
+
+lPlayerUpdateCaseAlive:
+  SKP V8				; test KEY_RIGHT
+  JP lPlayerUpdateTestKeyLeft
+  LD V4, E_PLAYER_SPRITE_MOVE_RIGHT 	; player.sprite = E_PLAYER_SPRITE_MOVE_RIGHT
+  ADD V2, V5				; player.xpos += PLAYER_SPEED_X 
+lPlayerUpdateTestKeyLeft:
+  SKP V9
+  JP lPlayerUpdateTestKeyDown
+  LD V4, E_PLAYER_SPRITE_MOVE_LEFT	; player.sprite = E_PLAYER_SPRITE_MOVE_LEFT	
+  SUB V2, V5				; player.xpos -= PLAYER_SPEED_X
+lPlayerUpdateTestKeyDown:
+  SKP VA 
+  JP lPlayerUpdateTestKeyUp
+  LD V4, E_PLAYER_SPRITE_MOVE_DOWN	; player.sprite = E_PLAYER_SPRITE_MOVE_DOWN
+  ADD V3, V6				; player.ypos += PLAYER_SPEED_Y
+lPlayerUpdateTestKeyUp:
+  SKP VB
+  JP lPlayerUpdatePreDraw		
+  LD V4, E_PLAYER_SPRITE_MOVE_UP	; player.sprite = E_PLAYER_SPRITE_MOVE_UP
+  SUB V3, V6				; player.ypos -= PLAYER_SPEED_Y
+  JP lPlayerUpdatePreDraw
+
+lPlayerUpdateCaseHitWall:
+lPlayerUpdateCaseHitEnemy:
+lPlayerUpdateCaseHitBullet:
+  LD V1, 0				; player.timer reset
+  LD V0, E_PLAYER_STATE_DYING		; player.state = E_PLAYER_STATE_DYING
+  ; fall through
+
+lPlayerUpdateCaseDying:
+  ADD V4, 16				; player.sprite += death sprite index offset
+  ADD V1, 1				; player.timer++
+  SNE V1, V7				; if (player.timer < PLAYER_TIMER_MAX)
+  JP lPlayerUpdatePreDraw
+  ADD VC, 255				; game state--
+  CALL fResetData 
+  ; fall through
+
+lPlayerUpdatePreDraw:
+  CALL fDrawPlayer  
+
+lPlayerUpdatePostDraw:
+
+  ; save player info
+  LDHI I, dPlayerInfo
   LD [I], V5
 
+  RET
+
+;-----------------------------------------------------------
+fDrawPlayer:
+
+  ; We need some spare registers, so backup a few to R
+  LD R, V4  
+
   SPRW 32
   SPRH 16
-
-  SHL V6
-  SHL V6
-  LDHI I, dShipSet
-  ADD I, V6
+  LD V0, V4			; V0 = player.sprite 
+  SHL V0
+  SHL V0			; V0 *= 4 
+  LDHI I, dPlayerSpriteLookup
+  ADD I, V0
   LD V3, [I]
-  LD I, temp
-  LD [I], V3  
-temp:
-  LDHI I, temp
+  LDHI I, lDrawPlayerOverwrite
+  LD [I], V3
 
-  DRW V4, V5, 1
-  SE VF, 0
-  CALL fDrawBoom
+lDrawPlayerOverwrite
+  LDHI I, lDrawPlayerOverwrite  
+
+  ; restore registers from R
+  LD V4, R
+  ; draw player sprite
+  DRW V2, V3, 1			; draw at player.xpos, player.ypos
   RET
 
-dShipSet:
-  LDHI I, dShipSpriteNormal
-  LDHI I, dShipSpriteDown
-  LDHI I, dShipSpriteUp
-
-fDrawBoom:
-  SPRW 32
-  SPRH 16
-  LDHI I, dBoom
-  LD V1, 100
-  DRW V1, V9, 1
-  RET
-
-fDrawTiles:
+;-----------------------------------------------------------
+fDrawWalls:
   SPRW 16
   SPRH 16
-  LD VA, 0       	; VA = cumulative index
-  LD VB, 16		; VB = Horizontal loop, xpos
-  lHLoop:  
-    LD VC, 16		; VC = Vertical loop, ypos
-    lVLoop:
+  
+  LD V8, 0		  	; V8 = wall loop, 0-14
+  LD V9, 16			; V9 = sprite xpos offset
 
-      LDHI I, dTileMap
-      ADD I, VA
-      LD V0, [I]	; V0 = tile to use
+lDrawWallsLoop:
 
-;SNE followed by LDHI DOESNT WORK!
+  ; get wall sprite index
+  LDHI I, dTileMap  
+; ADD I, VD 			; add data scroller
+  ADD I, V8			; add wall loop
+  LD V0, [I]
+ 
+  ; convert index into lookup address
+  SHL V0
+  SHL V0
+  LDHI I, dCollisionLookup
+  ADD I, V0
+  LD V3, [I]
+  LD I, lDrawWallsOverwrite
+  LD [I], V3
 
-      SNE V0, 1
-      LD I, dCollisionFull
-      SNE V0, 2
-      LD I, dCollisionFloorUp
-      SNE V0, 3
-      LD I, dCollisionFloorDown
-      SNE V0, 4
-      LD I, dCollisionRoofDown
-      SNE V0, 5
-      LD I, dCollisionRoofUp
+lDrawWallsOverwrite:
+  LDHI I, lDrawWallsOverwrite
 
-      LD VD, VB
-      SUB VD, VE
-      SE V0, 0
-      DRW VD, VC, 1
-      
-      ADD VA, 1
-      ADD VC, 16
-      SE VC, 176
-      JP lVLoop
+  ; draw wall sprite
+  LD VA, V9 
+  LD V0, 0
+  SUB VA, VE
+  DRW VA, V0, 1
 
-    ADD VB, 16
-    SE VB, 0
-    JP lHLoop
+  ADD V9, 16
+  ADD V8, 1
+  SE V8, 15
+  JP lDrawWallsLoop
+
   RET
 
 
 
 
 
-KEY_FIRE 		= 1
 
-E_SHIP_STATE_DEAD	= 0
-E_SHIP_STATE_ALIVE_1	= 1
-E_SHIP_STATE_DYING_1	= 2
-E_SHIP_STATE_ALIVE_2	= 3
-E_SHIP_STATE_DYING_2	= 4
-E_SHIP_STATE_ALIVE_3	= 5
-E_SHIP_STATE_DYING_3	= 6
-E_SHIP_STATE_HIT_WALL	= 7
-E_SHIP_STATE_HIT_BULLET	= 8
-E_SHIP_STATE_HIT_ENEMY 	= 9
 
-E_SHIP_BOOM_FRAME_0	= 0
-E_SHIP_BOOM_FRAME_1	= 1
-E_SHIP_BOOM_FRAME_2	= 2
-E_SHIP_BOOM_FRAME_3	= 3
-E_SHIP_BOOM_FRAME_4	= 4
-E_SHIP_BOOM_FRAME_5	= 5
-E_SHIP_BOOM_FRAME_6	= 6
-E_SHIP_BOOM_FRAME_7	= 7
 
-dShipVars:
-  DB 0			; dShipVars.eState
-  DB 0			; reserved
-  DB 0			; reserved
-  DB 0			; dShipVars.eBoomFrame, range 0-7
-  DB 50			; dShipVars.x, range 0-224
-  DB 70			; dShipVars.y, range 16-160
-  DB 2 			; const SHIP_SPEED_X
-  DB 2 			; const SHIP_SPEED_Y
-  DB 9 			; const KEY_RIGHT
-  DB 7 			; const KEY_LEFT
-  DB 8 			; const KEY_DOWN
-  DB 5 			; const KEY_UP
+;-----------------------------------------------------------
+
+E_PLAYER_STATE_DEAD		= 0
+E_PLAYER_STATE_ALIVE		= 2
+E_PLAYER_STATE_HIT_WALL		= 4
+E_PLAYER_STATE_HIT_ENEMY	= 6
+E_PLAYER_STATE_HIT_BULLET	= 8
+E_PLAYER_STATE_DYING		= 10
+
+E_PLAYER_SPRITE_ALIVE_0		= 0
+E_PLAYER_SPRITE_ALIVE_1		= 1
+E_PLAYER_SPRITE_ALIVE_2		= 2
+E_PLAYER_SPRITE_ALIVE_3		= 3
+E_PLAYER_SPRITE_ALIVE_4		= 4
+E_PLAYER_SPRITE_ALIVE_5		= 5
+E_PLAYER_SPRITE_ALIVE_6		= 6
+E_PLAYER_SPRITE_ALIVE_7		= 7
+E_PLAYER_SPRITE_ALIVE_8		= 8
+E_PLAYER_SPRITE_ALIVE_9		= 9
+E_PLAYER_SPRITE_ALIVE_10	= 10
+E_PLAYER_SPRITE_ALIVE_11	= 11
+E_PLAYER_SPRITE_ALIVE_12	= 12
+E_PLAYER_SPRITE_ALIVE_13	= 13
+E_PLAYER_SPRITE_ALIVE_14	= 14
+E_PLAYER_SPRITE_ALIVE_15	= 15
+E_PLAYER_SPRITE_DYING_0		= 16
+E_PLAYER_SPRITE_DYING_1		= 17
+E_PLAYER_SPRITE_DYING_2		= 18
+E_PLAYER_SPRITE_DYING_3		= 19
+E_PLAYER_SPRITE_DYING_4		= 20
+E_PLAYER_SPRITE_DYING_5		= 21
+E_PLAYER_SPRITE_DYING_6		= 22
+E_PLAYER_SPRITE_DYING_7		= 23
+E_PLAYER_SPRITE_DYING_8		= 24
+E_PLAYER_SPRITE_DYING_9		= 25
+E_PLAYER_SPRITE_DYING_10	= 26
+E_PLAYER_SPRITE_DYING_11	= 27
+E_PLAYER_SPRITE_DYING_12	= 28
+E_PLAYER_SPRITE_DYING_13	= 29
+E_PLAYER_SPRITE_DYING_14	= 30
+E_PLAYER_SPRITE_DYING_15	= 31
+E_PLAYER_SPRITE_MOVE_UP		= 32
+E_PLAYER_SPRITE_MOVE_DOWN	= 33
+E_PLAYER_SPRITE_MOVE_LEFT	= 34
+E_PLAYER_SPRITE_MOVE_RIGHT	= 35
+E_PLAYER_SPRITE_CLEAR_COLLISION = 36
+E_PLAYER_SPRITE_COLLISION	= 37
+E_PLAYER_SPRITE_MAXCOUNT	= 38
+		
+KEY_RIGHT			= 9
+KEY_LEFT 			= 7 
+KEY_DOWN			= 8 
+KEY_UP				= 5
+
+PLAYER_START_XPOS		= 50
+PLAYER_START_YPOS		= 70
+PLAYER_SPEED_X			= 2
+PLAYER_SPEED_Y			= 2
+PLAYER_TIMER_MAX		= 8
+
+dPlayerInfo:
+  DB 0				; 0 player.state
+  DB 0				; 1 player.timer
+  DB 0				; 2 player.xpos, range 0-224
+  DB 0				; 3 player.ypos, range 16-160
+  DB 0                          ; 4 player.sprite, E_PLAYER_SPRITE_n
+  DB 2				; 5 player.const PLAYER_SPEED_X
+  DB 2				; 6 player.const PLAYER_SPEED_Y
+  DB 8				; 7 player.const PLAYER_TIMER_MAX
+  DB 9				; 8 player.const KEY_RIGHT 
+  DB 7				; 9 player.const KEY_LEFT
+  DB 8				; A player.const KEY_DOWN
+  DB 5				; B player.const KEY_UP
  
-dShipSpriteNormal:
+dPlayerReset:
+  DB 2				; 0 player.state = E_PLAYER_STATE_ALIVE
+  DB 0				; 1 player.timer = 0
+  DB 50				; 2 player.xpos = PLAYER_START_XPOS
+  DB 70				; 3 player.ypos = PLAYER_START_YPOS
+ 
+dPlayerUpdateSwitchLookup:
+  JP lPlayerUpdatePostDraw
+  JP lPlayerUpdateCaseAlive
+  JP lPlayerUpdateCaseHitWall
+  JP lPlayerUpdateCaseHitEnemy
+  JP lPlayerUpdateCaseHitBullet
+  JP lPlayerUpdateCaseDying
+
+dPlayerSpriteLookup:
+  LDHI I, dPlayerSpriteNormal
+  LDHI I, dPlayerSpriteNormal
+  LDHI I, dPlayerSpriteNormal
+  LDHI I, dPlayerSpriteNormal
+  LDHI I, dPlayerSpriteNormal
+  LDHI I, dPlayerSpriteNormal
+  LDHI I, dPlayerSpriteNormal
+  LDHI I, dPlayerSpriteNormal
+  LDHI I, dPlayerSpriteNormal
+  LDHI I, dPlayerSpriteNormal
+  LDHI I, dPlayerSpriteNormal
+  LDHI I, dPlayerSpriteNormal
+  LDHI I, dPlayerSpriteNormal
+  LDHI I, dPlayerSpriteNormal
+  LDHI I, dPlayerSpriteNormal
+  LDHI I, dPlayerSpriteNormal
+  
+  LDHI I, dPlayerSpriteNormal
+  LDHI I, dPlayerSpriteUp
+  LDHI I, dPlayerSpriteDown
+  LDHI I, dBoomSprite
+  LDHI I, dPlayerSpriteNormal
+  LDHI I, dPlayerSpriteUp
+  LDHI I, dPlayerSpriteDown
+  LDHI I, dBoomSprite
+  LDHI I, dPlayerSpriteNormal
+  LDHI I, dPlayerSpriteUp
+  LDHI I, dPlayerSpriteDown
+  LDHI I, dBoomSprite
+  LDHI I, dPlayerSpriteNormal
+  LDHI I, dPlayerSpriteUp
+  LDHI I, dPlayerSpriteDown
+  LDHI I, dBoomSprite
+  
+  LDHI I, dPlayerSpriteUp
+  LDHI I, dPlayerSpriteDown
+  LDHI I, dPlayerSpriteNormal
+  LDHI I, dPlayerSpriteNormal
+  LDHI I, dPlayerSpriteClearCollision 
+  LDHI I, dPlayerSpriteCollision
+
+dPlayerSpriteCollision:
+  DB 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+  DB 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+  DB 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+  DB 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+  DB 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+  DB 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+  DB 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+  DB 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+  DB 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+  DB 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+  DB 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+  DB 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+  DB 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+  DB 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+  DB 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+  DB 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+
+dPlayerSpriteClearCollision:
+  DB 2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2
+  DB 2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2
+  DB 2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2
+  DB 2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2
+  DB 2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2
+  DB 2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2
+  DB 2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2
+  DB 2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2
+  DB 2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2
+  DB 2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2
+  DB 2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2
+  DB 2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2
+  DB 2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2
+  DB 2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2
+  DB 2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2
+  DB 2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2
+  
+dPlayerSpriteNormal:
   DB 0,0,0,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
   DB 0,0,0,2,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
   DB 0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
@@ -195,7 +468,8 @@ dShipSpriteNormal:
   DB 0,0,0,0,0,2,0,2,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
   DB 0,0,0,0,0,2,0,2,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
   DB 0,0,0,0,0,0,2,2,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-dShipSpriteUp:
+
+dPlayerSpriteUp:
   DB 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
   DB 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
   DB 0,0,0,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
@@ -212,7 +486,8 @@ dShipSpriteUp:
   DB 0,0,0,0,0,2,2,2,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
   DB 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
   DB 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-dShipSpriteDown:
+
+dPlayerSpriteDown:
   DB 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
   DB 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
   DB 0,0,0,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
@@ -230,36 +505,49 @@ dShipSpriteDown:
   DB 0,0,0,0,0,2,0,2,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
   DB 0,0,0,0,0,0,2,2,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 
+;-----------------------------------------------------------
 
+E_LASER_STATE_DEAD		= 0		
+E_LASER_STATE_ALIVE		= 2
+E_LASER_STATE_HIT_WALL		= 4
+E_LASER_STATE_HIT_ENEMY		= 6
+E_LASER_STATE_DYING		= 8
 
+KEY_FIRE 			= 1
+
+LASER_OFFSET_X			= 32
+LASER_SPEED_X			= 4
+
+dLaserInfo:
+  DB 0				; 0 laser.state
+  DB 0				; 1 laser.score
+  DB 0				; 2 laser.timer
+  DB 0				; 3 laser.xpos
+  DB 0 				; 4 laser.ypos 
+  DB 0				; 5 laser.hi-score
+  DB 4				; 6 laser.const LASER_SPEED_X
+  DB 1				; 7 laser.const KEY_FIRE
+
+dLaserReset:
+  DB 0				; 0 laser.state = E_LASER_STATE_DEAD
+  DB 0				; 1 laser.score = 0
+  DB 0				; 2 laser.timer = 0
+  DB 32				; 3 laser.xpos = LASER_OFFSET_X
+  DB 0 				; 4 laser.ypos = 0
 
 
 
 
 
 dTileMap:
-  DB 1,0,0,0,0,0,0,0,0,1
-  DB 1,4,0,0,0,0,0,0,2,1
-  DB 1,1,0,0,0,0,0,0,1,1
-  DB 1,5,0,0,0,0,0,0,3,1
-  DB 1,0,0,0,0,0,0,0,0,1
-  DB 1,0,0,0,0,0,0,0,0,1
-  DB 1,0,0,0,0,0,0,0,0,1
-  DB 1,0,0,0,0,0,0,0,0,1
-  DB 1,0,0,0,0,0,0,0,0,1
-  DB 1,0,0,0,0,0,0,0,0,1
-  DB 1,0,0,0,0,0,0,0,0,1
-  DB 1,0,0,0,0,0,0,0,0,1
-  DB 1,0,0,0,0,0,0,0,0,1
-  DB 1,0,0,0,0,0,0,0,0,1
-  DB 1,1,1,1,1,1,1,1,1,1
+  DB 0,1,2,3,4,0,4,3,2,1,0,3,1,2,4,0 
 
-
-
-
-
-
-
+dCollisionLookup:
+  LDHI I, dCollisionFull
+  LDHI I, dCollisionFloorUp
+  LDHI I, dCollisionFloorDown
+  LDHI I, dCollisionRoofDown
+  LDHI I, dCollisionRoofUp
 
 dCollisionFull:
   DB 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
@@ -351,8 +639,7 @@ dCollisionRoofUp:
   DB 1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0
   DB 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 
-dBoom:
-
+dBoomSprite:
   DB 3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3
   DB 3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3
   DB 3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3
@@ -371,8 +658,10 @@ dBoom:
   DB 3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3
 
 dPalette:
-  DB #FF, #FF, #55, #FF
-  DB #FF, #FF, #FF, #FF
-  DB #FF, #FF, #00, #00
-  DB #FF, #00, #FF, #00
-  DB #FF, #00, #00, #FF
+  DB #FF, #FF, #55, #FF    ; 1 = collision index. PINK
+  DB #FF, #FF, #FF, #FF    ; 2 = black
+  DB #FF, #FF, #FF, #FF    ; 3 = white
+  DB #FF, #FF, #00, #00    ; 4 = red
+  DB #FF, #00, #FF, #00    ; 5 = green
+  DB #FF, #00, #00, #FF    ; 6 = blue
+
