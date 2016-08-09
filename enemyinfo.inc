@@ -87,7 +87,7 @@ data_enemy_slot_0:
   DB 220							; enemy.xpos
   DB 150							; enemy.ypos
   DB E_ENEMY_TYPE_SHIP_1		 			; enemy.type
-  DB 1 + E_ENEMY_Y_MOVEMENT_POS64_S16			; enemy.move
+  DB 1 + E_ENEMY_Y_MOVE_POS32_SIN64			; enemy.move
   DB 0								; enemy.timer
   DB 0								; reserved
 data_enemy_slot_1:
