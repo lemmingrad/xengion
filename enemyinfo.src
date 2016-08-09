@@ -65,9 +65,6 @@ E_ENEMY_SPRITE_DYING_7						= #9C
 E_ENEMY_SPRITE_CLEAR_COLLISION					= #A0
 E_ENEMY_SPRITE_COLLISION					= #A4
 
-ENEMY_WIDTH							= 32
-ENEMY_HEIGHT							= 16
-
 ENEMY_ALIVE_XPOS_MIN						= 0
 ENEMY_ALIVE_X_MOVE_MASK						= #03
 ENEMY_ALIVE_Y_MOVE_MASK						= #FC
@@ -158,15 +155,15 @@ data_enemy_slot_4:
 
   DS 12
 data_enemy_alive_constants:
-  DB ENEMY_ALIVE_X_MOVE_MASK					; V2 enemy.const ENEMY_ALIVE_X_MOVE_MASK
-  DB ENEMY_ALIVE_Y_MOVE_MASK					; V3 enemy.const ENEMY_ALIVE_Y_MOVE_MASK
-  DB ENEMY_ALIVE_XPOS_MIN					; V4 enemy.const ENEMY_ALIVE_XPOS_MIN
+  DB ENEMY_ALIVE_X_MOVE_MASK					; enemy.const ENEMY_ALIVE_X_MOVE_MASK
+  DB ENEMY_ALIVE_Y_MOVE_MASK					; enemy.const ENEMY_ALIVE_Y_MOVE_MASK
+  DB ENEMY_ALIVE_XPOS_MIN					; enemy.const ENEMY_ALIVE_XPOS_MIN
 
   DS 12
 data_enemy_dying_constants:
-  DB ENEMY_DYING_XPOS_MIN					; V2 enemy.const ENEMY_DYING_XPOS_MIN
-  DB ENEMY_DYING_SPEED_X					; V3 enemy.const ENEMY_DYING_SPEED_X 
-  DB ENEMY_DYING_TIMER_MAX					; V4 enemy.const ENEMY_DYING_TIMER_MAX
+  DB ENEMY_DYING_XPOS_MIN					; enemy.const ENEMY_DYING_XPOS_MIN
+  DB ENEMY_DYING_SPEED_X					; enemy.const ENEMY_DYING_SPEED_X 
+  DB ENEMY_DYING_TIMER_MAX					; enemy.const ENEMY_DYING_TIMER_MAX
 
 data_enemy_update_state_switch_lookup:
   JP lbl_do_update_enemies_case_dead				; E_ENEMY_STATE_DEAD
@@ -182,26 +179,32 @@ data_enemy_type_lookup:
   LDHI I, data_enemy_missile_sprite_lookup			; E_ENEMY_TYPE_MISSILE
   LDHI I, data_enemy_turret_sprite_lookup			; E_ENEMY_TYPE_TURRET
 
+
+
+
+ENEMY_WIDTH = 32
+ENEMY_HEIGHT = 32
+
 data_enemy_ship_1_sprite_lookup:
 data_enemy_ship_2_sprite_lookup:
 data_enemy_missile_sprite_lookup:
 data_enemy_turret_sprite_lookup:
-  LDHI I, data_enemy_ship_1_sprite_collision			; E_ENEMY_SPRITE_ALIVE_0
-  LDHI I, data_enemy_ship_1_sprite_collision			; E_ENEMY_SPRITE_ALIVE_1
-  LDHI I, data_enemy_ship_1_sprite_collision			; E_ENEMY_SPRITE_ALIVE_2
-  LDHI I, data_enemy_ship_1_sprite_collision			; E_ENEMY_SPRITE_ALIVE_3
-  LDHI I, data_enemy_ship_1_sprite_collision			; E_ENEMY_SPRITE_ALIVE_4
-  LDHI I, data_enemy_ship_1_sprite_collision			; E_ENEMY_SPRITE_ALIVE_5
-  LDHI I, data_enemy_ship_1_sprite_collision			; E_ENEMY_SPRITE_ALIVE_6
-  LDHI I, data_enemy_ship_1_sprite_collision			; E_ENEMY_SPRITE_ALIVE_7
-  LDHI I, data_enemy_ship_1_sprite_collision			; E_ENEMY_SPRITE_ALIVE_8
-  LDHI I, data_enemy_ship_1_sprite_collision			; E_ENEMY_SPRITE_ALIVE_9
-  LDHI I, data_enemy_ship_1_sprite_collision			; E_ENEMY_SPRITE_ALIVE_10
-  LDHI I, data_enemy_ship_1_sprite_collision			; E_ENEMY_SPRITE_ALIVE_11
-  LDHI I, data_enemy_ship_1_sprite_collision			; E_ENEMY_SPRITE_ALIVE_12
-  LDHI I, data_enemy_ship_1_sprite_collision			; E_ENEMY_SPRITE_ALIVE_13
-  LDHI I, data_enemy_ship_1_sprite_collision			; E_ENEMY_SPRITE_ALIVE_14
-  LDHI I, data_enemy_ship_1_sprite_collision			; E_ENEMY_SPRITE_ALIVE_15
+  LDHI I, data_sprite_ship1_alive0				; E_ENEMY_SPRITE_ALIVE_0
+  LDHI I, data_sprite_ship1_alive0				; E_ENEMY_SPRITE_ALIVE_1
+  LDHI I, data_sprite_ship1_alive0				; E_ENEMY_SPRITE_ALIVE_2
+  LDHI I, data_sprite_ship1_alive0				; E_ENEMY_SPRITE_ALIVE_3
+  LDHI I, data_sprite_ship1_alive1				; E_ENEMY_SPRITE_ALIVE_4
+  LDHI I, data_sprite_ship1_alive1				; E_ENEMY_SPRITE_ALIVE_5
+  LDHI I, data_sprite_ship1_alive1				; E_ENEMY_SPRITE_ALIVE_6
+  LDHI I, data_sprite_ship1_alive1				; E_ENEMY_SPRITE_ALIVE_7
+  LDHI I, data_sprite_ship1_alive2				; E_ENEMY_SPRITE_ALIVE_8
+  LDHI I, data_sprite_ship1_alive2				; E_ENEMY_SPRITE_ALIVE_9
+  LDHI I, data_sprite_ship1_alive2				; E_ENEMY_SPRITE_ALIVE_10
+  LDHI I, data_sprite_ship1_alive2				; E_ENEMY_SPRITE_ALIVE_11
+  LDHI I, data_sprite_ship1_alive3				; E_ENEMY_SPRITE_ALIVE_12
+  LDHI I, data_sprite_ship1_alive3				; E_ENEMY_SPRITE_ALIVE_13
+  LDHI I, data_sprite_ship1_alive3				; E_ENEMY_SPRITE_ALIVE_14
+  LDHI I, data_sprite_ship1_alive3				; E_ENEMY_SPRITE_ALIVE_15
   LDHI I, data_enemy_ship_1_sprite_collision			; E_ENEMY_SPRITE_DAMAGED_0
   LDHI I, data_enemy_ship_1_sprite_collision			; E_ENEMY_SPRITE_DAMAGED_1
   LDHI I, data_enemy_ship_1_sprite_collision			; E_ENEMY_SPRITE_DAMAGED_2
@@ -229,7 +232,35 @@ data_enemy_turret_sprite_lookup:
   LDHI I, data_enemy_ship_1_sprite_collision			; E_ENEMY_SPRITE_CLEAR_COLLISION
   LDHI I, data_enemy_ship_1_sprite_collision			; E_ENEMY_SPRITE_COLLISION
 
+data_sprite_ship1_alive0:
+  INCBIN 'ship1_alive0.bin'
+
+data_sprite_ship1_alive1:
+  INCBIN 'ship1_alive1.bin'
+
+data_sprite_ship1_alive2:
+  INCBIN 'ship1_alive2.bin'
+
+data_sprite_ship1_alive3:
+  INCBIN 'ship1_alive3.bin'
+
 data_enemy_ship_1_sprite_collision:
+  DB 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+  DB 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+  DB 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+  DB 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+  DB 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+  DB 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+  DB 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+  DB 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+  DB 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+  DB 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+  DB 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+  DB 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+  DB 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+  DB 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+  DB 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+  DB 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
   DB 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
   DB 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
   DB 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1

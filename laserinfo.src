@@ -35,13 +35,13 @@ E_LASER_SPRITE_DYING_7						= #5C
 E_LASER_SPRITE_DYING_8						= #60
 E_LASER_SPRITE_DYING_9						= #64
 E_LASER_SPRITE_DYING_10						= #68
-E_LASER_SPRITE_DYING_11						= #70
-E_LASER_SPRITE_DYING_12						= #74
-E_LASER_SPRITE_DYING_13						= #78
-E_LASER_SPRITE_DYING_14						= #7C
-E_LASER_SPRITE_DYING_15						= #80
-E_LASER_SPRITE_CLEAR_COLLISION					= #84
-E_LASER_SPRITE_COLLISION					= #88
+E_LASER_SPRITE_DYING_11						= #6C
+E_LASER_SPRITE_DYING_12						= #70
+E_LASER_SPRITE_DYING_13						= #74
+E_LASER_SPRITE_DYING_14						= #78
+E_LASER_SPRITE_DYING_15						= #7C
+E_LASER_SPRITE_CLEAR_COLLISION					= #80
+E_LASER_SPRITE_COLLISION					= #84
 
 KEY_FIRE 							= 1
 
@@ -76,8 +76,6 @@ data_laser_alive_constants:
   DB LASER_ALIVE_XPOS_MAX					; laser.const LASER_ALIVE_XPOS_MAX
   DB LASER_ALIVE_SPEED_X					; laser.const LASER_ALIVE_SPEED_X
 
-;---------------------------------------------------------------------------------
-
   DS 12
 data_laser_dead_constants:
   DB LASER_DEAD_OFFSET_X					; laser.const LASER_DEAD_OFFSET_X
@@ -91,6 +89,8 @@ data_laser_dying_constants:
   DB 0								; empty
   DB LASER_DYING_TIMER_MAX					; laser.const LASER_DYING_TIMER_MAX
 
+;---------------------------------------------------------------------------------
+
   DS 12
 data_laser_reset:
   DB 0								; laser.timer = 0
@@ -99,12 +99,16 @@ data_laser_reset:
   DB E_LASER_STATE_DEAD						; laser.state = E_LASER_STATE_DEAD
   DB 0								; laser.charge = 0
 
+;---------------------------------------------------------------------------------
+
 data_laser_update_state_switch_lookup:
   JP lbl_do_update_laser_case_dead				; E_LASER_STATE_DEAD
   JP lbl_do_update_laser_case_alive				; E_LASER_STATE_ALIVE
   JP lbl_do_update_laser_case_hit_wall				; E_LASER_STATE_HIT_WALL
   JP lbl_do_update_laser_case_hit_enemy				; E_LASER_STATE_HIT_ENEMY
   JP lbl_do_update_laser_case_dying				; E_LASER_STATE_DYING
+
+;---------------------------------------------------------------------------------
 
 data_laser_sprite_lookup:
   LDHI I, data_laser_sprite_collision				; E_LASER_SPRITE_ALIVE_0
@@ -159,4 +163,6 @@ data_laser_sprite_collision:
   DB 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
   DB 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
   DB 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+
+;---------------------------------------------------------------------------------
 

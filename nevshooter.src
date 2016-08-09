@@ -157,38 +157,38 @@ func_DoTitleScreen:
   SHL V6
   SHL V6
 
-  SPRW GAME_NUMBER_WIDTH
-  SPRH GAME_NUMBER_HEIGHT
+  SPRW NUMBER_WIDTH
+  SPRH NUMBER_HEIGHT
 
   ; draw hi-score 100s
-;  LDHI I, data_game_number_sprite_lookup
-;  ADD I, V4
-;  LD V3, [I]
-;  LD I, lbl_game_start_screen_ptr1
-;  LD [I], V3
-;lbl_game_start_screen_ptr1:
-;  LDHI I, lbl_game_start_screen_ptr1
-;  DRW V8, V7, 1
+  LDHI I, data_number_lookup
+  ADD I, V4
+  LD V3, [I]
+  LD I, lbl_game_start_screen_ptr1
+  LD [I], V3
+lbl_game_start_screen_ptr1:
+  LDHI I, lbl_game_start_screen_ptr1
+  DRW V8, V7, 1
 
   ; draw hi-score 10s
-;  LDHI I, data_game_number_sprite_lookup
-;  ADD I, V5
-;  LD V3, [I]
-;  LD I, lbl_game_start_screen_ptr2
-;  LD [I], V3
-;lbl_game_start_screen_ptr2:
-;  LDHI I, lbl_game_start_screen_ptr2
-;  DRW V9, V7, 1
+  LDHI I, data_number_lookup
+  ADD I, V5
+  LD V3, [I]
+  LD I, lbl_game_start_screen_ptr2
+  LD [I], V3
+lbl_game_start_screen_ptr2:
+  LDHI I, lbl_game_start_screen_ptr2
+  DRW V9, V7, 1
 
-;  ; draw hi-score 1s
-;  LDHI I, data_game_number_sprite_lookup
-;  ADD I, V6
-;  LD V3, [I]
-;  LD I, lbl_game_start_screen_ptr3
-;  LD [I], V3
-;lbl_game_start_screen_ptr3:
-;  LDHI I, lbl_game_start_screen_ptr3
-;  DRW VA, V7, 1
+  ; draw hi-score 1s
+  LDHI I, data_number_lookup
+  ADD I, V6
+  LD V3, [I]
+  LD I, lbl_game_start_screen_ptr3
+  LD [I], V3
+lbl_game_start_screen_ptr3:
+  LDHI I, lbl_game_start_screen_ptr3
+  DRW VA, V7, 1
 
   ; if (KEY_START != pressed)
   ; then return
@@ -226,6 +226,7 @@ func_DoGameplay:
 ; CALL func_DrawBorder
 
 ;  CALL func_DrawCollisionWalls
+
   CALL func_DoUpdateEnemies
   CALL func_DoUpdatePlayer
   CALL func_DoUpdateLaser
@@ -258,8 +259,9 @@ func_DoGameplay:
 func_DoEnemyVsLaser:
 
   ; load laser
-  LDHI I, data_laser_info-9
+  LDHI I, data_laser_info-8
   LD VC, [I]
+								; V8 = laser.timer
 								; V9 = laser.xpos
 								; VA = laser.ypos
 								; VB = laser.state
@@ -382,7 +384,7 @@ lbl_enemy_vs_laser_loop_next:
 lbl_enemy_vs_laser_end:
 
   ; save updated laser info
-  LDHI I, data_laser_info-9
+  LDHI I, data_laser_info-8
   LD VA, [I]
   LD [I], VC  
 
@@ -397,8 +399,9 @@ func_DoLaserVsWalls:
   ; collision walls should have already been drawn
 
   ; load laser
-  LDHI I, data_laser_info-9
+  LDHI I, data_laser_info-8
   LD VC, [I]
+								; V8 = laser.timer
 								; V9 = laser.xpos
 								; VA = laser.ypos
 								; VB = laser.state
@@ -424,7 +427,7 @@ func_DoLaserVsWalls:
   LD VB, E_LASER_STATE_HIT_WALL					; laser.state = E_LASER_STATE_HIT_WALL
 
   ; save updated laser state
-  LDHI I, data_laser_info-9
+  LDHI I, data_laser_info-8
   LD [I], VC
   
   RET
@@ -438,8 +441,10 @@ func_DoEnemyVsPlayerAndWalls:
   ; collision walls should have already been drawn
 
   ; load player
-  LDHI I, data_player_info-10
-  LD VC, [I]			
+  LDHI I, data_player_info-8
+  LD VC, [I]		
+								; V8 = player.nextsprite
+								; V9 = player.timer	
 								; VA = player.xpos
 								; VB = player.ypos
 								; VC = player.state
@@ -692,7 +697,7 @@ lbl_do_update_player_case_hit_anything:
 
 lbl_do_update_player_case_dying:
 
-  LDHI I, data_player_dying_constants
+  LDHI I, data_player_dying_constants-5
   LD V8, [I]
 								; V5 = player.const PLAYER_DYING_XPOS_MIN
 								; V6 = player.const PLAYER_DYING_SPEED_X
@@ -770,13 +775,15 @@ lbl_do_update_laser_case_dead:
 								; V6 = laser.const LASER_DEAD_OFFSET_Y  
 								; V7 = laser.const KEY_FIRE
   LDHI I, data_player_info-0
-  LD V2, [I]						
-								; V0 = player.xpos
-								; V1 = player.ypos
-								; V2 = player.state
+  LD V4, [I]						
+								; V0 = player.nextsprite
+								; V1 = player.timer
+								; V2 = player.xpos
+								; V3 = player.ypos
+								; V4 = player.state
   ; if (player != alive)
   ; then jump to end of switch
-  SE V2, E_PLAYER_STATE_ALIVE					; cannot fire if player is not alive
+  SE V4, E_PLAYER_STATE_ALIVE					; cannot fire if player is not alive
   JP lbl_do_update_laser_switch_end			
 
   ; if (KEY_FIRE != pressed)
@@ -784,10 +791,12 @@ lbl_do_update_laser_case_dead:
   SKP V7							; test KEY_FIRE pressed
   JP lbl_do_update_laser_switch_end
   
-  LD V9, V0
+  ; optimisation to be had here - some kind of reset for setting V9, VA, VB, VC from memory
+
+  LD V9, V2
   ADD V9, V5							; laser.xpos = player.xpos + laser.const LASER_DEAD_OFFSET_X
 
-  LD VA, V1
+  LD VA, V3
   ADD VA, V6							; laser.ypos = player.ypos + laser.const LASER_DEAD_OFFSET_Y
 
   LD VB, E_LASER_STATE_ALIVE					; laser.state = E_LASER_STATE_ALIVE
@@ -834,12 +843,14 @@ lbl_do_update_laser_case_dying:
   LDHI I, data_laser_dying_constants-4
   LD V7, [I]
 								; V4 = E_LASER_SPRITE_DYING_0
+								; V5 = empty
+								; V6 = empty
 								; V7 = laser.const LASER_DYING_TIMER_MAX
     
   ADD V4, V8							; V4 += laser.timer
   
   ; draw laser
-  CALL func_DrawLaser
+;  CALL func_DrawLaser
   
   ADD V8, 1							; laser.timer++
 
@@ -871,10 +882,13 @@ func_DoUpdateEnemies:
   ; VC is enemy looper
   LD VC, 0
 
+  SPRW ENEMY_WIDTH
+  SPRH ENEMY_HEIGHT
+
 lbl_do_update_enemies_loop_start:
 
   ; load enemy info
-  LDHI I, data_enemy_slot_lookup-0
+  LDHI I, data_enemy_slot_lookup
   ADD I, VC
   LD V3, [I]
   LD I, lbl_do_update_enemies_ptr1
@@ -895,7 +909,7 @@ lbl_do_update_enemies_ptr1:
 								; VB = enemy.timer
 
   ; set up switch
-  LDHI I, data_enemy_update_state_switch_lookup-0
+  LDHI I, data_enemy_update_state_switch_lookup
   ADD I, V6
   LD V1, [I]
   LD I, lbl_do_update_enemies_switch_start
@@ -919,13 +933,13 @@ lbl_do_update_enemies_case_alive:
   ; fall through to draw
 
 lbl_do_update_enemies_draw_alive:
-								; V4 is either E_ENEMY_SPRITE_DAMAGED_0 + scroller
-  ADD V4, VE							; or E_ENEMY_SPRITE_ALIVE_0 + scroller
+								; V4 is either E_ENEMY_SPRITE_DAMAGED_0 + global.anim
+  ADD V4, VE							; or E_ENEMY_SPRITE_ALIVE_0 + global.anim
 
   ; draw enemy
   CALL func_DrawEnemy
 
-  LDHI I, data_enemy_alive_constants
+  LDHI I, data_enemy_alive_constants-2
   LD V4, [I]
 								; V2 = enemy.const ENEMY_ALIVE_X_MOVE_MASK
 								; V3 = enemy.const ENEMY_ALIVE_Y_MOVE_MASK
@@ -959,14 +973,15 @@ lbl_do_update_enemies_ptr3:
 lbl_do_update_enemies_case_killed_by_laser:
  
   ; load game.score
-  LDHI I, data_game_info+11			
-
+  LDHI I, data_game_info-0			
+  LD V1, [I]						
+								; V0 = game.lives
+								; V1 = game.score
   ; increment
-  LD V0, [I]							; V0 = game.score
-  ADD V0, 1							; game.score++
+  ADD V1, 1							; game.score++
 
   ; save updated game.score
-  LD [I], V0
+  LD [I], V1
 
   ; fall through
 
@@ -986,7 +1001,7 @@ lbl_enemy_update_switch_case_dying:
   ; draw enemy
   CALL func_DrawEnemy
 
-  LDHI I, data_enemy_dying_constants
+  LDHI I, data_enemy_dying_constants-2
   LD V4, [I]
   								; V2 = player.const ENEMY_DYING_XPOS_MIN
  								; V3 = player.const ENEMY_DYING_SPEED_X 

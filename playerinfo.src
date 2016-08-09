@@ -94,6 +94,7 @@ data_player_info:
   DB 0								; player.ypos
   DB 0								; player.state
  
+  DS 12
 data_player_alive_constants:
   DB PLAYER_ALIVE_XPOS_MIN					; player.const PLAYER_ALIVE_XPOS_MIN
   DB PLAYER_ALIVE_XPOS_MAX					; player.const PLAYER_ALIVE_XPOS_MAX
@@ -105,17 +106,20 @@ data_player_alive_constants:
   DB KEY_UP							; player.const KEY_UP
   DB E_PLAYER_SPRITE_ALIVE_0					; player.nextsprite = E_PLAYER_SPRITE_ALIVE_0
 
+  DS 12
 data_player_reviving_constants:
   DB PLAYER_REVIVING_SPEED_X					; player.const PLAYER_REVIVING_SPEED_X
   DB PLAYER_REVIVING_TIMER_MAX					; player.const PLAYER_REVIVING_TIMER_MAX
   DB E_PLAYER_SPRITE_REVIVING_0					; player.nextsprite = E_PLAYER_SPRITE_REVIVING_0
 
+  DS 12 
 data_player_dying_constants:
   DB PLAYER_DYING_XPOS_MIN					; player.const PLAYER_DYING_XPOS_MIN
   DB PLAYER_DYING_SPEED_X					; player.const PLAYER_DYING_SPEED_X 
   DB PLAYER_DYING_TIMER_MAX					; player.const PLAYER_DYING_TIMER_MAX
   DB E_PLAYER_SPRITE_DYING_0					; player.nextsprite = E_PLAYER_SPRITE_DYING_0
 
+  DS 12
 data_player_reset:
   DB E_PLAYER_SPRITE_REVIVING_0					; player.nextsprite = E_PLAYER_SPRITE_REVIVING_0
   DB 0								; player.timer = 0
@@ -123,6 +127,8 @@ data_player_reset:
   DB PLAYER_REVIVING_START_YPOS					; player.ypos = PLAYER_REVIVING_START_YPOS
   DB E_PLAYER_STATE_REVIVING					; player.state = E_PLAYER_STATE_REVIVING
  
+
+
 data_player_update_state_switch_lookup:
   JP lbl_do_update_player_case_reviving				; E_PLAYER_STATE_REVIVING
   JP lbl_do_update_player_case_alive				; E_PLAYER_STATE_ALIVE
