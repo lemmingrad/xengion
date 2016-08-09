@@ -90,7 +90,7 @@ lbl_main_frame_lives_switch_end:
   ; loop to start
   JP lbl_main_frame_loop_start
 
-  EXIT
+  EXIT								; should never reach here
 ;---------------------------------------------------------------------------------
 
 
@@ -128,33 +128,27 @@ func_DoTitleScreen:
   SPRH NUMBER_HEIGHT
 
   ; draw hi-score 100s
-  LDHI I, data_number_lookup
-  ADD I, V5
-  LD V3, [I]
-  LD I, lbl_game_start_screen_ptr1
-  LD [I], V3
+  LD I, lbl_game_start_screen_ptr1+2
+  LD V0, V5
+  LD [I], V0
 lbl_game_start_screen_ptr1:
-  LDHI I, lbl_game_start_screen_ptr1
+  LDHI I, data_interleaved_aligned
   DRW VA, V9, 1
 
   ; draw hi-score 10s
-  LDHI I, data_number_lookup
-  ADD I, V6
-  LD V3, [I]
-  LD I, lbl_game_start_screen_ptr2
-  LD [I], V3
+  LD I, lbl_game_start_screen_ptr2+2
+  LD V0, V6
+  LD [I], V0
 lbl_game_start_screen_ptr2:
-  LDHI I, lbl_game_start_screen_ptr2
+  LDHI I, data_interleaved_aligned
   DRW VB, V9, 1
 
   ; draw hi-score 1s
-  LDHI I, data_number_lookup
-  ADD I, V7
-  LD V3, [I]
-  LD I, lbl_game_start_screen_ptr3
-  LD [I], V3
+  LD I, lbl_game_start_screen_ptr3+2
+  LD V0, V7
+  LD [I], V0
 lbl_game_start_screen_ptr3:
-  LDHI I, lbl_game_start_screen_ptr3
+  LDHI I, data_interleaved_aligned
   DRW VC, V9, 1
 
   ; if gametitle.timer < GAMETITLE_TIMER_ALLOW_CONTINUE
@@ -276,11 +270,11 @@ func_DoGameplay:
   ; draw enemies collision in green, test for collision against walls (orange), player (also orange) or laser (purple)
   CALL func_DoEnemiesVsMultiCol
 
-  ; draw player collision in orange, test for collision against enemies (green), which will include boss
-  CALL func_DoPlayerVsEnemies
+  ; draw player collision in orange, test for collision against enemies (green)
+;  CALL func_DoPlayerVsEnemies
 
   ; do bullet logic
-; CALL func_DoUpdateBullets
+  CALL func_DoUpdateBullets
 
   CALL func_DrawRealWalls
 
@@ -738,6 +732,7 @@ func_DoGameOverScreen:
 
   ; draw enemies count
 
+; TODO - OPTIMISE ALIGNED 16x16
   LDHI I, data_game_scoreinfo-4
   LD V7, [I]
 								; V4 = game.score 100s
@@ -880,7 +875,7 @@ lbl_gameover_lives_case_lives_3_win:
   
   ADD VE, GAMEOVER_BOSSLIVES_3_TOTALSCORE_INC
 
-  JP lbl_gameover_lives_switch_end				; break;
+  JP lbl_gameover_lives_switch_end				; break
 
 lbl_gameover_lives_case_start_screen:
 lbl_gameover_lives_case_lives_1:
@@ -1010,6 +1005,8 @@ lbl_gameover_press_start:
   RET
 
 lbl_gameover_hiscore_ptr1:
+
+; TODO - OPTIMISE ALIGN 16x16
 
   ; draw score 100s
   LDHI I, data_number_lookup
@@ -1367,8 +1364,8 @@ lbl_enemies_vs_multicol_loop_start:
   ; set collision test colour to orange to test for a collision against walls or player
   CCOL COL_ORANGE
   
-   ; draw enemy in green
-  LD V4, E_ENEMY_SPRITE_COL_GREEN_A
+  ; draw enemy in green
+  LD V4, E_ENEMY_SPRITE_COL_GREEN_B
   CALL func_DrawEnemy
 
   ; if enemy collided with orange
@@ -1377,11 +1374,11 @@ lbl_enemies_vs_multicol_loop_start:
   JP lbl_enemies_vs_multicol_hit_orange
 
   ; else no collision
-  ; change collision test colour to purple, to test against laser collision
+  ; set collision test colour to purple, to test against laser collision
   CCOL COL_PURPLE
  
   ; redraw enemy
-  LD V4, E_ENEMY_SPRITE_COL_GREEN_B
+  LD V4, E_ENEMY_SPRITE_COL_GREEN_A
   CALL func_DrawEnemy
 
   ; if enemy collided with purple
@@ -1413,6 +1410,7 @@ lbl_enemies_vs_multicol_hit_purple:
 								; V4 = laser.charge
   ; if laser is not alive
   ; the goto next enemy
+; TODO - TEST NOT NEEDED?
   SE V3, E_LASER_STATE_ALIVE
   JP lbl_enemies_vs_multicol_loop_next
 
@@ -1474,15 +1472,17 @@ lbl_enemies_vs_multicol_laser_end:
 
 lbl_enemies_vs_multicol_loop_next:
 
+  SNE VC, E_ENEMY_SLOT_MAX
+  RET
+
   ; if (loop != ENEMY_SLOT_MAX)
   ; then goto start of loop
   ADD VC, SIZEOF_ENEMY
-  SE VC, E_ENEMY_SLOT_MAX
   JP lbl_enemies_vs_multicol_loop_start
 
 lbl_enemies_vs_multicol_end:
 
-  RET 
+  EXIT 								; should never reach here
 ;---------------------------------------------------------------------------------
   
 
@@ -1562,35 +1562,27 @@ lbl_do_update_bullets_case_alive:
   LDHI I, data_bullet_alive_constants-4
   LD V6, [I]
 								; V4 = E_BULLET_SPRITE_ALIVE_0
-								; V5 = bullet.const BULLET_ALIVE_X_TO_Y_HALFST
+								; V5 = bullet.const BULLET_ALIVE_X_TO_Y_HALFSTEP
 								; V6 = bullet.const BULLET_ALIVE_XPOS_MIN
 
-  LDHI I, data_bullet_x_movement_lookup
-  ADD I, VB
-  LD V3, [I]
-  LD I, lbl_do_update_bullets_ptr_x
-  LD [I], V3
+  LD I, lbl_do_update_bullets_movement_ptr+2
+  LD V0, VB
+  LD [I], V0
 
-lbl_do_update_bullets_ptr_x:
-  LDHI I, lbl_do_update_bullets_ptr_x
+lbl_do_update_bullets_movement_ptr:
+  LDHI I, data_bullets_x_movement_aligned
+
   ADD I, V8
   LD V0, [I]
   ADD V9, V0
 
-; Old slow method for getting bullet y delta
-;  LDHI I, data_bullet_y_movement_lookup
-;  ADD I, VB
-;  LD V3, [I]
-;  LD I, lbl_do_update_bullets_ptr_y
-;  LD [I], V3
-;
-;lbl_do_update_bullets_ptr_y:
-;  LDHI I, lbl_do_update_bullets_ptr_y
-;  ADD I, V8
-;  LD V0, [I]
-;  ADD VA, V0
+; Add 1 to x
+;TODO - MERGE THIS INTO BULLET X DELTA TABLES
+  ADD V9, 255
 
 ; Faster way to get bullet y delta with re-arranged data. But not as fast as it should be! Stupid limited instructions.
+; Don't need a full 256 step, so reduce it to 255 or something to remove the second ADD
+;TODO - REMOVE HALFSTEP, MAKE 255
   ADD I, V5
   ADD I, V5
   LD V0, [I]
@@ -1615,8 +1607,6 @@ lbl_do_update_bullets_ptr_x:
   
   ADD V8, 1							; bullet.timer++
   
-  JP lbl_do_update_bullets_switch_end
-
 lbl_do_update_bullets_switch_end:
 
   ; save bullet
@@ -1626,15 +1616,17 @@ lbl_do_update_bullets_switch_end:
 
 lbl_do_update_bullets_loop_next:
 
+  SNE VC, E_BULLET_SLOT_MAX
+  RET
+
   ; if (loop != BULLET_SLOT_MAX)
   ; then goto start of loop
   ADD VC, SIZEOF_BULLET
-  SE VC, E_BULLET_SLOT_MAX
   JP lbl_do_update_bullets_loop_start
 
 lbl_do_update_bullets_end:
 
-  RET
+  EXIT								; should never reach here
 ;---------------------------------------------------------------------------------
 
 
@@ -1758,8 +1750,6 @@ lbl_do_update_laser_case_alive:
 
   ; else laser is still alive
   
-  JP lbl_do_update_laser_switch_end				; break
-
 lbl_do_update_laser_switch_end:
 
   ; save all laser info
@@ -1939,9 +1929,7 @@ lbl_do_update_player_gameplay_case_alive:
   ; if (player.xpos > player.const PLAYER_ALIVE_XPOS_MAX)
   ; then jump to key_left test
   SUB V1, VB
-  SE VF, 1							; VF = 0 if player.xpos > player.const PLAYER_ALIVE_XPOS_MAX
-  JP lbl_do_update_player_gameplay_left_key_test
-
+  SNE VF, 1							; VF = 0 if player.xpos > player.const PLAYER_ALIVE_XPOS_MAX
   ADD VB, V2							; player.xpos += player.const PLAYER_ALIVE_SPEED_X 
 
 lbl_do_update_player_gameplay_left_key_test:
@@ -1953,33 +1941,25 @@ lbl_do_update_player_gameplay_left_key_test:
   ; if (player.xpos <= player.const PLAYER_ALIVE_XPOS_MIN)
   ; then jump to key_down test
   SUB V0, VB						
-  SNE VF, 1							; VF = 1 if player.xpos <= player.const PLAYER_ALIVE_XPOS_MIN
-  JP lbl_do_update_player_gameplay_down_key_test
-  
+  SE VF, 1							; VF = 1 if player.xpos <= player.const PLAYER_ALIVE_XPOS_MIN
   SUB VB, V2							; player.xpos -= player.const PLAYER_ALIVE_SPEED_X
 
 lbl_do_update_player_gameplay_down_key_test:
   ; if (KEY_DOWN != pressed)
   ; then jump to key_up test
-  SKP V7
-  JP lbl_do_update_player_gameplay_up_key_test
- 
+  SKNP V7
   ADD VC, V3							; player.ypos += player.const PLAYER_SPEED_Y
 
 lbl_do_update_player_gameplay_up_key_test:
   ; if (KEY_UP != pressed)
   ; then jump to switch end
-  SKP V8
-  JP lbl_do_update_player_gameplay_key_test_end		
-
+  SKNP V8
   SUB VC, V3							; player.ypos -= player.const PLAYER_SPEED_Y
  
 lbl_do_update_player_gameplay_key_test_end:
 
   SNE VD, GAMEPLAY_GLOBALDATA_MAX
   LD V9, E_PLAYER_STATE_OUTRO
-
-  JP lbl_do_update_player_gameplay_switch_end			; break
 
 lbl_do_update_player_gameplay_switch_end:
 
@@ -2150,9 +2130,7 @@ lbl_do_update_player_bossplay_case_alive:
   ; if (player.xpos > player.const PLAYER_ALIVE_XPOS_MAX)
   ; then jump to key_left test
   SUB V1, VB
-  SE VF, 1							; VF = 0 if player.xpos > player.const PLAYER_ALIVE_XPOS_MAX
-  JP lbl_do_update_player_bossplay_left_key_test
-
+  SNE VF, 1							; VF = 0 if player.xpos > player.const PLAYER_ALIVE_XPOS_MAX
   ADD VB, V2							; player.xpos += player.const PLAYER_ALIVE_SPEED_X 
 
 lbl_do_update_player_bossplay_left_key_test:
@@ -2164,30 +2142,22 @@ lbl_do_update_player_bossplay_left_key_test:
   ; if (player.xpos <= player.const PLAYER_ALIVE_XPOS_MIN)
   ; then jump to key_down test
   SUB V0, VB						
-  SNE VF, 1							; VF = 1 if player.xpos <= player.const PLAYER_ALIVE_XPOS_MIN
-  JP lbl_do_update_player_bossplay_down_key_test
-  
+  SE VF, 1							; VF = 1 if player.xpos <= player.const PLAYER_ALIVE_XPOS_MIN
   SUB VB, V2							; player.xpos -= player.const PLAYER_ALIVE_SPEED_X
 
 lbl_do_update_player_bossplay_down_key_test:
   ; if (KEY_DOWN != pressed)
   ; then jump to key_up test
-  SKP V7
-  JP lbl_do_update_player_bossplay_up_key_test
- 
+  SKNP V7
   ADD VC, V3							; player.ypos += player.const PLAYER_SPEED_Y
 
 lbl_do_update_player_bossplay_up_key_test:
   ; if (KEY_UP != pressed)
   ; then jump to switch end
-  SKP V8
-  JP lbl_do_update_player_bossplay_key_test_end		
-
+  SKNP V8
   SUB VC, V3							; player.ypos -= player.const PLAYER_SPEED_Y
  
 lbl_do_update_player_bossplay_key_test_end:
-
-  JP lbl_do_update_player_bossplay_switch_end			; break
 
 lbl_do_update_player_bossplay_switch_end:
 
@@ -2251,12 +2221,6 @@ lbl_do_update_enemies_case_killed_by_laser:
   LD B, V3
   LDHI I, data_game_scoreinfo-0
   LD V2, [I]
-  SHL V0
-  SHL V0
-  SHL V1
-  SHL V1
-  SHL V2
-  SHL V2
 
   ; save updated game.score
   LD [I], V3
@@ -2354,13 +2318,13 @@ lbl_do_update_enemies_draw_alive:
 
   LDHI I, data_enemy_alive_constants-0
   LD V3, [I]
-								; V0 = enemy.const ENEMY_ALIVE_X_MOVE_MASK
-								; V1 = enemy.const ENEMY_ALIVE_Y_MOVE_MASK
+								; V0 = enemy.const ENEMY_ALIVE_Y_MOVE_MASK
+								; V1 = enemy.const ENEMY_ALIVE_X_MOVE_MASK
 								; V2 = enemy.const ENEMY_ALIVE_XPOS_MIN
 								; V3 = enemy.const ENEMY_ALIVE_TIMER_MOVE_INC
 
-  AND V0, VB							; V0 = enemy X speed
-  SUB V8, V0							; enemy.xpos -= (enemy.move & enemy.const ENEMY_ALIVE_X_MASK)
+  AND V1, VB							; V0 = enemy X speed
+  SUB V8, V1							; enemy.xpos -= (enemy.move & enemy.const ENEMY_ALIVE_X_MASK)
 
   ; if (enemy.xpos <= enemy.const ENEMY_ALIVE_XPOS_MIN)
   ; then skip to dying_alive
@@ -2372,20 +2336,17 @@ lbl_do_update_enemies_draw_alive:
 
   ADD V7, V3							; enemy.timer += enemy.const ENEMY_ALIVE_TIMER_MOVE_INC
 
-  AND V1, VB							
-  LDHI I, data_enemy_y_movement_lookup
-  ADD I, V1
-  LD V3, [I]  
-  LD I, lbl_do_update_enemies_movement_ptr
-  LD [I], V3
+  AND V0, VB							; V0 = enemy.move & enemy.const ENEMY_ALIVE_Y_MASK
+
+  LD I, lbl_do_update_enemies_movement_ptr+2
+  LD [I], V0
 lbl_do_update_enemies_movement_ptr:
-  LDHI I, lbl_do_update_enemies_movement_ptr
+  LDHI I, data_enemy_y_movement_aligned
+
   ADD I, V7
   LD V0, [I]
   ADD V9, V0							; enemy.ypos += movement[enemy.move & enemy.const ENEMY_ALIVE_Y_MASK][enemy.timer]
   
-  JP lbl_do_update_enemies_switch_end				; break
-
 lbl_do_update_enemies_switch_end:
 
   ; save enemy
@@ -2394,16 +2355,18 @@ lbl_do_update_enemies_switch_end:
   LD [I], VB
 
 lbl_do_update_enemies_loop_next:  
-  
+ 
+  SNE VC, E_ENEMY_SLOT_MAX
+  RET
+
   ; if (loop == ENEMY_SLOT_MAX)
   ; then end test nicely
   ADD VC, SIZEOF_ENEMY
-  SE VC, E_ENEMY_SLOT_MAX
   JP lbl_do_update_enemies_loop_start
 
 lbl_do_update_enemies_end:
 
-  RET 
+  EXIT								; should never reach here
 ;---------------------------------------------------------------------------------
 
 
@@ -2529,8 +2492,6 @@ lbl_do_boss_update_case_alive:
   LD VA, 0							; boss.timer = 0
   LD V8, E_BOSS_STATE_BLINK					; boss.state = E_BOSS_STATE_BLINK
   
-  JP lbl_do_boss_update_switch_end				; break
-
 lbl_do_boss_update_switch_end:
 
   ; save boss
@@ -2598,48 +2559,41 @@ func_DrawBorder:
   LD V0, 0
   DRW V0, V0, 1
 
-  LDHI I, data_game_scoreinfo-4
-  LD VB, [I]
-								; V4 = game.score 100s
-								; V5 = game.score 10s
-								; V6 = game.score 1s
-								; V7 = game.score
-								; V8 = game.const GAME_SCORE_Y_POS
-								; V9 = game.const GAME_SCORE_100S_X_POS
-								; VA = game.const GAME_SCORE_10S_X_POS
-								; VB = game.const GAME_SCORE_1S_X_POS
+  LDHI I, data_game_scoreinfo
+  LD V7, [I]
+								; V0 = game.score 100s
+								; V1 = game.score 10s
+								; V2 = game.score 1s
+								; V3 = game.score
+								; V4 = game.const GAME_SCORE_Y_POS
+								; V5 = game.const GAME_SCORE_100S_X_POS
+								; V6 = game.const GAME_SCORE_10S_X_POS
+								; V7 = game.const GAME_SCORE_1S_X_POS
 
   SPRW NUMBER_WIDTH
   SPRH NUMBER_HEIGHT
 
   ; draw score 100s
-  LDHI I, data_number_lookup
-  ADD I, V4
-  LD V3, [I]
-  LD I, lbl_game_border_score_ptr1
-  LD [I], V3
+  LD I, lbl_game_border_score_ptr1+2
+  LD [I], V0
 lbl_game_border_score_ptr1:
-  LDHI I, lbl_game_border_score_ptr1
+  LDHI I, data_number_sprites_aligned
   DRW V9, V8, 1
 
   ; draw score 10s
-  LDHI I, data_number_lookup
-  ADD I, V5
-  LD V3, [I]
-  LD I, lbl_game_border_score_ptr2
-  LD [I], V3
+  LD I, lbl_game_border_score_ptr2+2
+  LD V0, V1
+  LD [I], V0
 lbl_game_border_score_ptr2:
-  LDHI I, lbl_game_border_score_ptr2
+  LDHI I, data_numbers_sprites_aligned
   DRW VA, V8, 1
 
   ; draw score 1s
-  LDHI I, data_number_lookup
-  ADD I, V6
-  LD V3, [I]
-  LD I, lbl_game_border_score_ptr3
-  LD [I], V3
+  LD I, lbl_game_border_score_ptr3+2
+  LD V0, V2
+  LD [I], V0
 lbl_game_border_score_ptr3:
-  LDHI I, lbl_game_border_score_ptr3
+  LDHI I, data_numbers_sprites_aligned
   DRW VB, V8, 1
 
   ; draw lives
@@ -2706,7 +2660,7 @@ lbl_draw_border_lives_switch_end:
 ; Draws player sprite index V4 at position [VB, VC]
 ;---------------------------------------------------------------------------------
 func_DrawPlayer:
-  
+; TODO - INLINE
   SPRW PLAYER_WIDTH
   SPRH PLAYER_HEIGHT
 
@@ -2736,7 +2690,7 @@ lbl_draw_player_ptr:
 ; Draws laser sprite index V4 at position [VB, VC]
 ;---------------------------------------------------------------------------------
 func_DrawLaser:
-  
+; TODO - INLINE 
   SPRW LASER_WIDTH
   SPRH LASER_HEIGHT
 
@@ -2767,6 +2721,7 @@ lbl_draw_laser_ptr:
 ; Draws bullet sprite index V4 at position [V9, VA]
 ;---------------------------------------------------------------------------------
 func_DrawBullet:
+;TODO - INLINE func_DrawBullet
 
   ; bullet info must be loaded before func_DrawBullet is called!
   ; Also make sure SPRW and SPRH have been set correctly!
@@ -2774,14 +2729,12 @@ func_DrawBullet:
   								; V9 = bullet x-position
   								; VA = bullet y-position
   
-  LDHI I, data_bullet_sprite_lookup
-  ADD I, V4
-
-  LD V3, [I]
-  LD I, lbl_draw_bullet_sprite_ptr		
-  LD [I], V3		
+  LD I, lbl_draw_bullet_sprite_ptr+2
+  LD V0, V4
+  LD [I], V0
+  
 lbl_draw_bullet_sprite_ptr:
-  LDHI I, lbl_draw_bullet_sprite_ptr  
+  LDHI I, lbl_bullet_sprite_aligned
 
   ; draw bullet sprite
   DRW V9, VA, 1		
@@ -2796,6 +2749,7 @@ lbl_draw_bullet_sprite_ptr:
 ; Draws enemy type VA sprite index V4 at position [V8, V9]
 ;---------------------------------------------------------------------------------
 func_DrawEnemy:
+;TODO - INLINE func_DrawEnemy
   
   ; enemy info must be loaded before func_DrawEnemy is called!
   ; Also make sure SPRW and SPRH have been set correctly!
@@ -2808,18 +2762,13 @@ func_DrawEnemy:
   LDHI I, data_enemy_type_lookup
   ADD I, VA
   LD V3, [I]
-  LD I, lbl_draw_enemy_lookup_ptr				
-  LD [I], V3
-lbl_draw_enemy_lookup_ptr:
-  LDHI I, lbl_draw_enemy_lookup_ptr
-  
+  LD I, lbl_draw_enemy_sprite_ptr				
   ; and use V4 to draw correct sprite frame
-  ADD I, V4
-  LD V3, [I]
-  LD I, lbl_draw_enemy_sprite_ptr		
-  LD [I], V3		
+  LD V2, V4
+  LD [I], V3
+
 lbl_draw_enemy_sprite_ptr:
-  LDHI I, lbl_draw_enemy_sprite_ptr  
+  LDHI I, lbl_draw_enemy_sprite_ptr
 
   ; draw enemy sprite
   DRW V8, V9, 1		
@@ -2869,46 +2818,109 @@ func_DrawCollisionWalls:
   SPRW WALL_STRIP_WIDTH
   SPRH WALL_STRIP_HEIGHT
   
-  LD V4, VD							; V4 = global.data
-  LD V5, V4							; V5 = V4 + 15. 
-  ADD V5, 15				
+  LDHI I, data_walls_consts
+  LD VB, [I]
+								; V8 = WALL_XPOS
+								; V9 = GAMEPLAY_GLOBALANIM_MAX
+								; VA = WALL_YPOS (Never changes)
+								; VB = 12						
+
+  LD VC, VD							; VC = global.data
+  ADD VB, VC							; VB = VC + 12
   
   ; set xpos draw position
-  LD V6, GAMEPLAY_GLOBALANIM_MAX
-  SUB V6, VE
-  SHR V6
-  SHR V6							; V6 = (64 - global.anim) / 4
-  
-  ; set ypos draw position
-  LD V7, WALL_YPOS						; V7 = Wall tile ypos draw position. Never changes.
+  SUB V9, VE
+  SHR V9
+  SHR V9							
+  ADD V9, V8							
+								; V9 = Wall tile xpos draw position. Initially ((GAMEPLAY_GLOBALANIM_MAX - global.anim) / 4) + WALL_XPOS
+								; VA = Wall tile ypos draw position. Never changes.
 
 lbl_draw_collision_walls_loop:
 
   ; get wall tile index from tile data map
-  LDHI I, data_walls_map  
-  ADD I, V4							; add tile data offset
-  LD V0, [I]
- 
-  ; get collsion wall sprite from wall collision tile lookup
+  LDHI I, data_walls_map-5 
+  ADD I, VC					
+  LD V8, [I]
+								; V5 = data_walls_map[VC]
+								; V6 = data_walls_map[VC+1]
+								; V7 = data_walls_map[VC+2]
+								; V8 = data_walls_map[VC+3]
+	 
+  ; Strip 0
+  ; get collision wall sprite from wall collision tile lookup
   LDHI I, data_walls_collision_lookup
-  ADD I, V0
+  ADD I, V5
   LD V3, [I]
-  LD I, lbl_draw_collision_walls_ptr
+  LD I, lbl_draw_collision_walls_ptr0
   LD [I], V3
-lbl_draw_collision_walls_ptr:
-  LDHI I, lbl_draw_collision_walls_ptr
+lbl_draw_collision_walls_ptr0:
+  LDHI I, lbl_draw_collision_walls_ptr0
 
-  ; draw collision wall sprite
-  DRW V6, V7, 1
- 
-  ADD V4, 1							; wall data++
-  ADD V6, 16							; wall xpos += 16
+  ; draw real wall sprite
+  DRW V9, VA, 1
   
-  ; if still more walls to draw, goto start of loop
-  SE V4, V5
+  ; offset xpos
+  ADD V9, WALL_STRIP_WIDTH					; xpos += WALL_STRIP_WIDTH
+
+  ; Strip 1
+  ; get collision wall sprite from wall collision tile lookup
+  LDHI I, data_walls_collision_lookup
+  ADD I, V6
+  LD V3, [I]
+  LD I, lbl_draw_collision_walls_ptr1
+  LD [I], V3
+lbl_draw_collision_walls_ptr1:
+  LDHI I, lbl_draw_collision_walls_ptr1
+
+  ; draw real wall sprite
+  DRW V9, VA, 1
+  
+  ; offset xpos
+  ADD V9, WALL_STRIP_WIDTH					; xpos += WALL_STRIP_WIDTH
+
+  ; Strip 2
+  ; get collision wall sprite from wall collision tile lookup
+  LDHI I, data_walls_collision_lookup
+  ADD I, V7
+  LD V3, [I]
+  LD I, lbl_draw_collision_walls_ptr2
+  LD [I], V3
+lbl_draw_collision_walls_ptr2:
+  LDHI I, lbl_draw_collision_walls_ptr2
+
+  ; draw real wall sprite
+  DRW V9, VA, 1
+  
+  ; if on 4th loop, VC and VB will be equal. We want to early return after 3 strips and save the cost of drawing the 4th.
+  SNE VC, VB
+  RET
+
+  ; offset xpos
+  ADD V9, WALL_STRIP_WIDTH					; xpos += WALL_STRIP_WIDTH
+
+  ; Strip 3
+  ; get collision wall sprite from wall collision tile lookup
+  LDHI I, data_walls_collision_lookup
+  ADD I, V8
+  LD V3, [I]
+  LD I, lbl_draw_collision_walls_ptr3
+  LD [I], V3
+lbl_draw_collision_walls_ptr3:
+  LDHI I, lbl_draw_collision_walls_ptr3
+
+  ; draw real wall sprite
+  DRW V9, VA, 1
+  
+  ; offset xpos
+  ADD V9, WALL_STRIP_WIDTH					; xpos += WALL_STRIP_WIDTH
+
+  ADD VC, 4							; wall data += 4
+  
+  ; goto start of loop
   JP lbl_draw_collision_walls_loop
 
-  RET
+  RET								; should never get here
 ;---------------------------------------------------------------------------------
 
 
@@ -2922,46 +2934,109 @@ func_DrawRealWalls:
   SPRW WALL_STRIP_WIDTH
   SPRH WALL_STRIP_HEIGHT
   
-  LD V4, VD							; V4 = global.data
-  LD V5, V4							; V5 = V4 + 15
-  ADD V5, 15				
+  LDHI I, data_walls_consts
+  LD VB, [I]
+								; V8 = WALL_XPOS
+								; V9 = GAMEPLAY_GLOBALANIM_MAX
+								; VA = WALL_YPOS (Never changes)
+								; VB = 12						
+
+  LD VC, VD							; VC = global.data
+  ADD VB, VC							; VB = VC + 12
   
   ; set xpos draw position
-  LD V6, GAMEPLAY_GLOBALANIM_MAX
-  SUB V6, VE
-  SHR V6
-  SHR V6							; V6 = (64 - global.anim) / 4
-  
-  ; set ypos draw position
-  LD V7, WALL_YPOS						; V7 = Wall tile ypos draw position. Never changes.
+  SUB V9, VE
+  SHR V9
+  SHR V9							
+  ADD V9, V8							
+								; V9 = Wall tile xpos draw position. Initially ((GAMEPLAY_GLOBALANIM_MAX - global.anim) / 4) + WALL_XPOS
+								; VA = Wall tile ypos draw position. Never changes.
 
 lbl_draw_real_walls_loop:
 
   ; get wall tile index from tile data map
-  LDHI I, data_walls_map  
-  ADD I, V4							; add tile data offset
-  LD V0, [I]
- 
+  LDHI I, data_walls_map-5 
+  ADD I, VC					
+  LD V8, [I]
+								; V5 = data_walls_map[VC]
+								; V6 = data_walls_map[VC+1]
+								; V7 = data_walls_map[VC+2]
+								; V8 = data_walls_map[VC+3]
+	 
+  ; Strip 0
   ; get real wall sprite from wall real tile lookup
   LDHI I, data_walls_strip_lookup
-  ADD I, V0
+  ADD I, V5
   LD V3, [I]
-  LD I, lbl_draw_real_walls_ptr
+  LD I, lbl_draw_real_walls_ptr0
   LD [I], V3
-lbl_draw_real_walls_ptr:
-  LDHI I, lbl_draw_real_walls_ptr
+lbl_draw_real_walls_ptr0:
+  LDHI I, lbl_draw_real_walls_ptr0
 
   ; draw real wall sprite
-  DRW V6, V7, 1
- 
-  ADD V4, 1							; wall data++
-  ADD V6, 16							; wall xpos += 16
+  DRW V9, VA, 1
   
-  ; if still more walls to draw, goto start of loop
-  SE V4, V5
+  ; offset xpos
+  ADD V9, WALL_STRIP_WIDTH					; xpos += WALL_STRIP_WIDTH
+
+  ; Strip 1
+  ; get real wall sprite from wall real tile lookup
+  LDHI I, data_walls_strip_lookup
+  ADD I, V6
+  LD V3, [I]
+  LD I, lbl_draw_real_walls_ptr1
+  LD [I], V3
+lbl_draw_real_walls_ptr1:
+  LDHI I, lbl_draw_real_walls_ptr1
+
+  ; draw real wall sprite
+  DRW V9, VA, 1
+  
+  ; offset xpos
+  ADD V9, WALL_STRIP_WIDTH					; xpos += WALL_STRIP_WIDTH
+
+  ; Strip 2
+  ; get real wall sprite from wall real tile lookup
+  LDHI I, data_walls_strip_lookup
+  ADD I, V7
+  LD V3, [I]
+  LD I, lbl_draw_real_walls_ptr2
+  LD [I], V3
+lbl_draw_real_walls_ptr2:
+  LDHI I, lbl_draw_real_walls_ptr2
+
+  ; draw real wall sprite
+  DRW V9, VA, 1
+  
+  ; if on 4th loop, VC and VB will be equal. We want to early return after 3 strips and save the cost of drawing the 4th.
+  SNE VC, VB
+  RET
+
+  ; offset xpos
+  ADD V9, WALL_STRIP_WIDTH					; xpos += WALL_STRIP_WIDTH
+
+  ; Strip 3
+  ; get real wall sprite from wall real tile lookup
+  LDHI I, data_walls_strip_lookup
+  ADD I, V8
+  LD V3, [I]
+  LD I, lbl_draw_real_walls_ptr3
+  LD [I], V3
+lbl_draw_real_walls_ptr3:
+  LDHI I, lbl_draw_real_walls_ptr3
+
+  ; draw real wall sprite
+  DRW V9, VA, 1
+  
+  ; offset xpos
+  ADD V9, WALL_STRIP_WIDTH					; xpos += WALL_STRIP_WIDTH
+
+  ADD VC, 4							; wall data += 4
+  
+  ; goto start of loop
   JP lbl_draw_real_walls_loop
 
-  RET
+  RET								; should never get here
 ;---------------------------------------------------------------------------------
 
 

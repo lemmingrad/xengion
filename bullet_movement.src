@@ -40,23 +40,23 @@ data_bullet_x_movement_lookup:
   LDHI I, data_bullet_x_movement_nw
   LDHI I, data_bullet_x_movement_nnw
 
-data_bullet_y_movement_lookup:
-  LDHI I, data_bullet_y_movement_n
-  LDHI I, data_bullet_y_movement_nne
-  LDHI I, data_bullet_y_movement_ne
-  LDHI I, data_bullet_y_movement_ene
-  LDHI I, data_bullet_y_movement_e
-  LDHI I, data_bullet_y_movement_ese
-  LDHI I, data_bullet_y_movement_se
-  LDHI I, data_bullet_y_movement_sse
-  LDHI I, data_bullet_y_movement_s
-  LDHI I, data_bullet_y_movement_ssw
-  LDHI I, data_bullet_y_movement_sw
-  LDHI I, data_bullet_y_movement_wsw
-  LDHI I, data_bullet_y_movement_w
-  LDHI I, data_bullet_y_movement_wnw
-  LDHI I, data_bullet_y_movement_nw
-  LDHI I, data_bullet_y_movement_nnw
+;data_bullet_y_movement_lookup:
+;  LDHI I, data_bullet_y_movement_n
+;  LDHI I, data_bullet_y_movement_nne
+;  LDHI I, data_bullet_y_movement_ne
+;  LDHI I, data_bullet_y_movement_ene
+;  LDHI I, data_bullet_y_movement_e
+;  LDHI I, data_bullet_y_movement_ese
+;  LDHI I, data_bullet_y_movement_se
+;  LDHI I, data_bullet_y_movement_sse
+;  LDHI I, data_bullet_y_movement_s
+;  LDHI I, data_bullet_y_movement_ssw
+;  LDHI I, data_bullet_y_movement_sw
+;  LDHI I, data_bullet_y_movement_wsw
+;  LDHI I, data_bullet_y_movement_w
+;  LDHI I, data_bullet_y_movement_wnw
+;  LDHI I, data_bullet_y_movement_nw
+;  LDHI I, data_bullet_y_movement_nnw
 
 data_bullet_x_movement_n:
   DB #00,#00,#00,#00,#00,#00,#00,#00,#00,#00,#00,#00,#00,#00,#00,#00,#00,#00,#00,#00,#00,#00,#00,#00,#00,#00,#00,#00,#00,#00,#00,#00

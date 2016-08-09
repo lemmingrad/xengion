@@ -1,0 +1,204 @@
+;-------------------------------------------------------------------------------
+; INTERLEAVED ALIGNED 40-7F
+;-------------------------------------------------------------------------------
+
+IA_INDEX_40 = #40
+IA_INDEX_41 = #41
+IA_INDEX_42 = #42
+IA_INDEX_43 = #43
+IA_INDEX_44 = #44
+IA_INDEX_45 = #45
+IA_INDEX_46 = #46
+IA_INDEX_47 = #47
+IA_INDEX_48 = #48
+IA_INDEX_49 = #49
+IA_INDEX_4A = #4A
+IA_INDEX_4B = #4B
+IA_INDEX_4C = #4C
+IA_INDEX_4D = #4D
+IA_INDEX_4E = #4E
+IA_INDEX_4F = #4F
+IA_INDEX_50 = #50
+IA_INDEX_51 = #51
+IA_INDEX_52 = #52
+IA_INDEX_53 = #53
+IA_INDEX_54 = #54
+IA_INDEX_55 = #55
+IA_INDEX_56 = #56
+IA_INDEX_57 = #57
+IA_INDEX_58 = #58
+IA_INDEX_59 = #59
+IA_INDEX_5A = #5A
+IA_INDEX_5B = #5B
+IA_INDEX_5C = #5C
+IA_INDEX_5D = #5D
+IA_INDEX_5E = #5E
+IA_INDEX_5F = #5F
+IA_INDEX_60 = #60
+IA_INDEX_61 = #61
+IA_INDEX_62 = #62
+IA_INDEX_63 = #63
+IA_INDEX_64 = #64
+IA_INDEX_65 = #65
+IA_INDEX_66 = #66
+IA_INDEX_67 = #67
+IA_INDEX_68 = #68
+IA_INDEX_69 = #69
+IA_INDEX_6A = #6A
+IA_INDEX_6B = #6B
+IA_INDEX_6C = #6C
+IA_INDEX_6D = #6D
+IA_INDEX_6E = #6E
+IA_INDEX_6F = #6F
+IA_INDEX_70 = #70
+IA_INDEX_71 = #71
+IA_INDEX_72 = #72
+IA_INDEX_73 = #73
+IA_INDEX_74 = #74
+IA_INDEX_75 = #75
+IA_INDEX_76 = #76
+IA_INDEX_77 = #77
+IA_INDEX_78 = #78
+IA_INDEX_79 = #79
+IA_INDEX_7A = #7A
+IA_INDEX_7B = #7B
+IA_INDEX_7C = #7C
+IA_INDEX_7D = #7D
+IA_INDEX_7E = #7E
+IA_INDEX_7F = #7F
+
+;-------------------------------------------------------------------------------
+
+; Ensure aligned to 4096 bytes.
+data_interleaved_40_aligner:
+  DS 4096 - (data_interleaved_40_aligner % 4096)
+data_interleaved_40_aligned:
+
+data_interleaved_40_start:
+data_enemy_y_move_something:
+  INCBIN 'assets/enemy_move_pos64_x32_s112.bin'
+data_interleaved_40_end:
+
+data_interleaved_4142_start:
+data_bullet_move_w:
+  INCBIN 'assets/bullet_move_w.bin'
+  DS 2
+data_interleaved_4142_end:
+
+data_interleaved_43_start:
+data_sprite_bullet_alive_12:
+  INCBIN 'assets/bullet_alive6.bin'
+data_interleaved_43_end:
+
+data_interleaved_44_start:
+data_enemy_y_move_something:
+  INCBIN 'assets/enemy_move_pos64_x64_s48.bin'
+data_interleaved_44_end:
+
+data_interleaved_4546_start:
+data_bullet_move_wnw:
+  INCBIN 'assets/bullet_move_wnw.bin'
+  DS 2
+data_interleaved_4546_end:
+
+data_interleaved_47_start:
+data_sprite_bullet_alive_13:
+  INCBIN 'assets/bullet_alive6.bin'
+data_interleaved_47_end:
+
+data_interleaved_48_start:
+data_enemy_y_move_something:
+  INCBIN 'assets/enemy_move_pos64_x64_s112.bin'
+data_interleaved_48_end:
+
+data_interleaved_494A_start:
+data_bullet_move_nw:
+  INCBIN 'assets/bullet_move_nw.bin'
+  DS 2
+data_interleaved_494A_end:
+
+data_interleaved_4B_start:
+data_sprite_bullet_alive_14:
+  INCBIN 'assets/bullet_alive7.bin'
+data_interleaved_4B_end:
+
+data_interleaved_4C_start:
+data_enemy_y_move_something:
+  INCBIN 'assets/enemy_move_pos64_sine32.bin'
+data_interleaved_4C_end:
+
+data_interleaved_4D4E_start:
+data_bullet_move_nnw:
+  INCBIN 'assets/bullet_move_nnw.bin'
+  DS 2
+data_interleaved_4D4E_end:
+
+data_interleaved_4F_start:
+data_sprite_bullet_alive_15:
+  INCBIN 'assets/bullet_alive7.bin'
+data_interleaved_4F_end:
+
+data_interleaved_50_start:
+data_enemy_y_move_something:
+  INCBIN 'assets/enemy_move_pos64_sine64.bin'
+data_interleaved_50_end:
+
+data_interleaved_5152_start:
+  DS 512						; empty
+data_interleaved_5152_end:
+
+data_interleaved_53_start:
+data_sprite_bullet_dying_0:
+  INCBIN 'assets/bullet_dying0.bin'
+data_interleaved_53_end:
+
+data_interleaved_54_start:
+data_enemy_y_move_something:
+  INCBIN 'assets/enemy_move_pos64_sine128.bin'
+data_interleaved_54_end:
+
+data_interleaved_5556_start:
+  DS 512						; empty
+data_interleaved_5556_end:
+
+data_interleaved_57_start:
+data_sprite_bullet_dying_1:
+  INCBIN 'assets/bullet_dying1.bin'
+data_interleaved_57_end:
+
+data_interleaved_58_start:
+data_enemy_y_move_something:
+  INCBIN 'assets/enemy_move_neg32_x16_s48.bin'
+data_interleaved_58_end:
+
+data_interleaved_595A_start:
+  DS 512						; empty
+data_interleaved_595A_end:
+
+data_interleaved_5B_start:
+data_sprite_bullet_dying_2:
+  INCBIN 'assets/bullet_dying2.bin'
+data_interleaved_5B_end:
+
+data_interleaved_5C_start:
+data_enemy_y_move_something:
+  INCBIN 'assets/enemy_move_neg32_x16_s112.bin'
+data_interleaved_5C_end:
+
+data_interleaved_5D5E_start:
+  DS 512						; empty
+data_interleaved_5D5E_end:
+
+data_interleaved_5F_start:
+data_sprite_bullet_dying_3:
+  INCBIN 'assets/bullet_dying3.bin'
+data_interleaved_5F_end:
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,38 @@
+;-------------------------------------------------------------------------------
+; INTERLEAVED ALIGNED 80-9F
+;-------------------------------------------------------------------------------
+
+IA_INDEX_80 = #80
+IA_INDEX_81 = #81
+IA_INDEX_82 = #82
+IA_INDEX_83 = #83
+IA_INDEX_84 = #84
+IA_INDEX_85 = #85
+IA_INDEX_86 = #86
+IA_INDEX_87 = #87
+IA_INDEX_88 = #88
+IA_INDEX_89 = #89
+IA_INDEX_8A = #8A
+IA_INDEX_8B = #8B
+IA_INDEX_8C = #8C
+IA_INDEX_8D = #8D
+IA_INDEX_8E = #8E
+IA_INDEX_8F = #8F
+IA_INDEX_90 = #90
+IA_INDEX_91 = #91
+IA_INDEX_92 = #92
+IA_INDEX_93 = #93
+IA_INDEX_94 = #94
+IA_INDEX_95 = #95
+IA_INDEX_96 = #96
+IA_INDEX_97 = #97
+IA_INDEX_98 = #98
+IA_INDEX_99 = #99
+IA_INDEX_9A = #9A
+IA_INDEX_9B = #9B
+IA_INDEX_9C = #9C
+IA_INDEX_9D = #9D
+IA_INDEX_9E = #9E
+IA_INDEX_9F = #9F
+
+;-------------------------------------------------------------------------------
