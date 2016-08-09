@@ -36,19 +36,19 @@ GAME_HISCORE_10S_X_POS						= GAME_HISCORE_100S_X_POS + NUMBER_WIDTH
 GAME_HISCORE_1S_X_POS						= GAME_HISCORE_10S_X_POS + NUMBER_WIDTH
 
 GAME_RESULT_ENEMIES_Y_POS					= 72
-GAME_RESULT_ENEMIES_100S_X_POS					= 150
+GAME_RESULT_ENEMIES_100S_X_POS					= 182
 GAME_RESULT_ENEMIES_10S_X_POS					= GAME_RESULT_ENEMIES_100S_X_POS + NUMBER_WIDTH
 GAME_RESULT_ENEMIES_1S_X_POS					= GAME_RESULT_ENEMIES_10S_X_POS + NUMBER_WIDTH
 GAME_RESULT_LIVES_Y_POS						= 86
-GAME_RESULT_LIVES_X_POS						= 150 + NUMBER_WIDTH + NUMBER_WIDTH
+GAME_RESULT_LIVES_X_POS						= 182 + NUMBER_WIDTH + NUMBER_WIDTH
 GAME_RESULT_BOSS_Y_POS						= 100
-GAME_RESULT_BOSS_X_POS						= 150 + NUMBER_WIDTH + NUMBER_WIDTH
+GAME_RESULT_BOSS_X_POS						= 182 + NUMBER_WIDTH + NUMBER_WIDTH
 GAME_RESULT_SCORE_Y_POS						= 115
-GAME_RESULT_SCORE_100S_X_POS					= 128
+GAME_RESULT_SCORE_100S_X_POS					= 160
 GAME_RESULT_SCORE_10S_X_POS					= GAME_RESULT_SCORE_100S_X_POS + NUMBER_WIDTH
 GAME_RESULT_SCORE_1S_X_POS					= GAME_RESULT_SCORE_10S_X_POS + NUMBER_WIDTH
 GAME_RESULT_HISCORE_Y_POS					= 147
-GAME_RESULT_HISCORE_100S_X_POS					= 128
+GAME_RESULT_HISCORE_100S_X_POS					= 160
 GAME_RESULT_HISCORE_10S_X_POS					= GAME_RESULT_HISCORE_100S_X_POS + NUMBER_WIDTH
 GAME_RESULT_HISCORE_1S_X_POS					= GAME_RESULT_HISCORE_10S_X_POS + NUMBER_WIDTH
 GAME_RESULT_TIMER_LIVES						= 30
@@ -80,9 +80,9 @@ data_game_main_frame_lives_switch_lookup:
   JP lbl_main_frame_lives_case_lives_2_boss			; E_GAME_LIVES_2_BOSS
   JP lbl_main_frame_lives_case_lives_3_boss			; E_GAME_LIVES_3_BOSS
   JP lbl_main_frame_lives_switch_end				; E_GAME_LIVES_NULL_1
-  JP lbl_main_frame_lives_case_win_screen			; E_GAME_LIVES_1_WIN
-  JP lbl_main_frame_lives_case_win_screen			; E_GAME_LIVES_2_WIN
-  JP lbl_main_frame_lives_case_win_screen			; E_GAME_LIVES_3_WIN
+  JP lbl_main_frame_lives_case_1_win				; E_GAME_LIVES_1_WIN
+  JP lbl_main_frame_lives_case_2_win				; E_GAME_LIVES_2_WIN
+  JP lbl_main_frame_lives_case_3_win				; E_GAME_LIVES_3_WIN
   
 ;---------------------------------------------------------------------------------
 
@@ -183,9 +183,11 @@ data_game_over_screen_hiscore_display:
 
 ;---------------------------------------------------------------------------------
 
-PALETTE_SIZE = 251
 COL_PURPLE = 1
 COL_WHITE = 12
+COL_ORANGE = 0
+
+PALETTE_SIZE = 251
 
 data_palette:
   DB #FF, #FF, #32, #FF
@@ -450,7 +452,7 @@ data_sprite_title_screen:
 
 ;---------------------------------------------------------------------------------
 
-GAME_OVER_SCREEN_WIDTH = 255 ;0 					; 0 means width = 256
+GAME_OVER_SCREEN_WIDTH = 0  					; 0 means width = 256
 GAME_OVER_SCREEN_HEIGHT = 192
 
 data_sprite_game_over_screen:

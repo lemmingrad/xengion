@@ -1,0 +1,332 @@
+;---------------------------------------------------------------------------------
+; BULLET INFO
+;---------------------------------------------------------------------------------
+
+E_BULLET_STATE_DEAD						= #00
+E_BULLET_STATE_ALIVE						= #02
+E_BULLET_STATE_DYING						= #04
+
+E_BULLET_SLOT_0							= #00
+E_BULLET_SLOT_1							= #04
+E_BULLET_SLOT_2							= #08
+E_BULLET_SLOT_3							= #0C
+E_BULLET_SLOT_4							= #10
+E_BULLET_SLOT_5							= #14
+E_BULLET_SLOT_6							= #18
+E_BULLET_SLOT_7							= #1C
+E_BULLET_SLOT_8							= #20
+E_BULLET_SLOT_9							= #24
+E_BULLET_SLOT_MAX 						= E_BULLET_SLOT_9
+BULLET_SLOT_INC							= #04
+
+E_BULLET_SPRITE_ALIVE_0						= #00
+E_BULLET_SPRITE_ALIVE_1						= #04
+E_BULLET_SPRITE_ALIVE_2						= #08
+E_BULLET_SPRITE_ALIVE_3						= #0C
+E_BULLET_SPRITE_ALIVE_4						= #10
+E_BULLET_SPRITE_ALIVE_5						= #14
+E_BULLET_SPRITE_ALIVE_6						= #18
+E_BULLET_SPRITE_ALIVE_7						= #1C
+E_BULLET_SPRITE_ALIVE_8						= #20
+E_BULLET_SPRITE_ALIVE_9						= #24
+E_BULLET_SPRITE_ALIVE_10					= #28
+E_BULLET_SPRITE_ALIVE_11					= #2C
+E_BULLET_SPRITE_ALIVE_12					= #30
+E_BULLET_SPRITE_ALIVE_13					= #34
+E_BULLET_SPRITE_ALIVE_14					= #38
+E_BULLET_SPRITE_ALIVE_15					= #3C
+E_BULLET_SPRITE_DYING_0						= #40
+E_BULLET_SPRITE_DYING_1						= #44
+E_BULLET_SPRITE_DYING_2						= #48
+E_BULLET_SPRITE_DYING_3						= #4C
+E_BULLET_SPRITE_DYING_4						= #50
+E_BULLET_SPRITE_DYING_5						= #54
+E_BULLET_SPRITE_DYING_6						= #58
+E_BULLET_SPRITE_DYING_7						= #5C
+
+BULLET_ALIVE_XPOS_MIN						= 0
+
+BULLET_DYING_XPOS_MIN						= 0
+BULLET_DYING_SPEED_X						= 1
+BULLET_DYING_TIMER_INC						= #04
+BULLET_DYING_TIMER_MAX						= #20
+
+;---------------------------------------------------------------------------------
+
+data_bullet_slot_lookup:
+  LDHI I, data_bullet_slot_0					; E_BULLET_SLOT_0
+  LDHI I, data_bullet_slot_1					; E_BULLET_SLOT_1
+  LDHI I, data_bullet_slot_2					; E_BULLET_SLOT_2
+  LDHI I, data_bullet_slot_3					; E_BULLET_SLOT_3
+  LDHI I, data_bullet_slot_4					; E_BULLET_SLOT_4
+  LDHI I, data_bullet_slot_5					; E_BULLET_SLOT_5
+  LDHI I, data_bullet_slot_6					; E_BULLET_SLOT_6
+  LDHI I, data_bullet_slot_7					; E_BULLET_SLOT_7
+  LDHI I, data_bullet_slot_8					; E_BULLET_SLOT_8
+  LDHI I, data_bullet_slot_9					; E_BULLET_SLOT_9
+
+data_bullet_slot_0:
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0								; bullet.state
+  DB 0								; bullet.xpos
+  DB 0								; bullet.ypos
+  DB 0 								; bullet.owner
+  DB 0								; bullet.direction
+  DB 0								; bullet.timer
+  DB 0								; reserved
+data_bullet_slot_1:
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+data_bullet_slot_2:
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+data_bullet_slot_3:
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+data_bullet_slot_4:
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+data_bullet_slot_5:
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+data_bullet_slot_6:
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+data_bullet_slot_7:
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+data_bullet_slot_8:
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+data_bullet_slot_9:
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+  DB 0
+
+;---------------------------------------------------------------------------------
+
+  DS 12
+data_bullet_alive_constants:
+  DB BULLET_ALIVE_XPOS_MIN					; bullet.const BULLET_ALIVE_XPOS_MIN
+
+  DS 12
+data_bullet_dying_constants:
+  DB BULLET_DYING_XPOS_MIN					; bullet.const BULLET_DYING_XPOS_MIN
+  DB BULLET_DYING_SPEED_X					; bullet.const BULLET_DYING_SPEED_X
+  DB BULLET_DYING_TIMER_MAX					; bullet.const BULLET_DYING_TIMER_MAX
+
+;---------------------------------------------------------------------------------
+
+data_bullet_update_state_switch_lookup:
+  JP lbl_do_update_bullets_case_dead				; E_BULLET_STATE_DEAD
+  JP lbl_do_update_bullets_case_alive				; E_BULLET_STATE_ALIVE
+  JP lbl_do_update_bullets_case_dying				; E_BULLET_STATE_DYING
+
+;---------------------------------------------------------------------------------
+
+BULLET_WIDTH = 16
+BULLET_HEIGHT = 16
+
+data_bullet_sprite_lookup:
+  LDHI I, data_sprite_bullet_alive0				; E_BULLET_SPRITE_ALIVE_0
+  LDHI I, data_sprite_bullet_alive1				; E_BULLET_SPRITE_ALIVE_1
+  LDHI I, data_sprite_bullet_alive2				; E_BULLET_SPRITE_ALIVE_2
+  LDHI I, data_sprite_bullet_alive3				; E_BULLET_SPRITE_ALIVE_3
+  LDHI I, data_sprite_bullet_alive4				; E_BULLET_SPRITE_ALIVE_4
+  LDHI I, data_sprite_bullet_alive5				; E_BULLET_SPRITE_ALIVE_5
+  LDHI I, data_sprite_bullet_alive6				; E_BULLET_SPRITE_ALIVE_6
+  LDHI I, data_sprite_bullet_alive7				; E_BULLET_SPRITE_ALIVE_7
+  LDHI I, data_sprite_bullet_alive8				; E_BULLET_SPRITE_ALIVE_8
+  LDHI I, data_sprite_bullet_alive9				; E_BULLET_SPRITE_ALIVE_9
+  LDHI I, data_sprite_bullet_alive10				; E_BULLET_SPRITE_ALIVE_10
+  LDHI I, data_sprite_bullet_alive11				; E_BULLET_SPRITE_ALIVE_11
+  LDHI I, data_sprite_bullet_alive12				; E_BULLET_SPRITE_ALIVE_12
+  LDHI I, data_sprite_bullet_alive13				; E_BULLET_SPRITE_ALIVE_13
+  LDHI I, data_sprite_bullet_alive14				; E_BULLET_SPRITE_ALIVE_14
+  LDHI I, data_sprite_bullet_alive15				; E_BULLET_SPRITE_ALIVE_15
+  LDHI I, data_sprite_bullet_dying0				; E_BULLET_SPRITE_DYING_0
+  LDHI I, data_sprite_bullet_dying1				; E_BULLET_SPRITE_DYING_1
+  LDHI I, data_sprite_bullet_dying2				; E_BULLET_SPRITE_DYING_2
+  LDHI I, data_sprite_bullet_dying3				; E_BULLET_SPRITE_DYING_3
+  LDHI I, data_sprite_bullet_dying4				; E_BULLET_SPRITE_DYING_4
+  LDHI I, data_sprite_bullet_dying5				; E_BULLET_SPRITE_DYING_5
+  LDHI I, data_sprite_bullet_dying6				; E_BULLET_SPRITE_DYING_6
+  LDHI I, data_sprite_bullet_dying7				; E_BULLET_SPRITE_DYING_7
+
+data_sprite_bullet_alive0:
+  INCBIN 'assets/bullet_alive0.bin'
+
+data_sprite_bullet_alive1:
+  INCBIN 'assets/bullet_alive1.bin'
+
+data_sprite_bullet_alive2:
+  INCBIN 'assets/bullet_alive2.bin'
+
+data_sprite_bullet_alive3:
+  INCBIN 'assets/bullet_alive3.bin'
+
+data_sprite_bullet_alive4:
+  INCBIN 'assets/bullet_alive4.bin'
+
+data_sprite_bullet_alive5:
+  INCBIN 'assets/bullet_alive5.bin'
+
+data_sprite_bullet_alive6:
+  INCBIN 'assets/bullet_alive6.bin'
+
+data_sprite_bullet_alive7:
+  INCBIN 'assets/bullet_alive7.bin'
+
+data_sprite_bullet_alive8:
+  INCBIN 'assets/bullet_alive8.bin'
+
+data_sprite_bullet_alive9:
+  INCBIN 'assets/bullet_alive9.bin'
+
+data_sprite_bullet_alive10:
+  INCBIN 'assets/bullet_alive10.bin'
+
+data_sprite_bullet_alive11:
+  INCBIN 'assets/bullet_alive11.bin'
+
+data_sprite_bullet_alive12:
+  INCBIN 'assets/bullet_alive12.bin'
+
+data_sprite_bullet_alive13:
+  INCBIN 'assets/bullet_alive13.bin'
+
+data_sprite_bullet_alive14:
+  INCBIN 'assets/bullet_alive14.bin'
+
+data_sprite_bullet_alive15:
+  INCBIN 'assets/bullet_alive15.bin'
+
+data_sprite_bullet_dying0:
+  INCBIN 'assets/bullet_dying0.bin'
+
+data_sprite_bullet_dying1:
+  INCBIN 'assets/bullet_dying1.bin'
+
+data_sprite_bullet_dying2:
+  INCBIN 'assets/bullet_dying2.bin'
+
+data_sprite_bullet_dying3:
+  INCBIN 'assets/bullet_dying3.bin'
+
+data_sprite_bullet_dying4:
+  INCBIN 'assets/bullet_dying4.bin'
+
+data_sprite_bullet_dying5:
+  INCBIN 'assets/bullet_dying5.bin'
+
+data_sprite_bullet_dying6:
+  INCBIN 'assets/bullet_dying6.bin'
+
+data_sprite_bullet_dying7:
+  INCBIN 'assets/bullet_dying7.bin'
+
+;---------------------------------------------------------------------------------
+

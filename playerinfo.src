@@ -8,6 +8,7 @@ E_PLAYER_STATE_HIT_WALL						= #04
 E_PLAYER_STATE_HIT_ENEMY					= #06
 E_PLAYER_STATE_HIT_BULLET					= #08
 E_PLAYER_STATE_DYING						= #0A
+E_PLAYER_STATE_OUTRO						= #0C
 
 E_PLAYER_SPRITE_ALIVE_0						= #00
 E_PLAYER_SPRITE_ALIVE_1						= #04
@@ -93,6 +94,8 @@ data_player_info:
   DB 0								; player.ypos
   DB 0								; player.state
  
+;---------------------------------------------------------------------------------
+
   DS 12
 data_player_alive_constants:
   DB PLAYER_ALIVE_XPOS_MIN					; player.const PLAYER_ALIVE_XPOS_MIN
@@ -119,6 +122,10 @@ data_player_dying_constants:
   DB E_PLAYER_SPRITE_DYING_0					; player.nextsprite = E_PLAYER_SPRITE_DYING_0
 
   DS 12
+data_player_outro_constants:
+
+
+  DS 12
 data_player_reset:
   DB E_PLAYER_SPRITE_REVIVING_0					; player.nextsprite = E_PLAYER_SPRITE_REVIVING_0
   DB 0								; player.timer = 0
@@ -126,7 +133,7 @@ data_player_reset:
   DB PLAYER_REVIVING_START_YPOS					; player.ypos = PLAYER_REVIVING_START_YPOS
   DB E_PLAYER_STATE_REVIVING					; player.state = E_PLAYER_STATE_REVIVING
  
-
+;---------------------------------------------------------------------------------
 
 data_player_update_state_switch_lookup:
   JP lbl_do_update_player_case_reviving				; E_PLAYER_STATE_REVIVING
@@ -135,7 +142,9 @@ data_player_update_state_switch_lookup:
   JP lbl_do_update_player_case_hit_anything			; E_PLAYER_STATE_HIT_ENEMY
   JP lbl_do_update_player_case_hit_anything			; E_PLAYER_STATE_HIT_BULLET
   JP lbl_do_update_player_case_dying				; E_PLAYER_STATE_DYING
+  JP lbl_do_update_player_case_outro				; E_PLAYER_STATE_OUTRO
 
+;---------------------------------------------------------------------------------
 
 PLAYER_WIDTH							= 32
 PLAYER_HEIGHT							= 48
@@ -204,4 +213,6 @@ data_sprite_player_clearcollision:
 
 data_sprite_player_collision:
   INCBIN 'assets/player_collision.bin'
+
+;---------------------------------------------------------------------------------
 

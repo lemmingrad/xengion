@@ -25,7 +25,7 @@ E_ENEMY_SLOT_2							= #08
 E_ENEMY_SLOT_3							= #0C
 E_ENEMY_SLOT_4							= #10
 E_ENEMY_SLOT_MAX						= E_ENEMY_SLOT_1
-E_ENEMY_SLOT_INC						= #04
+ENEMY_SLOT_INC							= #04
 
 E_ENEMY_SPRITE_ALIVE_0						= #00 
 E_ENEMY_SPRITE_ALIVE_1						= #04
@@ -82,11 +82,11 @@ ENEMY_DYING_TIMER_MAX						= #20
 ;---------------------------------------------------------------------------------
 
 data_enemy_slot_lookup:
-  LDHI I, data_enemy_slot_0
-  LDHI I, data_enemy_slot_1
-  LDHI I, data_enemy_slot_2
-  LDHI I, data_enemy_slot_3
-  LDHI I, data_enemy_slot_4
+  LDHI I, data_enemy_slot_0					; E_ENEMY_SLOT_0
+  LDHI I, data_enemy_slot_1					; E_ENEMY_SLOT_1
+  LDHI I, data_enemy_slot_2					; E_ENEMY_SLOT_2
+  LDHI I, data_enemy_slot_3					; E_ENEMY_SLOT_3
+  LDHI I, data_enemy_slot_4					; E_ENEMY_SLOT_4
 
 data_enemy_slot_0:
   DB 0
@@ -101,7 +101,7 @@ data_enemy_slot_0:
   DB E_ENEMY_TYPE_SHIP_1		 			; enemy.type
   DB 0								; enemy.move
   DB 0								; enemy.timer
-  DB 0								
+  DB 0								; reserved						
 data_enemy_slot_1:
   DB 0
   DB 0
