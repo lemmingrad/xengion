@@ -1,3 +1,16 @@
+TODO: shuffle data
+
+VC = sprite
+VB = ypos
+VA = xpos
+V9 = state
+V8 = timer
+
+V7 = hiscore
+v6 = score
+v5 = lives
+
+
 ;---------------------------------------------------------------------------------
 ; NevShooter copyright Michael Neve 2012
 ; No, it has nothing to do with shooting me.
@@ -9,10 +22,6 @@
 ;   VF = reserved for carry/collision. Do not use.
 ;   VE = Scrollback counter. Loops continuously from 0 to 15.
 ;   VD = Data index. Increments each time VE rolls around.
-;   player info always loads into V8-VC
-;   laser info loads a bit lower and overlaps, into V6-V9
-;   bullet probably loads at the same level as laser, Vn-V9
-;   enemy probably lower again, Vn-V5?
 ;---------------------------------------------------------------------------------
 
   MEGAON					; Megachip8 mode
@@ -140,19 +149,8 @@ fDoGamePlay:
 
   CALL fDrawCollisionWalls
 
-  LDHI I, dPlayerInfo
-  LD VA, [I]
-
-  SE VC, E_PLAYER_STATE_ALIVE
-  JP lDoGamePlayLbl
-  LD VB, E_PLAYER_SPRITE_COLLISION	; VB = E_PLAYER_SPRITE_COLLISION
-  CALL fDrawPlayer
-  SNE VF, 1				; if collision
-  LD VC, E_PLAYER_STATE_HIT_WALL	; VC = E_PLAYER_STATE_HIT_WALL
- 
-lDoGamePlayLbl:
- 
   CALL fDoUpdatePlayer
+;  CALL fDoUpdateLaser
   
   RET
   
@@ -161,20 +159,21 @@ lDoGamePlayLbl:
 ;---------------------------------------------------------------------------------
 fDoUpdatePlayer:
 
-  ; set up switch
-  LDHI I, dPlayerUpdateSwitchLookup
-  ADD I, VC					; VC = current frame player state
-  LD V1, [I]
-  LD I, lPlayerUpdateSwitchStart
-  LD [I], V1
-
-  ; load player info, including player.sprite, but minus player.state
+  ; load player info
   LDHI I, dPlayerInfo
-  LD VB, [I]
+  LD VC, [I]
   						; V8 = player.timer
   						; V9 = player.xpos
   						; VA = player.ypos
 						; VB = player.sprite
+						; VC = player.state
+  ; set up switch
+  LDHI I, dPlayerUpdateSwitchLookup
+  ADD I, VC
+  LD V1, [I]
+  LD I, lPlayerUpdateSwitchStart
+  LD [I], V1
+
   ; draw player
   CALL fDrawPlayer
 
@@ -195,6 +194,9 @@ lPlayerUpdateCaseReviving:
   JP lPlayerUpdateSwitchEnd
 
 lPlayerUpdateCaseAlive:
+  SNE VF, 1					; player hit something
+  JP lPlayerUpdateCaseHitBullet
+  
   LDHI I, dPlayerAliveConstants
   LD VB, VE					; VB = scrollback counter
   LD V7, [I]
@@ -259,9 +261,49 @@ lPlayerUpdateCaseDying:
 
 lPlayerUpdateSwitchEnd:
 
-  ; save all player info, including player.state and player.sprite
+  ; save all player info
   LDHI I, dPlayerInfo
   LD [I], VC
+
+  RET
+
+;---------------------------------------------------------------------------------
+;
+;---------------------------------------------------------------------------------
+fDoUpdateLaser:
+
+  ; set up switch
+  LDHI I, dLaserUpdateSwitchLookup
+  ADD I, VC					; VC = current frame player state
+  LD V1, [I]
+  LD I, lLaserUpdateSwitchStart
+  LD [I], V1
+
+  ; load laser info, not including lives, score or hi-score
+  LDHI I, dLaserInfo
+  LD V7, [I]
+
+lLaserUpdateSwitchStart:
+  JP lLaserUpdateSwitchStart
+
+lLaserUpdateCaseDead:
+
+lLaserUpdateCaseAlive:
+
+
+lLaserUpdateCaseHitWall:
+lLaserUpdateCaseHitEnemy:
+
+
+lLaserUpdateCaseDying:
+
+
+lLaserUpdateSwitchEnd:
+
+
+  ; save all laser info
+  LDHI I, dPlayerInfo
+  LD [I], VA
 
   RET
 
@@ -426,8 +468,8 @@ dPlayerInfo:
   DB 0						; V8 player.timer
   DB 0						; V9 player.xpos
   DB 0						; VA player.ypos
-  DB 0						; VB player.sprite
   DB 0						; VC player.state
+  DB 0						; VB player.sprite
  
 dPlayerAliveConstants:
   DB PLAYER_ALIVE_XPOS_MIN			; V0 player.const PLAYER_ALIVE_XPOS_MIN
@@ -709,6 +751,69 @@ dLaserInfoReset:
   DB 0						; V5 laser.ypos = 0
   DB E_LASER_SPRITE_ALIVE_0			; V6 laser.sprite = E_LASER_SPRITE_ALIVE_0
   DB E_LASER_STATE_DEAD				; V7 laser.state = E_LASER_STATE_DEAD
+
+dLaserUpdateSwitchLookup:
+  JP lLaserUpdateCaseDead			; E_LASER_STATE_DEAD
+  JP lLaserUpdateCaseAlive			; E_LASER_STATE_ALIVE
+  JP lLaserUpdateCaseHitWall			; E_LASER_STATE_HIT_WALL
+  JP lLaserUpdateCaseHitEnemy			; E_LASER_STATE_HIT_ENEMY
+  JP lLaserUpdateCaseDying			; E_LASER_STATE_DYING
+
+dLaserSpriteLookup:
+  LDHI I, dLaserSpriteCollision			; E_LASER_SPRITE_ALIVE_0
+  LDHI I, dLaserSpriteCollision			; E_LASER_SPRITE_ALIVE_1
+  LDHI I, dLaserSpriteCollision			; E_LASER_SPRITE_ALIVE_2
+  LDHI I, dLaserSpriteCollision			; E_LASER_SPRITE_ALIVE_3
+  LDHI I, dLaserSpriteCollision			; E_LASER_SPRITE_ALIVE_4
+  LDHI I, dLaserSpriteCollision			; E_LASER_SPRITE_ALIVE_5
+  LDHI I, dLaserSpriteCollision			; E_LASER_SPRITE_ALIVE_6
+  LDHI I, dLaserSpriteCollision			; E_LASER_SPRITE_ALIVE_7
+  LDHI I, dLaserSpriteCollision			; E_LASER_SPRITE_ALIVE_8
+  LDHI I, dLaserSpriteCollision			; E_LASER_SPRITE_ALIVE_9
+  LDHI I, dLaserSpriteCollision			; E_LASER_SPRITE_ALIVE_10
+  LDHI I, dLaserSpriteCollision			; E_LASER_SPRITE_ALIVE_11
+  LDHI I, dLaserSpriteCollision			; E_LASER_SPRITE_ALIVE_12
+  LDHI I, dLaserSpriteCollision			; E_LASER_SPRITE_ALIVE_13
+  LDHI I, dLaserSpriteCollision			; E_LASER_SPRITE_ALIVE_14
+  LDHI I, dLaserSpriteCollision			; E_LASER_SPRITE_ALIVE_15
+  LDHI I, dLaserSpriteCollision			; E_LASER_SPRITE_DYING_0
+  LDHI I, dBoomSprite				; E_LASER_SPRITE_DYING_1
+  LDHI I, dLaserSpriteCollision			; E_LASER_SPRITE_DYING_2
+  LDHI I, dBoomSprite				; E_LASER_SPRITE_DYING_3
+  LDHI I, dLaserSpriteCollision			; E_LASER_SPRITE_DYING_4
+  LDHI I, dBoomSprite				; E_LASER_SPRITE_DYING_5
+  LDHI I, dLaserSpriteCollision			; E_LASER_SPRITE_DYING_6
+  LDHI I, dBoomSprite				; E_LASER_SPRITE_DYING_7
+  LDHI I, dLaserSpriteCollision			; E_LASER_SPRITE_DYING_8
+  LDHI I, dBoomSprite				; E_LASER_SPRITE_DYING_9
+  LDHI I, dLaserSpriteCollision			; E_LASER_SPRITE_DYING_10
+  LDHI I, dBoomSprite				; E_LASER_SPRITE_DYING_11
+  LDHI I, dLaserSpriteCollision			; E_LASER_SPRITE_DYING_12
+  LDHI I, dBoomSprite				; E_LASER_SPRITE_DYING_13
+  LDHI I, dLaserSpriteCollision			; E_LASER_SPRITE_DYING_14
+  LDHI I, dBoomSprite				; E_LASER_SPRITE_DYING_15
+  LDHI I, dLaserSpriteCollision			; E_LASER_SPRITE_CLEAR_COLLISION
+  LDHI I, dBoomSprite				; E_LASER_SPRITE_COLLISION
+
+dLaserSpriteCollision:
+  DB 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+  DB 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+  DB 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+  DB 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+  DB 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+  DB 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+  DB 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+  DB 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+  DB 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+  DB 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+  DB 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+  DB 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+  DB 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+  DB 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+  DB 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+  DB 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+
+
 
 ;---------------------------------------------------------------------------------
 ;---------------------------------------------------------------------------------
