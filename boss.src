@@ -1,71 +1,86 @@
-E_BOSS_STATE_DEAD 		= #00
-E_BOSS_STATE_ALIVE 		= #02
-E_BOSS_STATE_BLINK		= #04
-E_BOSS_STATE_DAMAGED_BY_LASER	= #06
-E_BOSS_STATE_KILLED_BY_LASER	= #08
-E_BOSS_STATE_DYING 		= #10
+;---------------------------------------------------------------------------------
+; BOSS INFO
+;--------------------------------------------------------------------------------
 
-E_BOSS_SPRITE_BLINK		= #00
-E_BOSS_SPRITE_DAMAGED		= #04
-E_BOSS_SPRITE_DYING_0		= #08 
-E_BOSS_SPRITE_DYING_1		= #0C 
-E_BOSS_SPRITE_DYING_2		= #10 
-E_BOSS_SPRITE_DYING_3		= #14 
-E_BOSS_SPRITE_DYING_4		= #18 
-E_BOSS_SPRITE_DYING_5		= #1C 
-E_BOSS_SPRITE_DYING_6		= #20 
-E_BOSS_SPRITE_DYING_7		= #24 
-E_BOSS_SPRITE_COL_PURPLE	= #28 
-E_BOSS_SPRITE_COL_WHITE		= #2C 
-E_BOSS_SPRITE_COL_ORANGE	= #30 
+E_BOSS_STATE_DEAD 						= #00
+E_BOSS_STATE_ALIVE 						= #02
+E_BOSS_STATE_BLINK						= #04
+E_BOSS_STATE_DAMAGED_BY_LASER					= #06
+E_BOSS_STATE_KILLED_BY_LASER					= #08
+E_BOSS_STATE_DYING 						= #0A
 
+E_BOSS_SPRITE_BLINK						= #00
+E_BOSS_SPRITE_DAMAGED						= #04
+E_BOSS_SPRITE_DYING_0						= #08 
+E_BOSS_SPRITE_DYING_1						= #0C 
+E_BOSS_SPRITE_DYING_2						= #10 
+E_BOSS_SPRITE_DYING_3						= #14 
+E_BOSS_SPRITE_DYING_4						= #18 
+E_BOSS_SPRITE_DYING_5						= #1C 
+E_BOSS_SPRITE_DYING_6						= #20 
+E_BOSS_SPRITE_DYING_7						= #24 
+E_BOSS_SPRITE_DYING_8						= #28 
+E_BOSS_SPRITE_DYING_9						= #2C 
+E_BOSS_SPRITE_DYING_10						= #30 
+E_BOSS_SPRITE_DYING_11						= #34 
+E_BOSS_SPRITE_DYING_12						= #38 
+E_BOSS_SPRITE_DYING_13						= #3C 
+E_BOSS_SPRITE_DYING_14						= #40 
+E_BOSS_SPRITE_DYING_15						= #44 
+E_BOSS_SPRITE_COL_PURPLE					= #48 
+E_BOSS_SPRITE_COL_GREEN						= #4C 
+E_BOSS_SPRITE_COL_ORANGE					= #50 
 
+BOSS_HEALTH 							= 15
+BOSS_X_POS 							= 192
+BOSS_Y_POS 							= 79
 
-BOSS_HEALTH = 15
-BOSS_X_POS = 192
-BOSS_Y_POS = 79
+BOSS_ALIVE_BLINK_CHANCE						= 100 		; 1/100 chance of blink
 
-BOSS_ALIVE_BLINK_CHANCE = 100 		; 1/100 chance of blink
+BOSS_BLINK_TIMER_INC 						= 1
+BOSS_BLINK_TIMER_MAX						= 5
 
-BOSS_BLINK_TIMER_INC = 1
-BOSS_BLINK_TIMER_MAX = 5
+BOSS_DAMAGED_TIMER_INC						= 1
+BOSS_DAMAGED_TIMER_MAX						= 4
 
-BOSS_DAMAGED_TIMER_INC = 1
-BOSS_DAMAGED_TIMER_MAX = 4
+BOSS_DYING_TIMER_INC 						= 1
+BOSS_DYING_TIMER_MAX 						= 100
 
-BOSS_DYING_TIMER_INC = 1
-BOSS_DYING_TIMER_MAX = 100
-
+;---------------------------------------------------------------------------------
 
   DS 12
 data_boss_info:
-  DB BOSS_HEALTH			; boss.health
-  DB E_BOSS_STATE_ALIVE			; boss.state
-  DB BOSS_X_POS				; boss.xpos
-  DB BOSS_Y_POS				; boss.ypos
-  DB 0					; boss.timer
+  DB E_BOSS_STATE_ALIVE						; boss.state
+  DB BOSS_HEALTH						; boss.health
+  DB 0								; boss.timer
+  DB BOSS_X_POS							; boss.xpos
+  DB BOSS_Y_POS							; boss.ypos
+
+;---------------------------------------------------------------------------------
 
   DS 12
 data_boss_reset:
-  DB BOSS_HEALTH			; boss.health = BOSS_HEALTH
-  DB E_BOSS_STATE_ALIVE			; boss.satte = E_BOSS_STATE_ALIVE
-  DB BOSS_X_POS				; boss.xpos = BOSS_X_POS
-  DB BOSS_Y_POS				; boss.ypos = BOSS_Y_POS
-  DB 0					; boss.timer = 0
+  DB E_BOSS_STATE_ALIVE						; boss.state = E_BOSS_STATE_ALIVE
+  DB BOSS_HEALTH						; boss.health = BOSS_HEALTH
+  DB 0								; boss.timer = 0
+  DB BOSS_X_POS							; boss.xpos = BOSS_X_POS
+  DB BOSS_Y_POS							; boss.ypos = BOSS_Y_POS
+
+;---------------------------------------------------------------------------------
 
   DS 12
 data_boss_blink_constants:
-  DB E_BOSS_SPRITE_BLINK
-  DB 0
-  DB BOSS_BLINK_TIMER_INC
-  DB BOSS_BLINK_TIMER_MAX
+  DB E_BOSS_SPRITE_BLINK					; E_BOSS_SPRITE_BLINK
+  DB 0								; unused
+  DB BOSS_BLINK_TIMER_INC					; boss.const BOSS_BLINK_TIMER_INC
+  DB BOSS_BLINK_TIMER_MAX					; boss.const BOSS_BLINK_TIMER_MAX
 
   DS 12
 data_boss_damaged_constants:
-  DB E_BOSS_SPRITE_DAMAGED
-  DB 0
-  DB BOSS_DAMAGED_TIMER_INC
-  DB BOSS_DAMAGED_TIMER_MAX
+  DB E_BOSS_SPRITE_DAMAGED					; E_BOSS_SPRITE_DAMAGED
+  DB 0								; unused
+  DB BOSS_DAMAGED_TIMER_INC					; boss.const BOSS_DAMAGED_TIMER_INC
+  DB BOSS_DAMAGED_TIMER_MAX					; boss.const BOSS_DAMAGED_TIMER_MAX
 
   DS 12
 data_boss_dying_constants:
@@ -74,8 +89,7 @@ data_boss_dying_constants:
   DB BOSS_DYING_TIMER_INC
   DB BOSS_DYING_TIMER_MAX
 
-
-
+;---------------------------------------------------------------------------------
 
 data_boss_update_switch_lookup:
   JP lbl_do_boss_update_case_dead
@@ -85,7 +99,7 @@ data_boss_update_switch_lookup:
   JP lbl_do_boss_update_case_killed_by_laser
   JP lbl_do_boss_update_case_dying
 
-
+;---------------------------------------------------------------------------------
 
 BOSS_BACKGROUND_WIDTH = 0
 BOSS_BACKGROUND_HEIGHT = 192
@@ -96,6 +110,8 @@ data_sprite_boss_background_col:
 data_sprite_boss_background:
   INCBIN 'assets/boss_background.bin'
 
+;---------------------------------------------------------------------------------
+
 BOSS_WIDTH = 52
 BOSS_HEIGHT = 52
 
@@ -103,15 +119,23 @@ data_boss_sprite_lookup:
   LDHI I, data_sprite_eye_blink					; E_BOSS_SPRITE_BLINK
   LDHI I, data_sprite_eye_damaged				; E_BOSS_SPRITE_DAMAGED
   LDHI I, data_sprite_eye_dying0				; E_BOSS_SPRITE_DYING_0
-  LDHI I, data_sprite_eye_dying1				; E_BOSS_SPRITE_DYING_1
-  LDHI I, data_sprite_eye_dying2				; E_BOSS_SPRITE_DYING_2
-  LDHI I, data_sprite_eye_dying3				; E_BOSS_SPRITE_DYING_3
-  LDHI I, data_sprite_eye_dying4				; E_BOSS_SPRITE_DYING_4
-  LDHI I, data_sprite_eye_dying5				; E_BOSS_SPRITE_DYING_5
-  LDHI I, data_sprite_eye_dying6				; E_BOSS_SPRITE_DYING_6
-  LDHI I, data_sprite_eye_dying7				; E_BOSS_SPRITE_DYING_7
+  LDHI I, data_sprite_eye_dying0				; E_BOSS_SPRITE_DYING_1
+  LDHI I, data_sprite_eye_dying1				; E_BOSS_SPRITE_DYING_2
+  LDHI I, data_sprite_eye_dying1				; E_BOSS_SPRITE_DYING_3
+  LDHI I, data_sprite_eye_dying2				; E_BOSS_SPRITE_DYING_4
+  LDHI I, data_sprite_eye_dying2				; E_BOSS_SPRITE_DYING_5
+  LDHI I, data_sprite_eye_dying3				; E_BOSS_SPRITE_DYING_6
+  LDHI I, data_sprite_eye_dying3				; E_BOSS_SPRITE_DYING_7
+  LDHI I, data_sprite_eye_dying4				; E_BOSS_SPRITE_DYING_8
+  LDHI I, data_sprite_eye_dying4				; E_BOSS_SPRITE_DYING_9
+  LDHI I, data_sprite_eye_dying5				; E_BOSS_SPRITE_DYING_10
+  LDHI I, data_sprite_eye_dying5				; E_BOSS_SPRITE_DYING_11
+  LDHI I, data_sprite_eye_dying6				; E_BOSS_SPRITE_DYING_12
+  LDHI I, data_sprite_eye_dying6				; E_BOSS_SPRITE_DYING_13
+  LDHI I, data_sprite_eye_dying7				; E_BOSS_SPRITE_DYING_14
+  LDHI I, data_sprite_eye_dying7				; E_BOSS_SPRITE_DYING_15
   LDHI I, data_sprite_eye_col_purple				; E_BOSS_SPRITE_COL_PURPLE
-  LDHI I, data_sprite_eye_col_white				; E_BOSS_SPRITE_COL_WHITE
+  LDHI I, data_sprite_eye_col_green				; E_BOSS_SPRITE_COL_GREEN
   LDHI I, data_sprite_eye_col_orange				; E_BOSS_SPRITE_COL_ORANGE
 
 data_sprite_eye_blink:
@@ -147,10 +171,11 @@ data_sprite_eye_dying7:
 data_sprite_eye_col_purple:
   INCBIN 'assets/eye_col_purple.bin'
 
-data_sprite_eye_col_white:
-  INCBIN 'assets/eye_col_white.bin'
+data_sprite_eye_col_green:
+  INCBIN 'assets/eye_col_green.bin'
 
 data_sprite_eye_col_orange:
   INCBIN 'assets/eye_col_orange.bin'
 
+;---------------------------------------------------------------------------------
 

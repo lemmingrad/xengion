@@ -6,18 +6,36 @@ E_BULLET_STATE_DEAD						= #00
 E_BULLET_STATE_ALIVE						= #02
 E_BULLET_STATE_DYING						= #04
 
-E_BULLET_SLOT_0							= #00
-E_BULLET_SLOT_1							= #04
-E_BULLET_SLOT_2							= #08
-E_BULLET_SLOT_3							= #0C
-E_BULLET_SLOT_4							= #10
-E_BULLET_SLOT_5							= #14
-E_BULLET_SLOT_6							= #18
-E_BULLET_SLOT_7							= #1C
-E_BULLET_SLOT_8							= #20
-E_BULLET_SLOT_9							= #24
-E_BULLET_SLOT_MAX 						= E_BULLET_SLOT_1
-BULLET_SLOT_INC							= #04
+SIZEOF_BULLET							= 12
+E_BULLET_SLOT_0							= (SIZEOF_BULLET * 0)
+E_BULLET_SLOT_1							= (SIZEOF_BULLET * 1)
+E_BULLET_SLOT_2							= (SIZEOF_BULLET * 2)
+E_BULLET_SLOT_3							= (SIZEOF_BULLET * 3)
+E_BULLET_SLOT_4							= (SIZEOF_BULLET * 4)
+E_BULLET_SLOT_5							= (SIZEOF_BULLET * 5)
+E_BULLET_SLOT_6							= (SIZEOF_BULLET * 6)
+E_BULLET_SLOT_7							= (SIZEOF_BULLET * 7)
+E_BULLET_SLOT_8							= (SIZEOF_BULLET * 8)
+E_BULLET_SLOT_9							= (SIZEOF_BULLET * 9)
+E_BULLET_SLOT_MAX 						= (SIZEOF_BULLET * 10)
+
+SIZEOF_BULLET_THREAT						= 12
+E_BULLET_THREAT_NONE						= (SIZEOF_BULLET_THREAT * 0)
+E_BULLET_THREAT_SHIP_W						= (SIZEOF_BULLET_THREAT * 1)
+E_BULLET_THREAT_TURRET_NE					= (SIZEOF_BULLET_THREAT * 2)
+E_BULLET_THREAT_TURRET_NNE					= (SIZEOF_BULLET_THREAT * 3)
+E_BULLET_THREAT_TURRET_N					= (SIZEOF_BULLET_THREAT * 4)
+E_BULLET_THREAT_TURRET_NNW					= (SIZEOF_BULLET_THREAT * 5)
+E_BULLET_THREAT_TURRET_NW					= (SIZEOF_BULLET_THREAT * 6)
+E_BULLET_THREAT_TURRET_WNW					= (SIZEOF_BULLET_THREAT * 7)
+E_BULLET_THREAT_TURRET_W					= (SIZEOF_BULLET_THREAT * 8)
+E_BULLET_THREAT_TURRET_WSW					= (SIZEOF_BULLET_THREAT * 9)
+E_BULLET_THREAT_TURRET_SW					= (SIZEOF_BULLET_THREAT * 10)
+E_BULLET_THREAT_TURRET_SSW					= (SIZEOF_BULLET_THREAT * 11)
+E_BULLET_THREAT_TURRET_S					= (SIZEOF_BULLET_THREAT * 12)
+E_BULLET_THREAT_TURRET_SSE					= (SIZEOF_BULLET_THREAT * 13)
+E_BULLET_THREAT_TURRET_SE					= (SIZEOF_BULLET_THREAT * 14)
+E_BULLET_THREAT_MAX						= (SIZEOF_BULLET_THREAT * 15)
 
 E_BULLET_SPRITE_ALIVE_0						= #00
 E_BULLET_SPRITE_ALIVE_1						= #04
@@ -51,160 +69,18 @@ BULLET_DYING_SPEED_X						= 1
 BULLET_DYING_TIMER_INC						= #04
 BULLET_DYING_TIMER_MAX						= #20
 
+
 ;---------------------------------------------------------------------------------
 
-data_bullet_slot_lookup:
-  LDHI I, data_bullet_slot_0					; E_BULLET_SLOT_0
-  LDHI I, data_bullet_slot_1					; E_BULLET_SLOT_1
-  LDHI I, data_bullet_slot_2					; E_BULLET_SLOT_2
-  LDHI I, data_bullet_slot_3					; E_BULLET_SLOT_3
-  LDHI I, data_bullet_slot_4					; E_BULLET_SLOT_4
-  LDHI I, data_bullet_slot_5					; E_BULLET_SLOT_5
-  LDHI I, data_bullet_slot_6					; E_BULLET_SLOT_6
-  LDHI I, data_bullet_slot_7					; E_BULLET_SLOT_7
-  LDHI I, data_bullet_slot_8					; E_BULLET_SLOT_8
-  LDHI I, data_bullet_slot_9					; E_BULLET_SLOT_9
+  DS 12
+data_bullet_slots:
+  DS E_BULLET_SLOT_MAX
 
-data_bullet_slot_0:
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0								; bullet.state
-  DB 0								; bullet.xpos
-  DB 0								; bullet.ypos
-  DB 0 								; bullet.owner
-  DB 0								; bullet.direction
-  DB 0								; bullet.timer
-  DB 0								; reserved
-data_bullet_slot_1:
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-data_bullet_slot_2:
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-data_bullet_slot_3:
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-data_bullet_slot_4:
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-data_bullet_slot_5:
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-data_bullet_slot_6:
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-data_bullet_slot_7:
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-data_bullet_slot_8:
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-data_bullet_slot_9:
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
-  DB 0
+;---------------------------------------------------------------------------------
+
+  DS 12
+data_bullet_threats:
+  DB								; E_BULLET_THREAT_SLOT1
 
 ;---------------------------------------------------------------------------------
 
@@ -220,10 +96,10 @@ data_bullet_dying_constants:
 
 ;---------------------------------------------------------------------------------
 
-data_bullet_update_state_switch_lookup:
-  JP lbl_do_update_bullets_case_dead				; E_BULLET_STATE_DEAD
-  JP lbl_do_update_bullets_case_alive				; E_BULLET_STATE_ALIVE
-  JP lbl_do_update_bullets_case_dying				; E_BULLET_STATE_DYING
+;data_bullet_update_state_switch_lookup:
+;  JP lbl_do_update_bullets_case_dead				; E_BULLET_STATE_DEAD
+;  JP lbl_do_update_bullets_case_alive				; E_BULLET_STATE_ALIVE
+;  JP lbl_do_update_bullets_case_dying				; E_BULLET_STATE_DYING
 
 ;---------------------------------------------------------------------------------
 

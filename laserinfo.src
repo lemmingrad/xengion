@@ -41,7 +41,7 @@ E_LASER_SPRITE_DYING_13						= #74
 E_LASER_SPRITE_DYING_14						= #78
 E_LASER_SPRITE_DYING_15						= #7C
 E_LASER_SPRITE_COL_PURPLE					= #80
-E_LASER_SPRITE_COL_WHITE					= #84
+E_LASER_SPRITE_COL_GREEN					= #84
 E_LASER_SPRITE_COL_ORANGE					= #88
 
 KEY_FIRE 							= 1
@@ -60,43 +60,44 @@ LASER_DYING_TIMER_MAX						= #20
 
   DS 12
 data_laser_info:
+  DB 0								; laser.state
+  DB 0								; laser.charge
   DB 0								; laser.timer
   DB 0								; laser.xpos
   DB 0								; laser.ypos
-  DB 0								; laser.state
-  DB 0								; laser.charge
+ 
+;---------------------------------------------------------------------------------
+
+  DS 12
+data_laser_reset:
+  DB E_LASER_STATE_DEAD						; laser.state = E_LASER_STATE_DEAD
+  DB 0								; laser.charge = 0
+  DB 0								; laser.timer = 0
+  DB 0								; laser.xpos = 0
+  DB 0								; laser.ypos = 0
 
 ;---------------------------------------------------------------------------------
 
   DS 12
 data_laser_alive_constants:
-  DB E_LASER_SPRITE_ALIVE_0					; laser.const E_LASER_SPRITE_ALIVE_0
+  DB E_LASER_SPRITE_ALIVE_0					; E_LASER_SPRITE_ALIVE_0
   DB 0								; empty
   DB LASER_ALIVE_XPOS_MAX					; laser.const LASER_ALIVE_XPOS_MAX
   DB LASER_ALIVE_SPEED_X					; laser.const LASER_ALIVE_SPEED_X
 
   DS 12
 data_laser_dead_constants:
+  DB LASER_DEAD_CHARGE						; laser.const LASER_DEAD_CHARGE
   DB LASER_DEAD_OFFSET_X					; laser.const LASER_DEAD_OFFSET_X
   DB LASER_DEAD_OFFSET_Y 					; laser.const LASER_DEAD_OFFSET_Y
   DB KEY_FIRE							; laser.const KEY_FIRE 
 
   DS 12
 data_laser_dying_constants:
-  DB E_LASER_SPRITE_DYING_0					; laser.const E_LASER_SPRITE_DYING_0
+  DB E_LASER_SPRITE_DYING_0					; E_LASER_SPRITE_DYING_0
   DB 0								; empty
-  DB 0								; empty
+  DB LASER_DYING_TIMER_INC					; laser.const LASER_DYING_TIMER_INC
   DB LASER_DYING_TIMER_MAX					; laser.const LASER_DYING_TIMER_MAX
-
-;---------------------------------------------------------------------------------
-
-  DS 12
-data_laser_reset:
-  DB 0								; laser.timer = 0
-  DB 0								; laser.xpos = 0
-  DB 0								; laser.ypos = 0
-  DB E_LASER_STATE_DEAD						; laser.state = E_LASER_STATE_DEAD
-  DB 0								; laser.charge = 0
 
 ;---------------------------------------------------------------------------------
 
@@ -146,7 +147,7 @@ data_laser_sprite_lookup:
   LDHI I, data_sprite_laser_dying3				; E_LASER_SPRITE_DYING_14
   LDHI I, data_sprite_laser_dying3				; E_LASER_SPRITE_DYING_15
   LDHI I, data_sprite_laser_col_purple				; E_LASER_SPRITE_COL_PURPLE
-  LDHI I, data_sprite_laser_col_white				; E_LASER_SPRITE_COL_WHITE
+  LDHI I, data_sprite_laser_col_green				; E_LASER_SPRITE_COL_GREEN
   LDHI I, data_sprite_laser_col_orange				; E_LASER_SPRITE_COL_ORANGE
 
 data_sprite_laser_alive0:
@@ -170,8 +171,8 @@ data_sprite_laser_dying3:
 data_sprite_laser_col_purple:
   INCBIN 'assets/laser_col_purple.bin'
 
-data_sprite_laser_col_white:
-  INCBIN 'assets/laser_col_white.bin'
+data_sprite_laser_col_green:
+  INCBIN 'assets/laser_col_green.bin'
 
 data_sprite_laser_col_orange:
   INCBIN 'assets/laser_col_orange.bin'

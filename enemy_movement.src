@@ -72,7 +72,6 @@ data_enemy_y_movement_lookup:
   LDHI I, data_enemy_y_neg64_x32_s80
   LDHI I, data_enemy_y_neg64_x64_s16
   LDHI I, data_enemy_y_neg64_x64_s80
-
   LDHI I, data_enemy_y_neg64_sin32
   LDHI I, data_enemy_y_neg64_sin64
 

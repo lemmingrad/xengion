@@ -10,7 +10,8 @@ E_PLAYER_STATE_HIT_ENEMY					= #08
 E_PLAYER_STATE_HIT_BULLET					= #0A
 E_PLAYER_STATE_DYING						= #0C
 E_PLAYER_STATE_OUTRO						= #0E
-E_PLAYER_STATE_SUCCESS						= #10
+E_PLAYER_STATE_OUTRO_COMPLETE					= #10
+E_PLAYER_STATE_INVULNERABLE					= #12
 
 E_PLAYER_SPRITE_ALIVE_0						= #00
 E_PLAYER_SPRITE_ALIVE_1						= #04
@@ -65,7 +66,7 @@ E_PLAYER_SPRITE_MOVE_DOWN					= #C4
 E_PLAYER_SPRITE_MOVE_LEFT					= #C8
 E_PLAYER_SPRITE_MOVE_RIGHT					= #CC
 E_PLAYER_SPRITE_COL_PURPLE					= #D0
-E_PLAYER_SPRITE_COL_WHITE					= #D4
+E_PLAYER_SPRITE_COL_GREEN					= #D4
 E_PLAYER_SPRITE_COL_ORANGE					= #D8
 		
 KEY_RIGHT							= 9
@@ -73,10 +74,11 @@ KEY_LEFT 							= 7
 KEY_DOWN							= 8 
 KEY_UP								= 5
 
-PLAYER_REVIVING_TIMER_MAX 					= 50 
 PLAYER_REVIVING_START_XPOS					= 0
 PLAYER_REVIVING_START_YPOS					= 70
 PLAYER_REVIVING_SPEED_X						= 2
+PLAYER_REVIVING_TIMER_INC					= 1
+PLAYER_REVIVING_TIMER_MAX 					= 50 
 
 PLAYER_ALIVE_XPOS_MIN 						= 0
 PLAYER_ALIVE_XPOS_MAX						= 200
@@ -85,6 +87,7 @@ PLAYER_ALIVE_SPEED_Y						= 2
 
 PLAYER_DYING_XPOS_MIN						= 0
 PLAYER_DYING_SPEED_X						= GAMEPLAY_SCROLL_SPEED
+PLAYER_DYING_TIMER_INC						= 1
 PLAYER_DYING_TIMER_MAX						= 50
 
 PLAYER_OUTRO_XPOS_MAX						= 200
@@ -94,12 +97,20 @@ PLAYER_OUTRO_SPEED_X						= 2
 
   DS 12
 data_player_info:
-  DB 0								; player.nextsprite
+  DB 0								; player.state
   DB 0								; player.timer
   DB 0								; player.xpos
   DB 0								; player.ypos
-  DB 0								; player.state
- 
+
+;---------------------------------------------------------------------------------
+
+  DS 12
+data_player_reset:
+  DB E_PLAYER_STATE_REVIVING					; player.state = E_PLAYER_STATE_REVIVING
+  DB 0								; player.timer = 0
+  DB PLAYER_REVIVING_START_XPOS					; player.xpos = PLAYER_REVIVING_START_XPOS
+  DB PLAYER_REVIVING_START_YPOS					; player.ypos = PLAYER_REVIVING_START_YPOS
+
 ;---------------------------------------------------------------------------------
 
   DS 12
@@ -108,39 +119,44 @@ data_player_alive_constants:
   DB PLAYER_ALIVE_XPOS_MAX					; player.const PLAYER_ALIVE_XPOS_MAX
   DB PLAYER_ALIVE_SPEED_X					; player.const PLAYER_ALIVE_SPEED_X
   DB PLAYER_ALIVE_SPEED_Y					; player.const PLAYER_ALIVE_SPEED_Y
+  DB E_PLAYER_SPRITE_ALIVE_0					; E_PLAYER_SPRITE_ALIVE_0
   DB KEY_RIGHT							; player.const KEY_RIGHT 
   DB KEY_LEFT							; player.const KEY_LEFT
   DB KEY_DOWN							; player.const KEY_DOWN
   DB KEY_UP							; player.const KEY_UP
-  DB E_PLAYER_SPRITE_ALIVE_0					; player.nextsprite = E_PLAYER_SPRITE_ALIVE_0
 
   DS 12
 data_player_reviving_constants:
+  DB E_PLAYER_SPRITE_REVIVING_0					; E_PLAYER_SPRITE_REVIVING_0
+  DB 0								; unused
   DB PLAYER_REVIVING_SPEED_X					; player.const PLAYER_REVIVING_SPEED_X
+  DB PLAYER_REVIVING_TIMER_INC					; player.const PLAYER_REVIVING_TIMER_INC
   DB PLAYER_REVIVING_TIMER_MAX					; player.const PLAYER_REVIVING_TIMER_MAX
-  DB E_PLAYER_SPRITE_REVIVING_0					; player.nextsprite = E_PLAYER_SPRITE_REVIVING_0
 
   DS 12 
 data_player_dying_constants:
+  DB E_PLAYER_SPRITE_DYING_0					; E_PLAYER_SPRITE_DYING_0
   DB PLAYER_DYING_XPOS_MIN					; player.const PLAYER_DYING_XPOS_MIN
   DB PLAYER_DYING_SPEED_X					; player.const PLAYER_DYING_SPEED_X 
+  DB PLAYER_DYING_TIMER_INC					; player.const PLAYER_DYING_TIMER_INC
   DB PLAYER_DYING_TIMER_MAX					; player.const PLAYER_DYING_TIMER_MAX
-  DB E_PLAYER_SPRITE_DYING_0					; player.nextsprite = E_PLAYER_SPRITE_DYING_0
 
   DS 12
 data_player_outro_constants:
+  DB E_PLAYER_SPRITE_REVIVING_0					; E_PLAYER_SPRITE_REVIVING_0
+  DB 0								; unused
+  DB 0								; unused
   DB PLAYER_OUTRO_XPOS_MAX					; player.const PLAYER_OUTRO_XPOS_MAX
   DB PLAYER_OUTRO_SPEED_X					; player.const PLAYER_OUTRO_SPEED_X
-  DB E_PLAYER_SPRITE_REVIVING_0					; player.nextsprite = E_PLAYER_SPRITE_REVIVING_0
 
   DS 12
-data_player_reset:
-  DB E_PLAYER_SPRITE_REVIVING_0					; player.nextsprite = E_PLAYER_SPRITE_REVIVING_0
-  DB 0								; player.timer = 0
-  DB PLAYER_REVIVING_START_XPOS					; player.xpos = PLAYER_REVIVING_START_XPOS
-  DB PLAYER_REVIVING_START_YPOS					; player.ypos = PLAYER_REVIVING_START_YPOS
-  DB E_PLAYER_STATE_REVIVING					; player.state = E_PLAYER_STATE_REVIVING
- 
+data_player_invulnerable_constants:
+  DB E_PLAYER_SPRITE_REVIVING_0 				; E_PLAYER_SPRITE_REVIVING_0
+  DB 0								; unused
+  DB 0								; unused
+  DB 0								; unused
+  DB 0								; unused
+
 ;---------------------------------------------------------------------------------
 
 data_player_update_state_switch_lookup:
@@ -152,12 +168,13 @@ data_player_update_state_switch_lookup:
   JP lbl_do_update_player_case_hit_bullet			; E_PLAYER_STATE_HIT_BULLET
   JP lbl_do_update_player_case_dying				; E_PLAYER_STATE_DYING
   JP lbl_do_update_player_case_outro				; E_PLAYER_STATE_OUTRO
-  JP lbl_do_update_player_case_success				; E_PLAYER_STATE_SUCCESS
+  JP lbl_do_update_player_case_outro_complete			; E_PLAYER_STATE_OUTRO_COMPLETE
+  JP lbl_do_update_player_case_invulnerable			; E_PLAYER_STATE_INVULNERABLE
 
 ;---------------------------------------------------------------------------------
 
 PLAYER_WIDTH							= 32
-PLAYER_HEIGHT							= 48
+PLAYER_HEIGHT							= 42
 
 data_player_sprite_lookup:
   LDHI I, data_sprite_player_alive0				; E_PLAYER_SPRITE_ALIVE_0
@@ -213,7 +230,7 @@ data_player_sprite_lookup:
   LDHI I, data_sprite_player_alive2				; E_PLAYER_SPRITE_MOVE_LEFT
   LDHI I, data_sprite_player_alive2				; E_PLAYER_SPRITE_MOVE_RIGHT
   LDHI I, data_sprite_player_col_purple 			; E_PLAYER_SPRITE_COL_PURPLE
-  LDHI I, data_sprite_player_col_white				; E_PLAYER_SPRITE_COL_WHITE
+  LDHI I, data_sprite_player_col_green				; E_PLAYER_SPRITE_COL_GREEN
   LDHI I, data_sprite_player_col_orange				; E_PLAYER_SPRITE_COL_ORANGE
 
 data_sprite_player_alive0:
@@ -282,8 +299,8 @@ data_sprite_player_invulnerable7:
 data_sprite_player_col_purple:
   INCBIN 'assets/player_col_purple.bin'
 
-data_sprite_player_col_white:
-  INCBIN 'assets/player_col_white.bin'
+data_sprite_player_col_green:
+  INCBIN 'assets/player_col_green.bin'
 
 data_sprite_player_col_orange:
   INCBIN 'assets/player_col_orange.bin'
