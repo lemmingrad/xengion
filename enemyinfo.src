@@ -139,7 +139,6 @@ E_ENEMY_SPRITE_DYING_6						= #98
 E_ENEMY_SPRITE_DYING_7						= #9C
 E_ENEMY_SPRITE_COL_GREEN_A					= #A0
 E_ENEMY_SPRITE_COL_GREEN_B					= #A4
-E_ENEMY_SPRITE_COL_ORANGE					= #A8
 
 ENEMY_ALIVE_XPOS_MIN						= 0
 ENEMY_ALIVE_X_MOVE_MASK						= #03
@@ -153,6 +152,7 @@ ENEMY_DYING_TIMER_MAX						= #20
 
 ;---------------------------------------------------------------------------------
 
+data_enemy_slots_start:
   DS 12
 data_enemy_slots:
 data_enemy_slot0:
@@ -165,9 +165,11 @@ data_enemy_slot3:
   DS SIZEOF_ENEMY
 data_enemy_slot4:
   DS SIZEOF_ENEMY
+data_enemy_slots_end:
 
 ;---------------------------------------------------------------------------------
 
+data_enemy_threats_start:
   DS 12
 data_enemy_threats:
 data_enemy_threat_ship2_horizontal_upper_s0:
@@ -470,7 +472,9 @@ data_enemy_threat_floorturret_y3_s4:
   DB E_ENEMY_SLOT_4
   DB 167
   DB GAMEPLAY_SCROLL_SPEED + E_ENEMY_Y_MOVE_ZERO
+data_enemy_threats_end:
 
+data_enemy_templates_start:
   DS 12
 data_enemy_templates:
 data_enemy_template_ship1:
@@ -518,7 +522,9 @@ data_enemy_template_floorturret:
   DB E_ENEMY_TYPE_FLOORTURRET
   DB 0
   DS 5
+data_enemy_templates_end:
 
+data_enemy_bossturrets_start:
   DS 12
 data_enemy_bossturrets:
 data_enemy_bossturret0:
@@ -560,7 +566,10 @@ data_enemy_bossturret4:
   DB E_ENEMY_TYPE_FLOORTURRET		 			; enemy.type
   DB 0								; enemy.move
   DS 5								; unused
+data_enemy_bossturrets_end:
 
+
+data_enemyinfo_generic_start:
 ;---------------------------------------------------------------------------------
 
   DS 12
@@ -601,6 +610,10 @@ data_enemy_type_lookup:
   LDHI I, data_enemy_roofturret_sprite_aligned			; E_ENEMY_TYPE_ROOFTURRET
   LDHI I, data_enemy_floorturret_sprite_aligned			; E_ENEMY_TYPE_FLOORTURRET 
 
+;---------------------------------------------------------------------------------
+data_enemyinfo_generic_end:
+
+
 ENEMY_WIDTH = 32
 ENEMY_HEIGHT = 32
 
@@ -608,135 +621,173 @@ data_enemy_ship1_sprite_aligner:
   DS 65536 - (data_enemy_ship1_sprite_aligner % 65536)
 data_enemy_ship1_sprite_aligned:
   
-data_sprite_ship1_alive0:
+data_sprite_ship1_alive0_start:
   INCBIN 'assets/ship1_alive0.bin'
+data_sprite_ship1_alive0_end:
 
-data_sprite_ship1_alive1:
+data_sprite_ship1_alive1_start:
   INCBIN 'assets/ship1_alive0.bin'
+data_sprite_ship1_alive1_end:
 
-data_sprite_ship1_alive2:
+data_sprite_ship1_alive2_start:
   INCBIN 'assets/ship1_alive0.bin'
+data_sprite_ship1_alive2_end:
 
-data_sprite_ship1_alive3:
+data_sprite_ship1_alive3_start:
   INCBIN 'assets/ship1_alive0.bin'
+data_sprite_ship1_alive3_end:
 
-data_sprite_ship1_alive4:
+data_sprite_ship1_alive4_start:
   INCBIN 'assets/ship1_alive1.bin'
+data_sprite_ship1_alive4_end:
 
-data_sprite_ship1_alive5:
+data_sprite_ship1_alive5_start:
   INCBIN 'assets/ship1_alive1.bin'
+data_sprite_ship1_alive5_end:
 
-data_sprite_ship1_alive6:
+data_sprite_ship1_alive6_start:
   INCBIN 'assets/ship1_alive1.bin'
+data_sprite_ship1_alive6_end:
 
-data_sprite_ship1_alive7:
+data_sprite_ship1_alive7_start:
   INCBIN 'assets/ship1_alive1.bin'
+data_sprite_ship1_alive7_end:
 
-data_sprite_ship1_alive8:
+data_sprite_ship1_alive8_start:
   INCBIN 'assets/ship1_alive2.bin'
+data_sprite_ship1_alive8_end:
 
-data_sprite_ship1_alive9:
+data_sprite_ship1_alive9_start:
   INCBIN 'assets/ship1_alive2.bin'
+data_sprite_ship1_alive9_end:
 
-data_sprite_ship1_aliveA:
+data_sprite_ship1_alive10_start:
   INCBIN 'assets/ship1_alive2.bin'
+data_sprite_ship1_alive10_end:
 
-data_sprite_ship1_aliveB:
+data_sprite_ship1_alive11_start:
   INCBIN 'assets/ship1_alive2.bin'
+data_sprite_ship1_alive11_end:
 
-data_sprite_ship1_aliveC:
+data_sprite_ship1_alive12_start:
   INCBIN 'assets/ship1_alive3.bin'
+data_sprite_ship1_alive12_end:
 
-data_sprite_ship1_aliveD:
+data_sprite_ship1_alive13_start:
   INCBIN 'assets/ship1_alive3.bin'
+data_sprite_ship1_alive13_end:
 
-data_sprite_ship1_aliveE:
+data_sprite_ship1_alive14_start:
   INCBIN 'assets/ship1_alive3.bin'
+data_sprite_ship1_alive14_end:
 
-data_sprite_ship1_aliveF:
+data_sprite_ship1_alive15_start:
   INCBIN 'assets/ship1_alive3.bin'
+data_sprite_ship1_alive15_end:
 
-data_sprite_ship1_damaged0:
+data_sprite_ship1_damaged0_start:
   INCBIN 'assets/ship1_damaged0.bin'
+data_sprite_ship1_damaged0_end:
 
-data_sprite_ship1_damaged1:
+data_sprite_ship1_damaged1_start:
   INCBIN 'assets/ship1_damaged0.bin'
+data_sprite_ship1_damaged1_end:
 
-data_sprite_ship1_damaged2:
+data_sprite_ship1_damaged2_start:
   INCBIN 'assets/ship1_damaged0.bin'
+data_sprite_ship1_damaged2_end:
 
-data_sprite_ship1_damaged3:
+data_sprite_ship1_damaged3_start:
   INCBIN 'assets/ship1_damaged0.bin'
+data_sprite_ship1_damaged3_end:
 
-data_sprite_ship1_damaged4:
+data_sprite_ship1_damaged4_start:
   INCBIN 'assets/ship1_damaged1.bin'
+data_sprite_ship1_damaged4_end:
 
-data_sprite_ship1_damaged5:
+data_sprite_ship1_damaged5_start:
   INCBIN 'assets/ship1_damaged1.bin'
+data_sprite_ship1_damaged5_end:
 
-data_sprite_ship1_damaged6:
+data_sprite_ship1_damaged6_start:
   INCBIN 'assets/ship1_damaged1.bin'
+data_sprite_ship1_damaged6_end:
 
-data_sprite_ship1_damaged7:
+data_sprite_ship1_damaged7_start:
   INCBIN 'assets/ship1_damaged1.bin'
+data_sprite_ship1_damaged7_end:
 
-data_sprite_ship1_damaged8:
+data_sprite_ship1_damaged8_start:
   INCBIN 'assets/ship1_damaged2.bin'
+data_sprite_ship1_damaged8_end:
 
-data_sprite_ship1_damaged9:
+data_sprite_ship1_damaged9_start:
   INCBIN 'assets/ship1_damaged2.bin'
+data_sprite_ship1_damaged9_end:
 
-data_sprite_ship1_damagedA:
+data_sprite_ship1_damaged10_start:
   INCBIN 'assets/ship1_damaged2.bin'
+data_sprite_ship1_damaged10_end:
 
-data_sprite_ship1_damagedB:
+data_sprite_ship1_damaged11_start:
   INCBIN 'assets/ship1_damaged2.bin'
+data_sprite_ship1_damaged11_end:
 
-data_sprite_ship1_damagedC:
+data_sprite_ship1_damaged12_start:
   INCBIN 'assets/ship1_damaged3.bin'
+data_sprite_ship1_damaged12_end:
 
-data_sprite_ship1_damagedD:
+data_sprite_ship1_damaged13_start:
   INCBIN 'assets/ship1_damaged3.bin'
+data_sprite_ship1_damaged13_end:
 
-data_sprite_ship1_damagedE:
+data_sprite_ship1_damaged14_start:
   INCBIN 'assets/ship1_damaged3.bin'
+data_sprite_ship1_damaged14_end:
 
-data_sprite_ship1_damagedF:
+data_sprite_ship1_damaged15_start:
   INCBIN 'assets/ship1_damaged3.bin'
+data_sprite_ship1_damaged15_end:
 
-data_sprite_ship1_dying0:
+data_sprite_ship1_dying0_start:
   INCBIN 'assets/ship1_dying0.bin'
+data_sprite_ship1_dying0_end:
 
-data_sprite_ship1_dying1:
+data_sprite_ship1_dying1_start:
   INCBIN 'assets/ship1_dying1.bin'
+data_sprite_ship1_dying1_end:
 
-data_sprite_ship1_dying2:
+data_sprite_ship1_dying2_start:
   INCBIN 'assets/ship1_dying2.bin'
+data_sprite_ship1_dying2_end:
 
-data_sprite_ship1_dying3:
+data_sprite_ship1_dying3_start:
   INCBIN 'assets/ship1_dying3.bin'
+data_sprite_ship1_dying3_end:
 
-data_sprite_ship1_dying4:
+data_sprite_ship1_dying4_start:
   INCBIN 'assets/ship1_dying4.bin'
+data_sprite_ship1_dying4_end:
 
-data_sprite_ship1_dying5:
+data_sprite_ship1_dying5_start:
   INCBIN 'assets/ship1_dying5.bin'
+data_sprite_ship1_dying5_end:
 
-data_sprite_ship1_dying6:
+data_sprite_ship1_dying6_start:
   INCBIN 'assets/ship1_dying6.bin'
+data_sprite_ship1_dying6_end:
 
-data_sprite_ship1_dying7:
+data_sprite_ship1_dying7_start:
   INCBIN 'assets/ship1_dying7.bin'
+data_sprite_ship1_dying7_end:
 
-data_sprite_ship1_col_greenA:
+data_sprite_ship1_col_greenA_start:
   INCBIN 'assets/ship1_col_greenA.bin'
+data_sprite_ship1_col_greenA_end:
 
-data_sprite_ship1_col_greenB:
+data_sprite_ship1_col_greenB_start:
   INCBIN 'assets/ship1_col_greenB.bin'
-
-data_sprite_ship1_col_orange:
-  INCBIN 'assets/ship1_col_orange.bin'
-
+data_sprite_ship1_col_greenB_end:
 
 
 
@@ -745,136 +796,173 @@ data_enemy_ship2_sprite_aligner:
   DS 65536 - (data_enemy_ship2_sprite_aligner % 65536)
 data_enemy_ship2_sprite_aligned:
 
-data_sprite_ship2_alive0:
-  INCBIN 'assets/ship2_alive.bin'
+data_sprite_ship2_alive0_start:
+  INCBIN 'assets/ship2_alive0.bin'
+data_sprite_ship2_alive0_end:
 
-data_sprite_ship2_alive1:
-  INCBIN 'assets/ship2_alive.bin'
+data_sprite_ship2_alive1_start:
+  INCBIN 'assets/ship2_alive0.bin'
+data_sprite_ship2_alive1_end:
 
-data_sprite_ship2_alive2:
-  INCBIN 'assets/ship2_alive.bin'
+data_sprite_ship2_alive2_start:
+  INCBIN 'assets/ship2_alive1.bin'
+data_sprite_ship2_alive2_end:
 
-data_sprite_ship2_alive3:
-  INCBIN 'assets/ship2_alive.bin'
+data_sprite_ship2_alive3_start:
+  INCBIN 'assets/ship2_alive1.bin'
+data_sprite_ship2_alive3_end:
 
-data_sprite_ship2_alive4:
-  INCBIN 'assets/ship2_alive.bin'
+data_sprite_ship2_alive4_start:
+  INCBIN 'assets/ship2_alive0.bin'
+data_sprite_ship2_alive4_end:
 
-data_sprite_ship2_alive5:
-  INCBIN 'assets/ship2_alive.bin'
+data_sprite_ship2_alive5_start:
+  INCBIN 'assets/ship2_alive0.bin'
+data_sprite_ship2_alive5_end:
 
-data_sprite_ship2_alive6:
-  INCBIN 'assets/ship2_alive.bin'
+data_sprite_ship2_alive6_start:
+  INCBIN 'assets/ship2_alive1.bin'
+data_sprite_ship2_alive6_end:
 
-data_sprite_ship2_alive7:
-  INCBIN 'assets/ship2_alive.bin'
+data_sprite_ship2_alive7_start:
+  INCBIN 'assets/ship2_alive1.bin'
+data_sprite_ship2_alive7_end:
 
-data_sprite_ship2_alive8:
-  INCBIN 'assets/ship2_alive.bin'
+data_sprite_ship2_alive8_start:
+  INCBIN 'assets/ship2_alive0.bin'
+data_sprite_ship2_alive8_end:
 
-data_sprite_ship2_alive9:
-  INCBIN 'assets/ship2_alive.bin'
+data_sprite_ship2_alive9_start:
+  INCBIN 'assets/ship2_alive0.bin'
+data_sprite_ship2_alive9_end:
 
-data_sprite_ship2_aliveA:
-  INCBIN 'assets/ship2_alive.bin'
+data_sprite_ship2_alive10_start:
+  INCBIN 'assets/ship2_alive1.bin'
+data_sprite_ship2_alive10_end:
 
-data_sprite_ship2_aliveB:
-  INCBIN 'assets/ship2_alive.bin'
+data_sprite_ship2_alive11_start:
+  INCBIN 'assets/ship2_alive1.bin'
+data_sprite_ship2_alive11_end:
 
-data_sprite_ship2_aliveC:
-  INCBIN 'assets/ship2_alive.bin'
+data_sprite_ship2_alive12_start:
+  INCBIN 'assets/ship2_alive0.bin'
+data_sprite_ship2_alive12_end:
 
-data_sprite_ship2_aliveD:
-  INCBIN 'assets/ship2_alive.bin'
+data_sprite_ship2_alive13_start:
+  INCBIN 'assets/ship2_alive0.bin'
+data_sprite_ship2_alive13_end:
 
-data_sprite_ship2_aliveE:
-  INCBIN 'assets/ship2_alive.bin'
+data_sprite_ship2_alive14_start:
+  INCBIN 'assets/ship2_alive1.bin'
+data_sprite_ship2_alive14_end:
 
-data_sprite_ship2_aliveF:
-  INCBIN 'assets/ship2_alive.bin'
+data_sprite_ship2_alive15_start:
+  INCBIN 'assets/ship2_alive1.bin'
+data_sprite_ship2_alive15_end:
 
-data_sprite_ship2_damaged0:
-  INCBIN 'assets/ship2_alive.bin'
+data_sprite_ship2_damaged0_start:
+  INCBIN 'assets/ship2_alive0.bin'
+data_sprite_ship2_damaged0_end:
 
-data_sprite_ship2_damaged1:
-  INCBIN 'assets/ship2_alive.bin'
+data_sprite_ship2_damaged1_start:
+  INCBIN 'assets/ship2_alive0.bin'
+data_sprite_ship2_damaged1_end:
 
-data_sprite_ship2_damaged2:
-  INCBIN 'assets/ship2_alive.bin'
+data_sprite_ship2_damaged2_start:
+  INCBIN 'assets/ship2_alive1.bin'
+data_sprite_ship2_damaged2_end:
 
-data_sprite_ship2_damaged3:
-  INCBIN 'assets/ship2_alive.bin'
+data_sprite_ship2_damaged3_start:
+  INCBIN 'assets/ship2_alive1.bin'
+data_sprite_ship2_damaged3_end:
 
-data_sprite_ship2_damaged4:
-  INCBIN 'assets/ship2_alive.bin'
+data_sprite_ship2_damaged4_start:
+  INCBIN 'assets/ship2_alive0.bin'
+data_sprite_ship2_damaged4_end:
 
-data_sprite_ship2_damaged5:
-  INCBIN 'assets/ship2_alive.bin'
+data_sprite_ship2_damaged5_start:
+  INCBIN 'assets/ship2_alive0.bin'
+data_sprite_ship2_damaged5_end:
 
-data_sprite_ship2_damaged6:
-  INCBIN 'assets/ship2_alive.bin'
+data_sprite_ship2_damaged6_start:
+  INCBIN 'assets/ship2_alive1.bin'
+data_sprite_ship2_damaged6_end:
 
-data_sprite_ship2_damaged7:
-  INCBIN 'assets/ship2_alive.bin'
+data_sprite_ship2_damaged7_start:
+  INCBIN 'assets/ship2_alive1.bin'
+data_sprite_ship2_damaged7_end:
 
-data_sprite_ship2_damaged8:
-  INCBIN 'assets/ship2_alive.bin'
+data_sprite_ship2_damaged8_start:
+  INCBIN 'assets/ship2_alive0.bin'
+data_sprite_ship2_damaged8_end:
 
-data_sprite_ship2_damaged9:
-  INCBIN 'assets/ship2_alive.bin'
+data_sprite_ship2_damaged9_start:
+  INCBIN 'assets/ship2_alive0.bin'
+data_sprite_ship2_damaged9_end:
 
-data_sprite_ship2_damagedA:
-  INCBIN 'assets/ship2_alive.bin'
+data_sprite_ship2_damaged10_start:
+  INCBIN 'assets/ship2_alive1.bin'
+data_sprite_ship2_damaged10_end:
 
-data_sprite_ship2_damagedB:
-  INCBIN 'assets/ship2_alive.bin'
+data_sprite_ship2_damaged11_start:
+  INCBIN 'assets/ship2_alive1.bin'
+data_sprite_ship2_damaged11_end:
 
-data_sprite_ship2_damagedC:
-  INCBIN 'assets/ship2_alive.bin'
+data_sprite_ship2_damaged12_start:
+  INCBIN 'assets/ship2_alive0.bin'
+data_sprite_ship2_damaged12_end:
 
-data_sprite_ship2_damagedD:
-  INCBIN 'assets/ship2_alive.bin'
+data_sprite_ship2_damaged13_start:
+  INCBIN 'assets/ship2_alive0.bin'
+data_sprite_ship2_damaged13_end:
 
-data_sprite_ship2_damagedE:
-  INCBIN 'assets/ship2_alive.bin'
+data_sprite_ship2_damaged14_start:
+  INCBIN 'assets/ship2_alive1.bin'
+data_sprite_ship2_damaged14_end:
 
-data_sprite_ship2_damagedF:
-  INCBIN 'assets/ship2_alive.bin'
+data_sprite_ship2_damaged15_start:
+  INCBIN 'assets/ship2_alive1.bin'
+data_sprite_ship2_damaged15_end:
 
-data_sprite_ship2_dying0:
+data_sprite_ship2_dying0_start:
   INCBIN 'assets/ship2_dying0.bin'
+data_sprite_ship2_dying0_end:
 
-data_sprite_ship2_dying1:
+data_sprite_ship2_dying1_start:
   INCBIN 'assets/ship2_dying1.bin'
+data_sprite_ship2_dying1_end:
 
-data_sprite_ship2_dying2:
+data_sprite_ship2_dying2_start:
   INCBIN 'assets/ship2_dying2.bin'
+data_sprite_ship2_dying2_end:
 
-data_sprite_ship2_dying3:
+data_sprite_ship2_dying3_start:
   INCBIN 'assets/ship2_dying3.bin'
+data_sprite_ship2_dying3_end:
 
-data_sprite_ship2_dying4:
+data_sprite_ship2_dying4_start:
   INCBIN 'assets/ship2_dying4.bin'
+data_sprite_ship2_dying4_end:
 
-data_sprite_ship2_dying5:
+data_sprite_ship2_dying5_start:
   INCBIN 'assets/ship2_dying5.bin'
+data_sprite_ship2_dying5_end:
 
-data_sprite_ship2_dying6:
+data_sprite_ship2_dying6_start:
   INCBIN 'assets/ship2_dying6.bin'
+data_sprite_ship2_dying6_end:
 
-data_sprite_ship2_dying7:
+data_sprite_ship2_dying7_start:
   INCBIN 'assets/ship2_dying7.bin'
+data_sprite_ship2_dying7_end:
 
-data_sprite_ship2_col_greenA:
+data_sprite_ship2_col_greenA_start:
   INCBIN 'assets/ship2_col_greenA.bin'
+data_sprite_ship2_col_greenA_end:
 
-data_sprite_ship2_col_greenB:
+data_sprite_ship2_col_greenB_start:
   INCBIN 'assets/ship2_col_greenB.bin'
-
-data_sprite_ship2_col_orange:
-  INCBIN 'assets/ship2_col_orange.bin'
-
-
+data_sprite_ship2_col_greenB_end:
 
 
 
@@ -883,134 +971,173 @@ data_enemy_missile_sprite_aligner:
   DS 65536 - (data_enemy_missile_sprite_aligner % 65536)
 data_enemy_missile_sprite_aligned:
 
-data_sprite_missile_alive0:
-  INCBIN 'assets/missile_alive.bin'
+data_sprite_missile_alive0_start:
+  INCBIN 'assets/missile_alive0.bin'
+data_sprite_missile_alive0_end:
 
-data_sprite_missile_alive1:
-  INCBIN 'assets/missile_alive.bin'
+data_sprite_missile_alive1_start:
+  INCBIN 'assets/missile_alive0.bin'
+data_sprite_missile_alive1_end:
 
-data_sprite_missile_alive2:
-  INCBIN 'assets/missile_alive.bin'
+data_sprite_missile_alive2_start:
+  INCBIN 'assets/missile_alive1.bin'
+data_sprite_missile_alive2_end:
 
-data_sprite_missile_alive3:
-  INCBIN 'assets/missile_alive.bin'
+data_sprite_missile_alive3_start:
+  INCBIN 'assets/missile_alive1.bin'
+data_sprite_missile_alive3_end:
 
-data_sprite_missile_alive4:
-  INCBIN 'assets/missile_alive.bin'
+data_sprite_missile_alive4_start:
+  INCBIN 'assets/missile_alive0.bin'
+data_sprite_missile_alive4_end:
 
-data_sprite_missile_alive5:
-  INCBIN 'assets/missile_alive.bin'
+data_sprite_missile_alive5_start:
+  INCBIN 'assets/missile_alive0.bin'
+data_sprite_missile_alive5_end:
 
-data_sprite_missile_alive6:
-  INCBIN 'assets/missile_alive.bin'
+data_sprite_missile_alive6_start:
+  INCBIN 'assets/missile_alive1.bin'
+data_sprite_missile_alive6_end:
 
-data_sprite_missile_alive7:
-  INCBIN 'assets/missile_alive.bin'
+data_sprite_missile_alive7_start:
+  INCBIN 'assets/missile_alive1.bin'
+data_sprite_missile_alive7_end:
 
-data_sprite_missile_alive8:
-  INCBIN 'assets/missile_alive.bin'
+data_sprite_missile_alive8_start:
+  INCBIN 'assets/missile_alive0.bin'
+data_sprite_missile_alive8_end:
 
-data_sprite_missile_alive9:
-  INCBIN 'assets/missile_alive.bin'
+data_sprite_missile_alive9_start:
+  INCBIN 'assets/missile_alive0.bin'
+data_sprite_missile_alive9_end:
 
-data_sprite_missile_aliveA:
-  INCBIN 'assets/missile_alive.bin'
+data_sprite_missile_alive10_start:
+  INCBIN 'assets/missile_alive1.bin'
+data_sprite_missile_alive10_end:
 
-data_sprite_missile_aliveB:
-  INCBIN 'assets/missile_alive.bin'
+data_sprite_missile_alive11_start:
+  INCBIN 'assets/missile_alive1.bin'
+data_sprite_missile_alive11_end:
 
-data_sprite_missile_aliveC:
-  INCBIN 'assets/missile_alive.bin'
+data_sprite_missile_alive12_start:
+  INCBIN 'assets/missile_alive0.bin'
+data_sprite_missile_alive12_end:
 
-data_sprite_missile_aliveD:
-  INCBIN 'assets/missile_alive.bin'
+data_sprite_missile_alive13_start:
+  INCBIN 'assets/missile_alive0.bin'
+data_sprite_missile_alive13_end:
 
-data_sprite_missile_aliveE:
-  INCBIN 'assets/missile_alive.bin'
+data_sprite_missile_alive14_start:
+  INCBIN 'assets/missile_alive1.bin'
+data_sprite_missile_alive14_end:
 
-data_sprite_missile_aliveF:
-  INCBIN 'assets/missile_alive.bin'
+data_sprite_missile_alive15_start:
+  INCBIN 'assets/missile_alive1.bin'
+data_sprite_missile_alive15_end:
 
-data_sprite_missile_damaged0:
-  INCBIN 'assets/missile_alive.bin'
+data_sprite_missile_damaged0_start:
+  INCBIN 'assets/missile_alive0.bin'
+data_sprite_missile_damaged0_end:
 
-data_sprite_missile_damaged1:
-  INCBIN 'assets/missile_alive.bin'
+data_sprite_missile_damaged1_start:
+  INCBIN 'assets/missile_alive0.bin'
+data_sprite_missile_damaged1_end:
 
-data_sprite_missile_damaged2:
-  INCBIN 'assets/missile_alive.bin'
+data_sprite_missile_damaged2_start:
+  INCBIN 'assets/missile_alive1.bin'
+data_sprite_missile_damaged2_end:
 
-data_sprite_missile_damaged3:
-  INCBIN 'assets/missile_alive.bin'
+data_sprite_missile_damaged3_start:
+  INCBIN 'assets/missile_alive1.bin'
+data_sprite_missile_damaged3_end:
 
-data_sprite_missile_damaged4:
-  INCBIN 'assets/missile_alive.bin'
+data_sprite_missile_damaged4_start:
+  INCBIN 'assets/missile_alive0.bin'
+data_sprite_missile_damaged4_end:
 
-data_sprite_missile_damaged5:
-  INCBIN 'assets/missile_alive.bin'
+data_sprite_missile_damaged5_start:
+  INCBIN 'assets/missile_alive0.bin'
+data_sprite_missile_damaged5_end:
 
-data_sprite_missile_damaged6:
-  INCBIN 'assets/missile_alive.bin'
+data_sprite_missile_damaged6_start:
+  INCBIN 'assets/missile_alive1.bin'
+data_sprite_missile_damaged6_end:
 
-data_sprite_missile_damaged7:
-  INCBIN 'assets/missile_alive.bin'
+data_sprite_missile_damaged7_start:
+  INCBIN 'assets/missile_alive1.bin'
+data_sprite_missile_damaged7_end:
 
-data_sprite_missile_damaged8:
-  INCBIN 'assets/missile_alive.bin'
+data_sprite_missile_damaged8_start:
+  INCBIN 'assets/missile_alive0.bin'
+data_sprite_missile_damaged8_end:
 
-data_sprite_missile_damaged9:
-  INCBIN 'assets/missile_alive.bin'
+data_sprite_missile_damaged9_start:
+  INCBIN 'assets/missile_alive0.bin'
+data_sprite_missile_damaged9_end:
 
-data_sprite_missile_damagedA:
-  INCBIN 'assets/missile_alive.bin'
+data_sprite_missile_damaged10_start:
+  INCBIN 'assets/missile_alive1.bin'
+data_sprite_missile_damaged10_end:
 
-data_sprite_missile_damagedB:
-  INCBIN 'assets/missile_alive.bin'
+data_sprite_missile_damaged11_start:
+  INCBIN 'assets/missile_alive1.bin'
+data_sprite_missile_damaged11_end:
 
-data_sprite_missile_damagedC:
-  INCBIN 'assets/missile_alive.bin'
+data_sprite_missile_damaged12_start:
+  INCBIN 'assets/missile_alive0.bin'
+data_sprite_missile_damaged12_end:
 
-data_sprite_missile_damagedE:
-  INCBIN 'assets/missile_alive.bin'
+data_sprite_missile_damaged13_start:
+  INCBIN 'assets/missile_alive0.bin'
+data_sprite_missile_damaged13_end:
 
-data_sprite_missile_damagedD:
-  INCBIN 'assets/missile_alive.bin'
+data_sprite_missile_damaged14_start:
+  INCBIN 'assets/missile_alive1.bin'
+data_sprite_missile_damaged14_end:
 
-data_sprite_missile_damagedF:
-  INCBIN 'assets/missile_alive.bin'
+data_sprite_missile_damaged15_start:
+  INCBIN 'assets/missile_alive1.bin'
+data_sprite_missile_damaged15_end:
 
-data_sprite_missile_dying0:
+data_sprite_missile_dying0_start:
   INCBIN 'assets/missile_dying0.bin'
+data_sprite_missile_dying0_end:
 
-data_sprite_missile_dying1:
+data_sprite_missile_dying1_start:
   INCBIN 'assets/missile_dying1.bin'
+data_sprite_missile_dying1_end:
 
-data_sprite_missile_dying2:
+data_sprite_missile_dying2_start:
   INCBIN 'assets/missile_dying2.bin'
+data_sprite_missile_dying2_end:
 
-data_sprite_missile_dying3:
+data_sprite_missile_dying3_start:
   INCBIN 'assets/missile_dying3.bin'
+data_sprite_missile_dying3_end:
 
-data_sprite_missile_dying4:
+data_sprite_missile_dying4_start:
   INCBIN 'assets/missile_dying4.bin'
+data_sprite_missile_dying4_end:
 
-data_sprite_missile_dying5:
+data_sprite_missile_dying5_start:
   INCBIN 'assets/missile_dying5.bin'
+data_sprite_missile_dying5_end:
 
-data_sprite_missile_dying6:
+data_sprite_missile_dying6_start:
   INCBIN 'assets/missile_dying6.bin'
+data_sprite_missile_dying6_end:
 
-data_sprite_missile_dying7:
+data_sprite_missile_dying7_start:
   INCBIN 'assets/missile_dying7.bin'
+data_sprite_missile_dying7_end:
 
-data_sprite_missile_col_greenA:
+data_sprite_missile_col_greenA_start:
   INCBIN 'assets/missile_col_greenA.bin'
+data_sprite_missile_col_greenA_end:
 
-data_sprite_missile_col_greenB:
+data_sprite_missile_col_greenB_start:
   INCBIN 'assets/missile_col_greenB.bin'
-
-data_sprite_missile_col_orange:
-  INCBIN 'assets/missile_col_orange.bin'
+data_sprite_missile_col_greenB_end:
 
 
 
@@ -1019,135 +1146,173 @@ data_enemy_roofturret_sprite_aligner:
   DS 65536 - (data_enemy_roofturret_sprite_aligner % 65536)
 data_enemy_roofturret_sprite_aligned:
 
-data_sprite_roofturret_alive0:
+data_sprite_roofturret_alive0_start:
   INCBIN 'assets/roofturret_alive0.bin'
+data_sprite_roofturret_alive0_end:
 
-data_sprite_roofturret_alive1:
+data_sprite_roofturret_alive1_start:
   INCBIN 'assets/roofturret_alive0.bin'
+data_sprite_roofturret_alive1_end:
 
-data_sprite_roofturret_alive2:
+data_sprite_roofturret_alive2_start:
   INCBIN 'assets/roofturret_alive1.bin'
+data_sprite_roofturret_alive2_end:
 
-data_sprite_roofturret_alive3:
+data_sprite_roofturret_alive3_start:
   INCBIN 'assets/roofturret_alive1.bin'
+data_sprite_roofturret_alive3_end:
 
-data_sprite_roofturret_alive4:
+data_sprite_roofturret_alive4_start:
   INCBIN 'assets/roofturret_alive2.bin'
+data_sprite_roofturret_alive4_end:
 
-data_sprite_roofturret_alive5:
+data_sprite_roofturret_alive5_start:
   INCBIN 'assets/roofturret_alive2.bin'
+data_sprite_roofturret_alive5_end:
 
-data_sprite_roofturret_alive6:
+data_sprite_roofturret_alive6_start:
   INCBIN 'assets/roofturret_alive3.bin'
+data_sprite_roofturret_alive6_end:
 
-data_sprite_roofturret_alive7:
+data_sprite_roofturret_alive7_start:
   INCBIN 'assets/roofturret_alive3.bin'
+data_sprite_roofturret_alive7_end:
 
-data_sprite_roofturret_alive8:
+data_sprite_roofturret_alive8_start:
   INCBIN 'assets/roofturret_alive4.bin'
+data_sprite_roofturret_alive8_end:
 
-data_sprite_roofturret_alive9:
+data_sprite_roofturret_alive9_start:
   INCBIN 'assets/roofturret_alive4.bin'
+data_sprite_roofturret_alive9_end:
 
-data_sprite_roofturret_aliveA:
+data_sprite_roofturret_alive10_start:
   INCBIN 'assets/roofturret_alive5.bin'
+data_sprite_roofturret_alive10_end:
 
-data_sprite_roofturret_aliveB:
+data_sprite_roofturret_alive11_start:
   INCBIN 'assets/roofturret_alive5.bin'
+data_sprite_roofturret_alive11_end:
 
-data_sprite_roofturret_aliveC:
+data_sprite_roofturret_alive12_start:
   INCBIN 'assets/roofturret_alive6.bin'
+data_sprite_roofturret_alive12_end:
 
-data_sprite_roofturret_aliveD:
+data_sprite_roofturret_alive13_start:
   INCBIN 'assets/roofturret_alive6.bin'
+data_sprite_roofturret_alive13_end:
 
-data_sprite_roofturret_aliveE:
+data_sprite_roofturret_alive14_start:
   INCBIN 'assets/roofturret_alive7.bin'
+data_sprite_roofturret_alive14_end:
 
-data_sprite_roofturret_aliveF:
+data_sprite_roofturret_alive15_start:
   INCBIN 'assets/roofturret_alive7.bin'
+data_sprite_roofturret_alive15_end:
 
-data_sprite_roofturret_damaged0:
+data_sprite_roofturret_damaged0_start:
   INCBIN 'assets/roofturret_damaged0.bin'
+data_sprite_roofturret_damaged0_end:
 
-data_sprite_roofturret_damaged1:
+data_sprite_roofturret_damaged1_start:
   INCBIN 'assets/roofturret_damaged0.bin'
+data_sprite_roofturret_damaged1_end:
 
-data_sprite_roofturret_damaged2:
+data_sprite_roofturret_damaged2_start:
   INCBIN 'assets/roofturret_damaged1.bin'
+data_sprite_roofturret_damaged2_end:
 
-data_sprite_roofturret_damaged3:
+data_sprite_roofturret_damaged3_start:
   INCBIN 'assets/roofturret_damaged1.bin'
+data_sprite_roofturret_damaged3_end:
 
-data_sprite_roofturret_damaged4:
+data_sprite_roofturret_damaged4_start:
   INCBIN 'assets/roofturret_damaged2.bin'
+data_sprite_roofturret_damaged4_end:
 
-data_sprite_roofturret_damaged5:
+data_sprite_roofturret_damaged5_start:
   INCBIN 'assets/roofturret_damaged2.bin'
+data_sprite_roofturret_damaged5_end:
 
-data_sprite_roofturret_damaged6:
+data_sprite_roofturret_damaged6_start:
   INCBIN 'assets/roofturret_damaged3.bin'
+data_sprite_roofturret_damaged6_end:
 
-data_sprite_roofturret_damaged7:
+data_sprite_roofturret_damaged7_start:
   INCBIN 'assets/roofturret_damaged3.bin'
+data_sprite_roofturret_damaged7_end:
 
-data_sprite_roofturret_damaged8:
+data_sprite_roofturret_damaged8_start:
   INCBIN 'assets/roofturret_damaged4.bin'
+data_sprite_roofturret_damaged8_end:
 
-data_sprite_roofturret_damaged9:
+data_sprite_roofturret_damaged9_start:
   INCBIN 'assets/roofturret_damaged4.bin'
+data_sprite_roofturret_damaged9_end:
 
-data_sprite_roofturret_damagedA:
+data_sprite_roofturret_damaged10_start:
   INCBIN 'assets/roofturret_damaged5.bin'
+data_sprite_roofturret_damaged10_end:
 
-data_sprite_roofturret_damagedB:
+data_sprite_roofturret_damaged11_start:
   INCBIN 'assets/roofturret_damaged5.bin'
+data_sprite_roofturret_damaged11_end:
 
-data_sprite_roofturret_damagedC:
+data_sprite_roofturret_damaged12_start:
   INCBIN 'assets/roofturret_damaged6.bin'
+data_sprite_roofturret_damaged12_end:
 
-data_sprite_roofturret_damagedD:
+data_sprite_roofturret_damaged13_start:
   INCBIN 'assets/roofturret_damaged6.bin'
+data_sprite_roofturret_damaged13_end:
 
-data_sprite_roofturret_damagedE:
+data_sprite_roofturret_damaged14_start:
   INCBIN 'assets/roofturret_damaged7.bin'
+data_sprite_roofturret_damaged14_end:
 
-data_sprite_roofturret_damagedF:
+data_sprite_roofturret_damaged15_start:
   INCBIN 'assets/roofturret_damaged7.bin'
+data_sprite_roofturret_damaged15_end:
 
-data_sprite_roofturret_dying0:
+data_sprite_roofturret_dying0_start:
   INCBIN 'assets/roofturret_dying0.bin'
+data_sprite_roofturret_dying0_end:
 
-data_sprite_roofturret_dying1:
+data_sprite_roofturret_dying1_start:
   INCBIN 'assets/roofturret_dying1.bin'
+data_sprite_roofturret_dying1_end:
 
-data_sprite_roofturret_dying2:
+data_sprite_roofturret_dying2_start:
   INCBIN 'assets/roofturret_dying2.bin'
+data_sprite_roofturret_dying2_end:
 
-data_sprite_roofturret_dying3:
+data_sprite_roofturret_dying3_start:
   INCBIN 'assets/roofturret_dying3.bin'
+data_sprite_roofturret_dying3_end:
 
-data_sprite_roofturret_dying4:
+data_sprite_roofturret_dying4_start:
   INCBIN 'assets/roofturret_dying4.bin'
+data_sprite_roofturret_dying4_end:
 
-data_sprite_roofturret_dying5:
+data_sprite_roofturret_dying5_start:
   INCBIN 'assets/roofturret_dying5.bin'
+data_sprite_roofturret_dying5_end:
 
-data_sprite_roofturret_dying6:
+data_sprite_roofturret_dying6_start:
   INCBIN 'assets/roofturret_dying6.bin'
+data_sprite_roofturret_dying6_end:
 
-data_sprite_roofturret_dying7:
+data_sprite_roofturret_dying7_start:
   INCBIN 'assets/roofturret_dying7.bin'
+data_sprite_roofturret_dying7_end:
 
-data_sprite_roofturret_col_greenA:
+data_sprite_roofturret_col_greenA_start:
   INCBIN 'assets/roofturret_col_greenA.bin'
+data_sprite_roofturret_col_greenA_end:
 
-data_sprite_roofturret_col_greenB:
+data_sprite_roofturret_col_greenB_start:
   INCBIN 'assets/roofturret_col_greenB.bin'
-
-data_sprite_roofturret_col_orange:
-  INCBIN 'assets/roofturret_col_orange.bin'
-
+data_sprite_roofturret_col_greenB_end:
 
 
 
@@ -1156,134 +1321,173 @@ data_enemy_floorturret_sprite_aligner:
   DS 65536 - (data_enemy_floorturret_sprite_aligner % 65536)
 data_enemy_floorturret_sprite_aligned:
 
-data_sprite_floorturret_alive0:
+data_sprite_floorturret_alive0_start:
   INCBIN 'assets/floorturret_alive0.bin'
+data_sprite_floorturret_alive0_end:
 
-data_sprite_floorturret_alive1:
+data_sprite_floorturret_alive1_start:
   INCBIN 'assets/floorturret_alive0.bin'
+data_sprite_floorturret_alive1_end:
 
-data_sprite_floorturret_alive2:
+data_sprite_floorturret_alive2_start:
   INCBIN 'assets/floorturret_alive1.bin'
+data_sprite_floorturret_alive2_end:
 
-data_sprite_floorturret_alive3:
+data_sprite_floorturret_alive3_start:
   INCBIN 'assets/floorturret_alive1.bin'
+data_sprite_floorturret_alive3_end:
 
-data_sprite_floorturret_alive4:
+data_sprite_floorturret_alive4_start:
   INCBIN 'assets/floorturret_alive2.bin'
+data_sprite_floorturret_alive4_end:
 
-data_sprite_floorturret_alive5:
+data_sprite_floorturret_alive5_start:
   INCBIN 'assets/floorturret_alive2.bin'
+data_sprite_floorturret_alive5_end:
 
-data_sprite_floorturret_alive6:
+data_sprite_floorturret_alive6_start:
   INCBIN 'assets/floorturret_alive3.bin'
+data_sprite_floorturret_alive6_end:
 
-data_sprite_floorturret_alive7:
+data_sprite_floorturret_alive7_start:
   INCBIN 'assets/floorturret_alive3.bin'
+data_sprite_floorturret_alive7_end:
 
-data_sprite_floorturret_alive8:
+data_sprite_floorturret_alive8_start:
   INCBIN 'assets/floorturret_alive4.bin'
+data_sprite_floorturret_alive8_end:
 
-data_sprite_floorturret_alive9:
+data_sprite_floorturret_alive9_start:
   INCBIN 'assets/floorturret_alive4.bin'
+data_sprite_floorturret_alive9_end:
 
-data_sprite_floorturret_aliveA:
+data_sprite_floorturret_alive10_start:
   INCBIN 'assets/floorturret_alive5.bin'
+data_sprite_floorturret_alive10_end:
 
-data_sprite_floorturret_aliveB:
+data_sprite_floorturret_alive11_start:
   INCBIN 'assets/floorturret_alive5.bin'
+data_sprite_floorturret_alive11_end:
 
-data_sprite_floorturret_aliveC:
+data_sprite_floorturret_alive12_start:
   INCBIN 'assets/floorturret_alive6.bin'
+data_sprite_floorturret_alive12_end:
 
-data_sprite_floorturret_aliveD:
+data_sprite_floorturret_alive13_start:
   INCBIN 'assets/floorturret_alive6.bin'
+data_sprite_floorturret_alive13_end:
 
-data_sprite_floorturret_aliveE:
+data_sprite_floorturret_alive14_start:
   INCBIN 'assets/floorturret_alive7.bin'
+data_sprite_floorturret_alive14_end:
 
-data_sprite_floorturret_aliveF:
+data_sprite_floorturret_alive15_start:
   INCBIN 'assets/floorturret_alive7.bin'
+data_sprite_floorturret_alive15_end:
 
-data_sprite_floorturret_damaged0:
+data_sprite_floorturret_damaged0_start:
   INCBIN 'assets/floorturret_damaged0.bin'
+data_sprite_floorturret_damaged0_end:
 
-data_sprite_floorturret_damaged1:
+data_sprite_floorturret_damaged1_start:
   INCBIN 'assets/floorturret_damaged0.bin'
+data_sprite_floorturret_damaged1_end:
 
-data_sprite_floorturret_damaged2:
+data_sprite_floorturret_damaged2_start:
   INCBIN 'assets/floorturret_damaged1.bin'
+data_sprite_floorturret_damaged2_end:
 
-data_sprite_floorturret_damaged3:
+data_sprite_floorturret_damaged3_start:
   INCBIN 'assets/floorturret_damaged1.bin'
+data_sprite_floorturret_damaged3_end:
 
-data_sprite_floorturret_damaged4:
+data_sprite_floorturret_damaged4_start:
   INCBIN 'assets/floorturret_damaged2.bin'
+data_sprite_floorturret_damaged4_end:
 
-data_sprite_floorturret_damaged5:
+data_sprite_floorturret_damaged5_start:
   INCBIN 'assets/floorturret_damaged2.bin'
+data_sprite_floorturret_damaged5_end:
 
-data_sprite_floorturret_damaged6:
+data_sprite_floorturret_damaged6_start:
   INCBIN 'assets/floorturret_damaged3.bin'
+data_sprite_floorturret_damaged6_end:
 
-data_sprite_floorturret_damaged7:
+data_sprite_floorturret_damaged7_start:
   INCBIN 'assets/floorturret_damaged3.bin'
+data_sprite_floorturret_damaged7_end:
 
-data_sprite_floorturret_damaged8:
+data_sprite_floorturret_damaged8_start:
   INCBIN 'assets/floorturret_damaged4.bin'
+data_sprite_floorturret_damaged8_end:
 
-data_sprite_floorturret_damaged9:
+data_sprite_floorturret_damaged9_start:
   INCBIN 'assets/floorturret_damaged4.bin'
+data_sprite_floorturret_damaged9_end:
 
-data_sprite_floorturret_damagedA:
+data_sprite_floorturret_damaged10_start:
   INCBIN 'assets/floorturret_damaged5.bin'
+data_sprite_floorturret_damaged10_end:
 
-data_sprite_floorturret_damagedB:
+data_sprite_floorturret_damaged11_start:
   INCBIN 'assets/floorturret_damaged5.bin'
+data_sprite_floorturret_damaged11_end:
 
-data_sprite_floorturret_damagedC:
+data_sprite_floorturret_damaged12_start:
   INCBIN 'assets/floorturret_damaged6.bin'
+data_sprite_floorturret_damaged12_end:
 
-data_sprite_floorturret_damagedD:
+data_sprite_floorturret_damaged13_start:
   INCBIN 'assets/floorturret_damaged6.bin'
+data_sprite_floorturret_damaged13_end:
 
-data_sprite_floorturret_damagedE:
+data_sprite_floorturret_damaged14_start:
   INCBIN 'assets/floorturret_damaged7.bin'
+data_sprite_floorturret_damaged14_end:
 
-data_sprite_floorturret_damagedF:
+data_sprite_floorturret_damaged15_start:
   INCBIN 'assets/floorturret_damaged7.bin'
+data_sprite_floorturret_damaged15_end:
 
-data_sprite_floorturret_dying0:
+data_sprite_floorturret_dying0_start:
   INCBIN 'assets/floorturret_dying0.bin'
+data_sprite_floorturret_dying0_end:
 
-data_sprite_floorturret_dying1:
+data_sprite_floorturret_dying1_start:
   INCBIN 'assets/floorturret_dying1.bin'
+data_sprite_floorturret_dying1_end:
 
-data_sprite_floorturret_dying2:
+data_sprite_floorturret_dying2_start:
   INCBIN 'assets/floorturret_dying2.bin'
+data_sprite_floorturret_dying2_end:
 
-data_sprite_floorturret_dying3:
+data_sprite_floorturret_dying3_start:
   INCBIN 'assets/floorturret_dying3.bin'
+data_sprite_floorturret_dying3_end:
 
-data_sprite_floorturret_dying4:
+data_sprite_floorturret_dying4_start:
   INCBIN 'assets/floorturret_dying4.bin'
+data_sprite_floorturret_dying4_end:
 
-data_sprite_floorturret_dying5:
+data_sprite_floorturret_dying5_start:
   INCBIN 'assets/floorturret_dying5.bin'
+data_sprite_floorturret_dying5_end:
 
-data_sprite_floorturret_dying6:
+data_sprite_floorturret_dying6_start:
   INCBIN 'assets/floorturret_dying6.bin'
+data_sprite_floorturret_dying6_end:
 
-data_sprite_floorturret_dying7:
+data_sprite_floorturret_dying7_start:
   INCBIN 'assets/floorturret_dying7.bin'
+data_sprite_floorturret_dying7_end:
 
-data_sprite_floorturret_col_greenA:
+data_sprite_floorturret_col_greenA_start:
   INCBIN 'assets/floorturret_col_greenA.bin'
+data_sprite_floorturret_col_greenA_end:
 
-data_sprite_floorturret_col_greenB:
+data_sprite_floorturret_col_greenB_start:
   INCBIN 'assets/floorturret_col_greenB.bin'
-
-data_sprite_floorturret_col_orange:
-  INCBIN 'assets/floorturret_col_orange.bin'
+data_sprite_floorturret_col_greenB_end:
 
 ;---------------------------------------------------------------------------------
 

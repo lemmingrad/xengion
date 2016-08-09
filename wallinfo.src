@@ -7,15 +7,18 @@ WALL_YPOS							= 0
 
 ;---------------------------------------------------------------------------------
 
+data_walls_consts_start:
 data_walls_consts:
   DS 8
   DB WALL_XPOS
   DB GAMEPLAY_GLOBALANIM_MAX
   DB WALL_YPOS
   DB 12
+data_walls_consts_end:
 
 ;---------------------------------------------------------------------------------
 
+data_walls_map_start:
 data_walls_map:
   DB #00,#00,#00,#00,#00,#00,#00,#00,#00,#00,#00,#00,#00,#00,#00,#00
   DB #00,#00,#00,#00,#00,#00,#00,#10,#38,#78,#00,#00,#00,#00,#00,#00
@@ -36,12 +39,14 @@ data_walls_map:
   DB #38,#38,#3C,#40,#48,#4C,#74,#08,#08,#08,#08,#08,#08,#38,#38,#5C
   DB #0C,#00,#00,#10,#3C,#40,#8C,#F0,#EC,#F4,#B4,#B4,#B4,#F8,#B4,#F8
   DB #F0,#F0,#F0,#F0,#F0,#F0,#F0,#F0,#F0,#F0,#F0,#F0,#F0,#F0,#F0,#F0
+data_walls_map_end:
 
 ;---------------------------------------------------------------------------------
 
 WALL_STRIP_WIDTH = 16
 WALL_STRIP_HEIGHT = 192
 
+data_walls_collision_lookup_start:
 data_walls_collision_lookup:
   LDHI I, data_sprite_wall_col_00			
   LDHI I, data_sprite_wall_col_04			
@@ -106,196 +111,324 @@ data_walls_collision_lookup:
   LDHI I, data_sprite_wall_col_F0			
   LDHI I, data_sprite_wall_col_F4			
   LDHI I, data_sprite_wall_col_F8			
+data_walls_collision_lookup_end:
 
+data_sprite_wall_col_00_start:
 data_sprite_wall_col_00:
   INCBIN 'assets/wall_col_00.bin'
+data_sprite_wall_col_00_end:
 
+data_sprite_wall_col_04_start:
 data_sprite_wall_col_04:
   INCBIN 'assets/wall_col_04.bin'
+data_sprite_wall_col_04_end:
 
+data_sprite_wall_col_08_start:
 data_sprite_wall_col_08:
   INCBIN 'assets/wall_col_08.bin'
+data_sprite_wall_col_08_end:
 
+data_sprite_wall_col_0C_start:
 data_sprite_wall_col_0C:
   INCBIN 'assets/wall_col_0C.bin'
+data_sprite_wall_col_0C_end:
 
+data_sprite_wall_col_10_start:
 data_sprite_wall_col_10:
   INCBIN 'assets/wall_col_10.bin'
+data_sprite_wall_col_10_end:
 
+data_sprite_wall_col_14_start:
 data_sprite_wall_col_14:
   INCBIN 'assets/wall_col_14.bin'
+data_sprite_wall_col_14_end:
 
+data_sprite_wall_col_18_start:
 data_sprite_wall_col_18:
   INCBIN 'assets/wall_col_18.bin'
+data_sprite_wall_col_18_end:
 
+data_sprite_wall_col_1C_start:
 data_sprite_wall_col_1C:
   INCBIN 'assets/wall_col_1C.bin'
+data_sprite_wall_col_1C_end:
 
+data_sprite_wall_col_20_start:
 data_sprite_wall_col_20:
   INCBIN 'assets/wall_col_20.bin'
+data_sprite_wall_col_20_end:
 
+data_sprite_wall_col_24_start:
 data_sprite_wall_col_24:
   INCBIN 'assets/wall_col_24.bin'
+data_sprite_wall_col_24_end:
 
+data_sprite_wall_col_28_start:
 data_sprite_wall_col_28:
   INCBIN 'assets/wall_col_28.bin'
+data_sprite_wall_col_28_end:
 
+data_sprite_wall_col_2C_start:
 data_sprite_wall_col_2C:
   INCBIN 'assets/wall_col_2C.bin'
+data_sprite_wall_col_2C_end:
 
+data_sprite_wall_col_30_start:
 data_sprite_wall_col_30:
   INCBIN 'assets/wall_col_30.bin'
+data_sprite_wall_col_30_end:
 
+data_sprite_wall_col_34_start:
 data_sprite_wall_col_34:
   INCBIN 'assets/wall_col_34.bin'
+data_sprite_wall_col_34_end:
 
+data_sprite_wall_col_38_start:
 data_sprite_wall_col_38:
   INCBIN 'assets/wall_col_38.bin'
+data_sprite_wall_col_38_end:
 
+data_sprite_wall_col_3C_start:
 data_sprite_wall_col_3C:
   INCBIN 'assets/wall_col_3C.bin'
+data_sprite_wall_col_3C_end:
 
+data_sprite_wall_col_40_start:
 data_sprite_wall_col_40:
   INCBIN 'assets/wall_col_40.bin'
+data_sprite_wall_col_40_end:
 
+data_sprite_wall_col_44_start:
 data_sprite_wall_col_44:
   INCBIN 'assets/wall_col_44.bin'
+data_sprite_wall_col_44_end:
 
+data_sprite_wall_col_48_start:
 data_sprite_wall_col_48:
   INCBIN 'assets/wall_col_48.bin'
+data_sprite_wall_col_48_end:
 
+data_sprite_wall_col_4C_start:
 data_sprite_wall_col_4C:
   INCBIN 'assets/wall_col_4C.bin'
+data_sprite_wall_col_4C_end:
 
+data_sprite_wall_col_50_start:
 data_sprite_wall_col_50:
   INCBIN 'assets/wall_col_50.bin'
+data_sprite_wall_col_50_end:
 
+data_sprite_wall_col_54_start:
 data_sprite_wall_col_54:
   INCBIN 'assets/wall_col_54.bin'
+data_sprite_wall_col_54_end:
 
+data_sprite_wall_col_58_start:
 data_sprite_wall_col_58:
   INCBIN 'assets/wall_col_58.bin'
+data_sprite_wall_col_58_end:
 
+data_sprite_wall_col_5C_start:
 data_sprite_wall_col_5C:
   INCBIN 'assets/wall_col_5C.bin'
+data_sprite_wall_col_5C_end:
 
+data_sprite_wall_col_60_start:
 data_sprite_wall_col_60:
   INCBIN 'assets/wall_col_60.bin'
+data_sprite_wall_col_60_end:
 
+data_sprite_wall_col_64_start:
 data_sprite_wall_col_64:
   INCBIN 'assets/wall_col_64.bin'
+data_sprite_wall_col_64_end:
 
+data_sprite_wall_col_68_start:
 data_sprite_wall_col_68:
   INCBIN 'assets/wall_col_68.bin'
+data_sprite_wall_col_68_end:
 
+data_sprite_wall_col_6C_start:
 data_sprite_wall_col_6C:
   INCBIN 'assets/wall_col_6C.bin'
+data_sprite_wall_col_6C_end:
 
+data_sprite_wall_col_70_start:
 data_sprite_wall_col_70:
   INCBIN 'assets/wall_col_70.bin'
+data_sprite_wall_col_70_end:
 
+data_sprite_wall_col_74_start:
 data_sprite_wall_col_74:
   INCBIN 'assets/wall_col_74.bin'
+data_sprite_wall_col_74_end:
 
+data_sprite_wall_col_78_start:
 data_sprite_wall_col_78:
   INCBIN 'assets/wall_col_78.bin'
+data_sprite_wall_col_78_end:
 
+data_sprite_wall_col_7C_start:
 data_sprite_wall_col_7C:
   INCBIN 'assets/wall_col_7C.bin'
+data_sprite_wall_col_7C_end:
 
+data_sprite_wall_col_80_start:
 data_sprite_wall_col_80:
   INCBIN 'assets/wall_col_80.bin'
+data_sprite_wall_col_80_end:
 
+data_sprite_wall_col_84_start:
 data_sprite_wall_col_84:
   INCBIN 'assets/wall_col_84.bin'
+data_sprite_wall_col_84_end:
 
+data_sprite_wall_col_88_start:
 data_sprite_wall_col_88:
   INCBIN 'assets/wall_col_88.bin'
+data_sprite_wall_col_88_end:
 
+data_sprite_wall_col_8C_start:
 data_sprite_wall_col_8C:
   INCBIN 'assets/wall_col_8C.bin'
+data_sprite_wall_col_8C_end:
 
+data_sprite_wall_col_90_start:
 data_sprite_wall_col_90:
   INCBIN 'assets/wall_col_90.bin'
+data_sprite_wall_col_90_end:
 
+data_sprite_wall_col_94_start:
 data_sprite_wall_col_94:
   INCBIN 'assets/wall_col_94.bin'
+data_sprite_wall_col_94_end:
 
+data_sprite_wall_col_98_start:
 data_sprite_wall_col_98:
   INCBIN 'assets/wall_col_98.bin'
+data_sprite_wall_col_98_end:
 
+data_sprite_wall_col_9C_start:
 data_sprite_wall_col_9C:
   INCBIN 'assets/wall_col_9C.bin'
+data_sprite_wall_col_9C_end:
 
+data_sprite_wall_col_A0_start:
 data_sprite_wall_col_A0:
   INCBIN 'assets/wall_col_A0.bin'
+data_sprite_wall_col_A0_end:
 
+data_sprite_wall_col_A4_start:
 data_sprite_wall_col_A4:
   INCBIN 'assets/wall_col_A4.bin'
+data_sprite_wall_col_A4_end:
 
+data_sprite_wall_col_A8_start:
 data_sprite_wall_col_A8:
   INCBIN 'assets/wall_col_A8.bin'
+data_sprite_wall_col_A8_end:
 
+data_sprite_wall_col_AC_start:
 data_sprite_wall_col_AC:
   INCBIN 'assets/wall_col_AC.bin'
+data_sprite_wall_col_AC_end:
 
+data_sprite_wall_col_B0_start:
 data_sprite_wall_col_B0:
   INCBIN 'assets/wall_col_B0.bin'
+data_sprite_wall_col_B0_end:
 
+data_sprite_wall_col_B4_start:
 data_sprite_wall_col_B4:
   INCBIN 'assets/wall_col_B4.bin'
+data_sprite_wall_col_B4_end:
 
+data_sprite_wall_col_B8_start:
 data_sprite_wall_col_B8:
   INCBIN 'assets/wall_col_B8.bin'
+data_sprite_wall_col_B8_end:
 
+data_sprite_wall_col_BC_start:
 data_sprite_wall_col_BC:
   INCBIN 'assets/wall_col_BC.bin'
+data_sprite_wall_col_BC_end:
 
+data_sprite_wall_col_C0_start:
 data_sprite_wall_col_C0:
   INCBIN 'assets/wall_col_C0.bin'
+data_sprite_wall_col_C0_end:
 
+data_sprite_wall_col_C4_start:
 data_sprite_wall_col_C4:
   INCBIN 'assets/wall_col_C4.bin'
+data_sprite_wall_col_C4_end:
 
+data_sprite_wall_col_C8_start:
 data_sprite_wall_col_C8:
   INCBIN 'assets/wall_col_C8.bin'
+data_sprite_wall_col_C8_end:
 
+data_sprite_wall_col_CC_start:
 data_sprite_wall_col_CC:
   INCBIN 'assets/wall_col_CC.bin'
+data_sprite_wall_col_CC_end:
 
+data_sprite_wall_col_D0_start:
 data_sprite_wall_col_D0:
   INCBIN 'assets/wall_col_D0.bin'
+data_sprite_wall_col_D0_end:
 
+data_sprite_wall_col_D4_start:
 data_sprite_wall_col_D4:
   INCBIN 'assets/wall_col_D4.bin'
+data_sprite_wall_col_D4_end:
 
+data_sprite_wall_col_D8_start:
 data_sprite_wall_col_D8:
   INCBIN 'assets/wall_col_D8.bin'
+data_sprite_wall_col_D8_end:
 
+data_sprite_wall_col_DC_start:
 data_sprite_wall_col_DC:
   INCBIN 'assets/wall_col_DC.bin'
+data_sprite_wall_col_DC_end:
 
+data_sprite_wall_col_E0_start:
 data_sprite_wall_col_E0:
   INCBIN 'assets/wall_col_E0.bin'
+data_sprite_wall_col_E0_end:
 
+data_sprite_wall_col_E4_start:
 data_sprite_wall_col_E4:
   INCBIN 'assets/wall_col_E4.bin'
+data_sprite_wall_col_E4_end:
 
+data_sprite_wall_col_E8_start:
 data_sprite_wall_col_E8:
   INCBIN 'assets/wall_col_E8.bin'
+data_sprite_wall_col_E8_end:
 
+data_sprite_wall_col_EC_start:
 data_sprite_wall_col_EC:
   INCBIN 'assets/wall_col_EC.bin'
+data_sprite_wall_col_EC_end:
 
+data_sprite_wall_col_F0_start:
 data_sprite_wall_col_F0:
   INCBIN 'assets/wall_col_F0.bin'
+data_sprite_wall_col_F0_end:
 
+data_sprite_wall_col_F4_start:
 data_sprite_wall_col_F4:
   INCBIN 'assets/wall_col_F4.bin'
+data_sprite_wall_col_F4_end:
 
+data_sprite_wall_col_F8_start:
 data_sprite_wall_col_F8:
   INCBIN 'assets/wall_col_F8.bin'
+data_sprite_wall_col_F8_end:
 
+data_walls_strip_lookup_start:
 data_walls_strip_lookup:
   LDHI I, data_sprite_wall_strip_00			
   LDHI I, data_sprite_wall_strip_04			
@@ -360,195 +493,322 @@ data_walls_strip_lookup:
   LDHI I, data_sprite_wall_strip_F0			
   LDHI I, data_sprite_wall_strip_F4			
   LDHI I, data_sprite_wall_strip_F8			
+data_walls_strip_lookup_end:
 
+data_sprite_wall_strip_00_start:
 data_sprite_wall_strip_00:
   INCBIN 'assets/wall_strip_00.bin'
+data_sprite_wall_strip_00_end:
 
+data_sprite_wall_strip_04_start:
 data_sprite_wall_strip_04:
   INCBIN 'assets/wall_strip_04.bin'
+data_sprite_wall_strip_04_end:
 
+data_sprite_wall_strip_08_start:
 data_sprite_wall_strip_08:
   INCBIN 'assets/wall_strip_08.bin'
+data_sprite_wall_strip_08_end:
 
+data_sprite_wall_strip_0C_start:
 data_sprite_wall_strip_0C:
   INCBIN 'assets/wall_strip_0C.bin'
+data_sprite_wall_strip_0C_end:
 
+data_sprite_wall_strip_10_start:
 data_sprite_wall_strip_10:
   INCBIN 'assets/wall_strip_10.bin'
+data_sprite_wall_strip_10_end:
 
+data_sprite_wall_strip_14_start:
 data_sprite_wall_strip_14:
   INCBIN 'assets/wall_strip_14.bin'
+data_sprite_wall_strip_14_end:
 
+data_sprite_wall_strip_18_start:
 data_sprite_wall_strip_18:
   INCBIN 'assets/wall_strip_18.bin'
+data_sprite_wall_strip_18_end:
 
+data_sprite_wall_strip_1C_start:
 data_sprite_wall_strip_1C:
   INCBIN 'assets/wall_strip_1C.bin'
+data_sprite_wall_strip_1C_end:
 
+data_sprite_wall_strip_20_start:
 data_sprite_wall_strip_20:
   INCBIN 'assets/wall_strip_20.bin'
+data_sprite_wall_strip_20_end:
 
+data_sprite_wall_strip_24_start:
 data_sprite_wall_strip_24:
   INCBIN 'assets/wall_strip_24.bin'
+data_sprite_wall_strip_24_end:
 
+data_sprite_wall_strip_28_start:
 data_sprite_wall_strip_28:
   INCBIN 'assets/wall_strip_28.bin'
+data_sprite_wall_strip_28_end:
 
+data_sprite_wall_strip_2C_start:
 data_sprite_wall_strip_2C:
   INCBIN 'assets/wall_strip_2C.bin'
+data_sprite_wall_strip_2C_end:
 
+data_sprite_wall_strip_30_start:
 data_sprite_wall_strip_30:
   INCBIN 'assets/wall_strip_30.bin'
+data_sprite_wall_strip_30_end:
 
+data_sprite_wall_strip_34_start:
 data_sprite_wall_strip_34:
   INCBIN 'assets/wall_strip_34.bin'
+data_sprite_wall_strip_34_end:
 
+data_sprite_wall_strip_38_start:
 data_sprite_wall_strip_38:
   INCBIN 'assets/wall_strip_38.bin'
+data_sprite_wall_strip_38_end:
 
+data_sprite_wall_strip_3C_start:
 data_sprite_wall_strip_3C:
   INCBIN 'assets/wall_strip_3C.bin'
+data_sprite_wall_strip_3C_end:
 
+data_sprite_wall_strip_40_start:
 data_sprite_wall_strip_40:
   INCBIN 'assets/wall_strip_40.bin'
+data_sprite_wall_strip_40_end:
 
+data_sprite_wall_strip_44_start:
 data_sprite_wall_strip_44:
   INCBIN 'assets/wall_strip_44.bin'
+data_sprite_wall_strip_44_end:
 
+data_sprite_wall_strip_48_start:
 data_sprite_wall_strip_48:
   INCBIN 'assets/wall_strip_48.bin'
+data_sprite_wall_strip_48_end:
 
+data_sprite_wall_strip_4C_start:
 data_sprite_wall_strip_4C:
   INCBIN 'assets/wall_strip_4C.bin'
+data_sprite_wall_strip_4C_end:
 
+data_sprite_wall_strip_50_start:
 data_sprite_wall_strip_50:
   INCBIN 'assets/wall_strip_50.bin'
+data_sprite_wall_strip_50_end:
 
+data_sprite_wall_strip_54_start:
 data_sprite_wall_strip_54:
   INCBIN 'assets/wall_strip_54.bin'
+data_sprite_wall_strip_54_end:
 
+data_sprite_wall_strip_58_start:
 data_sprite_wall_strip_58:
   INCBIN 'assets/wall_strip_58.bin'
+data_sprite_wall_strip_58_end:
 
+data_sprite_wall_strip_5C_start:
 data_sprite_wall_strip_5C:
   INCBIN 'assets/wall_strip_5C.bin'
+data_sprite_wall_strip_5C_end:
 
+data_sprite_wall_strip_60_start:
 data_sprite_wall_strip_60:
   INCBIN 'assets/wall_strip_60.bin'
+data_sprite_wall_strip_60_end:
 
+data_sprite_wall_strip_64_start:
 data_sprite_wall_strip_64:
   INCBIN 'assets/wall_strip_64.bin'
+data_sprite_wall_strip_64_end:
 
+data_sprite_wall_strip_68_start:
 data_sprite_wall_strip_68:
   INCBIN 'assets/wall_strip_68.bin'
+data_sprite_wall_strip_68_end:
 
+data_sprite_wall_strip_6C_start:
 data_sprite_wall_strip_6C:
   INCBIN 'assets/wall_strip_6C.bin'
+data_sprite_wall_strip_6C_end:
 
+data_sprite_wall_strip_70_start:
 data_sprite_wall_strip_70:
   INCBIN 'assets/wall_strip_70.bin'
+data_sprite_wall_strip_70_end:
 
+data_sprite_wall_strip_74_start:
 data_sprite_wall_strip_74:
   INCBIN 'assets/wall_strip_74.bin'
+data_sprite_wall_strip_74_end:
 
+data_sprite_wall_strip_78_start:
 data_sprite_wall_strip_78:
   INCBIN 'assets/wall_strip_78.bin'
+data_sprite_wall_strip_78_end:
 
+data_sprite_wall_strip_7C_start:
 data_sprite_wall_strip_7C:
   INCBIN 'assets/wall_strip_7C.bin'
+data_sprite_wall_strip_7C_end:
 
+data_sprite_wall_strip_80_start:
 data_sprite_wall_strip_80:
   INCBIN 'assets/wall_strip_80.bin'
+data_sprite_wall_strip_80_end:
 
+data_sprite_wall_strip_84_start:
 data_sprite_wall_strip_84:
   INCBIN 'assets/wall_strip_84.bin'
+data_sprite_wall_strip_84_end:
 
+data_sprite_wall_strip_88_start:
 data_sprite_wall_strip_88:
   INCBIN 'assets/wall_strip_88.bin'
+data_sprite_wall_strip_88_end:
 
+data_sprite_wall_strip_8C_start:
 data_sprite_wall_strip_8C:
   INCBIN 'assets/wall_strip_8C.bin'
+data_sprite_wall_strip_8C_end:
 
+data_sprite_wall_strip_90_start:
 data_sprite_wall_strip_90:
   INCBIN 'assets/wall_strip_90.bin'
+data_sprite_wall_strip_90_end:
 
+data_sprite_wall_strip_94_start:
 data_sprite_wall_strip_94:
   INCBIN 'assets/wall_strip_94.bin'
+data_sprite_wall_strip_94_end:
 
+data_sprite_wall_strip_98_start:
 data_sprite_wall_strip_98:
   INCBIN 'assets/wall_strip_98.bin'
+data_sprite_wall_strip_98_end:
 
+data_sprite_wall_strip_9C_start:
 data_sprite_wall_strip_9C:
   INCBIN 'assets/wall_strip_9C.bin'
+data_sprite_wall_strip_9C_end:
 
+data_sprite_wall_strip_A0_start:
 data_sprite_wall_strip_A0:
   INCBIN 'assets/wall_strip_A0.bin'
+data_sprite_wall_strip_A0_end:
 
+data_sprite_wall_strip_A4_start:
 data_sprite_wall_strip_A4:
   INCBIN 'assets/wall_strip_A4.bin'
+data_sprite_wall_strip_A4_end:
 
+data_sprite_wall_strip_A8_start:
 data_sprite_wall_strip_A8:
   INCBIN 'assets/wall_strip_A8.bin'
+data_sprite_wall_strip_A8_end:
 
+data_sprite_wall_strip_AC_start:
 data_sprite_wall_strip_AC:
   INCBIN 'assets/wall_strip_AC.bin'
+data_sprite_wall_strip_AC_end:
 
+data_sprite_wall_strip_B0_start:
 data_sprite_wall_strip_B0:
   INCBIN 'assets/wall_strip_B0.bin'
+data_sprite_wall_strip_B0_end:
 
+data_sprite_wall_strip_B4_start:
 data_sprite_wall_strip_B4:
   INCBIN 'assets/wall_strip_B4.bin'
+data_sprite_wall_strip_B4_end:
 
+data_sprite_wall_strip_B8_start:
 data_sprite_wall_strip_B8:
   INCBIN 'assets/wall_strip_B8.bin'
+data_sprite_wall_strip_B8_end:
 
+data_sprite_wall_strip_BC_start:
 data_sprite_wall_strip_BC:
   INCBIN 'assets/wall_strip_BC.bin'
+data_sprite_wall_strip_BC_end:
 
+data_sprite_wall_strip_C0_start:
 data_sprite_wall_strip_C0:
   INCBIN 'assets/wall_strip_C0.bin'
+data_sprite_wall_strip_C0_end:
 
+data_sprite_wall_strip_C4_start:
 data_sprite_wall_strip_C4:
   INCBIN 'assets/wall_strip_C4.bin'
+data_sprite_wall_strip_C4_end:
 
+data_sprite_wall_strip_C8_start:
 data_sprite_wall_strip_C8:
   INCBIN 'assets/wall_strip_C8.bin'
+data_sprite_wall_strip_C8_end:
 
+data_sprite_wall_strip_CC_start:
 data_sprite_wall_strip_CC:
   INCBIN 'assets/wall_strip_CC.bin'
+data_sprite_wall_strip_CC_end:
 
+data_sprite_wall_strip_D0_start:
 data_sprite_wall_strip_D0:
   INCBIN 'assets/wall_strip_D0.bin'
+data_sprite_wall_strip_D0_end:
 
+data_sprite_wall_strip_D4_start:
 data_sprite_wall_strip_D4:
   INCBIN 'assets/wall_strip_D4.bin'
+data_sprite_wall_strip_D4_end:
 
+data_sprite_wall_strip_D8_start:
 data_sprite_wall_strip_D8:
   INCBIN 'assets/wall_strip_D8.bin'
+data_sprite_wall_strip_D8_end:
 
+data_sprite_wall_strip_DC_start:
 data_sprite_wall_strip_DC:
   INCBIN 'assets/wall_strip_DC.bin'
+data_sprite_wall_strip_DC_end:
 
+data_sprite_wall_strip_E0_start:
 data_sprite_wall_strip_E0:
   INCBIN 'assets/wall_strip_E0.bin'
+data_sprite_wall_strip_E0_end:
 
+data_sprite_wall_strip_E4_start:
 data_sprite_wall_strip_E4:
   INCBIN 'assets/wall_strip_E4.bin'
+data_sprite_wall_strip_E4_end:
 
+data_sprite_wall_strip_E8_start:
 data_sprite_wall_strip_E8:
   INCBIN 'assets/wall_strip_E8.bin'
+data_sprite_wall_strip_E8_end:
 
+data_sprite_wall_strip_EC_start:
 data_sprite_wall_strip_EC:
   INCBIN 'assets/wall_strip_EC.bin'
+data_sprite_wall_strip_EC_end:
 
+data_sprite_wall_strip_F0_start:
 data_sprite_wall_strip_F0:
   INCBIN 'assets/wall_strip_F0.bin'
+data_sprite_wall_strip_F0_end:
 
+data_sprite_wall_strip_F4_start:
 data_sprite_wall_strip_F4:
   INCBIN 'assets/wall_strip_F4.bin'
+data_sprite_wall_strip_F4_end:
 
+data_sprite_wall_strip_F8_start:
 data_sprite_wall_strip_F8:
   INCBIN 'assets/wall_strip_F8.bin'
+data_sprite_wall_strip_F8_end:
 
 ;---------------------------------------------------------------------------------
 

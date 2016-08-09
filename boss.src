@@ -26,9 +26,7 @@ E_BOSS_SPRITE_DYING_12						= #38
 E_BOSS_SPRITE_DYING_13						= #3C 
 E_BOSS_SPRITE_DYING_14						= #40 
 E_BOSS_SPRITE_DYING_15						= #44 
-E_BOSS_SPRITE_COL_PURPLE					= #48 
-E_BOSS_SPRITE_COL_GREEN						= #4C 
-E_BOSS_SPRITE_COL_ORANGE					= #50 
+E_BOSS_SPRITE_COL_GREEN						= #48 
 
 BOSS_HEALTH 							= 15
 BOSS_X_POS 							= 192
@@ -45,6 +43,7 @@ BOSS_DAMAGED_TIMER_MAX						= 4
 BOSS_DYING_TIMER_INC 						= 1
 BOSS_DYING_TIMER_MAX 						= 100
 
+data_bossinfo_generic_start:
 ;---------------------------------------------------------------------------------
 
   DS 12
@@ -98,21 +97,28 @@ data_boss_update_switch_lookup:
   JP lbl_do_boss_update_case_dying
 
 ;---------------------------------------------------------------------------------
+data_bossinfo_generic_end:
+
 
 BOSS_BACKGROUND_WIDTH = 0
 BOSS_BACKGROUND_HEIGHT = 192
 
+data_sprite_boss_background_col_start:
 data_sprite_boss_background_col:
   INCBIN 'assets/boss_col.bin'
+data_sprite_boss_background_col_end:
 
+data_sprite_boss_background_start:
 data_sprite_boss_background:
   INCBIN 'assets/boss_background.bin'
+data_sprite_boss_background_end:
 
 ;---------------------------------------------------------------------------------
 
 BOSS_WIDTH = 52
 BOSS_HEIGHT = 52
 
+data_boss_sprite_lookup_start:
 data_boss_sprite_lookup:
   LDHI I, data_sprite_eye_blink					; E_BOSS_SPRITE_BLINK
   LDHI I, data_sprite_eye_damaged				; E_BOSS_SPRITE_DAMAGED
@@ -132,48 +138,63 @@ data_boss_sprite_lookup:
   LDHI I, data_sprite_eye_dying6				; E_BOSS_SPRITE_DYING_13
   LDHI I, data_sprite_eye_dying7				; E_BOSS_SPRITE_DYING_14
   LDHI I, data_sprite_eye_dying7				; E_BOSS_SPRITE_DYING_15
-  LDHI I, data_sprite_eye_col_purple				; E_BOSS_SPRITE_COL_PURPLE
   LDHI I, data_sprite_eye_col_green				; E_BOSS_SPRITE_COL_GREEN
-  LDHI I, data_sprite_eye_col_orange				; E_BOSS_SPRITE_COL_ORANGE
+data_boss_sprite_lookup_end:
 
+data_sprite_eye_blink_start:
 data_sprite_eye_blink:
   INCBIN 'assets/eye_blink.bin'
+data_sprite_eye_blink_end:
 
+data_sprite_eye_damaged_start:
 data_sprite_eye_damaged:
   INCBIN 'assets/eye_damaged.bin'
+data_sprite_eye_damaged_end:
 
+data_sprite_eye_dying0_start:
 data_sprite_eye_dying0:
   INCBIN 'assets/eye_dying0.bin'
+data_sprite_eye_dying0_end:
 
+data_sprite_eye_dying1_start:
 data_sprite_eye_dying1:
   INCBIN 'assets/eye_dying1.bin'
+data_sprite_eye_dying1_end:
 
+data_sprite_eye_dying2_start:
 data_sprite_eye_dying2:
   INCBIN 'assets/eye_dying2.bin'
+data_sprite_eye_dying2_end:
 
+data_sprite_eye_dying3_start:
 data_sprite_eye_dying3:
   INCBIN 'assets/eye_dying3.bin'
+data_sprite_eye_dying3_end:
 
+data_sprite_eye_dying4_start:
 data_sprite_eye_dying4:
   INCBIN 'assets/eye_dying4.bin'
+data_sprite_eye_dying4_end:
 
+data_sprite_eye_dying5_start:
 data_sprite_eye_dying5:
   INCBIN 'assets/eye_dying5.bin'
+data_sprite_eye_dying5_end:
 
+data_sprite_eye_dying6_start:
 data_sprite_eye_dying6:
   INCBIN 'assets/eye_dying6.bin'
+data_sprite_eye_dying6_end:
 
+data_sprite_eye_dying7_start:
 data_sprite_eye_dying7:
   INCBIN 'assets/eye_dying7.bin'
+data_sprite_eye_dying7_end:
 
-data_sprite_eye_col_purple:
-  INCBIN 'assets/eye_col_purple.bin'
-
+data_sprite_eye_col_green_start:
 data_sprite_eye_col_green:
   INCBIN 'assets/eye_col_green.bin'
-
-data_sprite_eye_col_orange:
-  INCBIN 'assets/eye_col_orange.bin'
+data_sprite_eye_col_green_end:
 
 ;---------------------------------------------------------------------------------
 

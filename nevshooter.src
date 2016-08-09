@@ -41,6 +41,9 @@ lbl_main_frame_loop_start:
   ; else if (game.lives == E_GAME_LIVES_X_WIN)
   ; then do win screen
 
+; TODO - optimise this switch out
+; overwrite lbl ptr with CALL
+
   LDHI I, data_game_main_frame_lives_switch_lookup
   ADD I, V0
   LD V1, [I]
@@ -132,7 +135,7 @@ func_DoTitleScreen:
   LD V0, V5
   LD [I], V0
 lbl_game_start_screen_ptr1:
-  LDHI I, data_interleaved_aligned
+  LDHI I, data_number_sprite_aligned
   DRW VA, V9, 1
 
   ; draw hi-score 10s
@@ -140,7 +143,7 @@ lbl_game_start_screen_ptr1:
   LD V0, V6
   LD [I], V0
 lbl_game_start_screen_ptr2:
-  LDHI I, data_interleaved_aligned
+  LDHI I, data_number_sprite_aligned
   DRW VB, V9, 1
 
   ; draw hi-score 1s
@@ -148,7 +151,7 @@ lbl_game_start_screen_ptr2:
   LD V0, V7
   LD [I], V0
 lbl_game_start_screen_ptr3:
-  LDHI I, data_interleaved_aligned
+  LDHI I, data_number_sprite_aligned
   DRW VC, V9, 1
 
   ; if gametitle.timer < GAMETITLE_TIMER_ALLOW_CONTINUE
@@ -291,6 +294,11 @@ func_DoGameplay:
   ; Do special flow control for gameplay state
   ; player.state is already loaded in V9
 
+  SCL
+  SCL
+  SCL
+  SCL
+
 lbl_do_gameplay_test_prev:
 
   SE V9, E_PLAYER_STATE_MODE_PREV
@@ -299,7 +307,7 @@ lbl_do_gameplay_test_prev:
   CALL func_ResetGameplay
   
   ; decrement game.lives
-  LD I, data_game_livesinfo-0				 
+  LDHI I, data_game_livesinfo-0				 
   LD V1, [I]
 								; V0 = game.lives
   								; V1 = game.const GAME_LIVES_GAMEPLAY_MASK
@@ -320,7 +328,7 @@ lbl_do_gameplay_test_next:
   CALL func_ResetBossplay
 
   ; update lives
-  LD I, data_game_livesinfo-0				 
+  LDHI I, data_game_livesinfo-0				 
   LD V2, [I]
 								; V0 = game.lives
 								; V1 = game.const GAME_LIVES_GAMEPLAY_MASK
@@ -559,7 +567,7 @@ lbl_do_bossplay_test_prev:
   CALL func_ResetGameplay
   
   ; decrement game.lives
-  LD I, data_game_livesinfo-0				 
+  LDHI I, data_game_livesinfo-0				 
   LD V1, [I]
 								; V0 = game.lives
   								; V1 = game.const GAME_LIVES_GAMEPLAY_MASK
@@ -578,7 +586,7 @@ lbl_do_bossplay_test_next:
   JP lbl_do_bossplay_test_end
 
   ; update lives
-  LD I, data_game_livesinfo-0
+  LDHI I, data_game_livesinfo-0
   LD V3, [I]
  								; V0 = game.lives
 								; V1 = game.const GAME_LIVES_GAMEPLAY_MASK
@@ -732,7 +740,6 @@ func_DoGameOverScreen:
 
   ; draw enemies count
 
-; TODO - OPTIMISE ALIGNED 16x16
   LDHI I, data_game_scoreinfo-4
   LD V7, [I]
 								; V4 = game.score 100s
@@ -743,33 +750,27 @@ func_DoGameOverScreen:
   LD VE, V7							; totalscore = game.score
 
   ; draw enemies 100s
-  LDHI I, data_number_lookup
-  ADD I, V4
-  LD V3, [I]
-  LD I, lbl_gameover_enemies_ptr1
-  LD [I], V3
+  LD I, lbl_gameover_enemies_ptr1+2
+  LD V0, V4
+  LD [I], V0
 lbl_gameover_enemies_ptr1:
-  LDHI I, lbl_gameover_enemies_ptr1
+  LDHI I, data_number_sprite_aligned
   DRW V9, V8, 1
 
   ; draw enemies 10s
-  LDHI I, data_number_lookup
-  ADD I, V5
-  LD V3, [I]
-  LD I, lbl_gameover_enemies_ptr2
-  LD [I], V3
+  LD I, lbl_gameover_enemies_ptr2+2
+  LD V0, V5
+  LD [I], V0
 lbl_gameover_enemies_ptr2:
-  LDHI I, lbl_gameover_enemies_ptr2
+  LDHI I, data_number_sprite_aligned
   DRW VA, V8, 1
 
   ; draw enemies 1s
-  LDHI I, data_number_lookup
-  ADD I, V6
-  LD V3, [I]
-  LD I, lbl_gameover_enemies_ptr3
-  LD [I], V3
+  LD I, lbl_gameover_enemies_ptr3+2
+  LD V0, V6
+  LD [I], V0
 lbl_gameover_enemies_ptr3:
-  LDHI I, lbl_gameover_enemies_ptr3
+  LDHI I, data_number_sprite_aligned
   DRW VB, V8, 1
 
   ; draw boss and lives counters	
@@ -908,43 +909,30 @@ lbl_gameover_totalscore_ptr1:
   								; VB = game.const GAMEOVER_SCORE_1S_X_POS
   								; VC = game.const GAMEOVER_TIMER_TOTALSCORE
 
-  SHL V5
-  SHL V5
-  SHL V6
-  SHL V6
-  SHL V7
-  SHL V7
-
   LD [I], V7
 
   ; draw score 100s
-  LDHI I, data_number_lookup
-  ADD I, V5
-  LD V3, [I]
-  LD I, lbl_gameover_totalscore_ptr2
-  LD [I], V3
+  LD I, lbl_gameover_totalscore_ptr2+2
+  LD V0, V5
+  LD [I], V0
 lbl_gameover_totalscore_ptr2:
-  LDHI I, lbl_gameover_totalscore_ptr2
+  LDHI I, data_number_sprite_aligned
   DRW V9, V8, 1
 
   ; draw score 10s
-  LDHI I, data_number_lookup
-  ADD I, V6
-  LD V3, [I]
-  LD I, lbl_gameover_totalscore_ptr3
-  LD [I], V3
+  LD I, lbl_gameover_totalscore_ptr3+2
+  LD V0, V6
+  LD [I], V0
 lbl_gameover_totalscore_ptr3:
-  LDHI I, lbl_gameover_totalscore_ptr3
+  LDHI I, data_number_sprite_aligned
   DRW VA, V8, 1
 
   ; draw score 1s
-  LDHI I, data_number_lookup
-  ADD I, V7
-  LD V3, [I]
-  LD I, lbl_gameover_totalscore_ptr4
-  LD [I], V3
+  LD I, lbl_gameover_totalscore_ptr4+2
+  LD V0, V7
+  LD [I], V0
 lbl_gameover_totalscore_ptr4:
-  LDHI I, lbl_gameover_totalscore_ptr4
+  LDHI I, data_number_sprite_aligned
   DRW VB, V8, 1
 
   ; draw hi-score
@@ -1006,36 +994,28 @@ lbl_gameover_press_start:
 
 lbl_gameover_hiscore_ptr1:
 
-; TODO - OPTIMISE ALIGN 16x16
-
   ; draw score 100s
-  LDHI I, data_number_lookup
-  ADD I, V4
-  LD V3, [I]
-  LD I, lbl_gameover_hiscore_ptr2
-  LD [I], V3
+  LD I, lbl_gameover_hiscore_ptr2+2
+  LD V0, V4
+  LD [I], V0
 lbl_gameover_hiscore_ptr2:
-  LDHI I, lbl_gameover_hiscore_ptr2
+  LDHI I, data_number_sprite_aligned
   DRW V9, V8, 1
 
   ; draw score 10s
-  LDHI I, data_number_lookup  
-  ADD I, V5
-  LD V3, [I]
-  LD I, lbl_gameover_hiscore_ptr3
-  LD [I], V3
+  LD I, lbl_gameover_hiscore_ptr3+2
+  LD V0, V5
+  LD [I], V0
 lbl_gameover_hiscore_ptr3:
-  LDHI I, lbl_gameover_hiscore_ptr3
+  LDHI I, data_number_sprite_aligned
   DRW VA, V8, 1
 
   ; draw score 1s
-  LDHI I, data_number_lookup
-  ADD I, V6
-  LD V3, [I]
-  LD I, lbl_gameover_hiscore_ptr4
-  LD [I], V3
+  LD I, lbl_gameover_hiscore_ptr4+2
+  LD V0, V6
+  LD [I], V0
 lbl_gameover_hiscore_ptr4:
-  LDHI I, lbl_gameover_hiscore_ptr4
+  LDHI I, data_number_sprite_aligned
   DRW VB, V8, 1
 
   RET
@@ -1562,7 +1542,7 @@ lbl_do_update_bullets_case_alive:
   LDHI I, data_bullet_alive_constants-4
   LD V6, [I]
 								; V4 = E_BULLET_SPRITE_ALIVE_0
-								; V5 = bullet.const BULLET_ALIVE_X_TO_Y_HALFSTEP
+								; V5 = unused
 								; V6 = bullet.const BULLET_ALIVE_XPOS_MIN
 
   LD I, lbl_do_update_bullets_movement_ptr+2
@@ -1570,23 +1550,13 @@ lbl_do_update_bullets_case_alive:
   LD [I], V0
 
 lbl_do_update_bullets_movement_ptr:
-  LDHI I, data_bullets_x_movement_aligned
+  LDHI I, data_bullets_movement_aligned
 
   ADD I, V8
-  LD V0, [I]
+  ADD I, V8
+  LD V1, [I]
   ADD V9, V0
-
-; Add 1 to x
-;TODO - MERGE THIS INTO BULLET X DELTA TABLES
-  ADD V9, 255
-
-; Faster way to get bullet y delta with re-arranged data. But not as fast as it should be! Stupid limited instructions.
-; Don't need a full 256 step, so reduce it to 255 or something to remove the second ADD
-;TODO - REMOVE HALFSTEP, MAKE 255
-  ADD I, V5
-  ADD I, V5
-  LD V0, [I]
-  ADD VA, V0
+  ADD VA, V1
 
   CCOL COL_ORANGE
   ADD V4, VE
@@ -1909,7 +1879,7 @@ lbl_do_update_player_gameplay_case_alive:
   ADD V4, VE							; V4 += global.anim
   CALL func_DrawPlayer
 
-  LDHI I, data_player_alive_constants-0
+  LDHI I, data_player_gameplay_alive_constants-0
   LD V8, [I]
 								; V0 = player.const PLAYER_ALIVE_XPOS_MIN
 								; V1 = player.const PLAYER_ALIVE_XPOS_MAX
@@ -2110,7 +2080,7 @@ lbl_do_update_player_bossplay_case_alive:
   ADD V4, VE							; V4 += global.anim
   CALL func_DrawPlayer
 
-  LDHI I, data_player_alive_constants-0
+  LDHI I, data_player_bossplay_alive_constants-0
   LD V8, [I]
 								; V0 = player.const PLAYER_ALIVE_XPOS_MIN
 								; V1 = player.const PLAYER_ALIVE_XPOS_MAX
@@ -2341,7 +2311,7 @@ lbl_do_update_enemies_draw_alive:
   LD I, lbl_do_update_enemies_movement_ptr+2
   LD [I], V0
 lbl_do_update_enemies_movement_ptr:
-  LDHI I, data_enemy_y_movement_aligned
+  LDHI I, data_enemy_movement_aligned
 
   ADD I, V7
   LD V0, [I]
@@ -2508,41 +2478,52 @@ lbl_do_boss_update_switch_end:
 ;---------------------------------------------------------------------------------
 func_DrawBackgroundAndParallax:
 
+  LDHI I, data_background_and_parallax_display
+  LD V4, [I]							
+								; V0 = 64
+								; V1 = 32
+								; V2 = 16
+								; V3 = 24	
+								; V4 = #01
+
+
   SPRW BACKGROUND_WIDTH
   SPRH BACKGROUND_HEIGHT
-  LDHI I, data_sprite_background
 
-  LD V0, 0
-  DRW V0, V0, 1
+  LDHI I, data_sprite_background
+  DRW V1, V2, 1
 
   SPRW PARALLAX_WIDTH
   SPRH PARALLAX_HEIGHT
 
-  LDHI I, data_sprite_parallax_A
-  LD V6, 8
-
   SNE VD, GAMEPLAY_GLOBALDATA_MAX
-  JP lbl_use_parallax_A
+  JP lbl_use_fixed_parallax
 
   ; set xpos draw position
-  LD V6, 64
-  SUB V6, VE
-  SHR V6
-  SHR V6
-  SHR V6							; V6 = (64 - global.anim) / 8
+  SUB V0, VE
+  SHR V0
+  SHR V0
+  SHR V0							; V0 = (64 - global.anim) / 8
+  ADD V0, V2							; V0 += 16 
 
-  LD V1, #01
-  AND V1, VD
-  SE V1, 1
+  AND V4, VD
+  SE V4, 1
   JP lbl_use_parallax_A
 
   LDHI I, data_sprite_parallax_B
+  DRW V0, V2, 1
+  RET
 
 lbl_use_parallax_A:  
-
-  DRW V6, V0, 1
-
+  LDHI I, data_sprite_parallax_A
+  DRW V0, V2, 1
   RET
+
+lbl_use_fixed_parallax:
+  LDHI I, data_sprite_parallax_A
+  DRW V3, V2, 1
+  RET
+
 ;---------------------------------------------------------------------------------
 
 
@@ -2577,24 +2558,24 @@ func_DrawBorder:
   LD I, lbl_game_border_score_ptr1+2
   LD [I], V0
 lbl_game_border_score_ptr1:
-  LDHI I, data_number_sprites_aligned
-  DRW V9, V8, 1
+  LDHI I, data_number_sprite_aligned
+  DRW V5, V4, 1
 
   ; draw score 10s
   LD I, lbl_game_border_score_ptr2+2
   LD V0, V1
   LD [I], V0
 lbl_game_border_score_ptr2:
-  LDHI I, data_numbers_sprites_aligned
-  DRW VA, V8, 1
+  LDHI I, data_number_sprite_aligned
+  DRW V6, V4, 1
 
   ; draw score 1s
   LD I, lbl_game_border_score_ptr3+2
   LD V0, V2
   LD [I], V0
 lbl_game_border_score_ptr3:
-  LDHI I, data_numbers_sprites_aligned
-  DRW VB, V8, 1
+  LDHI I, data_number_sprite_aligned
+  DRW V7, V4, 1
 
   ; draw lives
   LDHI I, data_game_livesinfo-6
@@ -2605,6 +2586,9 @@ lbl_game_border_score_ptr3:
 								; V9 = game.const GAME_LIVES_WIN_SHIFT
 								; VA = game.const GAME_LIVES_Y_POS
 								; VB = game.const GAME_LIVES_X_POS
+
+; TODO - optimise this switch out
+; replace lbl ptr with JP
 
   LDHI I, data_draw_border_lives_switch_lookup
   ADD I, V6 
@@ -2734,7 +2718,7 @@ func_DrawBullet:
   LD [I], V0
   
 lbl_draw_bullet_sprite_ptr:
-  LDHI I, lbl_bullet_sprite_aligned
+  LDHI I, data_bullet_sprite_aligned
 
   ; draw bullet sprite
   DRW V9, VA, 1		
@@ -3048,6 +3032,11 @@ lbl_end_code:
   LD I, lbl_end_code
   DA 'All design, code, art and other assets copyright Michael Neve 2012-2013. Secret Brohoof. /)'
 
+
+data_data_data_aligner:
+  DS 65536 - (data_data_data_aligner % 65536)
+data_data_data_aligned:
+
 ;---------------------------------------------------------------------------------
 ; GAME INFO
 ;---------------------------------------------------------------------------------
@@ -3071,6 +3060,12 @@ INCLUDE 'enemy_movement.src'
 INCLUDE 'boss.src'
 
 ;---------------------------------------------------------------------------------
+; OPTIMISED MEMORY LAYOUT
+;---------------------------------------------------------------------------------
+
+
+
+;---------------------------------------------------------------------------------
 ; BULLET INFO
 ;---------------------------------------------------------------------------------
 INCLUDE 'bulletinfo.src'
@@ -3085,3 +3080,4 @@ INCLUDE 'wallinfo.src'
 ; GENERIC
 ;---------------------------------------------------------------------------------
 
+lbl_end_data:

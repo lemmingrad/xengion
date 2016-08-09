@@ -65,62 +65,78 @@ E_PLAYER_SPRITE_MOVE_UP						= #C0
 E_PLAYER_SPRITE_MOVE_DOWN					= #C4
 E_PLAYER_SPRITE_MOVE_LEFT					= #C8
 E_PLAYER_SPRITE_MOVE_RIGHT					= #CC
-E_PLAYER_SPRITE_COL_PURPLE					= #D0
-E_PLAYER_SPRITE_COL_GREEN					= #D4
-E_PLAYER_SPRITE_COL_ORANGE					= #D8
+E_PLAYER_SPRITE_COL_ORANGE					= #D0
 		
 KEY_RIGHT							= 9
 KEY_LEFT 							= 7 
 KEY_DOWN							= 8 
 KEY_UP								= 5
 
-PLAYER_REVIVING_START_XPOS					= 0
+PLAYER_REVIVING_START_XPOS					= 16
 PLAYER_REVIVING_START_YPOS					= 70
 PLAYER_REVIVING_SPEED_X						= 2
 PLAYER_REVIVING_TIMER_INC					= 1
 PLAYER_GAMEPLAY_REVIVING_TIMER_MAX 				= 50 
 PLAYER_BOSSPLAY_REVIVING_TIMER_MAX				= 35
 
-PLAYER_ALIVE_XPOS_MIN 						= 16
-PLAYER_ALIVE_XPOS_MAX						= 202
+PLAYER_GAMEPLAY_ALIVE_XPOS_MIN 					= 32
+PLAYER_GAMEPLAY_ALIVE_XPOS_MAX					= 218
+PLAYER_BOSSPLAY_ALIVE_XPOS_MIN 					= 16
+PLAYER_BOSSPLAY_ALIVE_XPOS_MAX					= 202
 PLAYER_ALIVE_SPEED_X						= 2
 PLAYER_ALIVE_SPEED_Y						= 2
 
 PLAYER_GAMEPLAY_DYING_XPOS_MIN					= 0
 PLAYER_GAMEPLAY_DYING_SPEED_X					= GAMEPLAY_SCROLL_SPEED
 PLAYER_DYING_TIMER_INC						= 1
-PLAYER_DYING_TIMER_MAX						= 50
+PLAYER_DYING_TIMER_MAX						= 60
 
-PLAYER_GAMEPLAY_OUTRO_XPOS_MAX					= 200
+PLAYER_GAMEPLAY_OUTRO_XPOS_MAX					= 253
 PLAYER_GAMEPLAY_OUTRO_SPEED_X					= 2
 PLAYER_BOSSPLAY_OUTRO_TIMER_INC					= 1
 PLAYER_BOSSPLAY_OUTRO_TIMER_MAX					= 255
 
-
 ;---------------------------------------------------------------------------------
 
+data_player_info_start:
   DS 12
 data_player_info:
   DB 0								; player.state
   DB 0								; player.timer
   DB 0								; player.xpos
   DB 0								; player.ypos
+data_player_info_end:
 
 ;---------------------------------------------------------------------------------
 
+data_player_reset_start:
   DS 12
 data_player_reset:
   DB E_PLAYER_STATE_REVIVING					; player.state = E_PLAYER_STATE_REVIVING
   DB 0								; player.timer = 0
   DB PLAYER_REVIVING_START_XPOS					; player.xpos = PLAYER_REVIVING_START_XPOS
   DB PLAYER_REVIVING_START_YPOS					; player.ypos = PLAYER_REVIVING_START_YPOS
+data_player_reset_end:
 
 ;---------------------------------------------------------------------------------
+data_playerinfo_generic_start:
 
   DS 12
-data_player_alive_constants:
-  DB PLAYER_ALIVE_XPOS_MIN					; player.const PLAYER_ALIVE_XPOS_MIN
-  DB PLAYER_ALIVE_XPOS_MAX					; player.const PLAYER_ALIVE_XPOS_MAX
+data_player_gameplay_alive_constants:
+  DB PLAYER_GAMEPLAY_ALIVE_XPOS_MIN				; player.const PLAYER_GAMEPLAY_ALIVE_XPOS_MIN
+  DB PLAYER_GAMEPLAY_ALIVE_XPOS_MAX				; player.const PLAYER_GAMEPLAY_ALIVE_XPOS_MAX
+  DB PLAYER_ALIVE_SPEED_X					; player.const PLAYER_ALIVE_SPEED_X
+  DB PLAYER_ALIVE_SPEED_Y					; player.const PLAYER_ALIVE_SPEED_Y
+  DB E_PLAYER_SPRITE_ALIVE_0					; E_PLAYER_SPRITE_ALIVE_0
+  DB KEY_RIGHT							; player.const KEY_RIGHT 
+  DB KEY_LEFT							; player.const KEY_LEFT
+  DB KEY_DOWN							; player.const KEY_DOWN
+  DB KEY_UP							; player.const KEY_UP
+
+  DS 12
+data_player_bossplay_alive_constants:
+  DB PLAYER_BOSSPLAY_ALIVE_XPOS_MIN				; player.const PLAYER_BOSSPLAY_ALIVE_XPOS_MIN
+  DB PLAYER_BOSSPLAY_ALIVE_XPOS_MAX				; player.const PLAYER_BOSSPLAY_ALIVE_XPOS_MAX
   DB PLAYER_ALIVE_SPEED_X					; player.const PLAYER_ALIVE_SPEED_X
   DB PLAYER_ALIVE_SPEED_Y					; player.const PLAYER_ALIVE_SPEED_Y
   DB E_PLAYER_SPRITE_ALIVE_0					; E_PLAYER_SPRITE_ALIVE_0
@@ -198,10 +214,13 @@ data_player_bossplay_update_state_switch_lookup:
   JP lbl_do_update_player_bossplay_case_outro			; E_PLAYER_STATE_OUTRO
 
 ;---------------------------------------------------------------------------------
+data_playerinfo_generic_end:
+
 
 PLAYER_WIDTH							= 32
-PLAYER_HEIGHT							= 42
+PLAYER_HEIGHT							= 40
 
+data_player_sprite_lookup_start:
 data_player_sprite_lookup:
   LDHI I, data_sprite_player_alive0				; E_PLAYER_SPRITE_ALIVE_0
   LDHI I, data_sprite_player_alive0				; E_PLAYER_SPRITE_ALIVE_1
@@ -245,91 +264,113 @@ data_player_sprite_lookup:
   LDHI I, data_sprite_player_invulnerable3			; E_PLAYER_SPRITE_REVIVING_7
   LDHI I, data_sprite_player_invulnerable4			; E_PLAYER_SPRITE_REVIVING_8
   LDHI I, data_sprite_player_invulnerable4			; E_PLAYER_SPRITE_REVIVING_9
-  LDHI I, data_sprite_player_invulnerable5			; E_PLAYER_SPRITE_REVIVING_10
-  LDHI I, data_sprite_player_invulnerable5			; E_PLAYER_SPRITE_REVIVING_11
-  LDHI I, data_sprite_player_invulnerable6			; E_PLAYER_SPRITE_REVIVING_12
-  LDHI I, data_sprite_player_invulnerable6			; E_PLAYER_SPRITE_REVIVING_13
-  LDHI I, data_sprite_player_invulnerable7			; E_PLAYER_SPRITE_REVIVING_14
-  LDHI I, data_sprite_player_invulnerable7			; E_PLAYER_SPRITE_REVIVING_15
+  LDHI I, data_sprite_player_invulnerable3			; E_PLAYER_SPRITE_REVIVING_10
+  LDHI I, data_sprite_player_invulnerable3			; E_PLAYER_SPRITE_REVIVING_11
+  LDHI I, data_sprite_player_invulnerable2			; E_PLAYER_SPRITE_REVIVING_12
+  LDHI I, data_sprite_player_invulnerable2			; E_PLAYER_SPRITE_REVIVING_13
+  LDHI I, data_sprite_player_invulnerable1			; E_PLAYER_SPRITE_REVIVING_14
+  LDHI I, data_sprite_player_invulnerable1			; E_PLAYER_SPRITE_REVIVING_15
   LDHI I, data_sprite_player_alive4				; E_PLAYER_SPRITE_MOVE_UP
   LDHI I, data_sprite_player_alive0				; E_PLAYER_SPRITE_MOVE_DOWN
   LDHI I, data_sprite_player_alive2				; E_PLAYER_SPRITE_MOVE_LEFT
   LDHI I, data_sprite_player_alive2				; E_PLAYER_SPRITE_MOVE_RIGHT
-  LDHI I, data_sprite_player_col_purple 			; E_PLAYER_SPRITE_COL_PURPLE
-  LDHI I, data_sprite_player_col_green				; E_PLAYER_SPRITE_COL_GREEN
   LDHI I, data_sprite_player_col_orange				; E_PLAYER_SPRITE_COL_ORANGE
+data_player_sprite_lookup_end:
 
+data_sprite_player_alive0_start:
 data_sprite_player_alive0:
   INCBIN 'assets/player_alive0.bin'
+data_sprite_player_alive0_end:
 
+data_sprite_player_alive1_start:
 data_sprite_player_alive1:
   INCBIN 'assets/player_alive1.bin'
+data_sprite_player_alive1_end:
 
+data_sprite_player_alive2_start:
 data_sprite_player_alive2:
   INCBIN 'assets/player_alive2.bin'
+data_sprite_player_alive2_end:
 
+data_sprite_player_alive3_start:
 data_sprite_player_alive3:
   INCBIN 'assets/player_alive3.bin'
+data_sprite_player_alive3_end:
 
+data_sprite_player_alive4_start:
 data_sprite_player_alive4:
   INCBIN 'assets/player_alive4.bin'
+data_sprite_player_alive4_end:
 
+data_sprite_player_dying0_start:
 data_sprite_player_dying0:
   INCBIN 'assets/player_dying0.bin'
+data_sprite_player_dying0_end:
 
+data_sprite_player_dying1_start:
 data_sprite_player_dying1:
   INCBIN 'assets/player_dying1.bin'
+data_sprite_player_dying1_end:
 
+data_sprite_player_dying2_start:
 data_sprite_player_dying2:
   INCBIN 'assets/player_dying2.bin'
+data_sprite_player_dying2_end:
 
+data_sprite_player_dying3_start:
 data_sprite_player_dying3:
   INCBIN 'assets/player_dying3.bin'
+data_sprite_player_dying3_end:
 
+data_sprite_player_dying4_start:
 data_sprite_player_dying4:
   INCBIN 'assets/player_dying4.bin'
+data_sprite_player_dying4_end:
 
+data_sprite_player_dying5_start:
 data_sprite_player_dying5:
   INCBIN 'assets/player_dying5.bin'
+data_sprite_player_dying5_end:
 
+data_sprite_player_dying6_start:
 data_sprite_player_dying6:
   INCBIN 'assets/player_dying6.bin'
+data_sprite_player_dying6_end:
 
+data_sprite_player_dying7_start:
 data_sprite_player_dying7:
   INCBIN 'assets/player_dying7.bin'
+data_sprite_player_dying7_end:
 
+data_sprite_player_invulnerable0_start:
 data_sprite_player_invulnerable0:
   INCBIN 'assets/player_invulnerable0.bin'
+data_sprite_player_invulnerable0_end:
 
+data_sprite_player_invulnerable1_start:
 data_sprite_player_invulnerable1:
   INCBIN 'assets/player_invulnerable1.bin'
+data_sprite_player_invulnerable1_end:
 
+data_sprite_player_invulnerable2_start:
 data_sprite_player_invulnerable2:
   INCBIN 'assets/player_invulnerable2.bin'
+data_sprite_player_invulnerable2_end:
 
+data_sprite_player_invulnerable3_start:
 data_sprite_player_invulnerable3:
   INCBIN 'assets/player_invulnerable3.bin'
+data_sprite_player_invulnerable3_end:
 
+data_sprite_player_invulnerable4_start:
 data_sprite_player_invulnerable4:
   INCBIN 'assets/player_invulnerable4.bin'
+data_sprite_player_invulnerable4_end:
 
-data_sprite_player_invulnerable5:
-  INCBIN 'assets/player_invulnerable5.bin'
-
-data_sprite_player_invulnerable6:
-  INCBIN 'assets/player_invulnerable6.bin'
-
-data_sprite_player_invulnerable7:
-  INCBIN 'assets/player_invulnerable7.bin'
-
-data_sprite_player_col_purple:
-  INCBIN 'assets/player_col_purple.bin'
-
-data_sprite_player_col_green:
-  INCBIN 'assets/player_col_green.bin'
-
+data_sprite_player_col_orange_start:
 data_sprite_player_col_orange:
   INCBIN 'assets/player_col_orange.bin'
+data_sprite_player_col_orange_end:
 
 ;---------------------------------------------------------------------------------
 

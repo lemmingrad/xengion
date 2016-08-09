@@ -101,13 +101,13 @@ E_BULLET_SPRITE_DYING_6						= #58
 E_BULLET_SPRITE_DYING_7						= #5C
 
 BULLET_ALIVE_XPOS_MIN						= 0
-BULLET_ALIVE_X_TO_Y_HALFSTEP					= 128
 
 BULLET_DYING_TIMER_INC						= #04
 BULLET_DYING_TIMER_MAX						= #20
 
 ;---------------------------------------------------------------------------------
 
+data_bullet_slots_start:
   DS 12
 data_bullet_slots:
 data_bullet_slot0:
@@ -130,9 +130,11 @@ data_bullet_slot8:
   DS SIZEOF_BULLET
 data_bullet_slot9:
   DS SIZEOF_BULLET
+data_bullet_slots_end:
 
 ;---------------------------------------------------------------------------------
 
+data_bullet_threats_start:
   DS 12
 data_bullet_threats:
 data_bullet_threat_eslot0_nw:
@@ -276,7 +278,9 @@ data_bullet_threat_eslot4_s:
 data_bullet_threat_eslot4_sse:
   DB E_ENEMY_SLOT_4
   DB E_BULLET_MOVE_SSE
+data_bullet_threats_end:
 
+data_bulletinfo_generic_start:
 ;---------------------------------------------------------------------------------
 
   DS 12
@@ -292,7 +296,7 @@ data_bullet_template:
   DS 12
 data_bullet_alive_constants:
   DB E_BULLET_SPRITE_ALIVE_0					; bullet sprite
-  DB BULLET_ALIVE_X_TO_Y_HALFSTEP				; bullet.const BULLET_ALIVE_X_TO_Y_HALFSTEP
+  DB 0								; unused
   DB BULLET_ALIVE_XPOS_MIN					; bullet.const BULLET_ALIVE_XPOS_MIN
 
   DS 12
@@ -310,83 +314,231 @@ data_bullet_update_state_switch_lookup:
   JP lbl_do_update_bullets_case_dying				; E_BULLET_STATE_DYING
 
 ;---------------------------------------------------------------------------------
+data_bulletinfo_generic_end:
+
 
 BULLET_WIDTH = 16
 BULLET_HEIGHT = 16
 
-data_bullet_sprite_lookup:
-  LDHI I, data_sprite_bullet_alive0				; E_BULLET_SPRITE_ALIVE_0
-  LDHI I, data_sprite_bullet_alive0				; E_BULLET_SPRITE_ALIVE_1
-  LDHI I, data_sprite_bullet_alive1				; E_BULLET_SPRITE_ALIVE_2
-  LDHI I, data_sprite_bullet_alive1				; E_BULLET_SPRITE_ALIVE_3
-  LDHI I, data_sprite_bullet_alive2				; E_BULLET_SPRITE_ALIVE_4
-  LDHI I, data_sprite_bullet_alive2				; E_BULLET_SPRITE_ALIVE_5
-  LDHI I, data_sprite_bullet_alive3				; E_BULLET_SPRITE_ALIVE_6
-  LDHI I, data_sprite_bullet_alive3				; E_BULLET_SPRITE_ALIVE_7
-  LDHI I, data_sprite_bullet_alive4				; E_BULLET_SPRITE_ALIVE_8
-  LDHI I, data_sprite_bullet_alive4				; E_BULLET_SPRITE_ALIVE_9
-  LDHI I, data_sprite_bullet_alive5				; E_BULLET_SPRITE_ALIVE_10
-  LDHI I, data_sprite_bullet_alive5				; E_BULLET_SPRITE_ALIVE_11
-  LDHI I, data_sprite_bullet_alive6				; E_BULLET_SPRITE_ALIVE_12
-  LDHI I, data_sprite_bullet_alive6				; E_BULLET_SPRITE_ALIVE_13
-  LDHI I, data_sprite_bullet_alive7				; E_BULLET_SPRITE_ALIVE_14
-  LDHI I, data_sprite_bullet_alive7				; E_BULLET_SPRITE_ALIVE_15
-  LDHI I, data_sprite_bullet_dying0				; E_BULLET_SPRITE_DYING_0
-  LDHI I, data_sprite_bullet_dying1				; E_BULLET_SPRITE_DYING_1
-  LDHI I, data_sprite_bullet_dying2				; E_BULLET_SPRITE_DYING_2
-  LDHI I, data_sprite_bullet_dying3				; E_BULLET_SPRITE_DYING_3
-  LDHI I, data_sprite_bullet_dying4				; E_BULLET_SPRITE_DYING_4
-  LDHI I, data_sprite_bullet_dying5				; E_BULLET_SPRITE_DYING_5
-  LDHI I, data_sprite_bullet_dying6				; E_BULLET_SPRITE_DYING_6
-  LDHI I, data_sprite_bullet_dying7				; E_BULLET_SPRITE_DYING_7
+data_bullet_sprite_aligner:
+  DS 65536 - (data_bullet_sprite_aligner % 65536)
+data_bullet_sprite_aligned:
 
+data_sprite_bullet_alive0_start:
 data_sprite_bullet_alive0:
   INCBIN 'assets/bullet_alive0.bin'
+data_sprite_bullet_alive0_end:
 
+data_bullet_align0_aligner:
+  DS 768
+data_bullet_align0_aligned:
+
+data_sprite_bullet_alive1_start:
 data_sprite_bullet_alive1:
-  INCBIN 'assets/bullet_alive1.bin'
+  INCBIN 'assets/bullet_alive0.bin'
+data_sprite_bullet_alive1_end:
 
+data_bullet_align1_aligner:
+  DS 768
+data_bullet_align1_aligned:
+
+data_sprite_bullet_alive2_start:
 data_sprite_bullet_alive2:
-  INCBIN 'assets/bullet_alive2.bin'
+  INCBIN 'assets/bullet_alive1.bin'
+data_sprite_bullet_alive2_end:
 
+data_bullet_align2_aligner:
+  DS 768
+data_bullet_align2_aligned:
+
+data_sprite_bullet_alive3_start:
 data_sprite_bullet_alive3:
-  INCBIN 'assets/bullet_alive3.bin'
+  INCBIN 'assets/bullet_alive1.bin'
+data_sprite_bullet_alive3_end:
 
+data_bullet_align3_aligner:
+  DS 768
+data_bullet_align3_aligned:
+
+data_sprite_bullet_alive4_start:
 data_sprite_bullet_alive4:
-  INCBIN 'assets/bullet_alive4.bin'
+  INCBIN 'assets/bullet_alive2.bin'
+data_sprite_bullet_alive4_end:
 
+data_bullet_align4_aligner:
+  DS 768
+data_bullet_align4_aligned:
+
+data_sprite_bullet_alive5_start:
 data_sprite_bullet_alive5:
-  INCBIN 'assets/bullet_alive5.bin'
+  INCBIN 'assets/bullet_alive2.bin'
+data_sprite_bullet_alive5_end:
 
+data_bullet_align5_aligner:
+  DS 768
+data_bullet_align5_aligned:
+
+data_sprite_bullet_alive6_start:
 data_sprite_bullet_alive6:
-  INCBIN 'assets/bullet_alive6.bin'
+  INCBIN 'assets/bullet_alive3.bin'
+data_sprite_bullet_alive6_end:
 
+data_bullet_align6_aligner:
+  DS 768
+data_bullet_align6_aligned:
+
+data_sprite_bullet_alive7_start:
 data_sprite_bullet_alive7:
-  INCBIN 'assets/bullet_alive7.bin'
+  INCBIN 'assets/bullet_alive3.bin'
+data_sprite_bullet_alive7_end:
 
+data_bullet_align7_aligner:
+  DS 768
+data_bullet_align7_aligned:
+
+data_sprite_bullet_alive8_start:
+data_sprite_bullet_alive8:
+  INCBIN 'assets/bullet_alive4.bin'
+data_sprite_bullet_alive8_end:
+
+data_bullet_align8_aligner:
+  DS 768
+data_bullet_align8_aligned:
+
+data_sprite_bullet_alive9_start:
+data_sprite_bullet_alive9:
+  INCBIN 'assets/bullet_alive4.bin'
+data_sprite_bullet_alive9_end:
+
+data_bullet_align9_aligner:
+  DS 768
+data_bullet_align9_aligned:
+
+data_sprite_bullet_alive10_start:
+data_sprite_bullet_alive10:
+  INCBIN 'assets/bullet_alive5.bin'
+data_sprite_bullet_alive10_end:
+
+data_bullet_align10_aligner:
+  DS 768
+data_bullet_align10_aligned:
+
+data_sprite_bullet_alive11_start:
+data_sprite_bullet_alive11:
+  INCBIN 'assets/bullet_alive5.bin'
+data_sprite_bullet_alive11_end:
+
+data_bullet_align11_aligner:
+  DS 768
+data_bullet_align11_aligned:
+
+data_sprite_bullet_alive12_start:
+data_sprite_bullet_alive12:
+  INCBIN 'assets/bullet_alive6.bin'
+data_sprite_bullet_alive12_end:
+
+data_bullet_align12_aligner:
+  DS 768
+data_bullet_align12_aligned:
+
+data_sprite_bullet_alive13_start:
+data_sprite_bullet_alive13:
+  INCBIN 'assets/bullet_alive6.bin'
+data_sprite_bullet_alive13_end:
+
+data_bullet_align13_aligner:
+  DS 768
+data_bullet_align13_aligned:
+
+data_sprite_bullet_alive14_start:
+data_sprite_bullet_alive14:
+  INCBIN 'assets/bullet_alive7.bin'
+data_sprite_bullet_alive14_end:
+
+data_bullet_align14_aligner:
+  DS 768
+data_bullet_align14_aligned:
+
+data_sprite_bullet_alive15_start:
+data_sprite_bullet_alive15:
+  INCBIN 'assets/bullet_alive7.bin'
+data_sprite_bullet_alive15_end:
+
+data_bullet_align15_aligner:
+  DS 768
+data_bullet_align15_aligned:
+
+data_sprite_bullet_dying0_start:
 data_sprite_bullet_dying0:
   INCBIN 'assets/bullet_dying0.bin'
+data_sprite_bullet_dying0_end:
 
+data_bullet_align16_aligner:
+  DS 768
+data_bullet_align16_aligned:
+
+data_sprite_bullet_dying1_start:
 data_sprite_bullet_dying1:
   INCBIN 'assets/bullet_dying1.bin'
+data_sprite_bullet_dying1_end:
 
+data_bullet_align17_aligner:
+  DS 768
+data_bullet_align17_aligned:
+
+data_sprite_bullet_dying2_start:
 data_sprite_bullet_dying2:
   INCBIN 'assets/bullet_dying2.bin'
+data_sprite_bullet_dying2_end:
 
+data_bullet_align18_aligner:
+  DS 768
+data_bullet_align18_aligned:
+
+data_sprite_bullet_dying3_start:
 data_sprite_bullet_dying3:
   INCBIN 'assets/bullet_dying3.bin'
+data_sprite_bullet_dying3_end:
 
+data_bullet_align19_aligner:
+  DS 768
+data_bullet_align19_aligned:
+
+data_sprite_bullet_dying4_start:
 data_sprite_bullet_dying4:
   INCBIN 'assets/bullet_dying4.bin'
+data_sprite_bullet_dying4_end:
 
+data_bullet_align20_aligner:
+  DS 768
+data_bullet_align20_aligned:
+
+data_sprite_bullet_dying5_start:
 data_sprite_bullet_dying5:
   INCBIN 'assets/bullet_dying5.bin'
+data_sprite_bullet_dying5_end:
 
+data_bullet_align21_aligner:
+  DS 768
+data_bullet_align21_aligned:
+
+data_sprite_bullet_dying6_start:
 data_sprite_bullet_dying6:
   INCBIN 'assets/bullet_dying6.bin'
+data_sprite_bullet_dying6_end:
 
+data_bullet_align22_aligner:
+  DS 768
+data_bullet_align22_aligned:
+
+data_sprite_bullet_dying7_start:
 data_sprite_bullet_dying7:
   INCBIN 'assets/bullet_dying7.bin'
+data_sprite_bullet_dying7_end:
+
+data_bullet_align23_aligner:
+  DS 768
+data_bullet_align23_aligned:
 
 ;---------------------------------------------------------------------------------
 
